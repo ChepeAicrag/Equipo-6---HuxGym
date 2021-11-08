@@ -6,6 +6,7 @@ Desarrollar un sistema web para la gestión y el correcto registro de todos los 
 ### Backend
 ______
 * García García José Ángel
+* Diego Revilla José Antonio
 
 ### Frontend
 ______
