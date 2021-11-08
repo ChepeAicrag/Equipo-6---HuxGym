@@ -10,3 +10,4 @@ ______
 ### Frontend
 ______
 * Gonzalez Pascual Melvin Paul
+* Parada Martinez Erwin Eli
