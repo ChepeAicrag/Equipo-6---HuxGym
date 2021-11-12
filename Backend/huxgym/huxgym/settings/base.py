@@ -1,5 +1,6 @@
 import os
 from decouple import config
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(
@@ -30,10 +31,18 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-    
+    'API.users',
+    'API.general',
+    'API.customers',
+    'API.memberships',
 ]
 
 THIRD_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
+    'naomi',
+    'django_inlinecss',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -108,7 +117,26 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
-#AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+FRONT_DOMAIN = config('FRONT_DOMAIN')
+
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+
+if config('DEVELOPMENT'):
+    EMAIL_BACKEND = config('EMAIL_BACKEND')
+    EMAIL_FILE_PATH = config('EMAIL_FILE_PATH')
+
+TOKEN_EXPIRED_AFTER_SECONDS = config('TOKEN_EXPIRED_AFTER_SECONDS')
+
+
+# CORS_ALLOWED_ORIGINS = [config('ALLOWED_HOSTS')]
+
+CORS_ALLOW_ALL_ORIGINS = True
