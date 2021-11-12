@@ -1,0 +1,15 @@
+[
+    {
+        "model": "customers.customer",
+        "pk": 1,
+        "fields": {
+            "name": "Visitante",
+            "gender": "M",
+            "phone": "123456789",
+            "membershipActivate": "False",
+            "isStudiant": "False",
+            "dateJoined": "2019-12-04",
+            "status_delete": "False"
+        }
+    }
+]

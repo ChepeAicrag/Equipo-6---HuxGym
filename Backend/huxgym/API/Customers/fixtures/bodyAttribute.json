@@ -1,0 +1,138 @@
+[
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 1,
+        "fields": {
+            "name": "Estructura corporal",
+            "description": "Estructura corporal que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 2,
+        "fields": {
+            "name": "Tensión arterial",
+            "description": "Tensión arterial que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 3,
+        "fields": {
+            "name": "Indice de masa corporal actual",
+            "description": "Indice de masa corporal actual que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 4,
+        "fields": {
+            "name": "Porcentaje de grasa",
+            "description": "Porcetanje de grasa que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 5,
+        "fields": {
+            "name": "Porcentaje de masa muscular",
+            "description": "Porcetanje de masa muscula que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 6,
+        "fields": {
+            "name": "Kilocalorias",
+            "description": "Cantidad de calorias que puede consumir el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 7,
+        "fields": {
+            "name": "Edad según el peso",
+            "description": "Edad de acuerdo al peso que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 8,
+        "fields": {
+            "name": "Grasa visceral",
+            "description": "Grasa visceral que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 9,
+        "fields": {
+            "name": "Situación nutricional",
+            "description": "Situación nutricional que posee el cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 10,
+        "fields": {
+            "name": "Gasto calórico por horas de oficina",
+            "description": "Gasto calórico por horas de oficina del cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 11,
+        "fields": {
+            "name": "Gasto calórico por horas de movimiento",
+            "description": "Gasto calórico por horas de movimiento del cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 12,
+        "fields": {
+            "name": "Gasto calórico por horas de entrenamiento",
+            "description": "Gasto calórico por horas de entrenamiento del cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 13,
+        "fields": {
+            "name": "Gasto calórico por horas de dormir",
+            "description": "Gasto calórico por horas de dormir del cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 14,
+        "fields": {
+            "name": "Total de gasto calórico",
+            "description": "Total de gasto calórico del cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 15,
+        "fields": {
+            "name": "Total de calorías correspondientes de acuerdo a su peso corporal",
+            "description": "Total calorías del cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 16,
+        "fields": {
+            "name": "Metabolismo basal (ICB)",
+            "description": "Metabolismo basal del cliente"
+        }
+    },
+    {
+        "model": "customers.bodyAttribute",
+        "pk": 17,
+        "fields": {
+            "name": "Consumo calórico (CC)",
+            "description": "Metabolismo basal del cliente"
+        }
+    }
+]

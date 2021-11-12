@@ -1,0 +1,66 @@
+[
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 1,
+        "fields": {
+            "name": "Sintomas",
+            "description": " "
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 2,
+        "fields": {
+            "name": "Alergias",
+            "description": " "
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 3,
+        "fields": {
+            "name": "Cirugias",
+            "description": " "
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 4,
+        "fields": {
+            "name": "Fracturas",
+            "description": " "
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 5,
+        "fields": {
+            "name": "Lesiones",
+            "description": " "
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 6,
+        "fields": {
+            "name": "Medicamentos",
+            "description": " "
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 7,
+        "fields": {
+            "name": "Suplementos",
+            "description": " "
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 8,
+        "fields": {
+            "name": "Hábitos",
+            "description": " "
+        }
+    }
+]
