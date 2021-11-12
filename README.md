@@ -7,8 +7,10 @@ Desarrollar un sistema web para la gestión y el correcto registro de todos los 
 ______
 * García García José Ángel
 * Diego Revilla José Antonio
+* Gómez Suárez Julián Enrique
 
 ### Frontend
 ______
 * Gonzalez Pascual Melvin Paul
 * Parada Martinez Erwin Eli
+* Sánchez López Laura Yessenia
