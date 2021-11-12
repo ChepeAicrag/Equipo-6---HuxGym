@@ -1,0 +1,32 @@
+[
+    {
+        "model": "general.role",
+        "pk": 1,
+        "fields": {
+            "name": "Administrador",
+            "description": "Administrador del sistema, tiene permiso absoluto del sistema",
+            "isSuperAdmin": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.role",
+        "pk": 2,
+        "fields": {
+            "name": "Encargado",
+            "description": "Rol del encargado ",
+            "isSuperAdmin": "False",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.role",
+        "pk": 3,
+        "fields": {
+            "name": "Empleado",
+            "description": "Administrador del sistema, tiene permiso absoluto del sistema",
+            "isSuperAdmin": "False",
+            "status_delete": "False"
+        }
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "name": "Arturo Matus",
+            "age": 20,
+            "email": "18161117@itoaxaca.edu.mx",
+            "phone": "9581248091",
+            "gender": "M",
+            "is_superuser": "True",
+            "is_active": "True",
+            "is_staff": "True",
+            "password": "123456789",
+            "date_joined": "2019-12-04",
+            "status_delete": "False",
+            "role": 1
+        }
+    }
+]
