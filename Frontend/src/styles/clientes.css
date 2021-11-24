@@ -1,0 +1,241 @@
+
+/* ---------------Tabla------------ */
+ /* .centro{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.table{
+width: 100%;
+border: 2px solid black;
+border-collapse: collapse;
+background-color: black;
+box-shadow: 2px 15px 30px rgba(31, 30, 30, 0.863);
+color : white;
+}
+
+.table2{
+width: 80%;
+border: 2px solid black;
+border-collapse: collapse;
+background-color: black;
+color : white;
+}
+
+.campo{
+  font-family: 'Playfair Display', serif;
+  color : white;
+}
+
+.campo2{
+font-family: 'Playfair Display', serif;
+color : rgb(0, 0, 0);
+}
+
+.renglon{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 20%;
+  height: 15%;
+  flex-direction: row;
+}
+
+.renglon4{
+display: flex;
+align-items: center;
+justify-content: space-around;
+width: 25%;
+height: 15%;
+flex-direction: row;
+}
+
+.nombre{
+  background: #DA0037;
+  box-shadow: 0px 30px 70px rgba(24, 24, 24, 0.568);
+  padding: 10px 15px 15px 15px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 50%;
+  height: 15%;
+  flex-direction: row;
+}
+
+.my-custom-scrollbar3 {
+  position: relative;
+  height: auto;
+  overflow: auto;
+}
+
+.table-wrapper-scroll-y3 {
+ 
+  width: 90%;
+}
+
+#exTab1 .tab-content {
+  color : white;
+
+  padding : 5px 15px;
+}
+
+#exTab2 h3 {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+
+
+
+#exTab1 .nav-pills > li > a {
+  border-radius: 0;
+}
+
+
+
+#exTab3 .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+
+#exTab3 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}  */
+
+/* ----------------------------------------TABLA----------- */
+.table-wrapper {
+  width: 100%;
+  height: 450px; 
+  overflow: auto;
+  box-shadow: 10px 5px 40px 0px rgba(0, 0, 0, 0.562);
+  background-color:#353535 ;
+  
+}
+
+.table-wrapper table {
+  border-collapse: separate;
+  border-spacing: 0;
+  
+}
+
+.table-wrapper table thead {
+  position: -webkit-sticky; 
+  position: sticky;
+  top: 0;
+  left: 0;
+  
+}
+
+.table-wrapper table thead th,
+.table-wrapper table tbody td {
+  /* border: 1px solid  rgb(80, 80, 80); */
+  background-color: rgb(53, 53, 53);
+} 
+
+
+/*-------------------------------------------------------*/
+
+.principalBox{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Barraa{
+  height: 100%;
+  width: 100%;
+}
+.opciones{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.table-responsiveMain{
+  /* display: flex; */
+  width: 85%;
+}
+.table-responsive {
+  width: 100%;
+  overflow-y: scroll;
+  /* height: 100%; */
+}
+  
+  .buscarBox{
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .textField{
+    
+  }
+  
+  .botones{
+    background: #353535;
+    text-align: center;
+    color: #fff;
+    margin: 10px;
+    height: 55px;
+  }
+  .botonesBusqueda{
+    background: #353535;
+    color: #fff;
+  }
+
+  .botonesForm{
+    background-color: white;
+    border-radius: 15px;
+  }
+
+
+@media only screen and (max-width: 1004px) {
+  .botones{
+    margin: 8px;
+    height: 50px;
+    width: 18%;
+    font-size: 55%;
+  }
+
+  .table-wrapper {
+    height: 450px; 
+  }
+}
+  
+@media only screen and (max-width: 844px) {
+  .botones{
+    margin: 2px;
+    height: 35px;
+    width: 90px;
+    font-size: 40%;
+  }
+  
+}
+  
+@media only screen and (max-width: 536px) {
+   
+  .buscarBox{
+    width: 60%;
+  }
+  .botones{
+    margin: 1px;
+    height: 35px;
+    width: 70px;
+    font-size: 30%;
+  }
+}
+  
+  

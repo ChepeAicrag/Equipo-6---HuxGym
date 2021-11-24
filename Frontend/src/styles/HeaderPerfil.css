@@ -1,0 +1,13 @@
+.Hp {
+  display: flex;
+  width: 100%;
+}
+.Hp .Correo {
+  /* background: red; */
+  margin-left: 350px;
+  margin-right: 400px;
+}
+.Hp .Rol {
+  /* background: green; */
+  margin-right: 250px;
+}

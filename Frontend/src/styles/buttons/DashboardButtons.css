@@ -1,0 +1,9 @@
+.principal {
+    align-items: center;
+    display: flex;
+    height: 50%vh;
+    background-color:yellowgreen;
+}
+.secundario {
+    margin: 0 auto;
+}

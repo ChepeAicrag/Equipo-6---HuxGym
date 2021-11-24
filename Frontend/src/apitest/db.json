@@ -1,0 +1,157 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "apellido_paterno": "roman",
+      "apellido_materno": "hernadez",
+      "nombre": "dani",
+      "email": "dani@dani.com",
+      "password": "12345"
+    },
+    {
+      "id": 2,
+      "apellido_paterno": "manzano",
+      "apellido_materno": "sanchez",
+      "nombre": "israel",
+      "email": "israel@israel.com",
+      "password": "12345"
+    },
+    {
+      "id": 3,
+      "apellido_paterno": "manzano",
+      "apellido_materno": "sanchez",
+      "nombre": "israel",
+      "mail": "is.com",
+      "password": "827ccb0eea8a706c4c34a16891f84e7b"
+    },
+    {
+      "id": 4,
+      "nombre": "Cliente",
+      "apellido_paterno": "dsdsds",
+      "apellido_materno": "sds",
+      "mail": "asd@dsd.com"
+    },
+    {
+      "id": 5,
+      "nombre": "cliente editado",
+      "apellido_paterno": "dsdsffds",
+      "apellido_materno": "fsdfdsdeerr",
+      "mail": "kojiuhiu"
+    },
+    {
+      "email": "israel@israel.com",
+      "password": "12345",
+      "id": 6
+    },
+    {
+      "params": {
+        "mail": "is.com",
+        "password": "827ccb0eea8a706c4c34a16891f84e7b"
+      },
+      "id": 7
+    },
+    {
+      "params": {
+        "mail": "is.com",
+        "password": "827ccb0eea8a706c4c34a16891f84e7b"
+      },
+      "id": 8
+    },
+    {
+      "mail": "is.com",
+      "password": "827ccb0eea8a706c4c34a16891f84e7b",
+      "id": 9
+    },
+    {
+      "mail": "is.com",
+      "password": "827ccb0eea8a706c4c34a16891f84e7b",
+      "id": 10
+    },
+    {
+      "mail": "is.com",
+      "password": "827ccb0eea8a706c4c34a16891f84e7b",
+      "id": 11
+    }
+  ],
+  "clientes": [
+    {
+      "id": 1,
+      "nombre_completo": "ignacio lopez lopez",
+      "fecha_nacimiento": "01/01/2001",
+      "genero": "M",
+      "telefono": "9514523654",
+      "estudiante": "Si",
+      "imagen": "wesdef"
+    },
+    {
+      "id": 2,
+      "nombre_completo": "Pablo",
+      "fecha_nacimiento": "12/01/1999",
+      "genero": "H",
+      "telefono": "9545346548",
+      "estudiante": "Si",
+      "imagen": "fsdgsdgfds"
+    },
+    {
+      "nombre_completo": "ds",
+      "fecha_nacimiento": "ds",
+      "genero": "ds",
+      "telefono": "f",
+      "estudiante": "fds",
+      "imagen": "fds",
+      "id": 3
+    },
+    {
+      "nombre_completo": "fdsf",
+      "fecha_nacimiento": "fds",
+      "genero": "fds",
+      "telefono": "dsfs",
+      "estudiante": "sdff",
+      "imagen": "fdsf",
+      "id": 4
+    },
+    {
+      "nombre_completo": "jsdnjdsk",
+      "fecha_nacimiento": "fsdfds",
+      "genero": "fdsfds",
+      "telefono": "fdsfsd",
+      "estudiante": "fdsf",
+      "imagen": "fdsd",
+      "id": 5
+    }
+  ],
+  "empleados": [
+    {
+      "id": 1,
+      "name": "Josedddddd",
+      "age": "48",
+      "password": "dadsdass"
+    },
+    {
+      "name": "Pablo",
+      "age": "25",
+      "gender": "H",
+      "phone": "951123546",
+      "email": "correo@dominio.com",
+      "password": "dasdsada",
+      "role": "Entrenador",
+      "image": "---------",
+      "id": 2
+    }
+  ],
+  "membresias": [
+    {
+      "id": 1,
+      "name": "Premium",
+      "dateJoined": "2021-05-2",
+      "price": "1200",
+      "image": "-------"
+    },
+    {
+      "name": "Platinum",
+      "dateJoined": "2021-05-02",
+      "price": "4,200",
+      "id": 2
+    }
+  ]
+}

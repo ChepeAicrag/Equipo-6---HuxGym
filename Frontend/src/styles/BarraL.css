@@ -1,0 +1,219 @@
+/* body {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+} */
+/* body {
+  height: 100%;
+  width: 100%;
+} */
+.active {
+  /*color: white;*/
+  background-color: #F0A500;
+  width: 100%;
+  height: 100%;
+}
+.image {
+  size: lg;
+}
+
+.tituloB{
+  font-size: 20px;
+  font-family: 'Mochiy Pop One', sans-serif;
+  color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+hr {
+  height: 10px;
+  background-color: black;
+}
+.principalLateral{
+  /*display: flex;*/
+  flex-direction: row;
+  height:100%; 
+}
+.sidebar {
+  display: flex;
+  background-color: #284B63;
+  padding: 10px 14px;
+  transition: all 0.5s ease;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 10px 5px 40px 0px rgba(0, 0, 0, 0.562);
+  
+}
+
+.sidebar.active2 {
+  width:100%;
+}
+
+.sidebar .logo_content .logo {
+  color: #fff;
+  display: flex;
+  height: 90px;
+  width: 100%;
+  align-items: center;
+  opacity: 1;
+  pointer-events: none;
+}
+.sidebar .logo_content .logo .image {
+  size: 52px;
+}
+
+.sidebar.active2 .logo_content .logo {
+  opacity: 1;
+  pointer-events: none;
+}
+
+.logo_content .logo .bx {
+  font-size: 28px;
+  margin-right: 10px;
+}
+
+.logo_content .logo .logo_name {
+  font-size: 30px;
+  font-weight: 400;
+  margin-left: 30px;
+  justify-content: center;
+}
+
+.sidebar #btn {
+  position: absolute;
+  color: #fff;
+  left: 90%;
+  top: 6px;
+  font-size: 20px;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  line-height: 50px;
+  transform: translateX(-50%);
+}
+.sidebar.active2 #btn {
+  left: 90%;
+}
+.sidebar ul {
+  padding-left:0rem;
+  flex-direction: column;
+}
+
+.sidebar ul li {
+  background: #fff;
+  border-radius: 30px;
+  position: relative;
+  height: 45px;
+  width: 100%;
+  margin: 25px 1px;
+  list-style: none;
+  line-height: 50px;
+}
+
+.sidebar ul li a {
+  color: #000;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.sidebar ul li a:hover {
+  color: white;
+  height: 45px;
+  background: #FED9B7;
+  border-radius: 30px;
+}
+
+.sidebar ul li a i {
+  height: 50px;
+  min-width: 50px;
+  border-radius: 12px;
+  line-height: 50px;
+  text-align: center;
+}
+
+ul li a .iconito {
+  size: lg;
+}
+
+
+
+.sidebar.active2 .links_names {
+  opacity: 0;
+  pointer-events: auto;
+}
+
+.barra_superior {
+  background-color: rgba(11, 20, 57, 1);
+  float: right;
+  width: calc(100% - 240px);
+  transition: all 0.5s ease;
+  padding: 10px 10px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.sidebar{
+  width: 100%;
+  height: 100%;
+}
+
+
+
+/* .barra_superior.active {
+  width: calc(100% - 240px);
+}
+
+.barra_superior .correo {
+  color: #fff;
+  float: right;
+  height: 50px;
+  margin-right: 100px;
+}
+.barra_superior .correo .nombre_correo {
+  font-size: 15px;
+  font-weight: 400;
+}
+ */
+/* .barra_superior .perfil {
+  color: #fff;
+  float: right;
+  height: 50px;
+  width: 200px;
+  padding: 0px 20px;
+  pointer-events: none;
+}
+
+.barra_superior .perfil .info_perfil {
+  font-size: 15px;
+  font-weight: 400;
+  margin-left: 50px;
+}
+
+ */
+@media only screen and (max-width: 1074px) {
+  .links_names {
+    opacity: 1;
+    pointer-events: auto;
+    font-weight: 400;
+    width: 10%;
+  }
+  .opcionBarra{
+    font-size: 7px;
+  }
+}
+@media only screen and (max-width: 680px) {
+  .links_names {
+    opacity: 1;
+    pointer-events: auto;
+    font-weight: 400;
+    width: 1%;
+  }
+  .opcionBarra{
+    font-size: 0px;
+  }
+}

@@ -1,0 +1,24 @@
+.contenedor .texto {
+  display: flex;
+  color: rgb(255, 255, 255);
+  /*border-radius: 25%;*/
+  text-decoration: none;
+  align-items: center;
+  Word-wrap: break-Word;
+}
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  /*border-radius: 25%;*/
+  /*font-size: 35px;*/
+  font-size: calc(3em/4 + 1vw);
+  background-color: #353535;
+  align-items: center;
+  
+}
+
+a.texto.active{
+  color: black;
+  background-color: #353535;
+}
