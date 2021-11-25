@@ -87,7 +87,7 @@ hr {
 }
 
 .sidebar #btn {
-  position: absolute;
+  position: fixed;
   color: #284B63;
   left: 90%;
   top: 6px;
