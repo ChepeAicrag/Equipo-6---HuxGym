@@ -77,7 +77,7 @@ export default function BarraLateral() {
           ) : (
             <></>
           )}
-          {/* <li>
+          <li>
             <NavLink to="/MembershipPage">
               <i className="bx bxs-credit-card-front">
                 <box-icon
@@ -91,7 +91,7 @@ export default function BarraLateral() {
               <p className="opcionBarra"> Membresias</p>
               </span>
             </NavLink>
-          </li> */}
+          </li>
           {/* <li>
             <NavLink to="/SalesPage">
               <i className="bx bx-purchase-tag-alt">
