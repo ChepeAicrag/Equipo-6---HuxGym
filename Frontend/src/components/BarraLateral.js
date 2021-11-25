@@ -147,8 +147,8 @@ export default function BarraLateral() {
           )} */
           }
           
-           {rol == "Administrador" ? ( <> 
-           {/* <li>
+          {/* { rol == "Administrador" ? ( <> 
+           { <li>
             <NavLink to="/AccountingPage">
               <i className="bx bxs-coin-stack">
                 <box-icon
@@ -162,10 +162,10 @@ export default function BarraLateral() {
               <p className="opcionBarra"> Contabilidad</p>
               </span>
             </NavLink>
-          </li> */}  </>):(<></>)}
+          </li> }  </>):(<></>)} */}
           </ul>
         </div>
-      </div>
+      </div> 
       {/* <div className="principalLateral">
       <div className="sidebar">
         <ul className="nav_list">
