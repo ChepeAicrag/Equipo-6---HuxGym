@@ -1,11 +1,12 @@
 import React, { Component, useState, useEffect } from "react";
 import "../styles/BarraL.css";
 import { link, NavLink } from "react-router-dom";
+import LogoGYM from '../assets/img/log.jpg';
 import BtnLogout from "../components/BtnLogout";
 
 const rol = localStorage.getItem("rol");
 /* const rol ="Administrador" ; */
-
+const logo = require('../assets/img/log.jpg');
 export default function BarraLateral() {
   /* constructor(props) {
     super(props);
@@ -15,13 +16,16 @@ export default function BarraLateral() {
   } */
   useEffect(() => {
     return () => {
-      console.log("Esta es la barra lateral");
+      
     };
   }, []);
   return (
     <>
       <div className="principalLateral">
         <div className="sidebar">
+        <div className="imgLogo">
+          <img className="iml" src={LogoGYM} width="100%" height="100%"/>
+        </div>
         <p className="mt-4 tituloB">Opciones de Usuario</p>
        
           <ul className="mt-3 nav_list">

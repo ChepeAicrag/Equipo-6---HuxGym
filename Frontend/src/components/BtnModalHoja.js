@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Col.css";
 import "../styles/Crud.css";
+import "../styles/HojaClinica.css";
 import axios from "axios";
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import TimeField from "react-simple-timefield";
 import { isEmpty } from "../helpers/methods";
+import TextField from '@material-ui/core/TextField';
 const url = "https://www.huxgym.codes/customers/customers/";
 const url_sn = "https://www.huxgym.codes/customers/nutritionalSituation/";
 const url_hc = "https://www.huxgym.codes/customers/historyClinic/";
@@ -32,7 +34,7 @@ class BtnModalHoja extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
       date: "",
-      age: 0,
+      age: 13,
       height: "",
       weight: "",
       bloody: "O+",
@@ -232,6 +234,17 @@ class BtnModalHoja extends Component {
     });
   };
 
+  validateNumber = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    const setValue = value <= 100 && value>=13 ? value : 13;
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: setValue,
+      },
+    });   
+};
   //comienza parte de insertar sintomas
   handleInputChange = (event) => {
     this.setState({
@@ -294,6 +307,8 @@ class BtnModalHoja extends Component {
       return { error: true, msj: "El campo de la edad debe ser mayor o igual 13" };  
     if (isEmpty(height))
       return { error: true, msj: "El campo de estatura no puede estar vacío" };
+    if (height>=100)
+      return { error: true, msj: "La estatura no puede se menor a 100cm" };
     const altura = parseInt(height);
     if (altura <= 0)
       return { error: true, msj: "El campo de estatura debe tener un valor positivo" };
@@ -547,6 +562,8 @@ class BtnModalHoja extends Component {
     this.setState({ modalAgregar3: !this.state.modalAgregar3 });
   };
 
+
+
   render() {
     const { form } = this.state;
     const { formcorps } = this.state;
@@ -554,7 +571,7 @@ class BtnModalHoja extends Component {
     return (
       <div className="denada">
         <button
-          className="btn btn-success"
+          className="btn btnHojaClinica"
           onClick={() => {
             this.setState({ customer_id: this.props.id_cliente });
             this.modalAgregar();
@@ -583,7 +600,20 @@ class BtnModalHoja extends Component {
               />
               <br />
               <label htmlFor="age">Edad actual *: </label>
-              <input
+              <br />
+              <TextField
+                        id="outlined-number"
+                        
+                        name="age"
+                        onChange={this.validateNumber}
+                        value={form.age}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+              {/* <input
                 className="form-control"
                 type="float"
                 name="age"
@@ -594,17 +624,9 @@ class BtnModalHoja extends Component {
                 placeholder="Edad actual"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.age : ""}
-                // onKeyPress={async (event) =>   
-                //   { var l = await this.state.form.age; if (l.length > 1) {
-                // this.setState({form:{ age: this.state.form.age.slice(0,2)}})
-                // swal({
-                //   text: "No se permiten números de 3 digitos",
-                //   icon: "info",
-                //   button: "Aceptar",
-                //   timer: "1000",
-                // });
-                // return false;}}}
-              />
+               
+              /> */}
+              <br />
               <br />
               <label htmlFor="height">Estatura en centímetros *:  </label>
               <input

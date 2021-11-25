@@ -686,7 +686,7 @@ class BtnModalHoja extends Component {
     return (
       <div>
         <button
-          className="btn btn-success"
+          className="btn btnHojaClinica"
           onClick={() => {
             this.state.customer_id = this.props.id_cliente;
             this.modalInsertar();

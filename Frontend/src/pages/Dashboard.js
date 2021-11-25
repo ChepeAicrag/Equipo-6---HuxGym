@@ -23,8 +23,6 @@ function Dashboard() {
           <div className="checkinand">
             <div className="agrupacion">
               <Check_Client />
-              {/* <br></br>
-              <Botones /> */}
             </div>
             <div className="agrupacion">
               <Checkin />

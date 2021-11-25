@@ -119,6 +119,20 @@ flex-direction: row;
   
 }
 
+.acciones{
+  display: flex;
+  width: 100%;
+  height: 220px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.editarHoja{
+  background-color: #284B63;
+  color: #fff;
+}
+
 .table-wrapper table {
   border-collapse: separate;
   border-spacing: 0;
@@ -180,12 +194,18 @@ flex-direction: row;
     align-items: center;
   }
   
-  .textField{
-    
-  }
+  
   
   .botones{
     background: #353535;
+    text-align: center;
+    color: #fff;
+    margin: 10px;
+    height: 55px;
+  }
+
+  .botones:hover{
+    background: #080808;
     text-align: center;
     color: #fff;
     margin: 10px;

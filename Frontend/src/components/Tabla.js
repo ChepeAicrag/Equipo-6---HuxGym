@@ -64,6 +64,9 @@ class Tabla extends Component {
       }
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
+      if (msj === "Credenciales invalidas") {
+        this.Expulsado();
+      }
       console.log(msj);
     }
   };
@@ -443,7 +446,7 @@ class Tabla extends Component {
             <tbody>
               {this.state.data.map((clientes) => {
                 return (
-                  <tr>
+                  <tr className="cuerpoT">
                     <td>{clientes.id}</td>
                     <td>{clientes.name}</td>
                     <td>{clientes.dateJoined}</td>
@@ -451,20 +454,20 @@ class Tabla extends Component {
                     <td>{clientes.phone}</td>
                     <td>{clientes.isStudiant ? "Si" : "No"}</td>
                     <td>
-                      <img
-                        src={`https://www.huxgym.codes/${clientes.image}`}
-                        width="200"
-                        height="200"
-                        align="center"
-                      />
+                        <img
+                          src={`https://www.huxgym.codes/${clientes.image}`}
+                          width="200"
+                          height="200"
+                          align="center"
+                        />
                     </td>
                     <td>
                       {clientes.membershipActivate ? "Activada" : "No Activada"}
                     </td>
 
-                    <td>
+                    <td className="">
                       <button
-                        className="btn btn-primary"
+                        className="btn editarHoja"
                         onClick={() => {
                           this.seleccionarUsuario(clientes);
                           this.modalInsertar();
@@ -475,7 +478,7 @@ class Tabla extends Component {
                       {"  "}
                       {localStorage.getItem("rol") == "Administrador" ? (
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-danger mt-2"
                           onClick={() => {
                             this.seleccionarUsuario(clientes);
                             this.setState({ modalEliminar: true });
