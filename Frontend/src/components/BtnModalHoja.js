@@ -4,6 +4,13 @@ import "../styles/Col.css";
 import "../styles/Crud.css";
 import "../styles/HojaClinica.css";
 import axios from "axios";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import TimeField from "react-simple-timefield";
@@ -15,7 +22,23 @@ const url_hc = "https://www.huxgym.codes/customers/historyClinic/";
 const url_hc_tei =
   "https://www.huxgym.codes/customers/typeExtraInformation_HistoryClinic/";
 const url_hc_ba = "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
+const materialTheme = createMuiTheme({
+    
+  palette: {
+      background: {
+          paper: '#EDEDED',
+          default: '#114e60',
+      },
+      text: {
+        default: '#fff',
+      },
+      textColor: '#fff',
+      primary: {
+        main: '#1b1a17',
+      }
+  },
 
+});
 class BtnModalHoja extends Component {
   constructor(props) {
     super(props);
@@ -34,11 +57,11 @@ class BtnModalHoja extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
       date: "",
-      age: 13,
-      height: "",
-      weight: "",
+      age: '13',
+      height: '100',
+      weight: "20",
       bloody: "O+",
-      hour_breakfast: "",
+      hour_breakfast:"",
       hour_collation: "",
       hour_lunch: "",
       hour_snack: "",
@@ -234,17 +257,94 @@ class BtnModalHoja extends Component {
     });
   };
 
-  validateNumber = (event) => {
+validateNumber = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    const setValue = value <= 100 && value>=13 ? value : 13;
-    this.setState({
-      form: {
-        ...this.state.form,
-        [name]: setValue,
-      },
-    });   
+    let regex = new RegExp("^[0-9]+$");
+
+    if (regex.test(value)) {
+      const setValue = value <= 100 && value>=0 ? value : 13;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
 };
+
+validateEstatura = (event) => {
+  const name = event.target.name;
+    const value = event.target.value;
+    let regex = new RegExp("^[0-9]+$");
+
+    if (regex.test(value)) {
+      const setValue = value < 4000 && value>=0 ? value : 13;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
+};
+
+validatePeso = (event) => {
+  const name = event.target.name;
+    const value = event.target.value;
+    let regex = new RegExp("^[0-9]+$");
+
+    if (regex.test(value)) {
+      const setValue = value < 1000 && value>=0 ? value : 20;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
+};
+
+handleHourhour_breakfast = (date) => {
+  
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_breakfast: date,
+    },
+  }); 
+};
+
   //comienza parte de insertar sintomas
   handleInputChange = (event) => {
     this.setState({
@@ -305,9 +405,9 @@ class BtnModalHoja extends Component {
     const edad = parseInt(age);
     if (edad <= 12)
       return { error: true, msj: "El campo de la edad debe ser mayor o igual 13" };  
-    if (isEmpty(height))
+    if (!height)
       return { error: true, msj: "El campo de estatura no puede estar vacío" };
-    if (height>=100)
+    if (height<100)
       return { error: true, msj: "La estatura no puede se menor a 100cm" };
     const altura = parseInt(height);
     if (altura <= 0)
@@ -629,28 +729,36 @@ class BtnModalHoja extends Component {
               <br />
               <br />
               <label htmlFor="height">Estatura en centímetros *:  </label>
-              <input
-                className="form-control"
-                type="float"
-                name="height"
-                id="height"
-                maxLength="3"
-                placeholder="Estatura en centímetros"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.height : ""}
+              <br />
+              <TextField
+                        id="outlined-number"
+                        
+                        name="height"
+                        onChange={this.validateEstatura}
+                        value={form.height}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
               />
                       <br />
+                      <br />
               <label htmlFor="weight">Peso en kilogramos *: </label>
-              <input
-                className="form-control"
-                type="integer"
-                name="weight"
-                id="weight"
-                maxLength="3"
-                placeholder="Peso en kilogramos"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.weight : ""}
+              <br />
+              <TextField
+                        id="outlined-number"
+                        
+                        name="weight"
+                        onChange={this.validatePeso}
+                        value={form.weight}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
               />
+              <br />
               <br />
               
               <label htmlFor="bloody">Tipo de sangre: </label>
@@ -667,6 +775,29 @@ class BtnModalHoja extends Component {
             </select>
             <br/>
               <br />
+
+              {/* <ThemeProvider theme={materialTheme}>
+                        <MuiPickersUtilsProvider  utils={DateFnsUtils} >
+
+                                    <label className="articulo">Hora de entrada</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_breakfast"
+                                        id="time-picker"
+                                        label=""
+                                        value={form ? form.hour_breakfast : ""}
+                                        onChange={this.handleHourhour_breakfast}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />
+                                    
+                                <br></br>
+                        </MuiPickersUtilsProvider>
+                    </ThemeProvider> */}
+
+
               <label htmlFor="hour_breakfast">Hora de desayuno: </label>
               <TimeField
                 name="hour_breakfast"
@@ -722,7 +853,7 @@ class BtnModalHoja extends Component {
                 // {String}   default: ":"
                 value={form ? form.hour_dinner : ""}
               />
-              <br />
+              <br /> 
               
               {/* <label htmlFor="">Información extra: </label>
               <input
