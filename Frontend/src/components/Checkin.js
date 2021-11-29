@@ -92,14 +92,14 @@ class Checkin extends Component {
   render() {
     return (
       <div className="check">
-        <p className="palabra" >Realiza tu hora de entrada:</p>
+        <p className="palabra">Realiza tu hora de entrada:</p>
         <p className="palabra">
           La hora actual es:{" "}
           <label>{this.state.date.toLocaleTimeString()} </label>
         </p>
         <button
           variant="success"
-          className="btn btn-success"
+          className="btn botonescheck"
           onClick={() => this.peticionPost()}
         >
           Realizar
@@ -108,9 +108,13 @@ class Checkin extends Component {
           Realiza tu hora de salida: La hora actual es:{" "}
           <label>{this.state.date.toLocaleTimeString()} </label>
         </p>
-        <Button variant="danger" onClick={() => this.peticionCheckOut()}>
+        <button
+          variant="sucess"
+          className="btn botonescheck"
+          onClick={() => this.peticionCheckOut()}
+        >
           Realizar
-        </Button>{" "}
+        </button>{" "}
       </div>
     );
   }

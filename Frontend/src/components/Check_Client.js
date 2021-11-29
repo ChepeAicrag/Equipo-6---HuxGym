@@ -197,7 +197,9 @@ class Check_Client extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.dataC.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -220,7 +222,11 @@ class Check_Client extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.dataCA.filter((item) => {
-        if (item.customer_id.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+        if (
+          item.customer_id.name
+            .toLowerCase()
+            .includes(this.state.busqueda.toLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -236,11 +242,11 @@ class Check_Client extends Component {
     const { form } = this.state;
     return (
       <>
-      <div className="realizarhes">
-        <p>Realizar hora de entrada y salida de clientes</p>
+        <div className="realizarhes">
+          <p>Realizar hora de entrada y salida de clientes</p>
 
-        <button className="btn btn-light" onClick={this.Modal}>
-          {/* <i className="bx bxs-user">
+          <button className="btn botonesdash" onClick={this.Modal}>
+            {/* <i className="bx bxs-user">
             <box-icon
               type="solid"
               name="check-circle"
@@ -248,23 +254,23 @@ class Check_Client extends Component {
               animation="tada"
             ></box-icon>
           </i> */}
-          Abrir         
-        </button>
-      </div>
+            Abrir
+          </button>
+        </div>
         <Modal className="ModalCheck" isOpen={this.state.modalCheck}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader className="HeadCheck" style={{ display: "block" }}>
-            <h2>Realizar hora de entrada y salida</h2>
+            <p className="titulo">Realizar hora de entrada y salida</p>
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
           <ModalBody className="SCliente">
             <div className="form-group">
-              <h3>Realizar hora de entrada de clientes</h3>
+              <h3>Entrada de clientes</h3>
               <br />
               <input
                 type="text"
-                className="textField"
+                className="entradatext"
                 name="busqueda"
                 id="busqueda"
                 placeholder="Buscar"
@@ -273,8 +279,8 @@ class Check_Client extends Component {
               />
               <br />
               <br />
-              <div className="table-responsive">
-                <table className="table table-striped table-bordered ">
+              <div className="tablita">
+                <table className="tab-pane table table-dark mt-2 mb-5">
                   <thead>
                     <tr>
                       <th>Id</th>
@@ -283,28 +289,29 @@ class Check_Client extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.dataC && this.state.dataC.map((clientes) => {
-                      /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                      return (
-                        <tr>
-                          <td>{clientes.id}</td>
-                          <td>{clientes.name}</td>
-                          <td>
-                            <button
-                              className="btn btn-primary"
-                              onClick={() => {
-                                /* this.seleccionarCategoria(categorias); */
-                                this.state.form.customer_id = clientes.id;
-                                this.peticionPost();
-                                this.peticionGetCA();
-                              }}
-                            >
-                              Hora de entrada:
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {this.state.dataC &&
+                      this.state.dataC.map((clientes) => {
+                        /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                        return (
+                          <tr>
+                            <td>{clientes.id}</td>
+                            <td>{clientes.name}</td>
+                            <td>
+                              <button
+                                className="btn botonesdash"
+                                onClick={() => {
+                                  /* this.seleccionarCategoria(categorias); */
+                                  this.state.form.customer_id = clientes.id;
+                                  this.peticionPost();
+                                  this.peticionGetCA();
+                                }}
+                              >
+                                Entrada
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
@@ -312,22 +319,22 @@ class Check_Client extends Component {
             {/* Otra columna */}
 
             <div className="form-group">
-              <h3>Clientes que están actualmente entrenando:</h3>
+              <h3>Clientes entrenando</h3>
               <br />
 
               <input
                 type="text"
-                className="textField"
+                className= "entradatext"
                 name="busqueda"
-                id="busqueda"
                 placeholder="Buscar"
                 onChange={this.buscador2}
                 value={form ? form.busqueda : ""}
               />
               <br />
               <br />
-              <div className="table-responsive">
-                <table className="table table-striped table-bordered ">
+
+              <div className="tablita">
+                <table className="tab-pane table table-dark mt-2 mb-5">
                   <thead>
                     <tr>
                       <th>Nombre</th>
@@ -336,29 +343,29 @@ class Check_Client extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.dataCA && this.state.dataCA.map((clientesA) => {
-                      return (
-                        <tr>
-                          <td>{clientesA.customer_id.name}</td>
-                          <td>{clientesA.check_in}</td>
-
-                          <td>
-                            <button
-                              className="btn btn-danger"
-                              onClick={() => {
-                                /* this.seleccionarCategoria(categorias); */
-                                this.state.form.customer_id =
-                                  clientesA.customer_id.id;
-                                this.peticionPut();
-                                this.peticionGetCA();
-                              }}
-                            >
-                              Hora de salida:
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {this.state.dataCA &&
+                      this.state.dataCA.map((clientesA) => {
+                        return (
+                          <tr>
+                            <td>{clientesA.customer_id.name}</td>
+                            <td>{clientesA.check_in}</td>
+                            <td>
+                              <button
+                                className="btn botonesdash"
+                                onClick={() => {
+                                  /* this.seleccionarCategoria(categorias); */
+                                  this.state.form.customer_id =
+                                    clientesA.customer_id.id;
+                                  this.peticionPut();
+                                  this.peticionGetCA();
+                                }}
+                              >
+                                Salida
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
