@@ -39,7 +39,33 @@ const materialTheme = createMuiTheme({
   },
 
 });
+
+function conversionHoras(date) {
+  let datos= date.split(":");
+  let hr= datos[0];
+  let min=datos[1];
+  let sec=datos[2];
+  
+  let fecha=new Date();
+
+  fecha.setHours(parseInt(hr, 10));
+  fecha.setMinutes(parseInt(min, 10));
+  fecha.setSeconds(parseInt(sec, 10));
+   return fecha;
+}
+
+function conversionHoras2(date) {
+  let fecha=new Date(date);
+  
+  let hr= fecha.getHours();
+  let min=fecha.getMinutes();
+  let sec=fecha.getSeconds();
+  return hr+":"+min+":"+sec;
+}
 class BtnModalHoja extends Component {
+
+
+  
   constructor(props) {
     super(props);
   }
@@ -61,30 +87,30 @@ class BtnModalHoja extends Component {
       height: '100',
       weight: "20",
       bloody: "O+",
-      hour_breakfast:"",
-      hour_collation: "",
-      hour_lunch: "",
-      hour_snack: "",
-      hour_dinner: "",
+      hour_breakfast:"00:00:00",
+      hour_collation:"00:00:00",
+      hour_lunch: "00:00:00",
+      hour_snack: "00:00:00",
+      hour_dinner:"00:00:00",
     },
     formcorps: {
       uno: "",
-      dos: "",
-      tres: "",
-      cuatro: "",
-      cinco: "",
-      seis: "",
-      siete: "",
-      ocho: "",
+      dos: "0",
+      tres: "0",
+      cuatro: "0",
+      cinco: "0",
+      seis: "0",
+      siete: "0",
+      ocho: "0",
       nueve: "",
-      diez: "",
-      once: "",
-      doce: "",
-      trece: "",
-      catorce: "",
-      quince: "",
-      dieciseis: "",
-      diecisiete: "",
+      diez: "0",
+      once: "0",
+      doce: "0",
+      trece: "0",
+      catorce: "0",
+      quince: "0",
+      dieciseis: "0",
+      diecisiete: "0",
     },
     formextra: {
       id: "1",
@@ -133,6 +159,9 @@ class BtnModalHoja extends Component {
     }
     console.log(this.state.form)
   };
+
+  
+
 
   handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -335,12 +364,50 @@ validatePeso = (event) => {
     }
 };
 
-handleHourhour_breakfast = (date) => {
-  
+handleHourhour_breakfast = (e) => {
+  let value=conversionHoras2(e);
   this.setState({
     form: {
       ...this.state.form,
-      hour_breakfast: date,
+      hour_breakfast: value,
+    },
+  }); 
+};
+handleHourhour_collation = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_collation: value,
+    },
+  }); 
+};
+handleHourhour_lunch = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_lunch: value,
+    },
+  }); 
+};
+
+handleHourhour_snack = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_snack: value,
+    },
+  }); 
+};
+
+handleHourhour_dinner = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_dinner: value,
     },
   }); 
 };
@@ -688,7 +755,7 @@ handleHourhour_breakfast = (date) => {
 
           <ModalBody>
             <div className="form-group">
-              <label htmlFor="id">ID Cliente</label>
+              {/* <label htmlFor="id">ID Cliente</label>
               <input
                 className="form-control"
                 type="integer"
@@ -697,8 +764,8 @@ handleHourhour_breakfast = (date) => {
                 readOnly
                 onChange={this.handleChange}
                 value={form ? form.customer_id : ""}
-              />
-              <br />
+              /> */}
+             
               <label htmlFor="age">Edad actual *: </label>
               <br />
               <TextField
@@ -763,6 +830,7 @@ handleHourhour_breakfast = (date) => {
               
               <label htmlFor="bloody">Tipo de sangre: </label>
               {" "}
+              <br/>
               <select className="selectblood" name="bloody" onChange={this.handleChange}>
               <option value="O+" selected>O+</option>
               <option value="A+">A+</option>
@@ -774,31 +842,87 @@ handleHourhour_breakfast = (date) => {
               <option value="AB-">AB-</option>
             </select>
             <br/>
-              <br />
+            <br />
 
-              {/* <ThemeProvider theme={materialTheme}>
+              <ThemeProvider theme={materialTheme}>
                         <MuiPickersUtilsProvider  utils={DateFnsUtils} >
 
-                                    <label className="articulo">Hora de entrada</label>
+                                  <label className="articulo">Hora de desayuno</label>
                                     <br />
                                     <KeyboardTimePicker
                                         margin="normal"
                                         name="hour_breakfast"
                                         id="time-picker"
                                         label=""
-                                        value={form ? form.hour_breakfast : ""}
+                                        value={conversionHoras(form.hour_breakfast)}
                                         onChange={this.handleHourhour_breakfast}
                                         KeyboardButtonProps={{
                                             'aria-label': 'change time',
                                         }}
-                                    />
-                                    
+                                    />  
+                                <br></br>
+                                
+                                <label className="articulo">Hora de colación:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_collation"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_collation)}
+                                        onChange={this.handleHourhour_collation}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                                <label className="articulo">Hora de comida:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_lunch"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_lunch)}
+                                        onChange={this.handleHourhour_lunch}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                                <label className="articulo">Hora de bocadillo:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_snack"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_snack )}
+                                        onChange={this.handleHourhour_snack}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                                <label className="articulo">Hora de cena:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_dinner"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_dinner)}
+                                        onChange={this.handleHourhour_dinner}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
                                 <br></br>
                         </MuiPickersUtilsProvider>
-                    </ThemeProvider> */}
+              </ThemeProvider>
 
 
-              <label htmlFor="hour_breakfast">Hora de desayuno: </label>
+              {/* <label htmlFor="hour_breakfast">Hora de desayuno: </label>
               <TimeField
                 name="hour_breakfast"
                 id="hour_breakfast"
@@ -807,8 +931,8 @@ handleHourhour_breakfast = (date) => {
                 input={<input type="text" />}
                 // {String}   default: ":"
                 value={form ? form.hour_breakfast : ""}
-              />
-              <br />
+              /> */}
+              {/* <br />
               <label htmlFor="hour_collation">Hora de colación: </label>
               <TimeField
                 name="hour_collation"
@@ -819,8 +943,8 @@ handleHourhour_breakfast = (date) => {
                 // {String}   default: ":"
                 value={form ? form.hour_collation : ""}
               />
-              <br />
-              <label htmlFor="hour_lunch">Hora de comida: </label>
+              <br /> */}
+              {/* <label htmlFor="hour_lunch">Hora de comida: </label>
               <TimeField
                 name="hour_lunch"
                 id="hour_lunch"
@@ -829,9 +953,9 @@ handleHourhour_breakfast = (date) => {
                 input={<input type="text" />}
                 // {String}   default: ":"
                 value={form ? form.hour_lunch : ""}
-              />
+              /> */}
 
-              <br />
+              {/* <br />
               <label htmlFor="hour_snack">Hora de bocadillo: </label>
               <TimeField
                 name="hour_snack"
@@ -842,8 +966,8 @@ handleHourhour_breakfast = (date) => {
                 // {String}   default: ":"
                 value={form ? form.hour_snack : ""}
               />
-              <br />
-              <label htmlFor="hour_dinner">Hora de cena: </label>
+              <br /> */}
+             {/*  <label htmlFor="hour_dinner">Hora de cena: </label>
               <TimeField
                 name="hour_dinner"
                 id="hour_dinner"
@@ -853,7 +977,7 @@ handleHourhour_breakfast = (date) => {
                 // {String}   default: ":"
                 value={form ? form.hour_dinner : ""}
               />
-              <br /> 
+              <br />  */}
               
               {/* <label htmlFor="">Información extra: </label>
               <input
@@ -917,8 +1041,21 @@ handleHourhour_breakfast = (date) => {
                 value={formcorps ? formcorps.uno : ""}
               />
               <br />
+              <br />
               <label htmlFor="dos">Tensión arterial *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="dos"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.dos : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="dos"
@@ -927,10 +1064,23 @@ handleHourhour_breakfast = (date) => {
                 placeholder="Tensión arterial"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.dos : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="tres">Indice de masa corporal actual *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="tres"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.tres : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="tres"
@@ -940,10 +1090,23 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.tres : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="cuatro">% de Grasa *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="cuatro"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.cuatro : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="cuatro"
@@ -952,10 +1115,23 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.cuatro : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="cinco">% MM *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="cinco"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.cinco : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+             {/*  <input
                 className="form-control"
                 type="text"
                 name="cinco"
@@ -964,10 +1140,23 @@ handleHourhour_breakfast = (date) => {
                 placeholder="% MM"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.cinco : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="seis">KC correspondientes *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="seis"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.seis : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="seis"
@@ -976,10 +1165,23 @@ handleHourhour_breakfast = (date) => {
                 placeholder="KC correspondientes"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.seis : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="siete">Edad de acuerdo al peso *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="siete"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.siete : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="siete"
@@ -988,10 +1190,23 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.siete : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="ocho">Grasa viceral *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="ocho"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.ocho : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="ocho"
@@ -1000,7 +1215,8 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.ocho : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="nueve">Situación Nutricional *: </label>
               <input
@@ -1017,7 +1233,19 @@ handleHourhour_breakfast = (date) => {
               <label htmlFor="diez">
                 Gasto calórico por horas de oficina *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="diez"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.diez : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="diez"
@@ -1026,12 +1254,24 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.diez : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="once">
                 Gasto calórico por horas de movimiento *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="once"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.once : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="once"
@@ -1040,12 +1280,24 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.once : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="doce">
                 Gasto calórico por horas de entrenamiento *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="doce"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.doce : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="doce"
@@ -1054,12 +1306,24 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.doce : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="trece">
                 Gasto calórico por horas de dormir *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="trece"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.trece : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="trece"
@@ -1068,10 +1332,22 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.trece : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="catorce">Total de gasto calórico *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="catorce"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.catorce : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="catorce"
@@ -1080,13 +1356,24 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.catorce : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="quince">
-                Total de calorías correspondientes de acuerdo a su peso
-                corporal *:{" "}
+                Total de calorías de acuerdo a su peso corporal *:
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="quince"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.quince : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="quince"
@@ -1095,10 +1382,22 @@ handleHourhour_breakfast = (date) => {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.quince : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="dieciseis"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.dieciseis : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="dieciseis"
@@ -1107,10 +1406,22 @@ handleHourhour_breakfast = (date) => {
                 placeholder="Metabolismo basal (I CB)"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.dieciseis : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="diecisiete">Consumo calórico (C C) *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="diecisiete"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.diecisiete : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="diecisiete"
@@ -1119,7 +1430,7 @@ handleHourhour_breakfast = (date) => {
                 placeholder="Consumo calórico"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.diecisiete : ""}
-              />
+              /> */}
             </div>
           </ModalBody>
 
