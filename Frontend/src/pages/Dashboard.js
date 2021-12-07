@@ -28,7 +28,7 @@ function Dashboard() {
               <Checkin />
             </div>
           </div>
-         {/*  <div className="graficasandcheck ">
+          {/* <div className="graficasandcheck ">
             <div className="graficas">
               {<Grafica_Barras />}
               </div>

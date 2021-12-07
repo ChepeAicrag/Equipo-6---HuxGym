@@ -804,7 +804,8 @@ class TablaV extends Component {
     return (
       <div className="table-responsiveMain">
         <br />
-        <div className="opciones">
+
+        <div className="Busqueda">
           <button
             className="btn botones"
             onClick={() => {
@@ -840,25 +841,32 @@ class TablaV extends Component {
         
             Vender Producto
           </button>
+
           <div className="esp"></div>
+         
           <input
             type="text"
             className="textField"
             name="busqueda"
             id="busqueda"
+            placeholder="Buscar"
             readOnly
-            /* onChange={() => {
+            onChange={() => {
               this.buscador();
             }}
-            value={this.state.busqueda} */
+            value={this.state.busqueda}
           />
-          {/* <button type="submit" className="add-on" onClick={() => {}}>
+
+          <button type="submit" className="add-on" onClick={() => {}}>
             <i className="bx bxs-user">
               <box-icon name="search-alt-2" color="#fff"></box-icon>
             </i>
-          </button> */}
+          </button>
+
         </div>
 
+        <br />
+        <br />
         <br />
         <div className="table-wrapper">
           <table className="tab-pane  table table-dark mt-2 mb-5">

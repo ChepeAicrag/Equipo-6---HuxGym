@@ -7,7 +7,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
-import { isEmpty } from '../helpers/methods';
+import { isEmpty } from "../helpers/methods";
 const url = "https://www.huxgym.codes/memberships/memberships/";
 
 class TablaM extends Component {
@@ -59,7 +59,7 @@ class TablaM extends Component {
 
   validar = () => {
     const { form } = this.state;
-    if (isEmpty(form)) 
+    if (isEmpty(form))
       return { error: true, msj: "Rellene los campos obligatorios" };
     const name = form.name;
     const price = form.price;
@@ -69,7 +69,7 @@ class TablaM extends Component {
     if (isEmpty(name)) {
       return { error: true, msj: "El campo nombre no puede estar vacío" };
     }
-    if(isEmpty(price))
+    if (isEmpty(price))
       return {
         error: true,
         msj: "El campo precio no puede estar vacío",
@@ -83,11 +83,11 @@ class TablaM extends Component {
     if (isEmpty(description)) {
       return { error: true, msj: "El campo descripción no puede estar vacío" };
     }
-    if(isEmpty(day))
-    return {
-      error: true,
-      msj: "El campo cantidad de días no puede ser menor o igual a cero",
-    };
+    if (isEmpty(day))
+      return {
+        error: true,
+        msj: "El campo cantidad de días no puede ser menor o igual a cero",
+      };
     if (day <= 6) {
       return {
         error: true,
@@ -110,7 +110,7 @@ class TablaM extends Component {
         });
       } else {
         delete this.state.form.id;
-        this.state.form.price = parseFloat(this.state.form.price)
+        this.state.form.price = parseFloat(this.state.form.price);
         const res = await axios.post(url, this.state.form, {
           headers: {},
         });
@@ -141,7 +141,6 @@ class TablaM extends Component {
   peticionPut = async () => {
     /* con put enviamos informacion al endpoint para modificar*/
     try {
-      
       const validate = this.validar();
       if (validate.error) {
         swal({
@@ -151,7 +150,7 @@ class TablaM extends Component {
           timer: "5000",
         });
       } else {
-        this.state.form.price = parseFloat(this.state.form.price)
+        this.state.form.price = parseFloat(this.state.form.price);
         const res = await axios.put(
           url + this.state.form.id + "/",
           this.state.form,
@@ -247,7 +246,9 @@ class TablaM extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -272,7 +273,7 @@ class TablaM extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "Solo se permiten letras y acentos",
         icon: "info",
@@ -307,14 +308,14 @@ class TablaM extends Component {
   handleChangeInputNumberDecimal = (e) => {
     let val = e.target.value;
     const name = e.target.name;
-    if(val.toString().includes('-')){
+    if (val.toString().includes("-")) {
       swal({
         text: "No se permiten negativos",
         icon: "info",
         button: "Aceptar",
         timer: "5000",
       });
-    }else{
+    } else {
       val = val.replace(/([^0-9.]+)/, "");
       val = val.replace(/^(0|\.)/, "");
       const match = /(\d{0,7})[^.]*((?:\.\d{0,2})?)/g.exec(val);
@@ -345,7 +346,7 @@ class TablaM extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({ form: null, tipoModal: "insertar" });
@@ -353,12 +354,12 @@ class TablaM extends Component {
             }}
           >
             <i className="bx bxs-user">
-              <box-icon
+              {/* <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
-              ></box-icon>
+              ></box-icon> */}
             </i>
             Registrar nueva membresía
           </button>
@@ -378,8 +379,8 @@ class TablaM extends Component {
             </i>
           </button>
         </div>
-        <br></br>
-        <br></br>
+        <br />
+        <br />
         <br />
         <div className="table-wrapper">
           <table className="tab-pane  table table-dark mt-2 mb-5">
@@ -437,7 +438,7 @@ class TablaM extends Component {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Membresía
+            <p className="titulo">Membresia</p>
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -488,26 +489,26 @@ class TablaM extends Component {
               <label htmlFor="price">Precio (*):</label>
               <input
                 className="form-control"
-                type="number"
+                type="text"
                 name="price"
                 id="price"
                 min="0"
                 placeholder="Precio de venta"
-                onChange={this.handleChangeInputNumberDecimal}
-                value={form ? form.price : 1}
+                onChange={this.handleChangeInputNumber}
+                value={form ? form.price : ""}
               />
               <br />
               <br />
               <label htmlFor="price">Duración (cantidad de días) (*):</label>
               <input
                 className="form-control"
-                type="number"
+                type="text"
                 name="day"
                 id="day"
                 min="7"
                 placeholder="Duración en días"
                 onChange={this.handleChangeInputNumber}
-                value={form ? form.day : 0}
+                value={form ? form.day : ""}
               />
               <br />
             </div>
