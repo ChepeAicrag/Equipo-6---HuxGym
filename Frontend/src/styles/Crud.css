@@ -92,6 +92,7 @@
   /*width: 100px;*/
 }
 
+
 .Busqueda .textField {
   width: 300px;
 }
@@ -311,4 +312,9 @@ label.btn.botonesForm.m-1.active {
   border: 2px solid #f6f6f6;
   transition: all 0.5s ease-in-out;
   border-radius: 10px;
+}
+.lineadiv{
+  border-bottom: 2px solid #fff;
+  color: white;
+  width: 100%;
 }

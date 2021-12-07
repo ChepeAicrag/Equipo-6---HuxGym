@@ -243,8 +243,8 @@ class Check_Client extends Component {
     return (
       <>
         <div className="realizarhes">
-          <p>Realizar hora de entrada y salida de clientes</p>
-
+          <h3 className="lineadiv">Clientes</h3>
+          <p className="palabra">Realizar hora de entrada y salida de clientes</p>
           <button className="btn botonesdash" onClick={this.Modal}>
             {/* <i className="bx bxs-user">
             <box-icon
@@ -256,6 +256,8 @@ class Check_Client extends Component {
           </i> */}
             Abrir
           </button>
+          <br/>
+        <h3 className="lineadiv"></h3>
         </div>
         <Modal className="ModalCheck" isOpen={this.state.modalCheck}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}

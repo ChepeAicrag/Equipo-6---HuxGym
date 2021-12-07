@@ -92,6 +92,7 @@ class Checkin extends Component {
   render() {
     return (
       <div className="check">
+        <h3 className="lineadiv">Empleados</h3>
         <p className="palabra">Realiza tu hora de entrada:</p>
         <p className="palabra">
           La hora actual es:{" "}
@@ -115,6 +116,8 @@ class Checkin extends Component {
         >
           Realizar
         </button>{" "}
+        <br/>
+        <h3 className="lineadiv"></h3>
       </div>
     );
   }

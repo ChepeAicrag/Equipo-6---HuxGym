@@ -116,7 +116,7 @@ flex-direction: row;
   overflow: auto;
   box-shadow: 10px 5px 40px 0px rgba(0, 0, 0, 0.562);
   background-color:#353535 ;
-  
+  text-align: center;
 }
 
 .acciones{
@@ -202,10 +202,11 @@ flex-direction: row;
     color: #fff;
     margin: 10px;
     height: 55px;
+    border-radius: 5px;
   }
 
   .botones:hover{
-    background: #080808;
+    /* background: #080808; */
     text-align: center;
     color: #fff;
     margin: 10px;

@@ -3,7 +3,7 @@ import "../styles/BarraL.css";
 import { link, NavLink } from "react-router-dom";
 import LogoGYM from '../assets/img/log.jpg';
 import BtnLogout from "../components/BtnLogout";
-
+import { Icon } from '@iconify/react';
 const rol = localStorage.getItem("rol");
 /* const rol ="Administrador" ; */
 const logo = require('../assets/img/log.jpg');
@@ -65,7 +65,7 @@ export default function BarraLateral() {
           {rol == "Administrador" ? (
             <li>
               <NavLink to="/EmployeePage">
-                <i className="bx bxs-user">
+                <i className="bx bx-book-content">
                   <box-icon
                     type="solid"
                     name="user"
@@ -126,7 +126,7 @@ export default function BarraLateral() {
               </span>
             </NavLink>
           </li>  */}
-         {/*  {rol == "Administrador" || rol == "Encargado" ? (
+         {/* {rol == "Administrador" || rol == "Encargado" ? (
             <li>
               <NavLink to="/PurchPage">
                 <i className="bx bxs-cart">
@@ -144,8 +144,8 @@ export default function BarraLateral() {
             </li>
           ) : (
             <></>
-          )} */
-          }
+          )} */}
+          
           
           {/* { rol == "Administrador" ? ( <> 
            { <li>

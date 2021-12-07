@@ -126,3 +126,55 @@
   height: 300px;
   overflow: auto;
 }
+.Busqueda {
+  /*margin-right: 30px;
+  float: center;
+  display: flex;
+  overflow-x: auto;*/
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.Busqueda .search-query {
+  width: 40%;
+  margin-left: 10px;
+  border-radius: 15px;
+}
+.Busqueda .btn-success {
+  width: 20%;
+  background: #353535;
+  float: center;
+  border-radius: 15px;
+  margin-right: 10px;
+  margin-left: 20px;
+  /*width: 300px;*/
+  font-size: calc(1em/2 + 1vw/2);
+  display: flex;
+  flex-direction: column;
+}
+
+.Busqueda .btn-success i {
+  margin-right: 20px;
+}
+
+.Busqueda .esp {
+  width: 30%;
+  /*float: center;
+  border-radius: 15px;
+  margin-right: 50px;*/
+}
+
+.Busqueda .add-on {
+  background: #353535;
+  border: #fff;
+  /*border-radius: 40px;*/
+  /*width: 100px;*/
+}
+
+.Busqueda .textField {
+  /*width: 300px;*/
+  width: 30%;
+  font-size: calc(1em/2 + 1vw/2);
+}
