@@ -710,7 +710,7 @@ class TablaP extends Component {
                     </td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarProducto(productos);
                           this.modalInsertar();
@@ -846,7 +846,7 @@ class TablaP extends Component {
               />
               <br />
               <br />
-              <button className="btn btn-success" onClick={this.modalProveedor}>
+              <button className="btn btn-seleccion" onClick={this.modalProveedor}>
                 Selecciona el proveedor
               </button>
               <br />
@@ -860,7 +860,7 @@ class TablaP extends Component {
                 value={form ? this.state.name_provider : ""}
               />
               <br />
-              <button className="btn btn-success" onClick={this.modalCategoria}>
+              <button className="btn btn-seleccion" onClick={this.modalCategoria}>
                 Selecciona la categoria
               </button>
               <br />

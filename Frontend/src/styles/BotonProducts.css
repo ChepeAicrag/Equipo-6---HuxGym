@@ -30,3 +30,11 @@ a.btn.contenedor.active{
   color: rgb(255, 255, 255) !important;
   background-color: #284B63 !important;
 }
+
+button.btn.btn-seleccion{
+  background-color: white;
+}
+
+button.btn.btn-editar{
+  background-color: #284B63;
+}

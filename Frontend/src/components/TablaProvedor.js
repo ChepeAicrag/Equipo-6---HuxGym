@@ -364,7 +364,7 @@ class TablaProvedor extends Component {
                     <td>{proveedores.rfc}</td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(proveedores);
                           this.modalInsertar();

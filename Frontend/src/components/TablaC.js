@@ -313,7 +313,7 @@ class TablaC extends Component {
                     <td>{categorias.description}</td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(categorias);
                           this.modalInsertar();
