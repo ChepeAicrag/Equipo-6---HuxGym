@@ -111,7 +111,7 @@ export default function BarraLateral() {
               </span>
             </NavLink>
           </li> */}
-           {/* <li>
+           {<li>
             <NavLink to="/ProductsPage">
               <i className="bx bxl-product-hunt">
                 <box-icon
@@ -125,7 +125,7 @@ export default function BarraLateral() {
               <p className="opcionBarra"> Productos</p>
               </span>
             </NavLink>
-          </li>  */}
+          </li> }
          {/*  {rol == "Administrador" || rol == "Encargado" ? (
             <li>
               <NavLink to="/PurchPage">

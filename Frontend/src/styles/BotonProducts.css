@@ -14,11 +14,19 @@
   /*font-size: 35px;*/
   font-size: calc(3em/4 + 1vw);
   background-color: #353535;
+  color: white;
   align-items: center;
   
 }
 
 a.texto.active{
-  color: black;
-  background-color: #353535;
+  color: rgb(255, 255, 255) !important;
+  background-color: #000000;
+}
+
+a.btn.contenedor.active{
+  width: auto;
+  border-radius: initial;
+  color: rgb(255, 255, 255) !important;
+  background-color: #284B63 !important;
 }

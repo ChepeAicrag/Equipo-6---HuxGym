@@ -345,7 +345,7 @@ class TablaM extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({ form: null, tipoModal: "insertar" });
@@ -353,12 +353,12 @@ class TablaM extends Component {
             }}
           >
             <i className="bx bxs-user">
-              <box-icon
+              {/* <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
-              ></box-icon>
+              ></box-icon> */}
             </i>
             Registrar nueva membresía
           </button>

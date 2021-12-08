@@ -634,7 +634,7 @@ class TablaP extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({
@@ -646,14 +646,14 @@ class TablaP extends Component {
               this.modalInsertar();
             }}
           >
-            <i className="bx bxs-user">
+            {/* <i className="bx bxs-user">
               <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
               ></box-icon>
-            </i>
+            </i> */}
             Registrar nuevo producto
           </button>
           <div className="esp"></div>
