@@ -28,15 +28,15 @@ function Dashboard() {
               <Checkin />
             </div>
           </div>
-          {/* <div className="graficasandcheck ">
-            <div className="graficas">
+          <div className="graficasandcheck ">
+            {/* <div className="graficas">
               {<Grafica_Barras />}
               </div>
-              <h1>Grafica</h1>
-            <div className="caja">
+              <h1>Grafica</h1> */}
+            {/* <div className="caja">
                <Monto />
-              </div>
-          </div> */}
+            </div> */}
+          </div>
         </div>
       </div>
 

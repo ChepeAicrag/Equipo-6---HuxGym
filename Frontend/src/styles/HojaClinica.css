@@ -33,3 +33,7 @@ svg:not(:root) {
     border-bottom: 0px solid rgba(0, 0, 0, 0.42) !important;
     pointer-events: none;
 }
+
+.colorIcon {
+    color: black !important;
+}

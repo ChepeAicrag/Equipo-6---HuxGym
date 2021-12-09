@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
 import axios from "axios";
 import swal from "sweetalert";
+import TextField from '@material-ui/core/TextField';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonProducts from "../components/BotonProducts";
@@ -44,7 +45,7 @@ class TablaP extends Component {
       name: "",
       description: "",
       price_s: 0,
-      price_c: 0,
+      price_c: "0",
       image: "",
       category_id: "",
       provider_id: "",
@@ -621,6 +622,31 @@ class TablaP extends Component {
         });
       }
   };
+  validateNumber = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    let regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+
+    if (regex.test(value)) {
+      const setValue = value <= 100 && value>=0 ? value : 0.0;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
+};
 
   render() {
     const { form } = this.state;
@@ -805,7 +831,21 @@ class TablaP extends Component {
               <br />
               <br />
               <label htmlFor="price_c">Precio de compra*:</label>
-              <input
+              <br />
+              <TextField
+                        id="outlined-number"
+                        
+                        name="price_c"
+                        onChange={this.validateNumber}
+                        step="5"
+                        value={form ? form.price_c : "0.00"}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+             {/*  <input
                 className="form-control"
                 type="number"
                 name="price_c"
@@ -816,7 +856,7 @@ class TablaP extends Component {
                 presicion={2}
                 onChange={this.handleChangeInputNumberDecimal}
                 value={form ? parseFloat(form.price_c) : 0}
-              />
+              /> */}
               <br />
               <br />
               <label htmlFor="price_s">Precio de venta*:</label>
