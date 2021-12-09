@@ -406,7 +406,7 @@ class TablaM extends Component {
                     <td>{membresias.day}</td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(membresias);
                           this.modalInsertar();

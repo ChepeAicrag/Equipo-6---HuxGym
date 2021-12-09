@@ -501,7 +501,7 @@ class TablaE extends Component {
                     </td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(empleados);
                           this.modalInsertar();
@@ -552,7 +552,7 @@ class TablaE extends Component {
               />
               <br />
               <label htmlFor="age">Edad*:</label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="age"
@@ -563,6 +563,17 @@ class TablaE extends Component {
                 maxlength="2"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.age : ""}
+              /> */}
+              <input
+                className="form-control"
+                type="number"
+                name="age"
+                id="age"
+                min="18"
+                max="99"
+                placeholder="Edad en años"
+                onChange={this.handleChangeInputNumber}
+                value={form ? form.age : 18}
               />
               <br />
               <label htmlFor="phone">Teléfono*:</label>

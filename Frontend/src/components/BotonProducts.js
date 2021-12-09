@@ -13,7 +13,7 @@ export default function BotonProducts() {
     }
   }; */
 
-  return (
+  /* return (
     <>
       <div className="btn contenedor">
         <NavLink className="texto" to="/ProductsPage">
@@ -33,5 +33,20 @@ export default function BotonProducts() {
         </NavLink>
       </div>
     </>
-  );
+  ); */
+
+  return (
+    <>
+      <NavLink className="btn contenedor" to="/ProductsPage" activeClass="btn contenedor active">
+        Productos
+      </NavLink>
+      <NavLink className="btn contenedor" to="/CategoriesPage" activeClass="btn contenedor active">
+        Categorías
+      </NavLink>
+      <NavLink className="btn contenedor" to="/ProvidersPage" activeClass="btn contenedor active">
+        Proveedores
+      </NavLink>
+    </>
+
+  )
 }

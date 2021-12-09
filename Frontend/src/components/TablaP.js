@@ -660,7 +660,7 @@ class TablaP extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({
@@ -672,14 +672,14 @@ class TablaP extends Component {
               this.modalInsertar();
             }}
           >
-            <i className="bx bxs-user">
+            {/* <i className="bx bxs-user">
               <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
               ></box-icon>
-            </i>
+            </i> */}
             Registrar nuevo producto
           </button>
           <div className="esp"></div>
@@ -736,7 +736,7 @@ class TablaP extends Component {
                     </td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarProducto(productos);
                           this.modalInsertar();
@@ -886,7 +886,7 @@ class TablaP extends Component {
               />
               <br />
               <br />
-              <button className="btn btn-success" onClick={this.modalProveedor}>
+              <button className="btn btn-seleccion" onClick={this.modalProveedor}>
                 Selecciona el proveedor
               </button>
               <br />
@@ -900,7 +900,7 @@ class TablaP extends Component {
                 value={form ? this.state.name_provider : ""}
               />
               <br />
-              <button className="btn btn-success" onClick={this.modalCategoria}>
+              <button className="btn btn-seleccion" onClick={this.modalCategoria}>
                 Selecciona la categoria
               </button>
               <br />

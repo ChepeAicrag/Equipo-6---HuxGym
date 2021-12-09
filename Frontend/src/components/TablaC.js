@@ -259,21 +259,21 @@ class TablaC extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
           >
-            <i className="bx bxs-user">
+            {/* <i className="bx bxs-user">
               <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
               ></box-icon>
-            </i>
+            </i> */}
             Registrar nueva categoría
           </button>
           <div className="esp"></div>
@@ -293,8 +293,6 @@ class TablaC extends Component {
           </button>
         </div>
         <br></br>
-        <br></br>
-        <br />
         <div className="table-wrapper">
           <table className="tab-pane  table table-dark mt-2 mb-5 ">
             <thead>
@@ -315,7 +313,7 @@ class TablaC extends Component {
                     <td>{categorias.description}</td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(categorias);
                           this.modalInsertar();
