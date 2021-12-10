@@ -18,7 +18,7 @@
   flex-direction: column;
 }
 .check {
-  display: flex;
+  /* display: flex; */
   width: 100%;
   background: rgb(53, 53, 53);
   float: right;
@@ -90,8 +90,8 @@
 }
  .palabra{
    color: white;
-   margin-bottom: 10px;
-   margin-top: 10px;
+   /* margin-bottom: 10px;
+   margin-top: 10px; */
    font-weight: normal;
  }
  .botonescheck {

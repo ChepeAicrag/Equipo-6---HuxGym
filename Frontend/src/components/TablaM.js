@@ -7,7 +7,7 @@ import axios from "axios";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
+import TextField from '@material-ui/core/TextField';
 import { isEmpty } from "../helpers/methods";
 const url = "https://www.huxgym.codes/memberships/memberships/";
 
@@ -488,7 +488,8 @@ class TablaM extends Component {
               <br />
               <br />
               <label htmlFor="price">Precio (*):</label>
-              <input
+              <br />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="price"
@@ -497,11 +498,25 @@ class TablaM extends Component {
                 placeholder="Precio de venta"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.price : ""}
-              />
+              /> */}
+              <TextField
+                        id="outlined-number"
+                        name="price"
+                        onChange={this.handleChangeInputNumber}
+                        value={form ? form.price : null}
+                        type="number"
+                        placeholder="Precio de venta"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+
               <br />
               <br />
               <label htmlFor="price">Duración (cantidad de días) (*):</label>
-              <input
+              <br />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="day"
@@ -510,7 +525,20 @@ class TablaM extends Component {
                 placeholder="Duración en días"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.day : ""}
-              />
+              /> */}
+              <TextField
+                        id="outlined-number"
+                        name="day"
+                        onChange={this.handleChangeInputNumber}
+                        value={form ? form.day : null}
+                        type="number"
+                        min="7"
+                        placeholder="Duración en días"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
               <br />
             </div>
           </ModalBody>
