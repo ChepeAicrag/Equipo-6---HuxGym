@@ -458,9 +458,9 @@ class Tabla extends Component {
         <br></br>
         <br />
         <div className="table-wrapper">
-          <table className=" tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className=" tab-pane table ">
+            <thead className="tablaHeader">
+              <tr className="encabezado">
                 <th>ID</th>
                 <th>Nombre completo</th>
                 <th>Fecha de registro</th>
@@ -486,8 +486,8 @@ class Tabla extends Component {
                     <td>
                         <img
                           src={`https://www.huxgym.codes/${clientes.image}`}
-                          width="200"
-                          height="200"
+                          width="180"
+                          height="150"
                           align="center"
                         />
                     </td>

@@ -738,7 +738,7 @@ handleHourhour_dinner = (e) => {
     return (
       <div className="denada">
         <button
-          className="btn btnHojaClinica"
+          className="btn btn-outline-dark"
           onClick={() => {
             this.setState({ customer_id: this.props.id_cliente });
             this.modalAgregar();

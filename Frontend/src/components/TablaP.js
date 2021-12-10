@@ -628,7 +628,7 @@ class TablaP extends Component {
     let regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
 
     if (regex.test(value)) {
-      const setValue = value <= 100 && value>=0 ? value : 0.0;
+      const setValue = value <= 10000 && value>=0 ? value : 0.0;
       this.setState({
         form: {
           ...this.state.form,
@@ -653,8 +653,8 @@ class TablaP extends Component {
 
     return (
       <div className="table-responsiveMain">
-        <br />
-        <div className="Barra_opciones">
+        
+        <div className="Barra_opciones mt-3">
           <BotonProducts />
         </div>
         <br />
@@ -701,9 +701,9 @@ class TablaP extends Component {
 
         <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className="tab-pane  table">
+            <thead className="tablaHeader">
+              <tr className="encabezado" >
                 <th>Id</th>
                 <th>Nombre del producto</th>
                 <th>Precio de venta</th>
@@ -729,8 +729,8 @@ class TablaP extends Component {
                       {" "}
                       <img
                         src={`https://www.huxgym.codes/${productos.image}`}
-                        width="200"
-                        height="200"
+                        width="170"
+                        height="150"
                         align="center"
                       />
                     </td>
@@ -860,7 +860,21 @@ class TablaP extends Component {
               <br />
               <br />
               <label htmlFor="price_s">Precio de venta*:</label>
-              <input
+              <br />
+              <TextField
+                        id="outlined-number"
+                        
+                        name="price_s"
+                        onChange={this.validateNumber}
+                        step="5"
+                        value={form ? form.price_s : "0.00"}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+              {/* <input
                 className="form-control"
                 type="number"
                 name="price_s"
@@ -871,7 +885,7 @@ class TablaP extends Component {
                 presicion={2}
                 onChange={this.handleChangeInputNumberDecimal}
                 value={form ? parseFloat(form.price_s) : 0}
-              />
+              /> */}
               <br />
               <br />
               <label htmlFor="image">Adjunta tu imagen del producto:</label>

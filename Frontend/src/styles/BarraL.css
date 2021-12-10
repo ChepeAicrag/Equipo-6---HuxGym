@@ -29,15 +29,18 @@
   text-align: center;
   padding: 15px;
 }
+
 hr {
   height: 10px;
   background-color: black;
 }
+
 .principalLateral{
   /*display: flex;*/
   flex-direction: row;
   height:100%; 
 }
+
 .sidebar {
   display: flex;
   background-color: #284B63;
@@ -46,7 +49,7 @@ hr {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  box-shadow: 10px 5px 40px 0px rgba(0, 0, 0, 0.562);
+  box-shadow: 4px 10px 10px 0px rgba(0, 0, 0, 0.562);
   
 }
 

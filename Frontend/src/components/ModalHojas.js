@@ -867,7 +867,7 @@ validatePeso = (event) => {
     return (
       <div>
         <button
-          className="btn btnHojaClinica"
+          className="btn btn-outline-dark btnHojaClinica"
           onClick={() => {
             this.state.customer_id = this.props.id_cliente;
             this.modalInsertar();

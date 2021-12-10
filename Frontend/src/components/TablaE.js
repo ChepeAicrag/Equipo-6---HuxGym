@@ -465,9 +465,9 @@ class TablaE extends Component {
         <br></br>
         <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className="tab-pane  table">
+            <thead className="tablaHeader">
+              <tr className="encabezado" >
                 <th>ID</th>
                 <th>Nombre completo</th>
                 <th>Edad</th>
@@ -494,8 +494,8 @@ class TablaE extends Component {
                     <td>
                       <img
                         src={`https://www.huxgym.codes/${empleados.image}`}
-                        width="200"
-                        height="200"
+                        width="170"
+                        height="150"
                         align="center"
                       />
                     </td>

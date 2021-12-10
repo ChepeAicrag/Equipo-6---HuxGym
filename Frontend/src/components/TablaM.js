@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
+import "../styles/tablaStyle.css";
 import swal from "sweetalert";
 import axios from "axios";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
@@ -383,10 +384,10 @@ class TablaM extends Component {
         <br />
         <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
-                <th>Id</th>
+          <table className="tab-pane  table ">
+            <thead className="tablaHeader">
+              <tr >
+                <th className="encabezado" >Id</th>
                 <th>Nombre del membresía</th>
                 <th>Descripción</th>
                 <th>Precio</th>
@@ -394,7 +395,7 @@ class TablaM extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((membresias) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
