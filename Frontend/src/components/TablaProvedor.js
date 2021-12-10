@@ -13,7 +13,7 @@ import { isEmpty } from "../helpers/methods";
 const url = "https://www.huxgym.codes/products/provider/";
 
 class TablaProvedor extends Component {
-  campos = {"name": "nombre", "phone": "telefono"};
+  campos = { name: "nombre", phone: "telefono" };
   state = {
     busqueda: "",
     data: [] /* Aqui se almacena toda la informacion axios */,
@@ -67,6 +67,15 @@ class TablaProvedor extends Component {
     const email = form.email;
     const phone = form.phone;
     const rfc = form.rfc;
+    let regex = new RegExp(
+      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
+    );
+    if (!regex.test(rfc)) {
+      return {
+        error: true,
+        msj: "El campo RFC es incorrecto",
+      };
+    }
 
     if (isEmpty(name))
       return { error: true, msj: "El campo de nombre no puede estar vacío" };
@@ -77,7 +86,7 @@ class TablaProvedor extends Component {
       };
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
-    if(phone.length < 10)
+    if (phone.length < 10)
       return { error: true, msj: "El campo de telefono debe tener 10 dígitos" };
     if (isEmpty(rfc))
       return { error: true, msj: "El campo de rfc no puede estar vacío" };
@@ -113,17 +122,19 @@ class TablaProvedor extends Component {
     } catch (error) {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if(isEmpty(msj)){
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+      if (isEmpty(msj)) {
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
       }
       swal({
-          text: msj,//Array.isArray(msj) ? msj[0] : msj,
-          icon: "error",
-          button: "Aceptar",
-          timer: "5000",
+        text: msj, //Array.isArray(msj) ? msj[0] : msj,
+        icon: "error",
+        button: "Aceptar",
+        timer: "5000",
       });
     }
   };
@@ -131,16 +142,15 @@ class TablaProvedor extends Component {
   peticionPut = async () => {
     /* con put enviamos informacion al endpoint para modificar*/
     try {
-
       const validar = this.validar(this.state.form);
-      if(validar.error){
+      if (validar.error) {
         swal({
           text: validar.msj,
           icon: "info",
           button: "Aceptar",
           timer: "4000",
         });
-      }else{
+      } else {
         const res = await axios.put(url + this.state.form.id, this.state.form, {
           headers: {},
         });
@@ -158,17 +168,19 @@ class TablaProvedor extends Component {
     } catch (error) {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if(isEmpty(msj)){
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+      if (isEmpty(msj)) {
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
       }
       swal({
-          text: msj,//Array.isArray(msj) ? msj[0] : msj,
-          icon: "error",
-          button: "Aceptar",
-          timer: "5000",
+        text: msj, //Array.isArray(msj) ? msj[0] : msj,
+        icon: "error",
+        button: "Aceptar",
+        timer: "5000",
       });
     }
   };
@@ -238,7 +250,9 @@ class TablaProvedor extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -263,7 +277,7 @@ class TablaProvedor extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "Solo se permiten letras y acentos",
         icon: "info",
@@ -292,6 +306,51 @@ class TablaProvedor extends Component {
         button: "Aceptar",
         timer: "5000",
       });
+    }
+  };
+  /* ValidacionesRFC */
+
+  handleChangeInputRFC = (e) => {
+    const { name, value } = e.target;
+
+    let patt = new RegExp(/[A-Za-z0-9]+/g);
+    let regex = new RegExp(
+      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
+    );
+    /* let regex = new RegExp("^[0-9]+$"); */
+    if (value.size >= 12) {
+      if (regex.test(value)) {
+        console.log(name, value);
+        this.setState({
+          form: {
+            ...this.state.form,
+            [name]: value,
+          },
+        });
+      } else {
+        swal({
+          text: "Estructura de RFC incorrecta",
+          icon: "info",
+          button: "Aceptar",
+          timer: "5000",
+        });
+      }
+    } else {
+      if (patt.test(value) || isEmpty(value)) {
+        this.setState({
+          form: {
+            ...this.state.form,
+            [name]: value,
+          },
+        });
+      } else {
+        swal({
+          text: "Solo se permiten numeros y letras",
+          icon: "info",
+          button: "Aceptar",
+          timer: "5000",
+        });
+      }
     }
   };
 
@@ -462,7 +521,7 @@ class TablaProvedor extends Component {
                 id="rfc"
                 size="13"
                 maxLength="13"
-                onChange={this.handleChange}
+                onChange={this.handleChangeInputRFC}
                 value={form ? form.rfc : ""}
               />
             </div>
