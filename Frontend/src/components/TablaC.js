@@ -345,7 +345,7 @@ class TablaC extends Component {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Categoría
+            CATEGORIA
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -374,6 +374,7 @@ class TablaC extends Component {
                 className="form-control"
                 type="text"
                 name="name"
+                placeholder="Nombre de la categoría"
                 id="name"
                 pattern="^[a-zA-Z]+"
                 maxLength="40"
@@ -387,6 +388,7 @@ class TablaC extends Component {
                 type="text"
                 name="description"
                 id="description"
+                placeholder="Descripción de la categoría"
                 pattern="^[a-zA-Z]+"
                 maxLength="100"
                 onChange={this.handleChangeInput}

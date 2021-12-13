@@ -627,7 +627,7 @@ class TablaP extends Component {
     const value = event.target.value;
     let regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
 
-    if (regex.test(value)) {
+    if (regex.test(value)|| isEmpty(value)) {
       const setValue = value <= 10000 && value>=0 ? value : 0.0;
       this.setState({
         form: {

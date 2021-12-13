@@ -706,7 +706,7 @@ class TablaE extends Component {
                   <label htmlFor="role">Rol*: </label>
               <br />
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-info">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="role"
@@ -725,7 +725,7 @@ class TablaE extends Component {
                   />{" "}
                   Empleado
                 </label>
-                <label class="btn btn-info ">
+                <label class="btn botonesForm m-1 ">
                   <input
                     type="radio"
                     name="role"

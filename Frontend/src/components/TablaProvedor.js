@@ -291,7 +291,7 @@ class TablaProvedor extends Component {
     const { name, value } = e.target;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
+    if (regex.test(value)|| isEmpty(value)) {
       console.log(name, value);
       this.setState({
         form: {
@@ -455,7 +455,7 @@ class TablaProvedor extends Component {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Proveedor
+            PROVEEDOR
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -485,6 +485,7 @@ class TablaProvedor extends Component {
                 type="text"
                 name="name"
                 id="name"
+                placeholder="Nombre del proveedor"
                 maxLength="50"
                 onChange={this.handleChangeInput}
                 value={form ? form.name : ""}
@@ -496,6 +497,7 @@ class TablaProvedor extends Component {
                 type="text"
                 name="email"
                 id="email"
+                placeholder="Email"
                 maxLength="200"
                 onChange={this.handleChange}
                 value={form ? form.email : ""}
@@ -506,6 +508,7 @@ class TablaProvedor extends Component {
                 className="form-control"
                 type="text"
                 name="phone"
+                placeholder="Número de contacto"
                 id="phone"
                 size="10"
                 maxLength="10"
@@ -520,6 +523,7 @@ class TablaProvedor extends Component {
                 name="rfc"
                 id="rfc"
                 size="13"
+                placeholder="RFC"
                 maxLength="13"
                 onChange={this.handleChangeInputRFC}
                 value={form ? form.rfc : ""}

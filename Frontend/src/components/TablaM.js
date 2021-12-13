@@ -288,7 +288,7 @@ class TablaM extends Component {
     const { name, value } = e.target;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
+    if (regex.test(value)|| isEmpty(value)) {
       console.log(name, value);
       this.setState({
         form: {
@@ -504,6 +504,7 @@ class TablaM extends Component {
                         name="price"
                         onChange={this.handleChangeInputNumber}
                         value={form ? form.price : null}
+                        InputProps={{ inputProps: { min: 0} }}
                         type="number"
                         placeholder="Precio de venta"
                         InputLabelProps={{
@@ -530,9 +531,9 @@ class TablaM extends Component {
                         id="outlined-number"
                         name="day"
                         onChange={this.handleChangeInputNumber}
-                        value={form ? form.day : null}
+                        value={form ? form.day : 7 }
                         type="number"
-                        min="7"
+                        InputProps={{ inputProps: { min: 7} }}
                         placeholder="Duración en días"
                         InputLabelProps={{
                             shrink: true,
