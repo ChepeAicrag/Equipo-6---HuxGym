@@ -4,6 +4,7 @@ import "../styles/Crud.css";
 import "../styles/tablaStyle.css";
 import swal from "sweetalert";
 import axios from "axios";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -362,7 +363,7 @@ class TablaM extends Component {
                 animation="tada"
               ></box-icon> */}
             </i>
-            Registrar nueva membresía
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nueva Membresia
           </button>
           <div className="esp"></div>
           <input
@@ -386,8 +387,8 @@ class TablaM extends Component {
         <div className="table-wrapper">
           <table className="tab-pane  table ">
             <thead className="tablaHeader">
-              <tr >
-                <th className="encabezado" >Id</th>
+              <tr className="encabezado">
+                <th>Id</th>
                 <th>Nombre del membresía</th>
                 <th>Descripción</th>
                 <th>Precio</th>

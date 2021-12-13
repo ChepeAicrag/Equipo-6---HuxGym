@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonProducts from "../components/BotonProducts";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {
   faCalculator,
   faEdit,
@@ -680,7 +681,7 @@ class TablaP extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            Registrar nuevo producto
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
           </button>
           <div className="esp"></div>
           <input
@@ -714,7 +715,7 @@ class TablaP extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((productos) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (

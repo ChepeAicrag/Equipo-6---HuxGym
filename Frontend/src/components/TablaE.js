@@ -7,6 +7,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { isEmpty } from "../helpers/methods";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const url = "https://www.huxgym.codes/user/";
 
@@ -443,7 +444,7 @@ class TablaE extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            Registrar Nuevo Empleado
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo Empleado
           </button>
           <div className="esp"></div>
           <input
@@ -479,7 +480,7 @@ class TablaE extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((empleados) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (

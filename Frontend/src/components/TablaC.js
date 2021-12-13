@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
 import axios from "axios";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -274,7 +275,7 @@ class TablaC extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            Registrar nueva categoría
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
           </button>
           <div className="esp"></div>
           <input
@@ -294,16 +295,16 @@ class TablaC extends Component {
         </div>
         <br></br>
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5 ">
-            <thead>
-              <tr>
+          <table className="tab-pane  table">
+            <thead className="tablaHeader">
+              <tr className="encabezado">
                 <th>Id</th>
                 <th>Nombre de la categoría</th>
                 <th>Descripción</th>
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((categorias) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (

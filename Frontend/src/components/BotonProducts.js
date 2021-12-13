@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/BotonProducts.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 export default function BotonProducts() {
   /* const handleOut = async () => {
@@ -37,7 +37,29 @@ export default function BotonProducts() {
 
   return (
     <>
-      <NavLink className="btn contenedor" to="/ProductsPage" activeClass="btn contenedor active">
+      <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
+          <li class="nav-item">
+            <NavLink className="letra nav-link btn contenedor" to="/ProductsPage" activeClass="btn contenedor active">
+              Productos
+            </NavLink>
+          </li>
+          <li class="nav-item">
+            <NavLink className="letra nav-link btn contenedor" to="/CategoriesPage" activeClass="btn contenedor active">
+              Categorías
+            </NavLink>
+          </li>
+          <li class="nav-item">
+            <NavLink className="letra nav-link btn contenedor" to="/ProvidersPage" activeClass="btn contenedor active">
+              Proveedores
+            </NavLink> 
+          </li>
+      </ul>
+       {/*  <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        </div> */}
+     {/*  <NavLink className="btn contenedor" to="/ProductsPage" activeClass="btn contenedor active">
         Productos
       </NavLink>
       <NavLink className="btn contenedor" to="/CategoriesPage" activeClass="btn contenedor active">
@@ -45,7 +67,7 @@ export default function BotonProducts() {
       </NavLink>
       <NavLink className="btn contenedor" to="/ProvidersPage" activeClass="btn contenedor active">
         Proveedores
-      </NavLink>
+      </NavLink> */}
     </>
 
   )

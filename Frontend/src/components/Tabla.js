@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import swal from "sweetalert";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -431,7 +432,7 @@ class Tabla extends Component {
               this.modalInsertar();
             }}
           >
-            Agregar nuevo cliente
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo Cliente
           </button>
 
 
@@ -473,7 +474,7 @@ class Tabla extends Component {
                 <th>Hojas clínicas</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((clientes) => {
                 return (
                   <tr className="cuerpoT">
