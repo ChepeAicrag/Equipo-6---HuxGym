@@ -83,9 +83,9 @@ class BtnModalHoja extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
       date: "",
-      age: '13',
-      height: '100',
-      weight: "20",
+      age: '',
+      height: '',
+      weight: "",
       bloody: "O+",
       hour_breakfast:"00:00:00",
       hour_collation:"00:00:00",
@@ -291,7 +291,7 @@ validateNumber = (event) => {
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
+    if (regex.test(value) || isEmpty(value)) {
       const setValue = value <= 100 && value>=0 ? value : 13;
       this.setState({
         form: {
@@ -317,8 +317,8 @@ validateEstatura = (event) => {
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
-      const setValue = value < 4000 && value>=0 ? value : 13;
+    if (regex.test(value)||isEmpty(value)) {
+      const setValue = value < 4000 && value>=0 ;
       this.setState({
         form: {
           ...this.state.form,
@@ -343,8 +343,8 @@ validatePeso = (event) => {
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
-      const setValue = value < 1000 && value>=0 ? value : 20;
+    if (regex.test(value)|| isEmpty(value)) {
+      const setValue = value < 1000 && value>=0 ? value : 40;
       this.setState({
         form: {
           ...this.state.form,
@@ -749,7 +749,7 @@ handleHourhour_dinner = (e) => {
         <Modal isOpen={this.state.modalAgregar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Registrar Hoja Clinica Situacion Nutricional
+            REGISTRAR HOJA CLINICA SITUACION NUTRICIONAL
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -768,13 +768,15 @@ handleHourhour_dinner = (e) => {
              
               <label htmlFor="age">Edad actual *: </label>
               <br />
-              <TextField
+              <TextField 
                         id="outlined-number"
-                        
                         name="age"
                         onChange={this.validateNumber}
                         value={form.age}
                         type="number"
+                        style ={{width: '200px'}}
+                        placeholder="Edad mínima 13 años"
+                        InputProps={{ inputProps: { min: 13, max: 99 } }}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -799,10 +801,12 @@ handleHourhour_dinner = (e) => {
               <br />
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0, max: 4000} }}
+                        style ={{width: '200px'}}
                         name="height"
+                        placeholder="Ingrese estatura"
                         onChange={this.validateEstatura}
-                        value={form.height}
+                        value={form ? form.height: "" }
                         type="number"
                         InputLabelProps={{
                             shrink: true,
@@ -815,8 +819,10 @@ handleHourhour_dinner = (e) => {
               <br />
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0, max: 1000} }}
+                        style ={{width: '200px'}}
                         name="weight"
+                        placeholder="Ingrese peso en kg"
                         onChange={this.validatePeso}
                         value={form.weight}
                         type="number"
@@ -853,7 +859,7 @@ handleHourhour_dinner = (e) => {
                                         margin="normal"
                                         name="hour_breakfast"
                                         id="time-picker"
-                                        label=""
+                                        label="" 
                                         value={conversionHoras(form.hour_breakfast)}
                                         onChange={this.handleHourhour_breakfast}
                                         KeyboardButtonProps={{
@@ -1023,7 +1029,7 @@ handleHourhour_dinner = (e) => {
         <Modal isOpen={this.state.modalAgregar2}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Registrar Hoja Clinica Estructura Corporal
+            REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -1050,6 +1056,7 @@ handleHourhour_dinner = (e) => {
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.dos : ""}
                         type="number"
+                        InputProps={{ inputProps: { min: 0} }}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -1070,7 +1077,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="tres">Indice de masa corporal actual *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="tres"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.tres : ""}
@@ -1096,7 +1103,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="cuatro">% de Grasa *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="cuatro"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.cuatro : ""}
@@ -1121,7 +1128,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="cinco">% MM *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="cinco"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.cinco : ""}
@@ -1146,7 +1153,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="seis">KC correspondientes *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="seis"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.seis : ""}
@@ -1171,7 +1178,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="siete">Edad de acuerdo al peso *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="siete"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.siete : ""}
@@ -1196,7 +1203,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="ocho">Grasa viceral *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="ocho"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.ocho : ""}
@@ -1226,6 +1233,7 @@ handleHourhour_dinner = (e) => {
                 id="nueve"
                 placeholder="Situación Nutricional"
                 maxLength="50"
+                InputProps={{ inputProps: { min: 0} }}
                 onChange={this.handleChangeInput}
                 value={formcorps ? formcorps.nueve : ""}
               />
@@ -1235,7 +1243,7 @@ handleHourhour_dinner = (e) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="diez"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.diez : ""}
@@ -1261,7 +1269,7 @@ handleHourhour_dinner = (e) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="once"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.once : ""}
@@ -1287,7 +1295,7 @@ handleHourhour_dinner = (e) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="doce"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.doce : ""}
@@ -1313,7 +1321,7 @@ handleHourhour_dinner = (e) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="trece"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.trece : ""}
@@ -1337,7 +1345,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="catorce">Total de gasto calórico *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="catorce"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.catorce : ""}
@@ -1363,7 +1371,7 @@ handleHourhour_dinner = (e) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="quince"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.quince : ""}
@@ -1387,7 +1395,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="dieciseis"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.dieciseis : ""}
@@ -1411,7 +1419,7 @@ handleHourhour_dinner = (e) => {
               <label htmlFor="diecisiete">Consumo calórico (C C) *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="diecisiete"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.diecisiete : ""}
@@ -1466,7 +1474,7 @@ handleHourhour_dinner = (e) => {
         <Modal isOpen={this.state.modalAgregar3}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Registrar Hoja Clinica Información Extra
+            REGISTRAR HOJA CLINICA INFORMACION EXTRA
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -1499,11 +1507,13 @@ handleHourhour_dinner = (e) => {
               />
               <br/>
               <br />
-              <label htmlFor="statuse"> ¿Lo posee? </label>{" "}{" "}
+              <label htmlFor="statuse"> ¿Lo posee? </label>
+              <br />
+              {" "}{" "}
               {" "}
               {" "}
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-info">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="statuse"
@@ -1524,7 +1534,7 @@ handleHourhour_dinner = (e) => {
                 </label>
 
                 
-                <label class="btn btn-info ">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="statuse"
@@ -1547,7 +1557,7 @@ handleHourhour_dinner = (e) => {
               <br/>
               <br/>
               <button
-                className="btn btn-success"
+                className="btn botonesdash"
                 onClick={() => {
                   const nami = this.state.formextra.descriptione;
                   const tiene = this.state.formextra.statuse;

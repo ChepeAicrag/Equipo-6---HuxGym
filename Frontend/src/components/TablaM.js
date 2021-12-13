@@ -8,7 +8,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
 const url = "https://www.huxgym.codes/memberships/memberships/";
 
@@ -289,7 +289,7 @@ class TablaM extends Component {
     const { name, value } = e.target;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
+    if (regex.test(value) || isEmpty(value)) {
       console.log(name, value);
       this.setState({
         form: {
@@ -501,17 +501,18 @@ class TablaM extends Component {
                 value={form ? form.price : ""}
               /> */}
               <TextField
-                        id="outlined-number"
-                        name="price"
-                        onChange={this.handleChangeInputNumber}
-                        value={form ? form.price : null}
-                        type="number"
-                        placeholder="Precio de venta"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
+                id="outlined-number"
+                name="price"
+                onChange={this.handleChangeInputNumber}
+                value={form ? form.price : null}
+                InputProps={{ inputProps: { min: 0 } }}
+                type="number"
+                placeholder="Precio de venta"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+              />
 
               <br />
               <br />
@@ -528,18 +529,18 @@ class TablaM extends Component {
                 value={form ? form.day : ""}
               /> */}
               <TextField
-                        id="outlined-number"
-                        name="day"
-                        onChange={this.handleChangeInputNumber}
-                        value={form ? form.day : null}
-                        type="number"
-                        min="7"
-                        placeholder="Duración en días"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
+                id="outlined-number"
+                name="day"
+                onChange={this.handleChangeInputNumber}
+                value={form ? form.day : 7}
+                type="number"
+                InputProps={{ inputProps: { min: 7 } }}
+                placeholder="Duración en días"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+              />
               <br />
             </div>
           </ModalBody>

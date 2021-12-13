@@ -628,7 +628,7 @@ class TablaP extends Component {
     const value = event.target.value;
     let regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
 
-    if (regex.test(value)) {
+    if (regex.test(value)|| isEmpty(value)) {
       const setValue = value <= 10000 && value>=0 ? value : 0.0;
       this.setState({
         form: {
@@ -1071,19 +1071,19 @@ class TablaP extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-success btn-lg"
+              className="btn btn-success"
               onClick={() => this.peticionPostA()}
             >
-              Añadir al inventario
+              Añadir
             </button>
             <button
-              className="btn btn-primary btn-lg"
+              className="btn botonesdash"
               onClick={() => this.peticionPostB()}
             >
-              Eliminar del inventario
+              Eliminar
             </button>
             <button
-              className="btn btn-danger btn-lg"
+              className="btn btn-danger"
               onClick={() => this.setState({ modalStock: false })}
             >
               Cancelar

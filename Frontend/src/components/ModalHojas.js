@@ -99,7 +99,7 @@ class BtnModalHoja extends Component {
       customer_name: "",
       date: "",
       age: 0,
-      heigh: "",
+      height: "",
       weight: "",
       bloody: "",
       hour_breakfast: "00:00:00",
@@ -186,7 +186,7 @@ class BtnModalHoja extends Component {
     if (isEmpty(form))
       return { error: true, msj: "Debe rellenar los campos obligatorios" };
     const age = form.age;
-    const height = form.heigh;
+    const height = form.height;
     const weight = form.weight;
     const hour_breakfast = form.hour_breakfast;
     const hour_collation = form.hour_collation;
@@ -501,7 +501,7 @@ class BtnModalHoja extends Component {
       const res_hc = await axios.put(url_hc + historyClinic_id + "/", {
         age: form1.age,
         weigth: form1.weight,
-        heigh: form1.heigh,
+        heigh: form1.height,
         customer_id: form1.customer_id,
         nutritionalSituation_id,
       });
@@ -559,7 +559,7 @@ class BtnModalHoja extends Component {
       swal({
         text: Array.isArray(msj) ? msj[0] : msj,
         icon: "error",
-        button: "Aceptar",
+        button: "Aceptar 2",
         timer: "5000",
       });
     }
@@ -604,7 +604,7 @@ class BtnModalHoja extends Component {
         customer_name: hojas.customer_id.name,
         date: hojas.date,
         age: hojas.age,
-        heigh: hojas.heigh,
+        height: hojas.heigh,
         weight: hojas.weigth,
         bloody: hojas.bloodType,
         hour_breakfast: hojas.nutritionalSituation_id.hour_breakfast,
@@ -779,7 +779,7 @@ validateNumber = (event) => {
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
+    if (regex.test(value)||isEmpty(value)) {
       const setValue = value <= 100 && value>=0 ? value : 13;
       this.setState({
         form: {
@@ -805,8 +805,8 @@ validateEstatura = (event) => {
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
-      const setValue = value < 4000 && value>=0 ? value : 13;
+    if (regex.test(value)|| isEmpty(value)) {
+      const setValue = value < 4000 && value>=0 ? value : 100;
       this.setState({
         form: {
           ...this.state.form,
@@ -969,8 +969,11 @@ validatePeso = (event) => {
                         
                         name="age"
                         onChange={this.validateNumber}
-                        value={form.age}
+                        style={{width: '200px'}}
+                        InputProps={{ inputProps: { min: 13, max: 99 } }}
+                        value={form ? form.age : 13}
                         type="number"
+                       
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -982,7 +985,21 @@ validatePeso = (event) => {
                     <br />
                     <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0, max: 4000} }}
+                        style ={{width: '200px'}}
+                        name="height"
+                        onChange={this.validateEstatura}
+                        value={form? form.height: null}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+                   {/*  <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0, max: 4000} }}
+                        style ={{width: '200px'}}
                         name="height"
                         onChange={this.validateEstatura}
                         value={form.heigh}
@@ -991,14 +1008,15 @@ validatePeso = (event) => {
                             shrink: true,
                         }}
                         variant="outlined"
-                    />
+                    /> */}
                       <br />
                       <br />
                       <label htmlFor="weight">Peso en kilogramos *: </label>
                     <br />
                     <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0, max: 1000} }}
+                        style ={{width: '200px'}}
                         name="weight"
                         onChange={this.validatePeso}
                         value={form.weight}
@@ -1214,7 +1232,7 @@ validatePeso = (event) => {
               <Modal isOpen={this.state.modalAgregar2}>
                 {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
                 <ModalHeader style={{ display: "block" }}>
-                  Registrar Hoja Clínica Estructura Corporal
+                  REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
                   <span style={{ float: "right" }}></span>
                 </ModalHeader>
 
@@ -1236,7 +1254,7 @@ validatePeso = (event) => {
               <label htmlFor="dos">Tensión arterial *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="dos"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.dos : ""}
@@ -1261,7 +1279,7 @@ validatePeso = (event) => {
               <label htmlFor="tres">Indice de masa corporal actual *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="tres"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.tres : ""}
@@ -1287,7 +1305,7 @@ validatePeso = (event) => {
               <label htmlFor="cuatro">% de Grasa *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="cuatro"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.cuatro : ""}
@@ -1312,7 +1330,7 @@ validatePeso = (event) => {
               <label htmlFor="cinco">% MM *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="cinco"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.cinco : ""}
@@ -1337,7 +1355,7 @@ validatePeso = (event) => {
               <label htmlFor="seis">KC correspondientes *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="seis"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.seis : ""}
@@ -1362,7 +1380,7 @@ validatePeso = (event) => {
               <label htmlFor="siete">Edad de acuerdo al peso *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="siete"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.siete : ""}
@@ -1387,7 +1405,7 @@ validatePeso = (event) => {
               <label htmlFor="ocho">Grasa viceral *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="ocho"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.ocho : ""}
@@ -1426,7 +1444,7 @@ validatePeso = (event) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="diez"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.diez : ""}
@@ -1452,7 +1470,7 @@ validatePeso = (event) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="once"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.once : ""}
@@ -1478,7 +1496,7 @@ validatePeso = (event) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="doce"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.doce : ""}
@@ -1504,7 +1522,7 @@ validatePeso = (event) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="trece"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.trece : ""}
@@ -1528,7 +1546,7 @@ validatePeso = (event) => {
               <label htmlFor="catorce">Total de gasto calórico *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="catorce"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.catorce : ""}
@@ -1554,7 +1572,7 @@ validatePeso = (event) => {
               </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="quince"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.quince : ""}
@@ -1578,7 +1596,7 @@ validatePeso = (event) => {
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="dieciseis"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.dieciseis : ""}
@@ -1602,7 +1620,7 @@ validatePeso = (event) => {
               <label htmlFor="diecisiete">Consumo calórico (C C) *: </label>
               <TextField
                         id="outlined-number"
-                        
+                        InputProps={{ inputProps: { min: 0} }}
                         name="diecisiete"
                         onChange={this.handleChangeInputNumber2}
                         value={formcorps ? formcorps.diecisiete : ""}
