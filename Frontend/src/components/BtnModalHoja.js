@@ -9,63 +9,59 @@ import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import TimeField from "react-simple-timefield";
 import { isEmpty } from "../helpers/methods";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 const url = "https://www.huxgym.codes/customers/customers/";
 const url_sn = "https://www.huxgym.codes/customers/nutritionalSituation/";
 const url_hc = "https://www.huxgym.codes/customers/historyClinic/";
 const url_hc_tei =
   "https://www.huxgym.codes/customers/typeExtraInformation_HistoryClinic/";
-const url_hc_ba = "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
+const url_hc_ba =
+  "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
 const materialTheme = createMuiTheme({
-    
   palette: {
-      background: {
-          paper: '#EDEDED',
-          default: '#114e60',
-      },
-      text: {
-        default: '#fff',
-      },
-      textColor: '#fff',
-      primary: {
-        main: '#1b1a17',
-      }
+    background: {
+      paper: "#EDEDED",
+      default: "#114e60",
+    },
+    text: {
+      default: "#fff",
+    },
+    textColor: "#fff",
+    primary: {
+      main: "#1b1a17",
+    },
   },
-
 });
 
 function conversionHoras(date) {
-  let datos= date.split(":");
-  let hr= datos[0];
-  let min=datos[1];
-  let sec=datos[2];
-  
-  let fecha=new Date();
+  let datos = date.split(":");
+  let hr = datos[0];
+  let min = datos[1];
+  let sec = datos[2];
+
+  let fecha = new Date();
 
   fecha.setHours(parseInt(hr, 10));
   fecha.setMinutes(parseInt(min, 10));
   fecha.setSeconds(parseInt(sec, 10));
-   return fecha;
+  return fecha;
 }
 
 function conversionHoras2(date) {
-  let fecha=new Date(date);
-  
-  let hr= fecha.getHours();
-  let min=fecha.getMinutes();
-  let sec=fecha.getSeconds();
-  return hr+":"+min+":"+sec;
+  let fecha = new Date(date);
+
+  let hr = fecha.getHours();
+  let min = fecha.getMinutes();
+  let sec = fecha.getSeconds();
+  return hr + ":" + min + ":" + sec;
 }
 class BtnModalHoja extends Component {
-
-
-  
   constructor(props) {
     super(props);
   }
@@ -83,15 +79,15 @@ class BtnModalHoja extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
       date: "",
-      age: '',
-      height: '',
+      age: "",
+      height: "",
       weight: "",
       bloody: "O+",
-      hour_breakfast:"00:00:00",
-      hour_collation:"00:00:00",
+      hour_breakfast: "00:00:00",
+      hour_collation: "00:00:00",
       hour_lunch: "00:00:00",
       hour_snack: "00:00:00",
-      hour_dinner:"00:00:00",
+      hour_dinner: "00:00:00",
     },
     formcorps: {
       uno: "",
@@ -149,7 +145,7 @@ class BtnModalHoja extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "No se permiten letras",
         icon: "info",
@@ -157,11 +153,8 @@ class BtnModalHoja extends Component {
         timer: "5000",
       });
     }
-    console.log(this.state.form)
+    console.log(this.state.form);
   };
-
-  
-
 
   handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -176,7 +169,7 @@ class BtnModalHoja extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "Solo se permiten letras y acentos",
         icon: "info",
@@ -198,7 +191,7 @@ class BtnModalHoja extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "No se permiten letras",
         icon: "info",
@@ -286,131 +279,125 @@ class BtnModalHoja extends Component {
     });
   };
 
-validateNumber = (event) => {
+  validateNumber = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
     if (regex.test(value) || isEmpty(value)) {
-      const setValue = value <= 100 && value>=0 ? value : 13;
+      const setValue = value <= 100 && value >= 0 ? value : 13;
       this.setState({
         form: {
           ...this.state.form,
           [name]: setValue,
         },
-      }); 
-
-    }
-    else{
-    event.target.value = ""
+      });
+    } else {
+      event.target.value = "";
       swal({
         text: "No se permiten letras",
         icon: "info",
         button: "Aceptar",
         timer: "5000",
-      });  
+      });
     }
-};
+  };
 
-validateEstatura = (event) => {
-  const name = event.target.name;
+  validateEstatura = (event) => {
+    const name = event.target.name;
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)||isEmpty(value)) {
-      const setValue = value < 4000 && value>=0 ;
+    if (regex.test(value) || isEmpty(value)) {
+      const setValue = value < 4000 && value >= 0 ? value : 0;
       this.setState({
         form: {
           ...this.state.form,
           [name]: setValue,
         },
-      }); 
-
-    }
-    else{
-    event.target.value = ""
+      });
+    } else {
+      event.target.value = "";
       swal({
         text: "No se permiten letras",
         icon: "info",
         button: "Aceptar",
         timer: "5000",
-      });  
+      });
     }
-};
+  };
 
-validatePeso = (event) => {
-  const name = event.target.name;
+  validatePeso = (event) => {
+    const name = event.target.name;
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)|| isEmpty(value)) {
-      const setValue = value < 1000 && value>=0 ? value : 40;
+    if (regex.test(value) || isEmpty(value)) {
+      const setValue = value < 1000 && value >= 0 ? value : 40;
       this.setState({
         form: {
           ...this.state.form,
           [name]: setValue,
         },
-      }); 
-
-    }
-    else{
-    event.target.value = ""
+      });
+    } else {
+      event.target.value = "";
       swal({
         text: "No se permiten letras",
         icon: "info",
         button: "Aceptar",
         timer: "5000",
-      });  
+      });
     }
-};
+  };
 
-handleHourhour_breakfast = (e) => {
-  let value=conversionHoras2(e);
-  this.setState({
-    form: {
-      ...this.state.form,
-      hour_breakfast: value,
-    },
-  }); 
-};
-handleHourhour_collation = (e) => {
-  let value=conversionHoras2(e);
-  this.setState({
-    form: {
-      ...this.state.form,
-      hour_collation: value,
-    },
-  }); 
-};
-handleHourhour_lunch = (e) => {
-  let value=conversionHoras2(e);
-  this.setState({
-    form: {
-      ...this.state.form,
-      hour_lunch: value,
-    },
-  }); 
-};
+  handleHourhour_breakfast = (e) => {
+    let value = conversionHoras2(e);
+    this.setState({
+      form: {
+        ...this.state.form,
+        hour_breakfast: value,
+      },
+    });
+  };
+  handleHourhour_collation = (e) => {
+    let value = conversionHoras2(e);
+    this.setState({
+      form: {
+        ...this.state.form,
+        hour_collation: value,
+      },
+    });
+  };
+  handleHourhour_lunch = (e) => {
+    let value = conversionHoras2(e);
+    this.setState({
+      form: {
+        ...this.state.form,
+        hour_lunch: value,
+      },
+    });
+  };
 
-handleHourhour_snack = (e) => {
-  let value=conversionHoras2(e);
-  this.setState({
-    form: {
-      ...this.state.form,
-      hour_snack: value,
-    },
-  }); 
-};
+  handleHourhour_snack = (e) => {
+    let value = conversionHoras2(e);
+    this.setState({
+      form: {
+        ...this.state.form,
+        hour_snack: value,
+      },
+    });
+  };
 
-handleHourhour_dinner = (e) => {
-  let value=conversionHoras2(e);
-  this.setState({
-    form: {
-      ...this.state.form,
-      hour_dinner: value,
-    },
-  }); 
-};
+  handleHourhour_dinner = (e) => {
+    let value = conversionHoras2(e);
+    this.setState({
+      form: {
+        ...this.state.form,
+        hour_dinner: value,
+      },
+    });
+  };
 
   //comienza parte de insertar sintomas
   handleInputChange = (event) => {
@@ -445,12 +432,12 @@ handleHourhour_dinner = (e) => {
     if (isEmpty(form))
       return { error: true, msj: "Debe rellenar los campos obligatorios" };
     const age = form.age;
-    if(age < 11){
-      return{
-      error: true,
-      msj: "La edad del cliente debe ser mayor a 12"
-      }
-    };
+    if (age < 11) {
+      return {
+        error: true,
+        msj: "La edad del cliente debe ser mayor a 12",
+      };
+    }
     const height = form.height;
     const weight = form.weight;
     const hour_breakfast = form.hour_breakfast;
@@ -459,7 +446,16 @@ handleHourhour_dinner = (e) => {
     const hour_snack = form.hour_snack;
     const hour_dinner = form.hour_dinner;
 
-    if (isEmpty(age) && isEmpty(height) && isEmpty(weight) && isEmpty(hour_breakfast) && isEmpty(hour_collation) && isEmpty(hour_lunch) && isEmpty(hour_snack)&& isEmpty(hour_dinner))
+    if (
+      isEmpty(age) &&
+      isEmpty(height) &&
+      isEmpty(weight) &&
+      isEmpty(hour_breakfast) &&
+      isEmpty(hour_collation) &&
+      isEmpty(hour_lunch) &&
+      isEmpty(hour_snack) &&
+      isEmpty(hour_dinner)
+    )
       return {
         error: true,
         msj: "Los campos de Edad actual, Estatura en centímetro,Peso en kilogramos, Hora de desayuno, Hora de colación, Hora de comida, Hora de bocadillo y Hora de cena son obligatorios",
@@ -471,29 +467,56 @@ handleHourhour_dinner = (e) => {
       };
     const edad = parseInt(age);
     if (edad <= 12)
-      return { error: true, msj: "El campo de la edad debe ser mayor o igual 13" };  
+      return {
+        error: true,
+        msj: "El campo de la edad debe ser mayor o igual 13",
+      };
     if (!height)
       return { error: true, msj: "El campo de estatura no puede estar vacío" };
-    if (height<100)
+    if (height < 100)
       return { error: true, msj: "La estatura no puede se menor a 100cm" };
     const altura = parseInt(height);
     if (altura <= 0)
-      return { error: true, msj: "El campo de estatura debe tener un valor positivo" };
+      return {
+        error: true,
+        msj: "El campo de estatura debe tener un valor positivo",
+      };
     if (isEmpty(weight))
-      return { error: true, msj: "El campo de Peso en kilogramos no puede estar vacío" };
+      return {
+        error: true,
+        msj: "El campo de Peso en kilogramos no puede estar vacío",
+      };
     const peso = parseInt(weight);
     if (peso <= 0)
-      return { error: true, msj: "El campo de peso debe tener un valor positivo" };
+      return {
+        error: true,
+        msj: "El campo de peso debe tener un valor positivo",
+      };
     if (isEmpty(hour_breakfast))
-      return { error: true, msj: "El campo de hora de desayuno no puede estar vacío" };
+      return {
+        error: true,
+        msj: "El campo de hora de desayuno no puede estar vacío",
+      };
     if (isEmpty(hour_collation))
-      return { error: true, msj: "El campo de hora de colación no puede estar vacío" };
-      if (isEmpty(hour_lunch))
-      return { error: true, msj: "El campo de hora de comida no puede estar vacío" };
-      if (isEmpty(hour_snack))
-      return { error: true, msj: "El campo de hora de bocadillo no puede estar vacío" };
-      if (isEmpty(hour_dinner))
-      return { error: true, msj: "El campo de hora de cena no puede estar vacío" };   
+      return {
+        error: true,
+        msj: "El campo de hora de colación no puede estar vacío",
+      };
+    if (isEmpty(hour_lunch))
+      return {
+        error: true,
+        msj: "El campo de hora de comida no puede estar vacío",
+      };
+    if (isEmpty(hour_snack))
+      return {
+        error: true,
+        msj: "El campo de hora de bocadillo no puede estar vacío",
+      };
+    if (isEmpty(hour_dinner))
+      return {
+        error: true,
+        msj: "El campo de hora de cena no puede estar vacío",
+      };
     return { error: false };
   };
 
@@ -518,7 +541,25 @@ handleHourhour_dinner = (e) => {
     const dieciseis = form2.dieciseis;
     const diecisiete = form2.diecisiete;
 
-    if (isEmpty(uno) && isEmpty(dos) && isEmpty(tres) && isEmpty(cuatro) && isEmpty(cinco) && isEmpty(seis) && isEmpty(siete) && isEmpty(ocho) && isEmpty(nueve) && isEmpty(diez)&& isEmpty(once) && isEmpty(doce) && isEmpty(trece) && isEmpty(catorce) && isEmpty(quince) && isEmpty(dieciseis)&& isEmpty(diecisiete))
+    if (
+      isEmpty(uno) &&
+      isEmpty(dos) &&
+      isEmpty(tres) &&
+      isEmpty(cuatro) &&
+      isEmpty(cinco) &&
+      isEmpty(seis) &&
+      isEmpty(siete) &&
+      isEmpty(ocho) &&
+      isEmpty(nueve) &&
+      isEmpty(diez) &&
+      isEmpty(once) &&
+      isEmpty(doce) &&
+      isEmpty(trece) &&
+      isEmpty(catorce) &&
+      isEmpty(quince) &&
+      isEmpty(dieciseis) &&
+      isEmpty(diecisiete)
+    )
       return {
         error: true,
         msj: "Los campos del Estructura Corporal no pueden estar vacios",
@@ -529,42 +570,85 @@ handleHourhour_dinner = (e) => {
         msj: "El campo de Estructura corporal no puede estar vacío",
       };
     if (isEmpty(dos))
-      return { error: true, msj: "El campo de Tensión arterial en centímetro no puede estar vacío" };
+      return {
+        error: true,
+        msj: "El campo de Tensión arterial en centímetro no puede estar vacío",
+      };
     if (isEmpty(tres))
-      return { error: true, msj: "El campo de Indice de masa corporal actual no puede estar vacío" };
+      return {
+        error: true,
+        msj: "El campo de Indice de masa corporal actual no puede estar vacío",
+      };
     if (isEmpty(cuatro))
-      return { error: true, msj: "El campo de % de Grasa no puede estar vacío" };
+      return {
+        error: true,
+        msj: "El campo de % de Grasa no puede estar vacío",
+      };
     if (isEmpty(cinco))
       return { error: true, msj: "El campo de % MM no puede estar vacío" };
-      if (isEmpty(seis))
-      return { error: true, msj: "El campo de KC correspondientes no puede estar vacío" };
-      if (isEmpty(siete))
-      return { error: true, msj: "El campo de Edad de acuerdo al peso no puede estar vacío" };
-      if (isEmpty(ocho))
-      return { error: true, msj: "El campo de Grasa viceral no puede estar vacío" };   
-      if (isEmpty(nueve))
-      return { error: true, msj: "El campo de Situación Nutricional en centímetro no puede estar vacío" };
+    if (isEmpty(seis))
+      return {
+        error: true,
+        msj: "El campo de KC correspondientes no puede estar vacío",
+      };
+    if (isEmpty(siete))
+      return {
+        error: true,
+        msj: "El campo de Edad de acuerdo al peso no puede estar vacío",
+      };
+    if (isEmpty(ocho))
+      return {
+        error: true,
+        msj: "El campo de Grasa viceral no puede estar vacío",
+      };
+    if (isEmpty(nueve))
+      return {
+        error: true,
+        msj: "El campo de Situación Nutricional en centímetro no puede estar vacío",
+      };
     if (isEmpty(diez))
-      return { error: true, msj: "El campo de Gasto calórico por horas de oficina no puede estar vacío" };
+      return {
+        error: true,
+        msj: "El campo de Gasto calórico por horas de oficina no puede estar vacío",
+      };
     if (isEmpty(once))
-      return { error: true, msj: "El campo de Gasto calórico por horas de movimiento no puede estar vacío" };
+      return {
+        error: true,
+        msj: "El campo de Gasto calórico por horas de movimiento no puede estar vacío",
+      };
     if (isEmpty(doce))
-      return { error: true, msj: "El campo de Gasto calórico por horas de entrenamiento no puede estar vacío" };
-      if (isEmpty(trece))
-      return { error: true, msj: "El campo de Gasto calórico por horas de dormir no puede estar vacío" };
-      if (isEmpty(catorce))
-      return { error: true, msj: "El campo de Total de gasto calórico no puede estar vacío" };
-      if (isEmpty(quince))
-      return { error: true, msj: "El campo de Total de calorías correspondientes de acuerdo a su peso corporal no puede estar vacío" };  
-      if (isEmpty(dieciseis))
-      return { error: true, msj: "El campo de Metabolismo basal (I CB) no puede estar vacío" };
-      if (isEmpty(diecisiete))
-      return { error: true, msj: "El campo de Consumo calórico (C C) no puede estar vacío" };
-  
+      return {
+        error: true,
+        msj: "El campo de Gasto calórico por horas de entrenamiento no puede estar vacío",
+      };
+    if (isEmpty(trece))
+      return {
+        error: true,
+        msj: "El campo de Gasto calórico por horas de dormir no puede estar vacío",
+      };
+    if (isEmpty(catorce))
+      return {
+        error: true,
+        msj: "El campo de Total de gasto calórico no puede estar vacío",
+      };
+    if (isEmpty(quince))
+      return {
+        error: true,
+        msj: "El campo de Total de calorías correspondientes de acuerdo a su peso corporal no puede estar vacío",
+      };
+    if (isEmpty(dieciseis))
+      return {
+        error: true,
+        msj: "El campo de Metabolismo basal (I CB) no puede estar vacío",
+      };
+    if (isEmpty(diecisiete))
+      return {
+        error: true,
+        msj: "El campo de Consumo calórico (C C) no puede estar vacío",
+      };
+
     return { error: false };
   };
-
-  
 
   peticionPost = async () => {
     try {
@@ -587,96 +671,145 @@ handleHourhour_dinner = (e) => {
             button: "Aceptar",
             timer: "5000",
           });
-        } else { 
-      // Realizar validaciones correspondientes
-      
-      
-      // Creación de la situación nutricional
-      const res_form1 = await axios.post(url_sn, {
-        hour_breakfast: form1.hour_breakfast,
-        hour_collation: form1.hour_collation,
-        hour_lunch: form1.hour_lunch,
-        hour_snack: form1.hour_snack,
-        hour_dinner: form1.hour_dinner,
-        schedule: "Planeación",
-      });
+        } else {
+          // Realizar validaciones correspondientes
 
-      if (res_form1.status === 200 || res_form1.status === 201) {
-        const nutritionalSituation_id = res_form1.data.id;
-        // Creación de la hoja clínica
-        const res_hc = await axios.post(url_hc, {
-          age: form1.age,
-          weigth: form1.weight,
-          heigh: form1.height,
-          bloodType: form1.bloody,
-          customer_id: form1.customer_id,
-          nutritionalSituation_id,
-        });
-
-        if (res_hc.status === 200 || res_hc.status === 201) {
-          const historyClinic_id = res_hc.data.id;
-          const typeExtraInformation = this.state.list;
-          // Registro a la hoja clínica su información extra
-          typeExtraInformation.forEach(async (extra_information) => {
-            await axios.post(url_hc_tei, {
-              name: extra_information.descriptione,
-              value: extra_information.statuse,
-              typeExtraInformation_id: extra_information.id,
-              historyClinic_id,
-            });
+          // Creación de la situación nutricional
+          const res_form1 = await axios.post(url_sn, {
+            hour_breakfast: form1.hour_breakfast,
+            hour_collation: form1.hour_collation,
+            hour_lunch: form1.hour_lunch,
+            hour_snack: form1.hour_snack,
+            hour_dinner: form1.hour_dinner,
+            schedule: "Planeación",
           });
 
-          // Registro a la hoja clínica la información de atributos del cuerpo
-          const pet_ab_1 = await this.peticionAtributoCuerpo({ id: 1, value: form2.uno }, historyClinic_id)
-          if (pet_ab_1.err) throw new Error(pet_ab_1.error)
-          const pet_ab_2= await this.peticionAtributoCuerpo({ id: 2, value: form2.dos }, historyClinic_id)
-          if (pet_ab_2.err) throw new Error(pet_ab_2.error)
-          const pet_ab_3 = await this.peticionAtributoCuerpo({ id: 3, value: form2.tres }, historyClinic_id)
-          if (pet_ab_3.err) throw new Error(pet_ab_3.error)
-          const pet_ab_4 = await this.peticionAtributoCuerpo({ id: 4, value: form2.cuatro }, historyClinic_id)
-          if (pet_ab_4.err) throw new Error(pet_ab_4.error)
-          const pet_ab_5 = await this.peticionAtributoCuerpo({ id: 5, value: form2.cinco }, historyClinic_id)
-          if (pet_ab_5.err) throw new Error(pet_ab_5.error)
-          const pet_ab_6 = await this.peticionAtributoCuerpo({ id: 6, value: form2.seis }, historyClinic_id)
-          if (pet_ab_6.err) throw new Error(pet_ab_6.error)
-          const pet_ab_7 = await this.peticionAtributoCuerpo({ id: 7, value: form2.siete }, historyClinic_id)
-          if (pet_ab_7.err) throw new Error(pet_ab_7.error)
-          const pet_ab_8 = await this.peticionAtributoCuerpo({ id: 8, value: form2.ocho }, historyClinic_id)
-          if (pet_ab_8.err) throw new Error(pet_ab_8.error)
-          const pet_ab_9 = await this.peticionAtributoCuerpo({ id: 9, value: form2.nueve }, historyClinic_id)
-          if (pet_ab_9.err) throw new Error(pet_ab_9.error)
-          const pet_ab_10 = await this.peticionAtributoCuerpo({ id: 10, value: form2.diez }, historyClinic_id)
-          if (pet_ab_10.err) throw new Error(pet_ab_10.error)
-          const pet_ab_11 = await this.peticionAtributoCuerpo({ id: 11, value: form2.once }, historyClinic_id)
-          if (pet_ab_11.err) throw new Error(pet_ab_11.error)
-          const pet_ab_12 = await this.peticionAtributoCuerpo({ id: 12, value: form2.doce }, historyClinic_id)
-          if (pet_ab_12.err) throw new Error(pet_ab_12.error)
-          const pet_ab_13 = await this.peticionAtributoCuerpo({ id: 13, value: form2.trece }, historyClinic_id)
-          if (pet_ab_13.err) throw new Error(pet_ab_13.error)
-          const pet_ab_14 = await this.peticionAtributoCuerpo({ id: 14, value: form2.catorce }, historyClinic_id)
-          if (pet_ab_14.err) throw new Error(pet_ab_14.error)
-          const pet_ab_15 = await this.peticionAtributoCuerpo({ id: 15, value: form2.quince }, historyClinic_id)
-          if (pet_ab_15.err) throw new Error(pet_ab_15.error)
-          const pet_ab_16 = await this.peticionAtributoCuerpo({ id: 16, value: form2.dieciseis }, historyClinic_id)
-          if (pet_ab_16.err) throw new Error(pet_ab_16.error)
-          const pet_ab_17 = await this.peticionAtributoCuerpo({ id: 17, value: form2.diecisiete }, historyClinic_id)
-          if (pet_ab_17.err) throw new Error(pet_ab_17.error)
+          if (res_form1.status === 200 || res_form1.status === 201) {
+            const nutritionalSituation_id = res_form1.data.id;
+            // Creación de la hoja clínica
+            const res_hc = await axios.post(url_hc, {
+              age: form1.age,
+              weigth: form1.weight,
+              heigh: form1.height,
+              bloodType: form1.bloody,
+              customer_id: form1.customer_id,
+              nutritionalSituation_id,
+            });
+
+            if (res_hc.status === 200 || res_hc.status === 201) {
+              const historyClinic_id = res_hc.data.id;
+              const typeExtraInformation = this.state.list;
+              // Registro a la hoja clínica su información extra
+              typeExtraInformation.forEach(async (extra_information) => {
+                await axios.post(url_hc_tei, {
+                  name: extra_information.descriptione,
+                  value: extra_information.statuse,
+                  typeExtraInformation_id: extra_information.id,
+                  historyClinic_id,
+                });
+              });
+
+              // Registro a la hoja clínica la información de atributos del cuerpo
+              const pet_ab_1 = await this.peticionAtributoCuerpo(
+                { id: 1, value: form2.uno },
+                historyClinic_id
+              );
+              if (pet_ab_1.err) throw new Error(pet_ab_1.error);
+              const pet_ab_2 = await this.peticionAtributoCuerpo(
+                { id: 2, value: form2.dos },
+                historyClinic_id
+              );
+              if (pet_ab_2.err) throw new Error(pet_ab_2.error);
+              const pet_ab_3 = await this.peticionAtributoCuerpo(
+                { id: 3, value: form2.tres },
+                historyClinic_id
+              );
+              if (pet_ab_3.err) throw new Error(pet_ab_3.error);
+              const pet_ab_4 = await this.peticionAtributoCuerpo(
+                { id: 4, value: form2.cuatro },
+                historyClinic_id
+              );
+              if (pet_ab_4.err) throw new Error(pet_ab_4.error);
+              const pet_ab_5 = await this.peticionAtributoCuerpo(
+                { id: 5, value: form2.cinco },
+                historyClinic_id
+              );
+              if (pet_ab_5.err) throw new Error(pet_ab_5.error);
+              const pet_ab_6 = await this.peticionAtributoCuerpo(
+                { id: 6, value: form2.seis },
+                historyClinic_id
+              );
+              if (pet_ab_6.err) throw new Error(pet_ab_6.error);
+              const pet_ab_7 = await this.peticionAtributoCuerpo(
+                { id: 7, value: form2.siete },
+                historyClinic_id
+              );
+              if (pet_ab_7.err) throw new Error(pet_ab_7.error);
+              const pet_ab_8 = await this.peticionAtributoCuerpo(
+                { id: 8, value: form2.ocho },
+                historyClinic_id
+              );
+              if (pet_ab_8.err) throw new Error(pet_ab_8.error);
+              const pet_ab_9 = await this.peticionAtributoCuerpo(
+                { id: 9, value: form2.nueve },
+                historyClinic_id
+              );
+              if (pet_ab_9.err) throw new Error(pet_ab_9.error);
+              const pet_ab_10 = await this.peticionAtributoCuerpo(
+                { id: 10, value: form2.diez },
+                historyClinic_id
+              );
+              if (pet_ab_10.err) throw new Error(pet_ab_10.error);
+              const pet_ab_11 = await this.peticionAtributoCuerpo(
+                { id: 11, value: form2.once },
+                historyClinic_id
+              );
+              if (pet_ab_11.err) throw new Error(pet_ab_11.error);
+              const pet_ab_12 = await this.peticionAtributoCuerpo(
+                { id: 12, value: form2.doce },
+                historyClinic_id
+              );
+              if (pet_ab_12.err) throw new Error(pet_ab_12.error);
+              const pet_ab_13 = await this.peticionAtributoCuerpo(
+                { id: 13, value: form2.trece },
+                historyClinic_id
+              );
+              if (pet_ab_13.err) throw new Error(pet_ab_13.error);
+              const pet_ab_14 = await this.peticionAtributoCuerpo(
+                { id: 14, value: form2.catorce },
+                historyClinic_id
+              );
+              if (pet_ab_14.err) throw new Error(pet_ab_14.error);
+              const pet_ab_15 = await this.peticionAtributoCuerpo(
+                { id: 15, value: form2.quince },
+                historyClinic_id
+              );
+              if (pet_ab_15.err) throw new Error(pet_ab_15.error);
+              const pet_ab_16 = await this.peticionAtributoCuerpo(
+                { id: 16, value: form2.dieciseis },
+                historyClinic_id
+              );
+              if (pet_ab_16.err) throw new Error(pet_ab_16.error);
+              const pet_ab_17 = await this.peticionAtributoCuerpo(
+                { id: 17, value: form2.diecisiete },
+                historyClinic_id
+              );
+              if (pet_ab_17.err) throw new Error(pet_ab_17.error);
+            }
+          }
+          swal({
+            text: "Hoja clínica registrada correctamente",
+            icon: "success",
+            button: "Aceptar",
+            timer: "5000",
+          });
+          this.modalAgregar3();
         }
       }
-      swal({
-        text: 'Hoja clínica registrada correctamente',
-        icon: "success",
-        button: "Aceptar",
-        timer: "5000",
-      });
-      this.modalAgregar3()
-    }
-
-  }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       swal({
-        text: 'Error al registrar la hoja clínica',
+        text: "Error al registrar la hoja clínica",
         icon: "error",
         button: "Aceptar",
         timer: "5000",
@@ -691,10 +824,13 @@ handleHourhour_dinner = (e) => {
         bodyAttribute_id: data.id,
         historyClinic_id,
       });
-      return { err: !(res.status === 200 || res.status === 201), data: res.data } ;
+      return {
+        err: !(res.status === 200 || res.status === 201),
+        data: res.data,
+      };
     } catch (error) {
       ///
-      return { err: true, error};
+      return { err: true, error };
     }
   }
 
@@ -716,7 +852,7 @@ handleHourhour_dinner = (e) => {
     this.setState({ modalAgregar2: false, modalAgregar3: false });
     this.setState({ modalAgregar: !this.state.modalAgregar });
     this.setState({ customer_id: this.props.id_cliente });
-    this.setState({ list: [] })
+    this.setState({ list: [] });
   };
 
   modalAgregar2 = () => {
@@ -728,8 +864,6 @@ handleHourhour_dinner = (e) => {
     this.setState({ modalAgregar: false, modalAgregar2: false });
     this.setState({ modalAgregar3: !this.state.modalAgregar3 });
   };
-
-
 
   render() {
     const { form } = this.state;
@@ -765,23 +899,22 @@ handleHourhour_dinner = (e) => {
                 onChange={this.handleChange}
                 value={form ? form.customer_id : ""}
               /> */}
-             
               <label htmlFor="age">Edad actual *: </label>
               <br />
-              <TextField 
-                        id="outlined-number"
-                        name="age"
-                        onChange={this.validateNumber}
-                        value={form.age}
-                        type="number"
-                        style ={{width: '200px'}}
-                        placeholder="Edad mínima 13 años"
-                        InputProps={{ inputProps: { min: 13, max: 99 } }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
+              <TextField
+                id="outlined-number"
+                name="age"
+                onChange={this.validateNumber}
+                value={form.age}
+                type="number"
+                style={{ width: "200px" }}
+                placeholder="Edad mínima 13 años"
+                InputProps={{ inputProps: { min: 13, max: 99 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+              />
               {/* <input
                 className="form-control"
                 type="float"
@@ -797,137 +930,136 @@ handleHourhour_dinner = (e) => {
               /> */}
               <br />
               <br />
-              <label htmlFor="height">Estatura en centímetros *:  </label>
+              <label htmlFor="height">Estatura en centímetros *: </label>
               <br />
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0, max: 4000} }}
-                        style ={{width: '200px'}}
-                        name="height"
-                        placeholder="Ingrese estatura"
-                        onChange={this.validateEstatura}
-                        value={form ? form.height: "" }
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0, max: 4000 } }}
+                style={{ width: "200px" }}
+                name="height"
+                placeholder="Ingrese estatura"
+                onChange={this.validateEstatura}
+                value={form ? form.height : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
-                      <br />
-                      <br />
+              <br />
+              <br />
               <label htmlFor="weight">Peso en kilogramos *: </label>
               <br />
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0, max: 1000} }}
-                        style ={{width: '200px'}}
-                        name="weight"
-                        placeholder="Ingrese peso en kg"
-                        onChange={this.validatePeso}
-                        value={form.weight}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0, max: 1000 } }}
+                style={{ width: "200px" }}
+                name="weight"
+                placeholder="Ingrese peso en kg"
+                onChange={this.validatePeso}
+                value={form.weight}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               <br />
               <br />
-              
-              <label htmlFor="bloody">Tipo de sangre: </label>
-              {" "}
-              <br/>
-              <select className="selectblood" name="bloody" onChange={this.handleChange}>
-              <option value="O+" selected>O+</option>
-              <option value="A+">A+</option>
-              <option value="B+">B+</option>
-              <option value="AB+">AB+</option>
-              <option value="A-">A-</option>
-              <option value="O-">O-</option>
-              <option value="B-">B-</option>
-              <option value="AB-">AB-</option>
-            </select>
-            <br/>
-            <br />
-
+              <label htmlFor="bloody">Tipo de sangre: </label> <br />
+              <select
+                className="selectblood"
+                name="bloody"
+                onChange={this.handleChange}
+              >
+                <option value="O+" selected>
+                  O+
+                </option>
+                <option value="A+">A+</option>
+                <option value="B+">B+</option>
+                <option value="AB+">AB+</option>
+                <option value="A-">A-</option>
+                <option value="O-">O-</option>
+                <option value="B-">B-</option>
+                <option value="AB-">AB-</option>
+              </select>
+              <br />
+              <br />
               <ThemeProvider theme={materialTheme}>
-                        <MuiPickersUtilsProvider  utils={DateFnsUtils} >
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <label className="articulo">Hora de desayuno</label>
+                  <br />
+                  <KeyboardTimePicker
+                    margin="normal"
+                    name="hour_breakfast"
+                    id="time-picker"
+                    label=""
+                    value={conversionHoras(form.hour_breakfast)}
+                    onChange={this.handleHourhour_breakfast}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                  <br></br>
 
-                                  <label className="articulo">Hora de desayuno</label>
-                                    <br />
-                                    <KeyboardTimePicker
-                                        margin="normal"
-                                        name="hour_breakfast"
-                                        id="time-picker"
-                                        label="" 
-                                        value={conversionHoras(form.hour_breakfast)}
-                                        onChange={this.handleHourhour_breakfast}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change time',
-                                        }}
-                                    />  
-                                <br></br>
-                                
-                                <label className="articulo">Hora de colación:</label>
-                                    <br />
-                                    <KeyboardTimePicker
-                                        margin="normal"
-                                        name="hour_collation"
-                                        id="time-picker"
-                                        label=""
-                                        value={conversionHoras(form.hour_collation)}
-                                        onChange={this.handleHourhour_collation}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change time',
-                                        }}
-                                    />  
-                                <br></br>
-                                <label className="articulo">Hora de comida:</label>
-                                    <br />
-                                    <KeyboardTimePicker
-                                        margin="normal"
-                                        name="hour_lunch"
-                                        id="time-picker"
-                                        label=""
-                                        value={conversionHoras(form.hour_lunch)}
-                                        onChange={this.handleHourhour_lunch}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change time',
-                                        }}
-                                    />  
-                                <br></br>
-                                <label className="articulo">Hora de bocadillo:</label>
-                                    <br />
-                                    <KeyboardTimePicker
-                                        margin="normal"
-                                        name="hour_snack"
-                                        id="time-picker"
-                                        label=""
-                                        value={conversionHoras(form.hour_snack )}
-                                        onChange={this.handleHourhour_snack}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change time',
-                                        }}
-                                    />  
-                                <br></br>
-                                <label className="articulo">Hora de cena:</label>
-                                    <br />
-                                    <KeyboardTimePicker
-                                        margin="normal"
-                                        name="hour_dinner"
-                                        id="time-picker"
-                                        label=""
-                                        value={conversionHoras(form.hour_dinner)}
-                                        onChange={this.handleHourhour_dinner}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change time',
-                                        }}
-                                    />  
-                                <br></br>
-                        </MuiPickersUtilsProvider>
+                  <label className="articulo">Hora de colación:</label>
+                  <br />
+                  <KeyboardTimePicker
+                    margin="normal"
+                    name="hour_collation"
+                    id="time-picker"
+                    label=""
+                    value={conversionHoras(form.hour_collation)}
+                    onChange={this.handleHourhour_collation}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                  <br></br>
+                  <label className="articulo">Hora de comida:</label>
+                  <br />
+                  <KeyboardTimePicker
+                    margin="normal"
+                    name="hour_lunch"
+                    id="time-picker"
+                    label=""
+                    value={conversionHoras(form.hour_lunch)}
+                    onChange={this.handleHourhour_lunch}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                  <br></br>
+                  <label className="articulo">Hora de bocadillo:</label>
+                  <br />
+                  <KeyboardTimePicker
+                    margin="normal"
+                    name="hour_snack"
+                    id="time-picker"
+                    label=""
+                    value={conversionHoras(form.hour_snack)}
+                    onChange={this.handleHourhour_snack}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                  <br></br>
+                  <label className="articulo">Hora de cena:</label>
+                  <br />
+                  <KeyboardTimePicker
+                    margin="normal"
+                    name="hour_dinner"
+                    id="time-picker"
+                    label=""
+                    value={conversionHoras(form.hour_dinner)}
+                    onChange={this.handleHourhour_dinner}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                  <br></br>
+                </MuiPickersUtilsProvider>
               </ThemeProvider>
-
-
               {/* <label htmlFor="hour_breakfast">Hora de desayuno: </label>
               <TimeField
                 name="hour_breakfast"
@@ -960,7 +1092,6 @@ handleHourhour_dinner = (e) => {
                 // {String}   default: ":"
                 value={form ? form.hour_lunch : ""}
               /> */}
-
               {/* <br />
               <label htmlFor="hour_snack">Hora de bocadillo: </label>
               <TimeField
@@ -973,7 +1104,7 @@ handleHourhour_dinner = (e) => {
                 value={form ? form.hour_snack : ""}
               />
               <br /> */}
-             {/*  <label htmlFor="hour_dinner">Hora de cena: </label>
+              {/*  <label htmlFor="hour_dinner">Hora de cena: </label>
               <TimeField
                 name="hour_dinner"
                 id="hour_dinner"
@@ -984,7 +1115,6 @@ handleHourhour_dinner = (e) => {
                 value={form ? form.hour_dinner : ""}
               />
               <br />  */}
-              
               {/* <label htmlFor="">Información extra: </label>
               <input
                 className="form-control"
@@ -1050,17 +1180,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="dos">Tensión arterial *: </label>
               <TextField
-                        id="outlined-number"
-                        
-                        name="dos"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.dos : ""}
-                        type="number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                name="dos"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.dos : ""}
+                type="number"
+                InputProps={{ inputProps: { min: 0 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1076,16 +1205,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="tres">Indice de masa corporal actual *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="tres"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.tres : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="tres"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.tres : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1102,16 +1231,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="cuatro">% de Grasa *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="cuatro"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.cuatro : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="cuatro"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.cuatro : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1127,18 +1256,18 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="cinco">% MM *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="cinco"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.cinco : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="cinco"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.cinco : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
-             {/*  <input
+              {/*  <input
                 className="form-control"
                 type="text"
                 name="cinco"
@@ -1152,16 +1281,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="seis">KC correspondientes *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="seis"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.seis : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="seis"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.seis : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1177,16 +1306,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="siete">Edad de acuerdo al peso *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="siete"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.siete : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="siete"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.siete : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1202,16 +1331,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="ocho">Grasa viceral *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="ocho"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.ocho : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="ocho"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.ocho : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1233,7 +1362,7 @@ handleHourhour_dinner = (e) => {
                 id="nueve"
                 placeholder="Situación Nutricional"
                 maxLength="50"
-                InputProps={{ inputProps: { min: 0} }}
+                InputProps={{ inputProps: { min: 0 } }}
                 onChange={this.handleChangeInput}
                 value={formcorps ? formcorps.nueve : ""}
               />
@@ -1242,16 +1371,16 @@ handleHourhour_dinner = (e) => {
                 Gasto calórico por horas de oficina *:{" "}
               </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="diez"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.diez : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="diez"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.diez : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1268,16 +1397,16 @@ handleHourhour_dinner = (e) => {
                 Gasto calórico por horas de movimiento *:{" "}
               </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="once"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.once : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="once"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.once : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1294,16 +1423,16 @@ handleHourhour_dinner = (e) => {
                 Gasto calórico por horas de entrenamiento *:{" "}
               </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="doce"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.doce : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="doce"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.doce : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1320,16 +1449,16 @@ handleHourhour_dinner = (e) => {
                 Gasto calórico por horas de dormir *:{" "}
               </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="trece"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.trece : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="trece"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.trece : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1344,16 +1473,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="catorce">Total de gasto calórico *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="catorce"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.catorce : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="catorce"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.catorce : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1370,16 +1499,16 @@ handleHourhour_dinner = (e) => {
                 Total de calorías de acuerdo a su peso corporal *:
               </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="quince"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.quince : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="quince"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.quince : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1394,16 +1523,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="dieciseis"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.dieciseis : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="dieciseis"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.dieciseis : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1418,16 +1547,16 @@ handleHourhour_dinner = (e) => {
               <br />
               <label htmlFor="diecisiete">Consumo calórico (C C) *: </label>
               <TextField
-                        id="outlined-number"
-                        InputProps={{ inputProps: { min: 0} }}
-                        name="diecisiete"
-                        onChange={this.handleChangeInputNumber2}
-                        value={formcorps ? formcorps.diecisiete : ""}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
+                id="outlined-number"
+                InputProps={{ inputProps: { min: 0 } }}
+                name="diecisiete"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.diecisiete : ""}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
               />
               {/* <input
                 className="form-control"
@@ -1505,13 +1634,10 @@ handleHourhour_dinner = (e) => {
                 onChange={this.handleChangelabel}
                 value={form ? form.descriptione : ""}
               />
-              <br/>
+              <br />
               <br />
               <label htmlFor="statuse"> ¿Lo posee? </label>
-              <br />
-              {" "}{" "}
-              {" "}
-              {" "}
+              <br />{" "}
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn botonesForm m-1">
                   <input
@@ -1533,7 +1659,6 @@ handleHourhour_dinner = (e) => {
                   Sí
                 </label>
 
-                
                 <label class="btn botonesForm m-1">
                   <input
                     type="radio"
@@ -1552,36 +1677,38 @@ handleHourhour_dinner = (e) => {
                     }
                   />{" "}
                   No
-                </label> 
+                </label>
               </div>
-              <br/>
-              <br/>
+              <br />
+              <br />
               <button
                 className="btn botonesdash"
                 onClick={() => {
                   const nami = this.state.formextra.descriptione;
                   const tiene = this.state.formextra.statuse;
-                  if (isEmpty(nami)){
+                  if (isEmpty(nami)) {
                     swal({
                       text: "El campo Nombre no debe estar vacio",
                       icon: "info",
                       button: "Aceptar",
                       timer: "5000",
                     });
-                  }else{
-                    if (isEmpty(tiene)){
+                  } else {
+                    if (isEmpty(tiene)) {
                       swal({
                         text: "El campo lo ¿Lo posee? no debe estar vacio",
                         icon: "info",
                         button: "Aceptar",
                         timer: "5000",
                       });
-                    }else{  
-                  this.handleInputChange()}}}}
+                    } else {
+                      this.handleInputChange();
+                    }
+                  }
+                }}
               >
                 Agregar
               </button>
-
               <div className="Sintomas">
                 <div className="table-responsiveV">
                   <table className="table table-striped table-bordered ">
@@ -1601,7 +1728,7 @@ handleHourhour_dinner = (e) => {
                             <td>{list.id}</td>
                             <td>{list.namee}</td>
                             <td>{list.descriptione}</td>
-                            <td>{list.statuse==="true" ?  "Si" : "No"}</td>
+                            <td>{list.statuse === "true" ? "Si" : "No"}</td>
                           </tr>
                         );
                       })}
