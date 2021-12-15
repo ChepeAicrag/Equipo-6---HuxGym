@@ -60,7 +60,7 @@ button.btn.btn-editar{
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
-  box-shadow: 8px 6px 10px 0px rgba(56, 56, 56, 0.11);
+  /* box-shadow: 8px 6px 10px 0px rgba(56, 56, 56, 0.11); */
 
 }
 
