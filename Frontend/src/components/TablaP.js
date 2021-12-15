@@ -793,7 +793,7 @@ class TablaP extends Component {
                 <></>
               ) : (
                 <>
-                  <label htmlFor="id">Id</label>
+                  {/* <label htmlFor="id">Id</label>
                   <input
                     className="form-control"
                     type="text"
@@ -802,7 +802,7 @@ class TablaP extends Component {
                     readOnly
                     onChange={this.handleChange}
                     value={form ? form.id : ""}
-                  />
+                  /> */}
                 </>
               )}
               <label htmlFor="name">Nombre del producto*:</label>
@@ -1013,7 +1013,7 @@ class TablaP extends Component {
           </ModalHeader>
           <ModalBody>
             <div className="form-group">
-              <label htmlFor="id">Id:</label>
+              {/* <label htmlFor="id">Id:</label>
               <input
                 className="form-control"
                 type="text"
@@ -1022,11 +1022,14 @@ class TablaP extends Component {
                 readOnly
                 onChange={this.handleChange}
                 value={form ? form.id : ""}
-              />
+              /> */}
               <br />
-              <br />
-              <label htmlFor="name">Nombre:</label>
-              <input
+              
+              {/* <label htmlFor="name">Nombre:</label> */}
+              <h4>
+              {form ? form.name : ""}
+              </h4>
+              {/* <input
                 className="form-control"
                 type="text"
                 name="name"
@@ -1034,8 +1037,7 @@ class TablaP extends Component {
                 readOnly
                 onChange={this.handleChange}
                 value={form ? form.name : ""}
-              />
-              <br />
+              /> */}
               <br />
               <label htmlFor="stock_editar">
                 Cantidad a editar del producto:
