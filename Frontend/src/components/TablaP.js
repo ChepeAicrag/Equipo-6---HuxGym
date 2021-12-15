@@ -760,7 +760,7 @@ class TablaP extends Component {
                         <></>
                       )}
                       {"  "}
-                     {/*  {localStorage.getItem("rol") == "Administrador" ? (
+                      {localStorage.getItem("rol") == "Administrador" ? (
                         <button
                           className="btn btn-success"
                           onClick={() => {
@@ -772,7 +772,7 @@ class TablaP extends Component {
                         </button>
                       ) : (
                         <></>
-                      )} */}
+                      )}
                     </td>
                   </tr>
                 );
