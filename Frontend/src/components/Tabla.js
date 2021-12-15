@@ -2,22 +2,32 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import swal from "sweetalert";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import BtnModalHoja from "../components/BtnModalHoja";
 import ModalHojas from "../components/ModalHojas";
 import "../styles/Crud.css";
 import "../styles/clientes.css";
 import { isEmpty } from "../helpers/methods";
+import BtnMembresia from "./CambioMembresia";
 
 const url = "https://www.huxgym.codes/customers/customers/";
+const urlMembresias = "https://www.huxgym.codes/memberships/memberships";
 class Tabla extends Component {
   campos = { 'phone': 'teléfono', 'gender': 'género', 'isStudiant': 'si es estudiante', 'name': 'nombre' };
 
   state = {
     busqueda: "",
+    membresia:"",
+    //membresiasList:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
@@ -64,8 +74,27 @@ class Tabla extends Component {
       }
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
+      if (msj === "Credenciales invalidas") {
+        this.Expulsado();
+      }
       console.log(msj);
     }
+
+    try {
+      const res = await axios.get(urlMembresias);
+      if (res.status === 200 || res.status === 201) {
+        this.setState({
+          /* Con esto accedemos a las variables de state y modificamos */
+
+          membresiasList: res.data,
+        }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
+      }
+    } catch (error) {
+      
+    }
+
+
+
   };
 
   validar = (form) => {
@@ -382,6 +411,11 @@ class Tabla extends Component {
         });
       }
   };
+  handleChangeMembresia = (event) => {
+    this.setState({
+       membresia: event.target.value
+    });
+  };
 
   render() {
     const { form } = this.state;
@@ -398,7 +432,7 @@ class Tabla extends Component {
               this.modalInsertar();
             }}
           >
-            Agregar nuevo cliente
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo Cliente
           </button>
 
 
@@ -425,9 +459,9 @@ class Tabla extends Component {
         <br></br>
         <br />
         <div className="table-wrapper">
-          <table className=" tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className=" tab-pane table ">
+            <thead className="tablaHeader">
+              <tr className="encabezado">
                 <th>ID</th>
                 <th>Nombre completo</th>
                 <th>Fecha de registro</th>
@@ -440,10 +474,10 @@ class Tabla extends Component {
                 <th>Hojas clínicas</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((clientes) => {
                 return (
-                  <tr>
+                  <tr className="cuerpoT">
                     <td>{clientes.id}</td>
                     <td>{clientes.name}</td>
                     <td>{clientes.dateJoined}</td>
@@ -451,20 +485,21 @@ class Tabla extends Component {
                     <td>{clientes.phone}</td>
                     <td>{clientes.isStudiant ? "Si" : "No"}</td>
                     <td>
-                      <img
-                        src={`https://www.huxgym.codes/${clientes.image}`}
-                        width="200"
-                        height="200"
-                        align="center"
-                      />
+                        <img
+                          src={`https://www.huxgym.codes/${clientes.image}`}
+                          width="180"
+                          height="150"
+                          align="center"
+                        />
                     </td>
                     <td>
+                       {/*  <BtnMembresia></BtnMembresia> */}
                       {clientes.membershipActivate ? "Activada" : "No Activada"}
                     </td>
 
-                    <td>
+                    <td className="">
                       <button
-                        className="btn btn-primary"
+                        className="btn editarHoja"
                         onClick={() => {
                           this.seleccionarUsuario(clientes);
                           this.modalInsertar();
@@ -475,7 +510,7 @@ class Tabla extends Component {
                       {"  "}
                       {localStorage.getItem("rol") == "Administrador" ? (
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-danger mt-2"
                           onClick={() => {
                             this.seleccionarUsuario(clientes);
                             this.setState({ modalEliminar: true });
@@ -535,6 +570,31 @@ class Tabla extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
+              <br />
+              {/* <label htmlFor="phone">Membresia*:</label>
+              <br />
+              <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-filled-label">Membresia</InputLabel>
+                <Select
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  name="membresia"
+                  value={this.state.membresia}
+                  onChange={this.handleChangeMembresia}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={"No activa"}>Sin membresia</MenuItem>
+                  {this.state.membresiasList.map((memebresia) => {
+                    return (
+                      <MenuItem value={" jj"}>{memebresia.name}</MenuItem>
+                      
+                    );})}
+                  
+                  
+                </Select>
+              </FormControl> */}
               <br />
               <label htmlFor="image">Foto:</label>
               <input

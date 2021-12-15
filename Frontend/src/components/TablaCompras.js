@@ -660,9 +660,10 @@ class TablaCompras extends Component {
     return (
       <div className="table-responsiveMain">
         <br />
+
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({
@@ -692,15 +693,21 @@ class TablaCompras extends Component {
             className="textField"
             name="busqueda"
             id="busqueda"
-            placeholder=""
-            disabled="true"
+            placeholder="Buscar"
             onChange={() => {
               this.buscador();
             }}
             value={this.state.busqueda}
           />
+          <button type="submit" className="add-on" onClick={() => {}}>
+            <i className="bx bxs-user">
+              <box-icon name="search-alt-2" color="#fff"></box-icon>
+            </i>
+          </button>
         </div>
 
+        <br />
+        <br />
         <br />
         <div className="table-wrapper">
           <table className="tab-pane  table table-dark mt-2 mb-5">

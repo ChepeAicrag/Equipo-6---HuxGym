@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
 import axios from "axios";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +14,7 @@ import { isEmpty } from "../helpers/methods";
 const url = "https://www.huxgym.codes/products/provider/";
 
 class TablaProvedor extends Component {
-  campos = {"name": "nombre", "phone": "telefono"};
+  campos = { name: "nombre", phone: "telefono" };
   state = {
     busqueda: "",
     data: [] /* Aqui se almacena toda la informacion axios */,
@@ -67,6 +68,15 @@ class TablaProvedor extends Component {
     const email = form.email;
     const phone = form.phone;
     const rfc = form.rfc;
+    let regex = new RegExp(
+      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
+    );
+    if (!regex.test(rfc)) {
+      return {
+        error: true,
+        msj: "El campo RFC es incorrecto",
+      };
+    }
 
     if (isEmpty(name))
       return { error: true, msj: "El campo de nombre no puede estar vacío" };
@@ -77,7 +87,7 @@ class TablaProvedor extends Component {
       };
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
-    if(phone.length < 10)
+    if (phone.length < 10)
       return { error: true, msj: "El campo de telefono debe tener 10 dígitos" };
     if (isEmpty(rfc))
       return { error: true, msj: "El campo de rfc no puede estar vacío" };
@@ -113,17 +123,19 @@ class TablaProvedor extends Component {
     } catch (error) {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if(isEmpty(msj)){
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+      if (isEmpty(msj)) {
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
       }
       swal({
-          text: msj,//Array.isArray(msj) ? msj[0] : msj,
-          icon: "error",
-          button: "Aceptar",
-          timer: "5000",
+        text: msj, //Array.isArray(msj) ? msj[0] : msj,
+        icon: "error",
+        button: "Aceptar",
+        timer: "5000",
       });
     }
   };
@@ -131,16 +143,15 @@ class TablaProvedor extends Component {
   peticionPut = async () => {
     /* con put enviamos informacion al endpoint para modificar*/
     try {
-
       const validar = this.validar(this.state.form);
-      if(validar.error){
+      if (validar.error) {
         swal({
           text: validar.msj,
           icon: "info",
           button: "Aceptar",
           timer: "4000",
         });
-      }else{
+      } else {
         const res = await axios.put(url + this.state.form.id, this.state.form, {
           headers: {},
         });
@@ -158,17 +169,19 @@ class TablaProvedor extends Component {
     } catch (error) {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if(isEmpty(msj)){
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+      if (isEmpty(msj)) {
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
       }
       swal({
-          text: msj,//Array.isArray(msj) ? msj[0] : msj,
-          icon: "error",
-          button: "Aceptar",
-          timer: "5000",
+        text: msj, //Array.isArray(msj) ? msj[0] : msj,
+        icon: "error",
+        button: "Aceptar",
+        timer: "5000",
       });
     }
   };
@@ -238,7 +251,9 @@ class TablaProvedor extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -263,7 +278,7 @@ class TablaProvedor extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "Solo se permiten letras y acentos",
         icon: "info",
@@ -277,7 +292,7 @@ class TablaProvedor extends Component {
     const { name, value } = e.target;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)) {
+    if (regex.test(value)|| isEmpty(value)) {
       console.log(name, value);
       this.setState({
         form: {
@@ -294,6 +309,51 @@ class TablaProvedor extends Component {
       });
     }
   };
+  /* ValidacionesRFC */
+
+  handleChangeInputRFC = (e) => {
+    const { name, value } = e.target;
+
+    let patt = new RegExp(/[A-Za-z0-9]+/g);
+    let regex = new RegExp(
+      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
+    );
+    /* let regex = new RegExp("^[0-9]+$"); */
+    if (value.size >= 12) {
+      if (regex.test(value)) {
+        console.log(name, value);
+        this.setState({
+          form: {
+            ...this.state.form,
+            [name]: value,
+          },
+        });
+      } else {
+        swal({
+          text: "Estructura de RFC incorrecta",
+          icon: "info",
+          button: "Aceptar",
+          timer: "5000",
+        });
+      }
+    } else {
+      if (patt.test(value) || isEmpty(value)) {
+        this.setState({
+          form: {
+            ...this.state.form,
+            [name]: value,
+          },
+        });
+      } else {
+        swal({
+          text: "Solo se permiten numeros y letras",
+          icon: "info",
+          button: "Aceptar",
+          timer: "5000",
+        });
+      }
+    }
+  };
 
   render() {
     const { form } = this.state;
@@ -306,22 +366,22 @@ class TablaProvedor extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
           >
-            <i className="bx bxs-user">
+            {/* <i className="bx bxs-user">
               <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
               ></box-icon>
-            </i>
-            Registrar nuevo proveedor
+            </i> */}
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
           </button>
           <div className="esp"></div>
           <input
@@ -340,12 +400,10 @@ class TablaProvedor extends Component {
           </button>
         </div>
         <br></br>
-        <br></br>
-        <br />
         <div className="table-wrapper">
-          <table className="tab-pane table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className="tab-pane table">
+            <thead className="tablaHeader">
+              <tr className="encabezado">
                 <th>Id</th>
                 <th>Nombre del proveedor</th>
                 <th>Email</th>
@@ -354,7 +412,7 @@ class TablaProvedor extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((proveedores) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
@@ -366,7 +424,7 @@ class TablaProvedor extends Component {
                     <td>{proveedores.rfc}</td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(proveedores);
                           this.modalInsertar();
@@ -398,7 +456,7 @@ class TablaProvedor extends Component {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Proveedor
+            PROVEEDOR
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -428,6 +486,7 @@ class TablaProvedor extends Component {
                 type="text"
                 name="name"
                 id="name"
+                placeholder="Nombre del proveedor"
                 maxLength="50"
                 onChange={this.handleChangeInput}
                 value={form ? form.name : ""}
@@ -439,6 +498,7 @@ class TablaProvedor extends Component {
                 type="text"
                 name="email"
                 id="email"
+                placeholder="Email"
                 maxLength="200"
                 onChange={this.handleChange}
                 value={form ? form.email : ""}
@@ -449,6 +509,7 @@ class TablaProvedor extends Component {
                 className="form-control"
                 type="text"
                 name="phone"
+                placeholder="Número de contacto"
                 id="phone"
                 size="10"
                 maxLength="10"
@@ -463,8 +524,9 @@ class TablaProvedor extends Component {
                 name="rfc"
                 id="rfc"
                 size="13"
+                placeholder="RFC"
                 maxLength="13"
-                onChange={this.handleChange}
+                onChange={this.handleChangeInputRFC}
                 value={form ? form.rfc : ""}
               />
             </div>

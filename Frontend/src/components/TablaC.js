@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
 import axios from "axios";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -259,22 +260,22 @@ class TablaC extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
           >
-            <i className="bx bxs-user">
+            {/* <i className="bx bxs-user">
               <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
               ></box-icon>
-            </i>
-            Registrar nueva categoría
+            </i> */}
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
           </button>
           <div className="esp"></div>
           <input
@@ -293,19 +294,17 @@ class TablaC extends Component {
           </button>
         </div>
         <br></br>
-        <br></br>
-        <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5 ">
-            <thead>
-              <tr>
+          <table className="tab-pane  table">
+            <thead className="tablaHeader">
+              <tr className="encabezado">
                 <th>Id</th>
                 <th>Nombre de la categoría</th>
                 <th>Descripción</th>
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((categorias) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
@@ -315,7 +314,7 @@ class TablaC extends Component {
                     <td>{categorias.description}</td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(categorias);
                           this.modalInsertar();
@@ -347,7 +346,7 @@ class TablaC extends Component {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Categoría
+            CATEGORIA
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -376,6 +375,7 @@ class TablaC extends Component {
                 className="form-control"
                 type="text"
                 name="name"
+                placeholder="Nombre de la categoría"
                 id="name"
                 pattern="^[a-zA-Z]+"
                 maxLength="40"
@@ -389,6 +389,7 @@ class TablaC extends Component {
                 type="text"
                 name="description"
                 id="description"
+                placeholder="Descripción de la categoría"
                 pattern="^[a-zA-Z]+"
                 maxLength="100"
                 onChange={this.handleChangeInput}

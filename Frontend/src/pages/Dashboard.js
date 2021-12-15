@@ -21,24 +21,28 @@ function Dashboard() {
             <HeadC />
           </div>
           <div className="checkinand">
-            <div className="agrupacion">
+
+            
+            {<div className="agrupacion">
               <Check_Client />
-              {/* <br></br>
-              <Botones /> */}
-            </div>
-            <div className="agrupacion">
+            </div>}
+            
+            {<div className="agrupacion">
               <Checkin />
-            </div>
+            </div>}
+            
           </div>
-         {/*  <div className="graficasandcheck ">
+          
+          {/* <div className="graficasandcheck ">
             <div className="graficas">
               {<Grafica_Barras />}
               </div>
               <h1>Grafica</h1>
             <div className="caja">
                <Monto />
-              </div>
+            </div>
           </div> */}
+          
         </div>
       </div>
 
