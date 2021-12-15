@@ -2,19 +2,70 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Col.css";
 import "../styles/Crud.css";
+import "../styles/HojaClinica.css";
 import axios from "axios";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import TimeField from "react-simple-timefield";
 import { isEmpty } from "../helpers/methods";
+import TextField from '@material-ui/core/TextField';
 const url = "https://www.huxgym.codes/customers/customers/";
 const url_sn = "https://www.huxgym.codes/customers/nutritionalSituation/";
 const url_hc = "https://www.huxgym.codes/customers/historyClinic/";
 const url_hc_tei =
   "https://www.huxgym.codes/customers/typeExtraInformation_HistoryClinic/";
 const url_hc_ba = "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
+const materialTheme = createMuiTheme({
+    
+  palette: {
+      background: {
+          paper: '#EDEDED',
+          default: '#114e60',
+      },
+      text: {
+        default: '#fff',
+      },
+      textColor: '#fff',
+      primary: {
+        main: '#1b1a17',
+      }
+  },
 
+});
+
+function conversionHoras(date) {
+  let datos= date.split(":");
+  let hr= datos[0];
+  let min=datos[1];
+  let sec=datos[2];
+  
+  let fecha=new Date();
+
+  fecha.setHours(parseInt(hr, 10));
+  fecha.setMinutes(parseInt(min, 10));
+  fecha.setSeconds(parseInt(sec, 10));
+   return fecha;
+}
+
+function conversionHoras2(date) {
+  let fecha=new Date(date);
+  
+  let hr= fecha.getHours();
+  let min=fecha.getMinutes();
+  let sec=fecha.getSeconds();
+  return hr+":"+min+":"+sec;
+}
 class BtnModalHoja extends Component {
+
+
+  
   constructor(props) {
     super(props);
   }
@@ -32,34 +83,34 @@ class BtnModalHoja extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
       date: "",
-      age: 0,
-      height: "",
+      age: '',
+      height: '',
       weight: "",
       bloody: "O+",
-      hour_breakfast: "",
-      hour_collation: "",
-      hour_lunch: "",
-      hour_snack: "",
-      hour_dinner: "",
+      hour_breakfast:"00:00:00",
+      hour_collation:"00:00:00",
+      hour_lunch: "00:00:00",
+      hour_snack: "00:00:00",
+      hour_dinner:"00:00:00",
     },
     formcorps: {
       uno: "",
-      dos: "",
-      tres: "",
-      cuatro: "",
-      cinco: "",
-      seis: "",
-      siete: "",
-      ocho: "",
+      dos: "0",
+      tres: "0",
+      cuatro: "0",
+      cinco: "0",
+      seis: "0",
+      siete: "0",
+      ocho: "0",
       nueve: "",
-      diez: "",
-      once: "",
-      doce: "",
-      trece: "",
-      catorce: "",
-      quince: "",
-      dieciseis: "",
-      diecisiete: "",
+      diez: "0",
+      once: "0",
+      doce: "0",
+      trece: "0",
+      catorce: "0",
+      quince: "0",
+      dieciseis: "0",
+      diecisiete: "0",
     },
     formextra: {
       id: "1",
@@ -108,6 +159,9 @@ class BtnModalHoja extends Component {
     }
     console.log(this.state.form)
   };
+
+  
+
 
   handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -232,6 +286,132 @@ class BtnModalHoja extends Component {
     });
   };
 
+validateNumber = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    let regex = new RegExp("^[0-9]+$");
+
+    if (regex.test(value) || isEmpty(value)) {
+      const setValue = value <= 100 && value>=0 ? value : 13;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
+};
+
+validateEstatura = (event) => {
+  const name = event.target.name;
+    const value = event.target.value;
+    let regex = new RegExp("^[0-9]+$");
+
+    if (regex.test(value)||isEmpty(value)) {
+      const setValue = value < 4000 && value>=0 ;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
+};
+
+validatePeso = (event) => {
+  const name = event.target.name;
+    const value = event.target.value;
+    let regex = new RegExp("^[0-9]+$");
+
+    if (regex.test(value)|| isEmpty(value)) {
+      const setValue = value < 1000 && value>=0 ? value : 40;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
+};
+
+handleHourhour_breakfast = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_breakfast: value,
+    },
+  }); 
+};
+handleHourhour_collation = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_collation: value,
+    },
+  }); 
+};
+handleHourhour_lunch = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_lunch: value,
+    },
+  }); 
+};
+
+handleHourhour_snack = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_snack: value,
+    },
+  }); 
+};
+
+handleHourhour_dinner = (e) => {
+  let value=conversionHoras2(e);
+  this.setState({
+    form: {
+      ...this.state.form,
+      hour_dinner: value,
+    },
+  }); 
+};
+
   //comienza parte de insertar sintomas
   handleInputChange = (event) => {
     this.setState({
@@ -292,8 +472,10 @@ class BtnModalHoja extends Component {
     const edad = parseInt(age);
     if (edad <= 12)
       return { error: true, msj: "El campo de la edad debe ser mayor o igual 13" };  
-    if (isEmpty(height))
+    if (!height)
       return { error: true, msj: "El campo de estatura no puede estar vacío" };
+    if (height<100)
+      return { error: true, msj: "La estatura no puede se menor a 100cm" };
     const altura = parseInt(height);
     if (altura <= 0)
       return { error: true, msj: "El campo de estatura debe tener un valor positivo" };
@@ -547,6 +729,8 @@ class BtnModalHoja extends Component {
     this.setState({ modalAgregar3: !this.state.modalAgregar3 });
   };
 
+
+
   render() {
     const { form } = this.state;
     const { formcorps } = this.state;
@@ -554,7 +738,7 @@ class BtnModalHoja extends Component {
     return (
       <div className="denada">
         <button
-          className="btn btn-success"
+          className="btn btn-outline-dark"
           onClick={() => {
             this.setState({ customer_id: this.props.id_cliente });
             this.modalAgregar();
@@ -565,13 +749,13 @@ class BtnModalHoja extends Component {
         <Modal isOpen={this.state.modalAgregar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Registrar Hoja Clinica Situacion Nutricional
+            REGISTRAR HOJA CLINICA SITUACION NUTRICIONAL
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
           <ModalBody>
             <div className="form-group">
-              <label htmlFor="id">ID Cliente</label>
+              {/* <label htmlFor="id">ID Cliente</label>
               <input
                 className="form-control"
                 type="integer"
@@ -580,10 +764,25 @@ class BtnModalHoja extends Component {
                 readOnly
                 onChange={this.handleChange}
                 value={form ? form.customer_id : ""}
-              />
-              <br />
+              /> */}
+             
               <label htmlFor="age">Edad actual *: </label>
-              <input
+              <br />
+              <TextField 
+                        id="outlined-number"
+                        name="age"
+                        onChange={this.validateNumber}
+                        value={form.age}
+                        type="number"
+                        style ={{width: '200px'}}
+                        placeholder="Edad mínima 13 años"
+                        InputProps={{ inputProps: { min: 13, max: 99 } }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+              {/* <input
                 className="form-control"
                 type="float"
                 name="age"
@@ -594,45 +793,50 @@ class BtnModalHoja extends Component {
                 placeholder="Edad actual"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.age : ""}
-                // onKeyPress={async (event) =>   
-                //   { var l = await this.state.form.age; if (l.length > 1) {
-                // this.setState({form:{ age: this.state.form.age.slice(0,2)}})
-                // swal({
-                //   text: "No se permiten números de 3 digitos",
-                //   icon: "info",
-                //   button: "Aceptar",
-                //   timer: "1000",
-                // });
-                // return false;}}}
-              />
+               
+              /> */}
+              <br />
               <br />
               <label htmlFor="height">Estatura en centímetros *:  </label>
-              <input
-                className="form-control"
-                type="float"
-                name="height"
-                id="height"
-                maxLength="3"
-                placeholder="Estatura en centímetros"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.height : ""}
+              <br />
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0, max: 4000} }}
+                        style ={{width: '200px'}}
+                        name="height"
+                        placeholder="Ingrese estatura"
+                        onChange={this.validateEstatura}
+                        value={form ? form.height: "" }
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
               />
                       <br />
+                      <br />
               <label htmlFor="weight">Peso en kilogramos *: </label>
-              <input
-                className="form-control"
-                type="integer"
-                name="weight"
-                id="weight"
-                maxLength="3"
-                placeholder="Peso en kilogramos"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.weight : ""}
+              <br />
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0, max: 1000} }}
+                        style ={{width: '200px'}}
+                        name="weight"
+                        placeholder="Ingrese peso en kg"
+                        onChange={this.validatePeso}
+                        value={form.weight}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
               />
+              <br />
               <br />
               
               <label htmlFor="bloody">Tipo de sangre: </label>
               {" "}
+              <br/>
               <select className="selectblood" name="bloody" onChange={this.handleChange}>
               <option value="O+" selected>O+</option>
               <option value="A+">A+</option>
@@ -644,8 +848,87 @@ class BtnModalHoja extends Component {
               <option value="AB-">AB-</option>
             </select>
             <br/>
-              <br />
-              <label htmlFor="hour_breakfast">Hora de desayuno: </label>
+            <br />
+
+              <ThemeProvider theme={materialTheme}>
+                        <MuiPickersUtilsProvider  utils={DateFnsUtils} >
+
+                                  <label className="articulo">Hora de desayuno</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_breakfast"
+                                        id="time-picker"
+                                        label="" 
+                                        value={conversionHoras(form.hour_breakfast)}
+                                        onChange={this.handleHourhour_breakfast}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                                
+                                <label className="articulo">Hora de colación:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_collation"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_collation)}
+                                        onChange={this.handleHourhour_collation}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                                <label className="articulo">Hora de comida:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_lunch"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_lunch)}
+                                        onChange={this.handleHourhour_lunch}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                                <label className="articulo">Hora de bocadillo:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_snack"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_snack )}
+                                        onChange={this.handleHourhour_snack}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                                <label className="articulo">Hora de cena:</label>
+                                    <br />
+                                    <KeyboardTimePicker
+                                        margin="normal"
+                                        name="hour_dinner"
+                                        id="time-picker"
+                                        label=""
+                                        value={conversionHoras(form.hour_dinner)}
+                                        onChange={this.handleHourhour_dinner}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change time',
+                                        }}
+                                    />  
+                                <br></br>
+                        </MuiPickersUtilsProvider>
+              </ThemeProvider>
+
+
+              {/* <label htmlFor="hour_breakfast">Hora de desayuno: </label>
               <TimeField
                 name="hour_breakfast"
                 id="hour_breakfast"
@@ -654,8 +937,8 @@ class BtnModalHoja extends Component {
                 input={<input type="text" />}
                 // {String}   default: ":"
                 value={form ? form.hour_breakfast : ""}
-              />
-              <br />
+              /> */}
+              {/* <br />
               <label htmlFor="hour_collation">Hora de colación: </label>
               <TimeField
                 name="hour_collation"
@@ -666,8 +949,8 @@ class BtnModalHoja extends Component {
                 // {String}   default: ":"
                 value={form ? form.hour_collation : ""}
               />
-              <br />
-              <label htmlFor="hour_lunch">Hora de comida: </label>
+              <br /> */}
+              {/* <label htmlFor="hour_lunch">Hora de comida: </label>
               <TimeField
                 name="hour_lunch"
                 id="hour_lunch"
@@ -676,9 +959,9 @@ class BtnModalHoja extends Component {
                 input={<input type="text" />}
                 // {String}   default: ":"
                 value={form ? form.hour_lunch : ""}
-              />
+              /> */}
 
-              <br />
+              {/* <br />
               <label htmlFor="hour_snack">Hora de bocadillo: </label>
               <TimeField
                 name="hour_snack"
@@ -689,8 +972,8 @@ class BtnModalHoja extends Component {
                 // {String}   default: ":"
                 value={form ? form.hour_snack : ""}
               />
-              <br />
-              <label htmlFor="hour_dinner">Hora de cena: </label>
+              <br /> */}
+             {/*  <label htmlFor="hour_dinner">Hora de cena: </label>
               <TimeField
                 name="hour_dinner"
                 id="hour_dinner"
@@ -700,7 +983,7 @@ class BtnModalHoja extends Component {
                 // {String}   default: ":"
                 value={form ? form.hour_dinner : ""}
               />
-              <br />
+              <br />  */}
               
               {/* <label htmlFor="">Información extra: </label>
               <input
@@ -746,7 +1029,7 @@ class BtnModalHoja extends Component {
         <Modal isOpen={this.state.modalAgregar2}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Registrar Hoja Clinica Estructura Corporal
+            REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -764,8 +1047,22 @@ class BtnModalHoja extends Component {
                 value={formcorps ? formcorps.uno : ""}
               />
               <br />
+              <br />
               <label htmlFor="dos">Tensión arterial *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        
+                        name="dos"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.dos : ""}
+                        type="number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="dos"
@@ -774,10 +1071,23 @@ class BtnModalHoja extends Component {
                 placeholder="Tensión arterial"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.dos : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="tres">Indice de masa corporal actual *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="tres"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.tres : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="tres"
@@ -787,10 +1097,23 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.tres : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="cuatro">% de Grasa *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="cuatro"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.cuatro : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="cuatro"
@@ -799,10 +1122,23 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.cuatro : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="cinco">% MM *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="cinco"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.cinco : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+             {/*  <input
                 className="form-control"
                 type="text"
                 name="cinco"
@@ -811,10 +1147,23 @@ class BtnModalHoja extends Component {
                 placeholder="% MM"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.cinco : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="seis">KC correspondientes *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="seis"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.seis : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="seis"
@@ -823,10 +1172,23 @@ class BtnModalHoja extends Component {
                 placeholder="KC correspondientes"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.seis : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="siete">Edad de acuerdo al peso *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="siete"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.siete : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="siete"
@@ -835,10 +1197,23 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.siete : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="ocho">Grasa viceral *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="ocho"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.ocho : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="ocho"
@@ -847,7 +1222,8 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.ocho : ""}
-              />
+              /> */}
+              <br />
               <br />
               <label htmlFor="nueve">Situación Nutricional *: </label>
               <input
@@ -857,6 +1233,7 @@ class BtnModalHoja extends Component {
                 id="nueve"
                 placeholder="Situación Nutricional"
                 maxLength="50"
+                InputProps={{ inputProps: { min: 0} }}
                 onChange={this.handleChangeInput}
                 value={formcorps ? formcorps.nueve : ""}
               />
@@ -864,7 +1241,19 @@ class BtnModalHoja extends Component {
               <label htmlFor="diez">
                 Gasto calórico por horas de oficina *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="diez"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.diez : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="diez"
@@ -873,12 +1262,24 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.diez : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="once">
                 Gasto calórico por horas de movimiento *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="once"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.once : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="once"
@@ -887,12 +1288,24 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.once : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="doce">
                 Gasto calórico por horas de entrenamiento *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="doce"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.doce : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="doce"
@@ -901,12 +1314,24 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.doce : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="trece">
                 Gasto calórico por horas de dormir *:{" "}
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="trece"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.trece : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="trece"
@@ -915,10 +1340,22 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.trece : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="catorce">Total de gasto calórico *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="catorce"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.catorce : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="catorce"
@@ -927,13 +1364,24 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.catorce : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="quince">
-                Total de calorías correspondientes de acuerdo a su peso
-                corporal *:{" "}
+                Total de calorías de acuerdo a su peso corporal *:
               </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="quince"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.quince : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="quince"
@@ -942,10 +1390,22 @@ class BtnModalHoja extends Component {
                 maxLength="10"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.quince : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="dieciseis"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.dieciseis : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="dieciseis"
@@ -954,10 +1414,22 @@ class BtnModalHoja extends Component {
                 placeholder="Metabolismo basal (I CB)"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.dieciseis : ""}
-              />
+              /> */}
               <br />
               <label htmlFor="diecisiete">Consumo calórico (C C) *: </label>
-              <input
+              <TextField
+                        id="outlined-number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        name="diecisiete"
+                        onChange={this.handleChangeInputNumber2}
+                        value={formcorps ? formcorps.diecisiete : ""}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+              />
+              {/* <input
                 className="form-control"
                 type="text"
                 name="diecisiete"
@@ -966,7 +1438,7 @@ class BtnModalHoja extends Component {
                 placeholder="Consumo calórico"
                 onChange={this.handleChangeInputNumber2}
                 value={formcorps ? formcorps.diecisiete : ""}
-              />
+              /> */}
             </div>
           </ModalBody>
 
@@ -1002,7 +1474,7 @@ class BtnModalHoja extends Component {
         <Modal isOpen={this.state.modalAgregar3}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            Registrar Hoja Clinica Información Extra
+            REGISTRAR HOJA CLINICA INFORMACION EXTRA
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -1035,11 +1507,13 @@ class BtnModalHoja extends Component {
               />
               <br/>
               <br />
-              <label htmlFor="statuse"> ¿Lo posee? </label>{" "}{" "}
+              <label htmlFor="statuse"> ¿Lo posee? </label>
+              <br />
+              {" "}{" "}
               {" "}
               {" "}
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-info">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="statuse"
@@ -1060,7 +1534,7 @@ class BtnModalHoja extends Component {
                 </label>
 
                 
-                <label class="btn btn-info ">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="statuse"
@@ -1083,7 +1557,7 @@ class BtnModalHoja extends Component {
               <br/>
               <br/>
               <button
-                className="btn btn-success"
+                className="btn botonesdash"
                 onClick={() => {
                   const nami = this.state.formextra.descriptione;
                   const tiene = this.state.formextra.statuse;

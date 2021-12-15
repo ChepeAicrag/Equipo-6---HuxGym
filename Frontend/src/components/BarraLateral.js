@@ -1,11 +1,12 @@
 import React, { Component, useState, useEffect } from "react";
 import "../styles/BarraL.css";
 import { link, NavLink } from "react-router-dom";
+import LogoGYM from '../assets/img/log.jpg';
 import BtnLogout from "../components/BtnLogout";
 
 const rol = localStorage.getItem("rol");
 /* const rol ="Administrador" ; */
-
+const logo = require('../assets/img/log.jpg');
 export default function BarraLateral() {
   /* constructor(props) {
     super(props);
@@ -15,14 +16,17 @@ export default function BarraLateral() {
   } */
   useEffect(() => {
     return () => {
-      console.log("Esta es la barra lateral");
+      
     };
   }, []);
   return (
     <>
       <div className="principalLateral">
         <div className="sidebar">
-        <p className="mt-4 tituloB">Opciones de Usuario</p>
+        <div className="imgLogo">
+          <img className="iml" src={LogoGYM} width="100%" height="100%"/>
+        </div>
+        <p className="mt-4 tituloB"></p>
        
           <ul className="mt-3 nav_list">
             <li>
@@ -61,7 +65,7 @@ export default function BarraLateral() {
           {rol == "Administrador" ? (
             <li>
               <NavLink to="/EmployeePage">
-                <i className="bx bxs-user">
+                <i className="bx bx-book-content">
                   <box-icon
                     type="solid"
                     name="user"
@@ -77,7 +81,7 @@ export default function BarraLateral() {
           ) : (
             <></>
           )}
-          {/* <li>
+          <li>
             <NavLink to="/MembershipPage">
               <i className="bx bxs-credit-card-front">
                 <box-icon
@@ -91,7 +95,7 @@ export default function BarraLateral() {
               <p className="opcionBarra"> Membresias</p>
               </span>
             </NavLink>
-          </li> */}
+          </li>
           {/* <li>
             <NavLink to="/SalesPage">
               <i className="bx bx-purchase-tag-alt">
@@ -107,7 +111,7 @@ export default function BarraLateral() {
               </span>
             </NavLink>
           </li> */}
-           {/* <li>
+           <li>
             <NavLink to="/ProductsPage">
               <i className="bx bxl-product-hunt">
                 <box-icon
@@ -121,8 +125,8 @@ export default function BarraLateral() {
               <p className="opcionBarra"> Productos</p>
               </span>
             </NavLink>
-          </li>  */}
-         {/*  {rol == "Administrador" || rol == "Encargado" ? (
+          </li> 
+         {/* {rol == "Administrador" || rol == "Encargado" ? (
             <li>
               <NavLink to="/PurchPage">
                 <i className="bx bxs-cart">
@@ -140,11 +144,11 @@ export default function BarraLateral() {
             </li>
           ) : (
             <></>
-          )} */
-          }
+          )} */}
           
-           {rol == "Administrador" ? ( <> 
-           {/* <li>
+          
+          {/* { rol == "Administrador" ? ( <> 
+           { <li>
             <NavLink to="/AccountingPage">
               <i className="bx bxs-coin-stack">
                 <box-icon
@@ -158,10 +162,10 @@ export default function BarraLateral() {
               <p className="opcionBarra"> Contabilidad</p>
               </span>
             </NavLink>
-          </li> */}  </>):(<></>)}
+          </li> }  </>):(<></>)} */}
           </ul>
         </div>
-      </div>
+      </div> 
       {/* <div className="principalLateral">
       <div className="sidebar">
         <ul className="nav_list">

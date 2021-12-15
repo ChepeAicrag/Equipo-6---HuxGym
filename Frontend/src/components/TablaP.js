@@ -3,9 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
 import axios from "axios";
 import swal from "sweetalert";
+import TextField from '@material-ui/core/TextField';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonProducts from "../components/BotonProducts";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {
   faCalculator,
   faEdit,
@@ -44,7 +46,7 @@ class TablaP extends Component {
       name: "",
       description: "",
       price_s: 0,
-      price_c: 0,
+      price_c: "0",
       image: "",
       category_id: "",
       provider_id: "",
@@ -621,20 +623,45 @@ class TablaP extends Component {
         });
       }
   };
+  validateNumber = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    let regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+
+    if (regex.test(value)|| isEmpty(value)) {
+      const setValue = value <= 10000 && value>=0 ? value : 0.0;
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: setValue,
+        },
+      }); 
+
+    }
+    else{
+    event.target.value = ""
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });  
+    }
+};
 
   render() {
     const { form } = this.state;
 
     return (
       <div className="table-responsiveMain">
-        <br />
-        <div className="Barra_opciones">
+        
+        <div className="Barra_opciones mt-3">
           <BotonProducts />
         </div>
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({
@@ -646,15 +673,15 @@ class TablaP extends Component {
               this.modalInsertar();
             }}
           >
-            <i className="bx bxs-user">
+            {/* <i className="bx bxs-user">
               <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
               ></box-icon>
-            </i>
-            Registrar nuevo producto
+            </i> */}
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
           </button>
           <div className="esp"></div>
           <input
@@ -675,9 +702,9 @@ class TablaP extends Component {
 
         <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className="tab-pane  table">
+            <thead className="tablaHeader">
+              <tr className="encabezado" >
                 <th>Id</th>
                 <th>Nombre del producto</th>
                 <th>Precio de venta</th>
@@ -688,7 +715,7 @@ class TablaP extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((productos) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
@@ -703,14 +730,14 @@ class TablaP extends Component {
                       {" "}
                       <img
                         src={`https://www.huxgym.codes/${productos.image}`}
-                        width="200"
-                        height="200"
+                        width="170"
+                        height="150"
                         align="center"
                       />
                     </td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarProducto(productos);
                           this.modalInsertar();
@@ -805,7 +832,21 @@ class TablaP extends Component {
               <br />
               <br />
               <label htmlFor="price_c">Precio de compra*:</label>
-              <input
+              <br />
+              <TextField
+                        id="outlined-number"
+                        
+                        name="price_c"
+                        onChange={this.validateNumber}
+                        step="5"
+                        value={form ? form.price_c : "0.00"}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+             {/*  <input
                 className="form-control"
                 type="number"
                 name="price_c"
@@ -816,11 +857,25 @@ class TablaP extends Component {
                 presicion={2}
                 onChange={this.handleChangeInputNumberDecimal}
                 value={form ? parseFloat(form.price_c) : 0}
-              />
+              /> */}
               <br />
               <br />
               <label htmlFor="price_s">Precio de venta*:</label>
-              <input
+              <br />
+              <TextField
+                        id="outlined-number"
+                        
+                        name="price_s"
+                        onChange={this.validateNumber}
+                        step="5"
+                        value={form ? form.price_s : "0.00"}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+              {/* <input
                 className="form-control"
                 type="number"
                 name="price_s"
@@ -831,7 +886,7 @@ class TablaP extends Component {
                 presicion={2}
                 onChange={this.handleChangeInputNumberDecimal}
                 value={form ? parseFloat(form.price_s) : 0}
-              />
+              /> */}
               <br />
               <br />
               <label htmlFor="image">Adjunta tu imagen del producto:</label>
@@ -846,7 +901,7 @@ class TablaP extends Component {
               />
               <br />
               <br />
-              <button className="btn btn-success" onClick={this.modalProveedor}>
+              <button className="btn btn-seleccion" onClick={this.modalProveedor}>
                 Selecciona el proveedor
               </button>
               <br />
@@ -860,7 +915,7 @@ class TablaP extends Component {
                 value={form ? this.state.name_provider : ""}
               />
               <br />
-              <button className="btn btn-success" onClick={this.modalCategoria}>
+              <button className="btn btn-seleccion" onClick={this.modalCategoria}>
                 Selecciona la categoria
               </button>
               <br />
@@ -1016,19 +1071,19 @@ class TablaP extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-success btn-lg"
+              className="btn btn-success"
               onClick={() => this.peticionPostA()}
             >
-              Añadir al inventario
+              Añadir
             </button>
             <button
-              className="btn btn-primary btn-lg"
+              className="btn botonesdash"
               onClick={() => this.peticionPostB()}
             >
-              Eliminar del inventario
+              Eliminar
             </button>
             <button
-              className="btn btn-danger btn-lg"
+              className="btn btn-danger"
               onClick={() => this.setState({ modalStock: false })}
             >
               Cancelar

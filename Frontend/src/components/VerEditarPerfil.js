@@ -402,7 +402,7 @@ class VerEditarPerfil extends Component {
                   <label htmlFor="gender">Genero </label>
                   <br />
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-info">
+                    <label class="btn botonesForm m-1 ">
                       <input
                         type="radio"
                         name="gender"
@@ -421,7 +421,7 @@ class VerEditarPerfil extends Component {
                       />{" "}
                       M
                     </label>
-                    <label class="btn btn-info ">
+                    <label class="btn botonesForm m-1  ">
                       <input
                         type="radio"
                         name="gender"

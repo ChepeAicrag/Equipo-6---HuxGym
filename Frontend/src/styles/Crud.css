@@ -92,6 +92,7 @@
   /*width: 100px;*/
 }
 
+
 .Busqueda .textField {
   width: 300px;
 }
@@ -125,11 +126,11 @@
 }
 .SCliente {
   background-color: #fff;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  border-radius: 25px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .SProducto {
@@ -163,11 +164,11 @@
 }
 
 .ModalCheck .modal-content {
-  right: 400px;
+ /*  right: 400px; */
   background: #353535;
 
-  width: 1200px;
-  /* overflow: scroll; */
+  width: 100%;/* 
+  overflow: scroll; */
 }
 
 .ModalVenta .modal-content {
@@ -180,14 +181,16 @@
 .ModalCheck .modal-content .SCliente {
   display: flex;
   background: #fff;
+  flex-direction: column;
   /* overflow: scroll; */
   /* width: 1200px;
   height: 600px; */
 }
 
 .ModalCheck .modal-content .form-group {
-  margin-left: 50px;
-  margin-right: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 0px;
 }
 
 .ModalVenta .modal-content .form-group {
@@ -213,8 +216,8 @@
 .ModalCheck .modal-content .form-group h3 {
   text-align: center;
   border-radius: 15px;
-  background:#353535;
-  font-size: 30px;
+  background: #353535;
+  font-size: 20px;
 }
 
 .ModalVenta .modal-content .form-group h3 {
@@ -237,6 +240,7 @@
 .HeadCheck {
   text-align: center;
   font-size: 30px;
+  padding: 0px;
 }
 
 .HeadVenta {
@@ -266,4 +270,51 @@
   padding: 15px;
   color: white;
   box-shadow: 8px 10px 30px 0px rgba(0, 0, 0, 0.562);
+}
+
+label.btn.botonesForm.m-1.active {
+  background-color: grey;
+}
+.titulo{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    /* font-size: 16px; */
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    margin: 0px 0px 0px 0px;
+    /* color: #cccccc; */
+}
+.botonesdash {
+  background-color: rgb(255, 255, 255);
+  width: 100px;
+}
+.tablita {
+  width: 100%;
+  height: 100%;/* 
+  overflow: auto; */
+  box-shadow: 10px 5px 40px 0px rgb(0 0 0 / 56%);
+  background-color: #353535;
+}
+
+.entradatext {
+  background-color: #c4c2c2;
+  border: none;
+  color: #0d0d0d;
+  padding: 3px 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0px;
+  width: 100%;
+  border: 2px solid #f6f6f6;
+  transition: all 0.5s ease-in-out;
+  border-radius: 10px;
+}
+.lineadiv{
+  border-bottom: 2px solid #fff;
+  color: white;
+  width: 100%;
 }

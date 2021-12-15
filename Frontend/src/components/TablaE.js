@@ -7,6 +7,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { isEmpty } from "../helpers/methods";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const url = "https://www.huxgym.codes/user/";
 
@@ -428,22 +429,22 @@ class TablaE extends Component {
         <br />
         <div className="Busqueda">
           <button
-            className="btn btn-success"
+            className="btn botones"
             onClick={() => {
               /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
           >
-            <i className="bx bxs-user">
+            {/* <i className="bx bxs-user">
               <box-icon
                 type="solid"
                 name="user"
                 color="#fff"
                 animation="tada"
               ></box-icon>
-            </i>
-            Registrar Nuevo Empleado
+            </i> */}
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo Empleado
           </button>
           <div className="esp"></div>
           <input
@@ -465,9 +466,9 @@ class TablaE extends Component {
         <br></br>
         <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className="tab-pane  table">
+            <thead className="tablaHeader">
+              <tr className="encabezado" >
                 <th>ID</th>
                 <th>Nombre completo</th>
                 <th>Edad</th>
@@ -479,7 +480,7 @@ class TablaE extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((empleados) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
@@ -494,14 +495,14 @@ class TablaE extends Component {
                     <td>
                       <img
                         src={`https://www.huxgym.codes/${empleados.image}`}
-                        width="200"
-                        height="200"
+                        width="170"
+                        height="150"
                         align="center"
                       />
                     </td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(empleados);
                           this.modalInsertar();
@@ -552,7 +553,7 @@ class TablaE extends Component {
               />
               <br />
               <label htmlFor="age">Edad*:</label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="age"
@@ -563,6 +564,17 @@ class TablaE extends Component {
                 maxlength="2"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.age : ""}
+              /> */}
+              <input
+                className="form-control"
+                type="number"
+                name="age"
+                id="age"
+                min="18"
+                max="99"
+                placeholder="Edad en años"
+                onChange={this.handleChangeInputNumber}
+                value={form ? form.age : 18}
               />
               <br />
               <label htmlFor="phone">Teléfono*:</label>
@@ -622,7 +634,7 @@ class TablaE extends Component {
               <label htmlFor="gender">Género*:</label>
               <br />
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-info">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="gender"
@@ -633,7 +645,7 @@ class TablaE extends Component {
                   />{" "}
                   M
                 </label>
-                <label class="btn btn-info ">
+                <label class="btn botonesForm m-1 ">
                   <input
                     type="radio"
                     name="gender"
@@ -652,7 +664,7 @@ class TablaE extends Component {
                    <label htmlFor="role">Rol*: </label>
               <br />
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-info">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="role"
@@ -670,7 +682,7 @@ class TablaE extends Component {
                   />{" "}
                   Empleado
                 </label>
-                <label class="btn btn-info ">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="role"
@@ -695,7 +707,7 @@ class TablaE extends Component {
                   <label htmlFor="role">Rol*: </label>
               <br />
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-info">
+                <label class="btn botonesForm m-1">
                   <input
                     type="radio"
                     name="role"
@@ -714,7 +726,7 @@ class TablaE extends Component {
                   />{" "}
                   Empleado
                 </label>
-                <label class="btn btn-info ">
+                <label class="btn botonesForm m-1 ">
                   <input
                     type="radio"
                     name="role"

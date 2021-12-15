@@ -22,11 +22,11 @@ export default function MenuDesplegable() {
 
   return (
     
-      <div class="dropdown hamburg">
-        <button class="btn btn-light  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <MenuIcon></MenuIcon>
+      <div className="dropdown hamburg">
+        <button className="btn btn-light  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <MenuIcon className="colorIcon " ></MenuIcon>
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <VerEditarPerfil accion="Ver perfil" tipo="ver" />
           <VerEditarPerfil accion="Editar perfil" tipo="editar" />
           <CambiarContra />

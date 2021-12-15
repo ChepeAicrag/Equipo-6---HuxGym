@@ -114,34 +114,62 @@ flex-direction: row;
   width: 100%;
   height: 450px; 
   overflow: auto;
-  box-shadow: 10px 5px 40px 0px rgba(0, 0, 0, 0.562);
-  background-color:#353535 ;
-  
+  box-shadow: 5px 8px 20px 0px rgba(0, 0, 0, 0.562);
+  text-align: center;
 }
-
-.table-wrapper table {
-  border-collapse: separate;
-  border-spacing: 0;
-  
-}
-
 .table-wrapper table thead {
   position: -webkit-sticky; 
   position: sticky;
   top: 0;
   left: 0;
+  bottom: 0;
+  
+  
+}
+.tablaHeader{
+  background: rgb(37, 37, 37) !important;
+  color: aliceblue;
+  border-top-style: none;
+}
+
+
+
+.table-wrapper {
+  background-color:#eeeeee ;
+  text-align: center;
+  color: black;
+  border-top-style: none;
   
 }
 
-.table-wrapper table thead th,
+.cuerpoTabla{
+  color: black;
+  border-color: #c7c7c7;
+  border-top-style: none;
+  font-family: 'Karla', sans-serif;
+}
+
+/* .table-wrapper table thead th,
 .table-wrapper table tbody td {
-  /* border: 1px solid  rgb(80, 80, 80); */
+  
   background-color: rgb(53, 53, 53);
-} 
+}  */
 
 
 /*-------------------------------------------------------*/
+.acciones{
+  display: flex;
+  width: 100%;
+  height: 220px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
+.editarHoja{
+  background-color: #284B63;
+  color: #fff;
+}
 .principalBox{
   display: flex;
   width: 100%;
@@ -180,12 +208,19 @@ flex-direction: row;
     align-items: center;
   }
   
-  .textField{
-    
-  }
+  
   
   .botones{
     background: #353535;
+    text-align: center;
+    color: #fff;
+    margin: 10px;
+    height: 55px;
+    border-radius: 5px;
+  }
+
+  .botones:hover{
+    /* background: #080808; */
     text-align: center;
     color: #fff;
     margin: 10px;
@@ -237,5 +272,33 @@ flex-direction: row;
     font-size: 30%;
   }
 }
+
+@media only screen and (max-height: 900px) {
+  .table-wrapper {
+    height: 450px; 
+  }
   
+}
+
+@media only screen and (max-height: 750px) {
+  .table-wrapper {
+    height: 330px; 
+    
+  }
+  
+}
+
+@media only screen and (max-height: 600px) {
+  .table-wrapper {
+    height: 300px; 
+  }
+  
+}
+ 
+@media only screen and (max-height: 400px) {
+  .table-wrapper {
+    height: 200px; 
+  }
+  
+}
   
