@@ -574,7 +574,7 @@ class TablaE extends Component {
                 max="99"
                 placeholder="Edad en años"
                 onChange={this.handleChangeInputNumber}
-                value={form ? form.age : 18}
+                value={form ? form.age : ""}
               />
               <br />
               <label htmlFor="phone">Teléfono*:</label>
@@ -674,7 +674,7 @@ class TablaE extends Component {
                     checked={
                       (this.state.tipoModal === "insertar" && form == null) ||
                       form.role === undefined
-                        ? true
+                        ? false
                         : form.role == 2
                         ? true
                         : false

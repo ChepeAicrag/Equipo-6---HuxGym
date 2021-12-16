@@ -10,6 +10,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { Input } from '@mui/material';
 import DateFnsUtils from "@date-io/date-fns";
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
@@ -70,6 +71,7 @@ class BtnModalHoja extends Component {
     data: [] /* Aqui se almacena toda la informacion axios */,
     sintomas: [],
     list: [],
+    errors:{},
     sintomasSelect: {},
     modalAgregar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalAgregar2: false,
@@ -79,9 +81,9 @@ class BtnModalHoja extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
       date: "",
-      age: "",
-      height: "",
-      weight: "",
+      age: "0",
+      height: "0",
+      weight: "0",
       bloody: "O+",
       hour_breakfast: "00:00:00",
       hour_collation: "00:00:00",
@@ -183,7 +185,7 @@ class BtnModalHoja extends Component {
     const { name, value } = e.target;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value) || isEmpty(value)) {
+    if (regex.test(value) ) {
       this.setState({
         formcorps: {
           ...this.state.formcorps,
@@ -193,7 +195,7 @@ class BtnModalHoja extends Component {
     } else {
       e.target.value = "";
       swal({
-        text: "No se permiten letras",
+        text: "Este valor no esta permitido",
         icon: "info",
         button: "Aceptar",
         timer: "5000",
@@ -284,7 +286,7 @@ class BtnModalHoja extends Component {
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value) || isEmpty(value)) {
+    if (regex.test(value)) {
       const setValue = value <= 100 && value >= 0 ? value : 13;
       this.setState({
         form: {
@@ -292,6 +294,21 @@ class BtnModalHoja extends Component {
           [name]: setValue,
         },
       });
+      if(value<13){
+        this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              edad: 'La edad minima es 13'
+          }
+      }))
+      }else{
+        this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              edad: null
+          }
+      }))
+      }
     } else {
       event.target.value = "";
       swal({
@@ -307,24 +324,44 @@ class BtnModalHoja extends Component {
     const name = event.target.name;
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
+    console.log(value)
+    if (regex.test(value)) {
+        console.log("asas");
+        const setValue = value < 4000 && value >= 0 ? value : 0;
+        this.setState({
+          form: {
+            ...this.state.form,
+            [name]: setValue,
+          },
+        });
+        if(value<100){
+          this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                estatura: 'La estatura deb ser mayor a 100cm'
+            }
+        }))
+        }else{
+          this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                estatura: null
+            }
+        }))
+        }
+      } else {
+        console.log("asaddds");
+        event.target.value = this.state.form.height;
+        swal({
+          text: "Este valor no es admitido",
+          icon: "info",
+          button: "Aceptar",
+          timer: "5000",
+        });
+      }
+    
 
-    if (regex.test(value) || isEmpty(value)) {
-      const setValue = value < 4000 && value >= 0 ? value : 0;
-      this.setState({
-        form: {
-          ...this.state.form,
-          [name]: setValue,
-        },
-      });
-    } else {
-      event.target.value = "";
-      swal({
-        text: "No se permiten letras",
-        icon: "info",
-        button: "Aceptar",
-        timer: "5000",
-      });
-    }
+    
   };
 
   validatePeso = (event) => {
@@ -332,7 +369,7 @@ class BtnModalHoja extends Component {
     const value = event.target.value;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value) || isEmpty(value)) {
+    if (regex.test(value)) {
       const setValue = value < 1000 && value >= 0 ? value : 40;
       this.setState({
         form: {
@@ -834,6 +871,20 @@ class BtnModalHoja extends Component {
     }
   }
 
+  preventNonNumericalInput(e) {
+    console.log("entre a prevent")
+    var charCode = (typeof e.which == "undefined") ? e.keyCode : e.which;
+    var charStr = String.fromCharCode(charCode);
+  
+    if (!charStr.match(/^[0-9]+$/))
+      swal({
+        text: "No se permiten letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+  }
+
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
@@ -929,17 +980,18 @@ class BtnModalHoja extends Component {
                
               /> */}
               <br />
+              {this.state.errors.edad && <p  className="errores mt-2">{this.state.errors.edad}</p>}
               <br />
               <label htmlFor="height">Estatura en centímetros *: </label>
               <br />
               <TextField
                 id="outlined-number"
-                InputProps={{ inputProps: { min: 0, max: 4000 } }}
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 100, max: 4000  }}
                 style={{ width: "200px" }}
                 name="height"
                 placeholder="Ingrese estatura"
                 onChange={this.validateEstatura}
-                value={form ? form.height : ""}
+                value={this.state.form.height}
                 type="number"
                 InputLabelProps={{
                   shrink: true,
@@ -947,6 +999,7 @@ class BtnModalHoja extends Component {
                 variant="outlined"
               />
               <br />
+              {this.state.errors.estatura && <p  className="errores mt-2">{this.state.errors.estatura}</p>}
               <br />
               <label htmlFor="weight">Peso en kilogramos *: </label>
               <br />

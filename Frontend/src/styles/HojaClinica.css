@@ -36,3 +36,7 @@ svg:not(:root) {
 .colorIcon {
     color: black !important;
 }
+
+.errores{
+    color: rgb(255, 65, 65);
+}
