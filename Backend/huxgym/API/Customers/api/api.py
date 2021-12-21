@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from typing import Type
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -9,6 +9,43 @@ from .serializers import *
 from API.customers.models import *
 from rest_framework.permissions import AllowAny
 
+#VIEWSETS PARA LA DOCUMENTACIÓN
+class CustomerViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomerSerializer
+    queryset = CustomerSerializer.Meta.model.objects
+
+class AttendanceViewSet(viewsets.ModelViewSet):
+    serializer_class = AttendanceSerializer
+    queryset = AttendanceSerializer.Meta.model.objects
+
+class NutritionalSituationViewSet(viewsets.ModelViewSet):
+    serializer_class = NutritionalSituationSerializer
+    queryset = NutritionalSituationSerializer.Meta.model.objects
+
+class TypeExtraInformationViewSet(viewsets.ModelViewSet):
+    serializer_class = TypeExtraInformationSerializer
+    queryset = TypeExtraInformationSerializer.Meta.model.objects
+
+class BodyAttributeViewSet(viewsets.ModelViewSet):
+    serializer_class = BodyAttributeSerializer
+    queryset = BodyAttributeSerializer.Meta.model.objects
+
+class HistoryClinicViewSet(viewsets.ModelViewSet):
+    serializer_class = HistoryClinicSerializer
+    queryset = HistoryClinicSerializer.Meta.model.objects
+
+class TypeExtraInformation_HistoryClinicViewSet(viewsets.ModelViewSet):
+    serializer_class = TypeExtraInformation_HistoryClinicSerializer
+    queryset = TypeExtraInformation_HistoryClinicSerializer.Meta.model.objects
+
+class BodyAttribute_HistoryClinicViewSet(viewsets.ModelViewSet):
+    serializer_class = BodyAttribute_HistoryClinicSerializer
+    queryset = BodyAttribute_HistoryClinicSerializer.Meta.model.objects
+
+class  Customer_MembershipViewSet(viewsets.ModelViewSet):
+    serializer_class = Customer_MembershipSerializer
+    queryset = Customer_MembershipSerializer.Meta.model.objects
+    
 #API PARA EL MODELO CUSTOMER
 
 @api_view(['GET', 'POST'])

@@ -44,6 +44,7 @@ THIRD_APPS = [
     'naomi',
     'django_inlinecss',
     'corsheaders',
+    'drf_yasg',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
