@@ -905,7 +905,7 @@ class TablaV extends Component {
 
                     <td>
                       <button
-                        className="btn editarHoja"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(ventas);
                           this.modalInsertar();

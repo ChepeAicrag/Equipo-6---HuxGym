@@ -738,7 +738,7 @@ class TablaCompras extends Component {
 
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(compra);
                           this.modalInsertar();

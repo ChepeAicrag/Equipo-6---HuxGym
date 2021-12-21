@@ -499,7 +499,7 @@ class Tabla extends Component {
 
                     <td className="">
                       <button
-                        className="btn editarHoja"
+                        className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(clientes);
                           this.modalInsertar();
