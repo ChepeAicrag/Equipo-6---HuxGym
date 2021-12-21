@@ -25,6 +25,7 @@ class TablaCompras extends Component {
     dataC: [],
     dataS: [],
     dataM: [],
+    dataBuscar:[],
     data: [] /* Aqui se almacena toda la informacion axios de ventas */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalMembresia: false,
@@ -236,7 +237,7 @@ class TablaCompras extends Component {
     });
     return r;
   };
-  
+
   total = () => {
     var t = 0;
     if (this.state.cantidades.length == 0) {
@@ -260,6 +261,7 @@ class TablaCompras extends Component {
       console.log(res);
       this.setState({
         data: res.data,
+        dataBuscar: res.data,
       });
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
@@ -287,6 +289,7 @@ class TablaCompras extends Component {
       console.log(msj);
     }
   };
+
   peticionGetP = async () => {
     try {
       const res = await axios.get(urlP, {
@@ -301,6 +304,7 @@ class TablaCompras extends Component {
       console.log(msj);
     }
   };
+
   peticionGetM = async () => {
     try {
       const res = await axios.get(urlM, {
@@ -445,6 +449,7 @@ class TablaCompras extends Component {
       });
     }
   };
+
   limpiarTablaS = () => {
     this.setState({
       total: 0,
@@ -473,6 +478,7 @@ class TablaCompras extends Component {
       modalInsertar: !this.state.modalInsertar,
     });
   };
+
   opcionMembresia = () => {
     this.setState({
       modalMembresia: !this.state.modalMembresia,
@@ -548,18 +554,18 @@ class TablaCompras extends Component {
   };
 
   filtrarElementos = () => {
-    var i = 0;
+    this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.includes(this.state.busqueda)) {
-          i = 1;
+        if (item.purchase_detail[0].product.provider.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+         
           return item;
         }
       });
-      this.setState({ productosBA: search });
-      this.setState({ dataP: this.state.productosBA });
+      
+      this.setState({ data: search });
     } else {
-      this.peticionGetP();
+      this.setState({ data: this.state.dataBuscar });
     }
   };
 
@@ -695,9 +701,7 @@ class TablaCompras extends Component {
             name="busqueda"
             id="busqueda"
             placeholder="Buscar"
-            onChange={() => {
-              this.buscador();
-            }}
+            onChange={this.buscador}
             value={this.state.busqueda}
           />
           <button type="submit" className="add-on" onClick={() => {}}>
@@ -711,9 +715,9 @@ class TablaCompras extends Component {
         <br />
         <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5">
-            <thead>
-              <tr>
+          <table className="tab-pane  table ">
+            <thead  className="tablaHeader">
+              <tr className="encabezado">
                 <th>Id de compra</th>
                 <th>Nombre del proveedor</th>
                 <th>Precio de la compra</th>
@@ -722,7 +726,7 @@ class TablaCompras extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((compra) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (

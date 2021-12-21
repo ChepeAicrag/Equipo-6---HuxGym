@@ -17,6 +17,7 @@ const urlM = "https://www.huxgym.codes/memberships/memberships/";
 class TablaV extends Component {
   state = {
     busqueda: "",
+    dataBuscar:[],
     dataP: [],
     dataC: [],
     dataS: [],
@@ -237,6 +238,7 @@ class TablaV extends Component {
     });
     return r;
   };
+
   total = () => {
     var t = 0;
     if (this.state.cantidades.length == 0) {
@@ -260,6 +262,7 @@ class TablaV extends Component {
       console.log(res);
       this.setState({
         data: res.data,
+        dataBuscar:res.data,
       });
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
@@ -281,6 +284,7 @@ class TablaV extends Component {
       console.log(msj);
     }
   };
+
   peticionGetP = async () => {
     try {
       const res = await axios.get(urlP, {
@@ -295,6 +299,7 @@ class TablaV extends Component {
       console.log(msj);
     }
   };
+
   peticionGetM = async () => {
     try {
       const res = await axios.get(urlM, {
@@ -485,6 +490,7 @@ class TablaV extends Component {
       modalInsertar: !this.state.modalInsertar,
     });
   };
+
   opcionMembresia = () => {
     this.setState({
       modalMembresia: !this.state.modalMembresia,
@@ -624,18 +630,25 @@ class TablaV extends Component {
   };
 
   filtrarElementos = () => {
-    var i = 0;
+    this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.includes(this.state.busqueda)) {
-          i = 1;
+        console.log()
+        if (item.sale.user.name.toUpperCase().includes(this.state.busqueda.toUpperCase())|
+            item.sale.id.toString().includes(this.state.busqueda.toUpperCase())|
+            item.sale.cash.toString().includes(this.state.busqueda.toUpperCase())|
+            item.sale.date.toString().includes(this.state.busqueda.toUpperCase())|
+            item.sale.customer.name.toString().toUpperCase().includes(this.state.busqueda.toUpperCase())|
+            item.sale.total.toString().includes(this.state.busqueda.toUpperCase())) {
+         
           return item;
         }
       });
-      this.setState({ productosBA: search });
-      this.setState({ dataP: this.state.productosBA });
+
+      this.setState({ data: search });
+      
     } else {
-      this.peticionGetP();
+      this.setState({ data: this.state.dataBuscar });
     }
   };
 
@@ -850,17 +863,14 @@ class TablaV extends Component {
             name="busqueda"
             id="busqueda"
             placeholder="Buscar"
-            readOnly
-            onChange={() => {
-              this.buscador();
-            }}
+            onChange={this.buscador}
             value={this.state.busqueda}
           />
 
           <button type="submit" className="add-on" onClick={() => {}}>
-            <i className="bx bxs-user">
+            
               <box-icon name="search-alt-2" color="#fff"></box-icon>
-            </i>
+           
           </button>
 
         </div>
@@ -869,8 +879,8 @@ class TablaV extends Component {
         <br />
         <br />
         <div className="table-wrapper">
-          <table className="tab-pane  table table-dark mt-2 mb-5">
-            <thead>
+          <table className="tab-pane  table ">
+            <thead className="tablaHeader">
               <tr>
                 <th>Id de venta</th>
                 <th>Empleado que realizó la venta</th>
@@ -881,7 +891,7 @@ class TablaV extends Component {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="cuerpoTabla base">
               {this.state.data.map((ventas) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
@@ -895,7 +905,7 @@ class TablaV extends Component {
 
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn editarHoja"
                         onClick={() => {
                           this.seleccionarUsuario(ventas);
                           this.modalInsertar();
@@ -939,7 +949,7 @@ class TablaV extends Component {
           <ModalBody className="SVentaP">
             <div className="form-groupD">
               {this.state.tipoModal == "insertar" ? (
-                <>
+                <div>
                   {this.state.modalMembresia ? (
                     this.state.cantidades.length == 0 ? (
                       <button
@@ -970,135 +980,10 @@ class TablaV extends Component {
                     </button>
                   )}
                   <br />
-                  <br />
-                  <button
-                    className="btn btn-success"
-                    onClick={() => {
-                      this.peticionGetC();
-
-                      this.modalCliente();
-                    }}
-                  >
-                    Seleccionar Cliente
-                  </button>
-                  <br />
-                  <label htmlFor="name">Cliente*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
-                    readOnly
-                    onChange={this.handleChange}
-                    value={form ? this.state.name_cliente : ""}
-                  />
-                  <br />
-                  <label htmlFor="price_c">Observación*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="observation"
-                    id="observation"
-                    maxLength="50"
-                    placeholder="Observación de la venta"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.observation : ""}
-                  />
-                  <br />
-                  <label htmlFor="description">Dinero en efectivo*:</label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="pago"
-                    min="0"
-                    pattern="^[0-9]+"
-                    id="pago"
-                    onChange={this.handleChange3}
-                    value={this.state.pago ? this.state.pago : 0}
-                  />
-                  <br />
-                </>
-              ) : (
-                <>
-                  <label htmlFor="id">Id de la venta</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="id"
-                    id="id"
-                    readOnly
-                    onChange={this.handleChange}
-                    value={form ? form.id : ""}
-                  />
-                  <label htmlFor="name">Cliente:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
-                    readOnly
-                    onChange={this.handleChange}
-                    value={form ? this.state.name_cliente : ""}
-                  />
-                  <br />
-                  <label htmlFor="price_c">Observacion*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="observation"
-                    id="observation"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.observation : ""}
-                  />
-                  <br />
-                  <label htmlFor="description">Dinero en efectivo:</label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="pago"
-                    min="0"
-                    pattern="^[0-9]+"
-                    id="pago"
-                    readOnly
-                    onChange={this.handleChange3}
-                    value={this.state.pago != 0 ? this.state.pago : ""}
-                  />
-                  <br />
-                </>
-              )}
-
-              <br />
-
-              <label htmlFor="price_s">Total de venta:</label>
-              <input
-                className="form-control"
-                type="Number"
-                name="price_s"
-                id="pprice_s"
-                readOnly
-                onChange={this.total}
-                value={this.state.total > 0 ? this.state.total : 0}
-              />
-              <br />
-              <label htmlFor="image">Cambio:</label>
-              <input
-                className="form-control"
-                type="Number"
-                name="cambio"
-                id="cambio"
-                readOnly
-                onChange={this.handleChange}
-                value={this.state.cambio > 0 ? Number(this.state.cambio).toFixed(2) : 0}
-              />
-              <br />
-
-              <br />
-            </div>
-            {/* Tabla Productos Seleccionados */}
-            <div className="form-groupT">
+                  <div className="form-groupT">
               <div className="table-responsiveV">
-                <table className="table table-striped table-bordered ">
-                  <thead>
+                <table className="tab-pane table  ">
+                  <thead className="tablaHeader">
                     <tr>
                       {this.state.modalMembresia ? (
                         <>
@@ -1277,6 +1162,114 @@ class TablaV extends Component {
                 </table>
               </div>
             </div>
+                  <br />
+                  <button
+                    className="btn btn-success"
+                    onClick={() => {
+                      this.peticionGetC();
+
+                      this.modalCliente();
+                    }}
+                  >
+                    Seleccionar Cliente
+                  </button>
+                  <br />
+                  
+                  <h5>
+                    {this.state.name_cliente!=""  ? this.state.name_cliente : "Aún no se selecciona cliente"}
+                  </h5>
+                  <br />
+                  <label htmlFor="price_c">Observación*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="observation"
+                    id="observation"
+                    maxLength="50"
+                    placeholder="Observación de la venta"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.observation : ""}
+                  />
+                  <br />
+                  <label htmlFor="description" className="mt-3">Dinero en efectivo*:</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="pago"
+                    min="0"
+                    pattern="^[0-9]+"
+                    id="pago"
+                    onChange={this.handleChange3}
+                    value={this.state.pago ? this.state.pago : 0}
+                  />
+                  <br />
+                </div>
+              ) : (
+                <>
+                  <label htmlFor="id">Id de la venta</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="id"
+                    id="id"
+                    readOnly
+                    onChange={this.handleChange}
+                    value={form ? form.id : ""}
+                  />
+                  
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    readOnly
+                    onChange={this.handleChange}
+                    value={this.state.name_cliente!="" ? this.state.name_cliente : "Aún no se selecciona cliente"}
+                  />
+                  <br />
+                  <label htmlFor="price_c" className="mb-3">Observacion*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="observation"
+                    id="observation"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.observation : ""}
+                  />
+                  <br />
+                  <label htmlFor="description " className="mt-4">Dinero en efectivo:</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="pago"
+                    min="0"
+                    pattern="^[0-9]+"
+                    id="pago"
+                    readOnly
+                    onChange={this.handleChange3}
+                    value={this.state.pago != 0 ? this.state.pago : ""}
+                  />
+                  <br />
+                </>
+              )}
+
+              <br />
+
+              <label htmlFor="price_s">Total de venta:</label>
+              <h3>
+               {this.state.total > 0 ? this.state.total : 0}
+              </h3>
+              <br />
+              <label htmlFor="image">Cambio:</label>
+              <h3>
+                {this.state.cambio > 0 ? Number(this.state.cambio).toFixed(2) : 0}
+              </h3>
+              <br />
+
+              <br />
+            </div>
+            {/* Tabla Productos Seleccionados */}
+            
           </ModalBody>
 
           <ModalFooter className="FooterVenta">
@@ -1450,7 +1443,7 @@ class TablaV extends Component {
                           <td>{clientes.membershipActivate ? "Sí" : "No"}</td>
                           <td>
                             <button
-                              className="btn btn-primary"
+                              className="btn editarHoja"
                               onClick={() => {
                                 /* this.seleccionarCategoria(categorias); */
                                 this.setState({

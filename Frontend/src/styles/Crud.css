@@ -172,7 +172,7 @@
 }
 
 .ModalVenta .modal-content {
-  right: 300px;
+  /* right: 300px; */
   background: #353535;
   width: 1150px;
   overflow: auto;
