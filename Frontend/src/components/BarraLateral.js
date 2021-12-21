@@ -96,7 +96,7 @@ export default function BarraLateral() {
               </span>
             </NavLink>
           </li>
-          {/* <li>
+          <li>
             <NavLink to="/SalesPage">
               <i className="bx bx-purchase-tag-alt">
                 <box-icon
@@ -110,7 +110,7 @@ export default function BarraLateral() {
               <p className="opcionBarra"> Ventas</p>
               </span>
             </NavLink>
-          </li> */}
+          </li>
            <li>
             <NavLink to="/ProductsPage">
               <i className="bx bxl-product-hunt">
@@ -126,7 +126,7 @@ export default function BarraLateral() {
               </span>
             </NavLink>
           </li> 
-         {/* {rol == "Administrador" || rol == "Encargado" ? (
+         {rol == "Administrador" || rol == "Encargado" ? (
             <li>
               <NavLink to="/PurchPage">
                 <i className="bx bxs-cart">
@@ -144,7 +144,7 @@ export default function BarraLateral() {
             </li>
           ) : (
             <></>
-          )} */}
+          )}
           
           
           {/* { rol == "Administrador" ? ( <> 

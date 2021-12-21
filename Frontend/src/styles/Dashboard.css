@@ -109,6 +109,13 @@
   justify-content: flex-end;
 }
 
+
+.my-custom-scrollbar2 {
+  position: relative;
+  height:auto;
+  width: 100%;
+  overflow: auto;
+}
 /* .Principal .Head {
   padding: 0px 0px 0px 280px;
 } */

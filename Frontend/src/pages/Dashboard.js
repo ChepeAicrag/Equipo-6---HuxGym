@@ -11,6 +11,7 @@ import Grafica_Barras from "../components/Grafica_Barras";
 function Dashboard() {
   return (
     <>
+
       <div className="principalBoxDash">
         <div className="barraLateral">
           <BarraLateral />
@@ -20,29 +21,34 @@ function Dashboard() {
           <div className="Cabecera">
             <HeadC />
           </div>
-          <div className="checkinand">
 
-            
-            {<div className="agrupacion">
-              <Check_Client />
-            </div>}
-            
-            {<div className="agrupacion">
-              <Checkin />
-            </div>}
-            
-          </div>
-          
-          {/* <div className="graficasandcheck ">
-            <div className="graficas">
-              {<Grafica_Barras />}
+
+          <div className="my-custom-scrollbar2">
+            <div className="checkinand">
+
+
+              {<div className="agrupacion">
+                <Check_Client />
+              </div>}
+
+              {<div className="agrupacion">
+                <Checkin />
+              </div>}
+
+            </div>
+
+            <div className="graficasandcheck ">
+              <div className="graficas">
+                {<Grafica_Barras />}
               </div>
               <h1>Grafica</h1>
-            <div className="caja">
-               <Monto />
+              <div className="caja">
+                <Monto />
+              </div>
             </div>
-          </div> */}
-          
+
+          </div>
+
         </div>
       </div>
 

@@ -236,6 +236,7 @@ class TablaCompras extends Component {
     });
     return r;
   };
+  
   total = () => {
     var t = 0;
     if (this.state.cantidades.length == 0) {
