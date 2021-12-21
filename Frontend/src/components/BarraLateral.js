@@ -26,9 +26,10 @@ export default function BarraLateral() {
         <div className="imgLogo">
           <img className="iml" src={LogoGYM} width="100%" height="100%"/>
         </div>
-        <p className="mt-4 tituloB"></p>
+        {/* <p className="mt-4 tituloB"></p> */}
        
-          <ul className="mt-3 nav_list">
+          {/* <ul className="mt-3 nav_list"> */}
+          <ul className="nav_list">
             <li>
               <NavLink to="/Dashboard" activeClass="active">
                 <i className="bx bx-grid-alt">
