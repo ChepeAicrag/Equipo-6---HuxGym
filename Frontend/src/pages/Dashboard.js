@@ -41,7 +41,6 @@ function Dashboard() {
               {/* <div className="graficas">
                 {<Grafica_Barras />}
               </div> */}
-              <h1>Grafica</h1>
               <div className="caja">
                 <Monto />
               </div>
