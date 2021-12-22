@@ -31,7 +31,7 @@
   flex-direction: column;
   height: 100%;
   width: 50%;
-  
+  /* justify-content: space-around; */
   flex-wrap: nowrap;
 }
 .graficasandcheck {
@@ -39,26 +39,31 @@
   flex-direction: column;
   height: 100%;
   width: 50%;
-  
+  /* justify-content: space-around; */
 }
 .agrupacion {
   /* display: flex; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 5%;
+  margin-top:5%;
 }
 .graficas {
   display: flex;
   justify-content: center;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
 }
 .caja {
   display: flex;
   justify-content: center;
   height: 100%;
   width: 100%;
+  margin-top:5%;
+  margin-bottom:5%;
 }
 .chec {
   display: flex;
@@ -116,7 +121,7 @@
   height:auto;
   width: 100%;
   overflow: auto;
-  display: flex;
+  display:flex;
   flex-direction: column;
   align-items: center;
 }

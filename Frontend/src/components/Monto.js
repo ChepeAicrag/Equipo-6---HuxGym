@@ -255,9 +255,7 @@ class Monto extends Component {
     const { formCash } = this.state;
     return (
       <div className="che">
-        Caja inicial:
-        <br />
-
+        <h3 className="lineadiv">Caja inicial:</h3>
         {this.state.abierta ? (
           <>
             <label htmlFor="cashInit">Efectivo inicial:</label>
@@ -359,6 +357,7 @@ class Monto extends Component {
           onChange={this.handleChange}
           value={formCash ? formCash.efeFinal : 0}
         />
+        <h3 className="lineadiv"></h3>
         <div className="botonesA">
         <Button variant="success" onClick={() => this.openCash()}>
           Abrir caja
