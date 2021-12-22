@@ -1,8 +1,38 @@
 from API.products.api.serializers import CategorySerializer, HistoryInventorySerializer, OperationSerializer, OperationTypeSerializer, ProductSerializer, ProviderSerializer, StockSerializer
 from API.products.models import *
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+#VIEWSETS PARA LA DOCUMENTACIÓN
+
+class ProductViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
+    queryset = ProductSerializer.Meta.model.objects
+
+class CatergoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = CategorySerializer.Meta.model.objects
+
+class StockViewSet(viewsets.ModelViewSet):
+    serializer_class = StockSerializer
+    queryset = StockSerializer.Meta.model.objects
+
+class ProviderViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
+    queryset = ProductSerializer.Meta.model.objects
+
+class HistoryInventoryViewSet(viewsets.ModelViewSet):
+    serializer_class = HistoryInventorySerializer
+    queryset = HistoryInventorySerializer.Meta.model.objects
+
+class OperationViewSet(viewsets.ModelViewSet):
+    serializer_class = OperationSerializer
+    queryset = OperationSerializer.Meta.model.objects
+
+class OperationTypeViewSet(viewsets.ModelViewSet):
+    serializer_class = OperationTypeSerializer
+    queryset = OperationTypeSerializer.Meta.model.objects
 
 #API PARA EL MODELO PRODUCT
 @api_view(['GET', 'POST'])

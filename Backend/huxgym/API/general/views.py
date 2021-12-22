@@ -1,10 +1,11 @@
 from django.contrib.sessions.models import Session
+from rest_framework import views
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, viewsets
 from django.utils.http import urlsafe_base64_decode
 from django.utils.crypto import get_random_string
 from django.utils.encoding import force_bytes
@@ -18,7 +19,18 @@ from API.users.serializers import UserTokenSerializer
 from API.general.token_generator import account_activation_token
 from .authentication_middleware import Authentication
 from .models import Role
-from .serializers import RoleSerializer
+from .serializers import RoleModuleSerialzier, RoleSerializer
+
+#VIEWSETS PARA LA DOCMENTACIÓN
+
+class RoleViewSet(viewsets.ModelViewSet):
+    serializer_class = RoleSerializer
+    queryset = RoleSerializer.Meta.model.objects
+
+class RoleModuleViewSet(viewsets.ModelViewSet):
+    serializer_class = RoleModuleSerialzier
+    queryset = RoleModuleSerialzier.Meta.model.objects
+
 
 class RefreshToken(Authentication ,APIView):
     

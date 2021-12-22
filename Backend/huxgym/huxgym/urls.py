@@ -40,5 +40,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('customers/', include('API.customers.api.routers')),
     path('memberships/', include('API.memberships.api.routers')),
-    path('products/', include('API.products.api.urls')),
+    path('products/', include('API.products.api.routers')),
 ]
