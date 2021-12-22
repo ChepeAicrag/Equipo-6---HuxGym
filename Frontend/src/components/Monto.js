@@ -260,13 +260,14 @@ class Monto extends Component {
           <>
             <label htmlFor="cashInit">Efectivo inicial:</label>
             <input
-              className="form-control"
+              className="form-control entradascaja"
               type="number"
               name="efeInicial"
               id="cashInit"
               min="0"
               pattern="^[0-9]+"
               maxLength="10"
+              
               readOnly
               onChange={this.handleChangeCash}
               value={formCash != 0 ? formCash.efeInicial : 0}
