@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from typing import Type
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -8,6 +8,13 @@ from rest_framework.decorators import api_view
 from .serializers import *
 from API.customers.models import Customer_Membership
 from API.memberships.models import *
+
+#VIEWSETS PARA LA DOCUMENTACIÓN
+
+class MembershipViewSet(viewsets.ModelViewSet):
+    serializer_class = MembershipSerializer
+    queryset = MembershipSerializer.Meta.model.objects
+
 
 #API  PARA EL MODELO MEMBERSHIPS
 
