@@ -33,6 +33,10 @@
   overflow: auto;
 }
 
+
+.table-responsiveV20 {
+  background: #fff;
+}
 .table-responsiveV tr td {
   width: 150px;
 }

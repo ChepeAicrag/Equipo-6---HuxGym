@@ -981,7 +981,7 @@ class TablaV extends Component {
                   )}
                   <br />
                   <div className="form-groupT">
-              <div className="table-responsiveV">
+              <div className="table-responsiveV20">
                 <table className="tab-pane table  ">
                   <thead className="tablaHeader">
                     <tr>

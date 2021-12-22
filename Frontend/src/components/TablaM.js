@@ -26,7 +26,7 @@ class TablaM extends Component {
       name: "",
       price: "",
       description: "",
-      day: 0,
+      day: 7,
     },
   };
 
@@ -287,9 +287,10 @@ class TablaM extends Component {
 
   handleChangeInputNumber = (e) => {
     const { name, value } = e.target;
+    
     let regex = new RegExp("^[0-9]+$");
-
-    if (regex.test(value) || isEmpty(value)) {
+    console.log(regex.test(value))
+    if (regex.test(value)) {
       console.log(name, value);
       this.setState({
         form: {
@@ -450,7 +451,7 @@ class TablaM extends Component {
                 <></>
               ) : (
                 <>
-                  <label htmlFor="id">Id</label>
+                 {/*  <label htmlFor="id">Id</label>
                   <input
                     className="form-control"
                     type="text"
@@ -459,7 +460,7 @@ class TablaM extends Component {
                     readOnly
                     onChange={this.handleChange}
                     value={form ? form.id : this.state.data.length + 1}
-                  />
+                  /> */}
                 </>
               )}
               <label htmlFor="name">Nombre de la membresía (*):</label>
@@ -504,7 +505,7 @@ class TablaM extends Component {
                 id="outlined-number"
                 name="price"
                 onChange={this.handleChangeInputNumber}
-                value={form ? form.price : null}
+                value={form ? form.price : 0}
                 InputProps={{ inputProps: { min: 0 } }}
                 type="number"
                 placeholder="Precio de venta"
@@ -532,7 +533,7 @@ class TablaM extends Component {
                 id="outlined-number"
                 name="day"
                 onChange={this.handleChangeInputNumber}
-                value={form ? form.day : 7}
+                value={form ? form.day : 0}
                 type="number"
                 InputProps={{ inputProps: { min: 7 } }}
                 placeholder="Duración en días"
