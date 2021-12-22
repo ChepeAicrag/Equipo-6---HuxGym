@@ -308,55 +308,26 @@ class Monto extends Component {
           </>
         )}
         <label htmlFor="nombre">Efectivo de ventas:</label>
-        <input
-          class="form-control"
-          id="nombre-efectivo-inicial"
-          type="text"
-          name="nombre-efectivo-inicial"
-          readOnly
-          onChange={this.handleChange}
-          value={formCash ? formCash.efeVentas : 0}
-        />
+        <h5>
+          {formCash ? formCash.efeVentas : 0}
+        </h5>
         <label htmlfor="nombre">Gastos de compras:</label>
-        <input
-          class="form-control"
-          id="nombre-gastos-compras"
-          type="text"
-          name="nombre-gastos-compras"
-          readOnly
-          onChange={this.handleChange}
-          value={formCash ? formCash.gasCompras : 0}
-        />
+        <h5>
+         {formCash ? formCash.gasCompras : 0}
+        </h5>
         <label htmlfor="nombre">Efectivo total ingresado:</label>
-        <input
-          class="form-control"
-          id="nombre-efectivo-total-ingresado"
-          type="text"
-          name="nombre-efectivo-total-ingresado"
-          readOnly
-          onChange={this.handleChange}
-          value={formCash ? formCash.efeIngresado : 0}
-        />
+        <h5>
+          {formCash ? formCash.efeIngresado : 0}
+        </h5>
         <label htmlfor="nombre">Cambio dado:</label>
-        <input
-          class="form-control"
-          id="cambio"
-          type="text"
-          name="cambio"
-          readOnly
-          onChange={this.handleChange}
-          value={formCash ? formCash.cambio : 0}
-        />
+        <h5>
+          {formCash ? formCash.cambio : 0}
+        </h5>
         <label htmlfor="nombre">Efectivo final:</label>
-        <input
-          class="form-control"
-          id="nombre-efectivo-final"
-          type="text"
-          name="nombre-efectivo-final"
-          readOnly
-          onChange={this.handleChange}
-          value={formCash ? formCash.efeFinal : 0}
-        />
+        <h5>
+          
+          {formCash ? formCash.efeFinal : 0}
+        </h5>
         <h3 className="lineadiv"></h3>
         <div className="botonesA">
         <Button variant="success" onClick={() => this.openCash()}>
