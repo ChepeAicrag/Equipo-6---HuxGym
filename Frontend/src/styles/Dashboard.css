@@ -116,8 +116,6 @@
   width: 100%;
   overflow: auto;
   display:flex;
-  align-items: center;
-  flex-direction: column;
 }
 /* .Principal .Head {
   padding: 0px 0px 0px 280px;
