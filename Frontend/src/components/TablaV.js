@@ -1206,7 +1206,7 @@ class TablaV extends Component {
                 </div>
               ) : (
                 <>
-                  <label htmlFor="id">Id de la venta</label>
+                  {/* <label htmlFor="id">Id de la venta</label>
                   <input
                     className="form-control"
                     type="text"
@@ -1215,9 +1215,9 @@ class TablaV extends Component {
                     readOnly
                     onChange={this.handleChange}
                     value={form ? form.id : ""}
-                  />
+                  /> */}
                   
-                  <input
+                  {/* <input
                     className="form-control"
                     type="text"
                     name="name"
@@ -1225,7 +1225,11 @@ class TablaV extends Component {
                     readOnly
                     onChange={this.handleChange}
                     value={this.state.name_cliente!="" ? this.state.name_cliente : "Aún no se selecciona cliente"}
-                  />
+                  /> */}
+
+                  <h3>
+                  {this.state.name_cliente!="" ? this.state.name_cliente : "Aún no se selecciona cliente"}
+                  </h3>
                   <br />
                   <label htmlFor="price_c" className="mb-3">Observacion*:</label>
                   <input

@@ -370,15 +370,15 @@ class Monto extends Component {
         </div>
         <Modal size="lg" isOpen={this.state.modalCaja}>
           <ModalHeader style={{ display: "block" }}>
-            Previsualización de cierre de caja
+            Cierre de caja
             <span style={{ float: "right" }}></span>
             <br />
             <br />
-            <button className="btn btn-outline-primary btn-lg " disabled>
+            <button className="btn btn-outline-light btn-lg " disabled>
               Visualizar Compras
             </button>{" "}
             <button
-              className="btn btn-primary btn-lg"
+              className="btn btn-light btn-lg"
               onClick={() =>
                 this.setState({
                   modalCaja: false,
@@ -415,12 +415,12 @@ class Monto extends Component {
         </Modal>
         <Modal size="lg" isOpen={this.state.modalCaja2}>
           <ModalHeader style={{ display: "block" }}>
-            Previsualización de cierre de caja
+            Cierre de caja
             <span style={{ float: "right" }}></span>
             <br />
             <br />
             <button
-              className="btn btn-primary btn-lg"
+              className="btn btn-light btn-lg"
               onClick={() =>
                 this.setState({
                   modalCaja2: false,
@@ -431,7 +431,7 @@ class Monto extends Component {
               Visualizar Compras
             </button>{" "}
             <button
-              className="btn btn-outline-primary btn-lg"
+              className="btn btn-outline-light btn-lg"
               disabled
               // onClick={() => this.setState({ modalCaja: true })}
             >
@@ -465,7 +465,7 @@ class Monto extends Component {
         </Modal>
         <Modal isOpen={this.state.modalCaja3}>
           <ModalHeader style={{ display: "block" }}>
-            Previsualización de cierre de caja
+            Cierre de caja
             <span style={{ float: "right" }}></span>
           </ModalHeader>
           <ModalBody>

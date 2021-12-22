@@ -805,6 +805,7 @@ class TablaCompras extends Component {
                   <br />
 
                   {this.state.proveedor_id != "" ? (
+                    <>
                     <button
                       className="btn btn-success"
                       onClick={() => {
@@ -815,96 +816,11 @@ class TablaCompras extends Component {
                     >
                       Seleccionar Productos
                     </button>
-                  ) : (
-                    <button className="btn btn-success" disabled="true">
-                      Seleccionar Productos
-                    </button>
-                  )}
-                </>
-              ) : (
-                <>
-                  <label htmlFor="id">Id</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="id"
-                    id="id"
-                    readOnly
-                    onChange={this.handleChange}
-                    value={form ? form.id : ""}
-                  />
-                  <br />
-                  <br />
-                  <label htmlFor="name">Proveedor Seleccionado:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
-                    readOnly
-                    onChange={this.handleChange}
-                    value={form ? this.state.name_proveedor : ""}
-                  />
-                  <br />
-                </>
-              )}
 
-              <br />
-
-              <label htmlFor="price_c">Observación*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="observation"
-                id="observation"
-                maxLength="50"
-                onChange={this.handleChangeInput}
-                value={form ? form.observation : ""}
-              />
-              <br />
-              {/* <label htmlFor="description">Dinero en efectivo:</label>
-              <input
-                className="form-control"
-                type="number"
-                name="pago"
-                min="0"
-                pattern="^[0-9]+"
-                id="pago"
-                onChange={this.handleChange3}
-                value={this.state.pago != 0 ? this.state.pago : ""}
-              />
-              <br /> */}
-              <br />
-              <label htmlFor="price_s">Total de compra:</label>
-              <input
-                className="form-control"
-                type="Number"
-                name="price_s"
-                id="pprice_s"
-                readOnly
-                onChange={this.total}
-                value={form2 ? this.state.total : 0}
-              />
-              <br />
-              {/* <label htmlFor="image">Cambio:</label>
-              <input
-                className="form-control"
-                type="Number"
-                name="cambio"
-                id="cambio"
-                readOnly
-                onChange={this.handleChange}
-                value={this.state.cambio > 0 ? this.state.cambio : 0}
-              />
-              <br /> */}
-
-              <br />
-            </div>
-            {/* Tabla Productos Seleccionados */}
-            <div className="form-groupT">
+                    <div className="form-groupT">
               <div className="table-wrapper">
-                <table className="tab-pane active table table-dark mt-2 mb-5">
-                  <thead>
+                <table className="tab-pane  table ">
+                  <thead className="tablaHeader">
                     <tr>
                       {this.state.tipoModal == "insertar" ? <th>Id</th> : <></>}
 
@@ -921,7 +837,7 @@ class TablaCompras extends Component {
                       )}
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="cuerpoTabla base">
                     {this.state.dataS.map((ProductoS) => {
                       return (
                         <tr>
@@ -1042,6 +958,95 @@ class TablaCompras extends Component {
                 </table>
               </div>
             </div>
+                    </>
+                  ) : (
+                    <button className="btn btn-success" disabled="true">
+                      Seleccionar Productos
+                    </button>
+                  )}
+                </>
+              ) : (
+                <>
+                 {/*  <label htmlFor="id">Id</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="id"
+                    id="id"
+                    readOnly
+                    onChange={this.handleChange}
+                    value={form ? form.id : ""}
+                  />
+                  <br /> */}
+                  <br />
+                  <label htmlFor="name">Proveedor Seleccionado:</label>
+                  {/* <input
+                    className="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    readOnly
+                    onChange={this.handleChange}
+                    value={form ? this.state.name_proveedor : ""}
+                  /> */}
+                  <h5>{form ? this.state.name_proveedor : ""}</h5>
+                 
+                </>
+              )}
+
+              <br />
+
+              <label htmlFor="price_c">Observación*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="observation"
+                id="observation"
+                maxLength="50"
+                onChange={this.handleChangeInput}
+                value={form ? form.observation : ""}
+              />
+              <br />
+              {/* <label htmlFor="description">Dinero en efectivo:</label>
+              <input
+                className="form-control"
+                type="number"
+                name="pago"
+                min="0"
+                pattern="^[0-9]+"
+                id="pago"
+                onChange={this.handleChange3}
+                value={this.state.pago != 0 ? this.state.pago : ""}
+              />
+              <br /> */}
+              <br />
+              <label htmlFor="price_s">Total de compra:</label>
+              <input
+                className="form-control"
+                type="Number"
+                name="price_s"
+                id="pprice_s"
+                readOnly
+                onChange={this.total}
+                value={form2 ? this.state.total : 0}
+              />
+              <br />
+              {/* <label htmlFor="image">Cambio:</label>
+              <input
+                className="form-control"
+                type="Number"
+                name="cambio"
+                id="cambio"
+                readOnly
+                onChange={this.handleChange}
+                value={this.state.cambio > 0 ? this.state.cambio : 0}
+              />
+              <br /> */}
+
+              <br />
+            </div>
+            {/* Tabla Productos Seleccionados */}
+            
           </ModalBody>
 
           <ModalFooter className="FooterVenta">
@@ -1106,7 +1111,7 @@ class TablaCompras extends Component {
         <Modal isOpen={this.state.modalEliminar}>
           <ModalBody>
             <div className="form-group">
-              <label htmlFor="name">Id:</label>
+              {/* <label htmlFor="name">Id:</label>
               <input
                 className="form-control"
                 type="text"
@@ -1127,7 +1132,7 @@ class TablaCompras extends Component {
                 onChange={this.handleChange}
                 value={form ? form.observation : ""}
               />
-              <br />
+              <br /> */}
               <br />
               ¿Seguro de eliminar la Compra?
             </div>

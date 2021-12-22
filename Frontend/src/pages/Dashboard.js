@@ -38,9 +38,9 @@ function Dashboard() {
             </div>
 
             <div className="graficasandcheck ">
-              <div className="graficas">
+              {/* <div className="graficas">
                 {<Grafica_Barras />}
-              </div>
+              </div> */}
               <h1>Grafica</h1>
               <div className="caja">
                 <Monto />
