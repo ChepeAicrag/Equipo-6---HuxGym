@@ -35,10 +35,10 @@ class Monto extends Component {
     dataCash: [],
     formCash: {
       efeInicial: 0,
-      efeVentas: "",
-      gasCompras: "",
-      efeIngresado: "",
-      efeFinal: "",
+      efeVentas: 0,
+      gasCompras: 0,
+      efeIngresado: 0,
+      efeFinal: 0, 
       observations: "",
       cambio: 0,
     },
@@ -326,7 +326,6 @@ class Monto extends Component {
         </h5>
         <label htmlfor="nombre">Efectivo final:</label>
         <h5>
-          
           {formCash ? formCash.efeFinal : 0}
         </h5>
         <h3 className="lineadiv"></h3>
