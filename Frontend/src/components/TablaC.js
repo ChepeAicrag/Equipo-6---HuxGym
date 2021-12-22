@@ -352,7 +352,7 @@ class TablaC extends Component {
 
           <ModalBody>
             <div className="form-group">
-              {this.state.tipoModal == "insertar" ? (
+              {/* {this.state.tipoModal == "insertar" ? (
                 <></>
               ) : (
                 <>
@@ -367,7 +367,7 @@ class TablaC extends Component {
                     value={form ? form.id : ""}
                   />
                 </>
-              )}
+              )} */}
 
               <br />
               <label htmlFor="name">Nombre de la categoría*:</label>

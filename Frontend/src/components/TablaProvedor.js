@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
 import axios from "axios";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +17,7 @@ class TablaProvedor extends Component {
   campos = { name: "nombre", phone: "telefono" };
   state = {
     busqueda: "",
-    errors:{},
+    errors: {},
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
@@ -293,7 +293,7 @@ class TablaProvedor extends Component {
     const { name, value } = e.target;
     let regex = new RegExp("^[0-9]+$");
 
-    if (regex.test(value)|| isEmpty(value)) {
+    if (regex.test(value) || isEmpty(value)) {
       console.log(name, value);
       this.setState({
         form: {
@@ -320,39 +320,38 @@ class TablaProvedor extends Component {
       "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
     );
     /* let regex = new RegExp("^[0-9]+$"); */
-    
-      if (patt.test(value) || isEmpty(value)) {
-        this.setState({
-          form: {
-            ...this.state.form,
-            [name]: value,
-          },
-        });
 
-        if(!regex.test(value)){
-          this.setState(prevState => ({
-            errors: {
-                ...prevState.errors,
-                rfc:"RFC incorretca"
-            }
-          }));
-        }else{
-          this.setState(prevState => ({
-            errors: {
-                ...prevState.errors,
-                rfc:null
-            }
+    if (patt.test(value) || isEmpty(value)) {
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: value,
+        },
+      });
+
+      if (!regex.test(value)) {
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            rfc: "RFC incorretca",
+          },
         }));
-        }
       } else {
-        swal({
-          text: "Solo se permiten numeros y letras",
-          icon: "info",
-          button: "Aceptar",
-          timer: "5000",
-        });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            rfc: null,
+          },
+        }));
       }
-    
+    } else {
+      swal({
+        text: "Solo se permiten numeros y letras",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    }
   };
 
   render() {
@@ -462,7 +461,7 @@ class TablaProvedor extends Component {
 
           <ModalBody>
             <div className="form-group">
-              {this.state.tipoModal == "insertar" ? (
+             {/*  {this.state.tipoModal == "insertar" ? (
                 <></>
               ) : (
                 <>
@@ -477,7 +476,7 @@ class TablaProvedor extends Component {
                     value={form ? form.id : ""}
                   />
                 </>
-              )}
+              )} */}
 
               <br />
               <label htmlFor="name">Nombre del proveedor*:</label>
@@ -529,7 +528,9 @@ class TablaProvedor extends Component {
                 onChange={this.handleChangeInputRFC}
                 value={form ? form.rfc : ""}
               />
-              {this.state.errors.rfc && <p  className="errores mt-2">{this.state.errors.rfc}</p>}
+              {this.state.errors.rfc && (
+                <p className="errores mt-2">{this.state.errors.rfc}</p>
+              )}
             </div>
           </ModalBody>
 
