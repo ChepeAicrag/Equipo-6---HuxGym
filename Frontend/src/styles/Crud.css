@@ -320,7 +320,10 @@ label.btn.botonesForm.m-1.active {
   margin-bottom:3px;
   margin-top: 3px;
 }
-
+.entradascaja{
+  width: 100px;
+  height: 100px;
+}
 @media only screen and (max-width: 950px) {
 
   .realizarhes {
