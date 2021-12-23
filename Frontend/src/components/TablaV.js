@@ -950,6 +950,22 @@ class TablaV extends Component {
             <div className="form-groupD">
               {this.state.tipoModal == "insertar" ? (
                 <div>
+                  <br />
+                  <button
+                    className="btn btn-success"
+                    onClick={() => {
+                      this.peticionGetC();
+
+                      this.modalCliente();
+                    }}
+                  >
+                    Seleccionar Cliente
+                  </button>
+                  <br />
+                  
+                  <h5>
+                    {this.state.name_cliente!=""  ? this.state.name_cliente : "Aún no se selecciona cliente"}
+                  </h5>
                   {this.state.modalMembresia ? (
                     this.state.cantidades.length == 0 ? (
                       <button
@@ -1162,7 +1178,7 @@ class TablaV extends Component {
                 </table>
               </div>
             </div>
-                  <br />
+                  {/* <br />
                   <button
                     className="btn btn-success"
                     onClick={() => {
@@ -1177,7 +1193,7 @@ class TablaV extends Component {
                   
                   <h5>
                     {this.state.name_cliente!=""  ? this.state.name_cliente : "Aún no se selecciona cliente"}
-                  </h5>
+                  </h5> */}
                   <br />
                   <label htmlFor="price_c">Observación*:</label>
                   <input
