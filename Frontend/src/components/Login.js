@@ -16,6 +16,8 @@ const validate = (values) => {
   }
   return errors;
 };
+
+
 class Login extends Component {
   /* constructor(props) {
     super(props);
@@ -64,6 +66,20 @@ class Login extends Component {
     }
     return { error: false };
   };
+
+  manejadorCorreo = async () =>{
+    var expReg= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+    const email = this.state.form.email;
+    var esValido= expReg.test(email);
+    if(!esValido){
+      swal({
+        text: "Correo no valido",
+        icon: "info",
+        button: "Aceptar",
+        timer: "3000",
+      });
+    }
+  }
 
   manejadorBoton = async () => {
     try {
@@ -138,8 +154,9 @@ class Login extends Component {
                   className="fadeIn second"
                   name="email"
                   required=""
-                  leyendaError="El correo electrónico debe pertenecer a un dominio"
+                  /* leyendaError="El correo electrónico debe pertenecer a un dominio" */
                   placeholder="Correro electrónico"
+                  onBlur={this.manejadorCorreo}
                   onChange={this.manejadorChange}
                 />
                 Contraseña:
