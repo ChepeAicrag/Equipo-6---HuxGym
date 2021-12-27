@@ -14,6 +14,8 @@ class Check_Client extends Component {
   state = {
     modalCheck: false,
     total: 0,
+    errors:{},
+    sinEntrar:[],
     dataC: [],
     dataCA: [],
     clientes: [],
@@ -29,7 +31,26 @@ class Check_Client extends Component {
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGetC();
-    this.peticionGetCA();
+    
+    
+  }
+
+  seEncuentra(item){
+    const found =this.state.dataCA.find(element=>{
+      if(element.customer_id.id===item.id)return item
+      else return null
+    });
+    if(!found) return false
+    else return true
+  }
+
+  clientesSinEntrar(){
+    let filtro = this.state.dataC.filter((item) => {
+        if(!this.seEncuentra(item))
+        return item;
+      }
+    );
+    this.setState({ sinEntrar: filtro });
   }
 
   handleChange = async (e) => {
@@ -59,7 +80,9 @@ class Check_Client extends Component {
           dataC: res.data,
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
       }
+      /* this.clientesSinEntrar(); */
       console.log(res.data);
+      this.peticionGetCA();
     } catch (error) {
       //const msj = JSON.parse(error.request.response).message;
       console.log(error);
@@ -76,8 +99,24 @@ class Check_Client extends Component {
           dataCA: res.data,
         });
         this.state.total = res.data.length;
+        if(res.data.length>14){
+          this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                lleno: 'El cupo maximo es de 15'
+            }
+        }))
+        }else {
+          this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                lleno: null
+            }
+        }))
+        }
         console.log(res);
         console.log(this.state.total);
+        this.clientesSinEntrar();
         /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
       }
     } catch (error) {
@@ -274,6 +313,7 @@ class Check_Client extends Component {
                 value={form ? form.busqueda : ""}
               />
               <br />
+              {this.state.errors.lleno && <p  className="errores mt-2">{this.state.errors.lleno}</p>}
               <br />
               <div className="tablita">
                 <table className="tab-pane table table-dark mt-2 mb-5">
@@ -285,14 +325,15 @@ class Check_Client extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.dataC &&
-                      this.state.dataC.map((clientes) => {
+                    {this.state.sinEntrar &&
+                      this.state.sinEntrar.map((clientes) => {
                         /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                         return (
                           <tr>
                             <td>{clientes.id}</td>
                             <td>{clientes.name}</td>
                             <td>
+                            {this.state.dataCA.length<15 ?
                               <button
                                 className="btn botonesdash"
                                 onClick={() => {
@@ -304,6 +345,14 @@ class Check_Client extends Component {
                               >
                                 Entrada
                               </button>
+                              :
+                              <button
+                                className="btn botonesdash"
+                                disabled
+                              >
+                                Entrada
+                              </button>
+                              }
                             </td>
                           </tr>
                         );
