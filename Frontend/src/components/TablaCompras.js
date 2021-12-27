@@ -8,7 +8,8 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { isEmpty } from "../helpers/methods";
-
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from "@material-ui/core/TextField";
 const url =
   "https://www.huxgym.codes/purchases/obtenerCompras/"; /* Aqui va la url principal */
 
@@ -1021,14 +1022,18 @@ class TablaCompras extends Component {
               <br /> */}
               <br />
               <label htmlFor="price_s">Total de compra:</label>
-              <input
-                className="form-control"
+              <br/>
+              <TextField
                 type="Number"
                 name="price_s"
                 id="pprice_s"
                 readOnly
                 onChange={this.total}
                 value={form2 ? this.state.total : 0}
+                variant="outlined"
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
+                }}
               />
               <br />
               {/* <label htmlFor="image">Cambio:</label>
