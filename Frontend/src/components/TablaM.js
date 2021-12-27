@@ -10,6 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
 const url = "https://www.huxgym.codes/memberships/memberships/";
 
 class TablaM extends Component {
@@ -489,8 +492,8 @@ class TablaM extends Component {
               />
               <br />
               <br />
-              <label htmlFor="price">Precio (*):</label>
-              <br />
+              {/* <label htmlFor="price">Precio (*):</label> */}
+              
               {/* <input
                 className="form-control"
                 type="text"
@@ -501,20 +504,27 @@ class TablaM extends Component {
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.price : ""}
               /> */}
+              <InputLabel htmlFor="standard-adornment-amount" style={{ color: "white"}}>Precio (*):</InputLabel>
               <TextField
+                
                 id="outlined-number"
                 name="price"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.price : 0}
                 InputProps={{ inputProps: { min: 0 } }}
                 type="number"
+                style={{borderRadius:"0px"}}
                 placeholder="Precio de venta"
                 InputLabelProps={{
                   shrink: true,
                 }}
-                variant="outlined"
-              />
-
+                /* variant="outlined" */
+               
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
+                }}
+             />
+             
               <br />
               <br />
               <label htmlFor="price">Duración (cantidad de días) (*):</label>
@@ -540,7 +550,10 @@ class TablaM extends Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                variant="outlined"
+                /* variant="outlined" */
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
+                }}
               />
               <br />
             </div>

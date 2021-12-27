@@ -722,8 +722,8 @@ class TablaP extends Component {
                   <tr>
                     <td>{productos.id}</td>
                     <td>{productos.name}</td>
-                    <td>{productos.price_s}</td>
-                    <td>{productos.price_c}</td>
+                    <td>{"$ " +productos.price_s}</td>
+                    <td>{"$ " +productos.price_c}</td>
                     <td>{productos.description}</td>
                     <td>{productos.stock}</td>
                     <td>

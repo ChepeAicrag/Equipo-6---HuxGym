@@ -7,6 +7,8 @@ import swal from "sweetalert";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from "@material-ui/core/TextField";
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons"; */
 const url = "https://www.huxgym.codes/sales/"; /* Aqui va la url principal */
@@ -759,7 +761,7 @@ class TablaVV extends Component {
                   />
                   <br />
                   <label htmlFor="description">Dinero en efectivo:</label>
-                  <input
+                  <TextField
                     className="form-control"
                     type="number"
                     name="pago"
@@ -768,6 +770,9 @@ class TablaVV extends Component {
                     id="pago"
                     onChange={this.handleChange3}
                     value={this.state.pago != 0 ? this.state.pago : ""}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
+                    }}
                   />
                   <br />
                 </>

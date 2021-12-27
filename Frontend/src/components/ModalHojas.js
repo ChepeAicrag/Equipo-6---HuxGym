@@ -920,7 +920,7 @@ validatePeso = (event) => {
                               <FontAwesomeIcon icon={faEdit} />
                             </button>
                             <br />
-                            {"  "}
+                            {/* {"  "}
                             {localStorage.getItem("rol") == "Administrador" ? (
                               <button
                                 className="btn btn-danger"
@@ -933,7 +933,7 @@ validatePeso = (event) => {
                               </button>
                             ) : (
                               <></>
-                            )}
+                            )} */}
                           </td>
                         </tr>
                       );

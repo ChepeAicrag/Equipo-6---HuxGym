@@ -733,7 +733,7 @@ class TablaCompras extends Component {
                   <tr>
                     <td>{compra.Purchase.id}</td>
                     <td>{compra.purchase_detail[0].product.provider.name}</td>
-                    <td>{compra.Purchase.total}</td>
+                    <td>{"$ " +compra.Purchase.total}</td>
                     <td>{compra.Purchase.date.split("T")[0]}</td>
 
                     <td>

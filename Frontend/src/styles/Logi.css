@@ -105,10 +105,10 @@ h2.active {
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
-  background-color: #f7f7f7;
+  background-color: #121288;
   border: none;
   border-radius: 80px;
-  color: rgb(0, 0, 0);
+  color: #fff;
   padding: 5% 10%;
   /*display:flex;*/
   text-align: center;
@@ -131,8 +131,8 @@ input[type="reset"] {
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
-  color: rgb(255, 255, 255);
-  background-color: #121288;
+  color: #000;
+  background-color: #f7f7f7;
 }
 
 input[type="button"]:active,

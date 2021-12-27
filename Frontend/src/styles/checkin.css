@@ -79,10 +79,15 @@
   width: 100%;
 }
 .che .form-control {
-  height: 30px;
-  width: 50%;
+  height: 100%;
+  width: 60%;
 }
-
+.signo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center
+}
 .Grafic {
   background: rgb(241, 239, 239);
   float: left;
