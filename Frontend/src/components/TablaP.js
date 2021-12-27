@@ -4,6 +4,7 @@ import "../styles/Crud.css";
 import axios from "axios";
 import swal from "sweetalert";
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonProducts from "../components/BotonProducts";
@@ -845,6 +846,9 @@ class TablaP extends Component {
                             shrink: true,
                         }}
                         variant="outlined"
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
+                        }}
                     />
              {/*  <input
                 className="form-control"
@@ -874,6 +878,9 @@ class TablaP extends Component {
                             shrink: true,
                         }}
                         variant="outlined"
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
+                        }}
                     />
               {/* <input
                 className="form-control"

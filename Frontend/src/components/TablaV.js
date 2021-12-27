@@ -1220,6 +1220,7 @@ class TablaV extends Component {
                     id="pago"
                     onChange={this.handleChange3}
                     value={this.state.pago ? this.state.pago : 0}
+                    variant="outlined"
                     InputProps={{
                       startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
                     }}
@@ -1265,9 +1266,8 @@ class TablaV extends Component {
                   <br />
                   
                   <label htmlFor="description " className="mt-4">Dinero en efectivo:</label>
-                  <input>$</input>
-                  <input
-                    className="form-control"
+                  <br/>
+                  <TextField
                     type="number"
                     name="pago"
                     min="0"
@@ -1276,6 +1276,10 @@ class TablaV extends Component {
                     readOnly
                     onChange={this.handleChange3}
                     value={this.state.pago != 0 ? this.state.pago : ""}
+                    variant="outlined"
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
+                    }}
                   />
                   
                   <br />

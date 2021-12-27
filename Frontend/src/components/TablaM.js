@@ -518,7 +518,7 @@ class TablaM extends Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                /* variant="outlined" */
+                variant="outlined"
                
                 InputProps={{
                   startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
@@ -550,10 +550,8 @@ class TablaM extends Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                /* variant="outlined" */
-                InputProps={{
-                  startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
-                }}
+                variant="outlined"
+                
               />
               <br />
             </div>
