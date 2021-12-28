@@ -4,6 +4,7 @@ import "../styles/Crud.css";
 import axios from "axios";
 import swal from "sweetalert";
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonProducts from "../components/BotonProducts";
@@ -722,8 +723,8 @@ class TablaP extends Component {
                   <tr>
                     <td>{productos.id}</td>
                     <td>{productos.name}</td>
-                    <td>{productos.price_s}</td>
-                    <td>{productos.price_c}</td>
+                    <td>{"$ " +productos.price_s}</td>
+                    <td>{"$ " +productos.price_c}</td>
                     <td>{productos.description}</td>
                     <td>{productos.stock}</td>
                     <td>
@@ -833,19 +834,23 @@ class TablaP extends Component {
               <br />
               <label htmlFor="price_c">Precio de compra*:</label>
               <br />
-              <TextField
-                        id="outlined-number"
-                        
-                        name="price_c"
-                        onChange={this.validateNumber}
-                        step="5"
-                        value={form ? form.price_c : "0.00"}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
+              <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                              id="outlined-number"
+                              
+                              name="price_c"
+                              onChange={this.validateNumber}
+                              step="5"
+                              value={form ? form.price_c : "0.00"}
+                              type="number"
+                              InputLabelProps={{
+                                  shrink: true,
+                              }}
+                              variant="outlined"
+                              
+                          />
+              </div>
              {/*  <input
                 className="form-control"
                 type="number"
@@ -862,19 +867,23 @@ class TablaP extends Component {
               <br />
               <label htmlFor="price_s">Precio de venta*:</label>
               <br />
-              <TextField
-                        id="outlined-number"
-                        
-                        name="price_s"
-                        onChange={this.validateNumber}
-                        step="5"
-                        value={form ? form.price_s : "0.00"}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
+              <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                              id="outlined-number"
+                              
+                              name="price_s"
+                              onChange={this.validateNumber}
+                              step="5"
+                              value={form ? form.price_s : "0.00"}
+                              type="number"
+                              InputLabelProps={{
+                                  shrink: true,
+                              }}
+                              variant="outlined"
+                              
+                          />
+              </div>
               {/* <input
                 className="form-control"
                 type="number"

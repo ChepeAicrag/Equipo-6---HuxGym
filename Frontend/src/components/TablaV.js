@@ -5,7 +5,8 @@ import swal from "sweetalert";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
 import "../styles/Crud.css";
 import "../styles/Ventas.css";
@@ -885,7 +886,8 @@ class TablaV extends Component {
                 <th>Id de venta</th>
                 <th>Empleado que realizó la venta</th>
                 <th>Total de la venta</th>
-                <th>Dinero recibido</th>
+                <th>Efectivo</th>
+                <th>Cambio</th>
                 <th>Fecha de registro</th>
                 <th>Cliente</th>
                 <th>Acciones</th>
@@ -898,8 +900,9 @@ class TablaV extends Component {
                   <tr>
                     <td>{ventas.sale.id}</td>
                     <td>{ventas.sale.user.name}</td>
-                    <td>{ventas.sale.total}</td>
-                    <td>{ventas.sale.cash}</td>
+                    <td>{"$ " +ventas.sale.total}</td>
+                    <td>{"$ " +ventas.sale.cash}</td>
+                    <td>{"$ " +(ventas.sale.cash - ventas.sale.total)}</td>
                     <td>{ventas.sale.date}</td>
                     <td>{ventas.sale.customer.name}</td>
 
@@ -950,6 +953,22 @@ class TablaV extends Component {
             <div className="form-groupD">
               {this.state.tipoModal == "insertar" ? (
                 <div>
+                  <br />
+                  <button
+                    className="btn btn-success"
+                    onClick={() => {
+                      this.peticionGetC();
+
+                      this.modalCliente();
+                    }}
+                  >
+                    Seleccionar Cliente
+                  </button>
+                  <br />
+                  
+                  <h5>
+                    {this.state.name_cliente!=""  ? this.state.name_cliente : "Aún no se selecciona cliente"}
+                  </h5>
                   {this.state.modalMembresia ? (
                     this.state.cantidades.length == 0 ? (
                       <button
@@ -1162,7 +1181,7 @@ class TablaV extends Component {
                 </table>
               </div>
             </div>
-                  <br />
+                  {/* <br />
                   <button
                     className="btn btn-success"
                     onClick={() => {
@@ -1177,7 +1196,7 @@ class TablaV extends Component {
                   
                   <h5>
                     {this.state.name_cliente!=""  ? this.state.name_cliente : "Aún no se selecciona cliente"}
-                  </h5>
+                  </h5> */}
                   <br />
                   <label htmlFor="price_c">Observación*:</label>
                   <input
@@ -1192,16 +1211,21 @@ class TablaV extends Component {
                   />
                   <br />
                   <label htmlFor="description" className="mt-3">Dinero en efectivo*:</label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="pago"
-                    min="0"
-                    pattern="^[0-9]+"
-                    id="pago"
-                    onChange={this.handleChange3}
-                    value={this.state.pago ? this.state.pago : 0}
-                  />
+                  <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                      type="number"
+                      name="pago"
+                      min="0"
+                      pattern="^[0-9]+"
+                      id="pago"
+                      onChange={this.handleChange3}
+                      value={this.state.pago ? this.state.pago : 0}
+                      variant="outlined" 
+                    />
+                  </div>
+                  <br/>
+                  
                   <br />
                 </div>
               ) : (
@@ -1241,18 +1265,25 @@ class TablaV extends Component {
                     value={form ? form.observation : ""}
                   />
                   <br />
+                  
                   <label htmlFor="description " className="mt-4">Dinero en efectivo:</label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="pago"
-                    min="0"
-                    pattern="^[0-9]+"
-                    id="pago"
-                    readOnly
-                    onChange={this.handleChange3}
-                    value={this.state.pago != 0 ? this.state.pago : ""}
-                  />
+                  <br/>
+
+                  <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                      type="number"
+                      name="pago"
+                      min="0"
+                      pattern="^[0-9]+"
+                      id="pago"
+                      readOnly
+                      onChange={this.handleChange3}
+                      value={this.state.pago != 0 ? this.state.pago : ""}
+                      variant="outlined"
+                      
+                    />
+                  </div>
                   <br />
                 </>
               )}
@@ -1261,12 +1292,12 @@ class TablaV extends Component {
 
               <label htmlFor="price_s">Total de venta:</label>
               <h3>
-               {this.state.total > 0 ? this.state.total : 0}
+               <label>$ {this.state.total > 0 ? this.state.total : 0}</label>
               </h3>
               <br />
               <label htmlFor="image">Cambio:</label>
               <h3>
-                {this.state.cambio > 0 ? Number(this.state.cambio).toFixed(2) : 0}
+              <label>$ {this.state.cambio > 0 ? Number(this.state.cambio).toFixed(2) : 0}</label>
               </h3>
               <br />
 

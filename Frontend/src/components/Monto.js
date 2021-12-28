@@ -258,8 +258,10 @@ class Monto extends Component {
         <h3 className="lineadiv">Caja inicial:</h3>
         {this.state.abierta ? (
           <>
-            <label htmlFor="cashInit">Efectivo inicial:</label>
+            <label htmlFor="cashInit">efectivo inicial:</label>
+            
             <input
+              
               className="form-control entradascaja"
               type="number"
               name="efeInicial"
@@ -272,10 +274,13 @@ class Monto extends Component {
               onChange={this.handleChangeCash}
               value={formCash != 0 ? formCash.efeInicial : 0}
             />
+            
           </>
         ) : (
           <>
             <label htmlFor="cashInit">Efectivo inicial:</label>
+            <div className="signo">
+            <label className="mr-2">$</label>
             <input
               className="form-control"
               type="number"
@@ -284,6 +289,7 @@ class Monto extends Component {
               min="0"
               pattern="^[0-9]+"
               maxLength="10"
+              /* dir="rtl" */
               onChange={this.handleChangeCash}
               value={formCash != 0 ? formCash.efeInicial : 0}
               onKeyPress={async (event) => {
@@ -306,27 +312,30 @@ class Monto extends Component {
                 }
               }}
             />
+            </div>
+            
+            
           </>
         )}
         <label htmlFor="nombre">Efectivo de ventas:</label>
         <h5>
-          {formCash ? formCash.efeVentas : 0}
+          {"$ " + (formCash ? formCash.efeVentas : 0)}
         </h5>
         <label htmlfor="nombre">Gastos de compras:</label>
         <h5>
-         {formCash ? formCash.gasCompras : 0}
+         {"$ " + (formCash ? formCash.gasCompras : 0)}
         </h5>
         <label htmlfor="nombre">Efectivo total ingresado:</label>
         <h5>
-          {formCash ? formCash.efeIngresado : 0}
+          {"$ " +(formCash ? formCash.efeIngresado : 0)}
         </h5>
         <label htmlfor="nombre">Cambio dado:</label>
         <h5>
-          {formCash ? formCash.cambio : 0}
+          {"$ " +(formCash ? formCash.cambio : 0)}
         </h5>
         <label htmlfor="nombre">Efectivo final:</label>
         <h5>
-          {formCash ? formCash.efeFinal : 0}
+          {"$ " +(formCash ? formCash.efeFinal : 0)}
         </h5>
         <h3 className="lineadiv"></h3>
         <div className="botonesA">
