@@ -14,10 +14,12 @@ import Select from '@mui/material/Select';
 
 import BtnModalHoja from "../components/BtnModalHoja";
 import ModalHojas from "../components/ModalHojas";
+import ModalHojaClinica from "../components/ModalHojaClinica";
 import "../styles/Crud.css";
 import "../styles/clientes.css";
 import { isEmpty } from "../helpers/methods";
 import BtnMembresia from "./CambioMembresia";
+import ModalPrueba from "./modalPrueba";
 
 const url = "https://www.huxgym.codes/customers/customers/";
 const urlMembresias = "https://www.huxgym.codes/memberships/memberships";
@@ -27,6 +29,8 @@ class Tabla extends Component {
   state = {
     busqueda: "",
     membresia:"",
+    modalHojaclinica:false,
+    ultimo:{},
     //membresiasList:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
@@ -62,6 +66,7 @@ class Tabla extends Component {
   };
 
   peticionGet = async () => {
+    console.log("entre a petition get")
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
     try {
       const res = await axios.get(url);
@@ -70,7 +75,9 @@ class Tabla extends Component {
           /* Con esto accedemos a las variables de state y modificamos */
 
           data: res.data,
+          ultimo:res.data[res.data.length-1],
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
+        
       }
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
@@ -126,6 +133,13 @@ class Tabla extends Component {
     return { error: false };
   };
 
+  getIdUltimo=(data)=>{
+    console.log("entree a get ultimo")
+    let id=data[data.length-1];
+    console.log(id)
+
+  }
+
   peticionPost = async () => {
     /* Son asincronas por que se ejeuctan en segundo plano */
     /* Con esto enviamos los datos al servidor */
@@ -141,8 +155,8 @@ class Tabla extends Component {
         });
       } else {
         let formData = new FormData();
-        console.log(form.image)
-        console.log(isEmpty(this.state.form.image))
+        /* console.log(form.image)
+        console.log(isEmpty(this.state.form.image)) */
         if (typeof form.image !== "string" && !isEmpty(this.state.form.image))
           formData.append("image", form.image);
         formData.append("name", form.name);
@@ -154,13 +168,32 @@ class Tabla extends Component {
             .post(url, formData);
         if ((res.status === 200) | (res.status === 201)) {
           this.modalInsertar();
-          this.peticionGet();
-          swal({
+          console.log("Antes d ela promesa")
+          var p3 = Promise.resolve('Éxito').then(this.peticionGet());
+
+          p3.then((successMessage) => {
+            console.log("hoja clinica modal "+this.state.modalHojaclinica);
+            this.modalHoja();
+            this.setState({ modalHojaclinica: !this.state.modalHojaclinica });
+            this.setState({
+              modalHojaclinica: true,
+            });
+            
+            
+          });
+
+          
+          {/* <ModalHojaClinica id_cliente={this.state.ultimo}></ModalHojaClinica>  */}
+
+
+
+         
+         /*  swal({
             text: "Cliente registrado con éxito",
             icon: "success",
             button: "Aceptar",
             timer: "5000",
-          });
+          }); */
         }
       }
     } catch (error) {
@@ -185,8 +218,8 @@ class Tabla extends Component {
     /* con put enviamos informacion al endpoint para modificar*/
     try {
       let formData = new FormData();
-      console.log(typeof this.state.form.image);
-      console.log(isEmpty(this.state.form.image))
+      /* console.log(typeof this.state.form.image);
+      console.log(isEmpty(this.state.form.image)) */
       if (
         typeof this.state.form.image !== "string" &&
         !isEmpty(this.state.form.image)
@@ -315,7 +348,7 @@ class Tabla extends Component {
   buscador = async (e) => {
     await e.persist();
     this.setState({ busqueda: e.target.value });
-    console.log(this.state.busqueda);
+    
     this.filtrarElementos();
   };
 
@@ -337,6 +370,10 @@ class Tabla extends Component {
 
   modalInsertar = () => {
     this.setState({ modalInsertar: !this.state.modalInsertar });
+  };
+
+  modalHoja = () => {
+    this.setState({ modalHojaclinica: !this.state.modalHojaclinica });
   };
 
   handleChangeInput = (e) => {
@@ -535,6 +572,11 @@ class Tabla extends Component {
             </tbody>
           </table>
         </div>
+        {
+          this.state.modalHojaclinica &&
+          <ModalHojaClinica id_cliente={this.state.ultimo.id} activo={this.state.modalHojaclinica}></ModalHojaClinica>
+        }
+        
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
@@ -772,6 +814,8 @@ class Tabla extends Component {
             </button>
           </ModalFooter>
         </Modal>
+
+        
       </div>
     );
   }

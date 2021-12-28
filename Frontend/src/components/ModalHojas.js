@@ -871,7 +871,7 @@ validatePeso = (event) => {
           onClick={() => {
             this.state.customer_id = this.props.id_cliente;
             this.modalInsertar();
-            console.log(this.state.customer_id);
+            
             this.peticionGet();
           }}
         >
@@ -1556,16 +1556,7 @@ validatePeso = (event) => {
                         }}
                         variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="catorce"
-                id="catorce"
-                placeholder="Gasto calórico"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.catorce : ""}
-              /> */}
+             
               <br />
               <label htmlFor="quince">
                 Total de calorías de acuerdo a su peso corporal *:
@@ -1582,16 +1573,7 @@ validatePeso = (event) => {
                         }}
                         variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="quince"
-                id="quince"
-                placeholder="Total de calorías"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.quince : ""}
-              /> */}
+             
               <br />
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
               <TextField
@@ -1693,46 +1675,7 @@ validatePeso = (event) => {
                                   <td>{body.typeExtraInformation_id.name}</td>
                                   <td>{body.name}</td>
                                   <td>{body.value ? "Si" : "No"}</td>
-                                  <td>
-                                    {/* <button
-                                      className="btn btn-primary"
-                                      onClick={() => {
-                                        // this.seleccionarUsuario(clientes);
-                                        this.modalEditarInformacion();
-                                        this.state.typeExtraInformation_id = body.typeExtraInformation_id.id;
-                                        //this.state.typeExtraInformation_id 
-                                        this.seleccionarBody(body)
-                                      }}
-                                    >
-                                      <FontAwesomeIcon icon={faEdit} />
-                                    </button> */}
-                                    {/* <button
-                                      className="btn btn-danger"
-                                      onClick={() => {
-                                        // this.seleccionarUsuario(clientes);
-                                        let i = 0;
-                                        this.state.body.forEach((e, index) => {
-                                          if (e.typeExtraInformation_id.id === this.state.typeExtraInformation_id) {
-                                            i = index;
-                                            return;
-                                          }
-                                        });
-                                        this.state.body.splice(i, 1)
-                                        
-                                        swal({
-                                          text: 'Elemento eliminado correctamente',
-                                          icon: "info",
-                                          button: "Aceptar",
-                                          timer: "5000",
-                                        });
-                                        this.setState({
-                                          modalEditarInformacionExtra: false,
-                                        });
-                                      }}
-                                    >
-                                      <FontAwesomeIcon icon={faTrashAlt} />
-                                    </button> */}
-                                  </td>
+                                  
                                 </tr>
                               );
                             })}
@@ -1816,7 +1759,7 @@ validatePeso = (event) => {
             Editar Hoja Clínica Información Extra
             <span style={{ float: "right" }}></span>
           </ModalHeader>
-            {console.log(this.state.formextra)}
+           
           <ModalBody>
             <div className="form-group">
               <label htmlFor="namee">Seleccione el tipo: </label>

@@ -315,8 +315,8 @@ class Check_Client extends Component {
               <br />
               {this.state.errors.lleno && <p  className="errores mt-2">{this.state.errors.lleno}</p>}
               <br />
-              <div className="tablita">
-                <table className="tab-pane table table-dark mt-2 mb-5">
+              <div className="tablita my-custom-scrollbar2">
+                <table className="tab-pane table-dark table">
                   <thead>
                     <tr>
                       <th>Id</th>
@@ -362,9 +362,9 @@ class Check_Client extends Component {
               </div>
             </div>
             {/* Otra columna */}
-
-            <div className="form-group">
-              <h3>Clientes entrenando</h3>
+           
+            <div className=" mt-5 form-group">
+              <h3 className="mt-3">Clientes entrenando</h3>
               <br />
 
               <input
@@ -378,8 +378,8 @@ class Check_Client extends Component {
               <br />
               <br />
 
-              <div className="tablita">
-                <table className="tab-pane table table-dark mt-2 mb-5">
+              <div className="tablita  my-custom-scrollbar2">
+                <table className="tab-pane table table-dark">
                   <thead>
                     <tr>
                       <th>Nombre</th>

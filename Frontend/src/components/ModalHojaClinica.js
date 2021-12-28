@@ -62,23 +62,23 @@ function conversionHoras2(date) {
   let sec = fecha.getSeconds();
   return hr + ":" + min + ":" + sec;
 }
-class BtnModalHoja extends Component {
+class ModalHojaClinica extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
   }
   state = {
     busqueda: "",
-    data: [] /* Aqui se almacena toda la informacion axios */,
+    data: [] ,
     sintomas: [],
     list: [],
     errors:{},
     sintomasSelect: {},
-    modalAgregar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
+    modalAgregar: this.props.activo ,
     modalAgregar2: false,
     modalAgregar3: false,
     tipoModal: "Agregar",
     form: {
-      /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
       date: "",
       age: "0",
@@ -729,7 +729,7 @@ class BtnModalHoja extends Component {
               weigth: form1.weight,
               heigh: form1.height,
               bloodType: form1.bloody,
-              customer_id: form1.customer_id,
+              customer_id: this.props.id_cliente,
               nutritionalSituation_id,
             });
 
@@ -885,9 +885,14 @@ class BtnModalHoja extends Component {
       });
   }
 
+  componentWillMount(){
+    this.setState({modalAgregar: this.props.activo });
+  }
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
+    console.log("entreee");
+    this.setState({modalAgregar: this.props.activo });
     axios
       .get("https://www.huxgym.codes/customers/typeExtraInformation/")
       .then((response) => {
@@ -921,17 +926,9 @@ class BtnModalHoja extends Component {
     const { formcorps } = this.state;
     const { formextra } = this.state;
     return (
-      <div className="denada">
-        <button
-          className="btn btn-outline-dark"
-          onClick={() => {
-            this.setState({ customer_id: this.props.id_cliente });
-            this.modalAgregar();
-          }}
-        >
-          Añadir nueva hoja clínica
-        </button>
-        <Modal isOpen={this.state.modalAgregar}>
+      
+      <>
+        <Modal isOpen={ this.state.modalAgregar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
             REGISTRAR HOJA CLINICA SITUACION NUTRICIONAL
@@ -940,16 +937,7 @@ class BtnModalHoja extends Component {
 
           <ModalBody>
             <div className="form-group">
-              {/* <label htmlFor="id">ID Cliente</label>
-              <input
-                className="form-control"
-                type="integer"
-                name="id"
-                id="id"
-                readOnly
-                onChange={this.handleChange}
-                value={form ? form.customer_id : ""}
-              /> */}
+              
               <label htmlFor="age">Edad actual *: </label>
               <br />
               <TextField
@@ -966,19 +954,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="float"
-                name="age"
-                id="age"
-                size="100"
-                min="11"
-                maxlength="2"
-                placeholder="Edad actual"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.age : ""}
-               
-              /> */}
+             
               <br />
               {this.state.errors.edad && <p  className="errores mt-2">{this.state.errors.edad}</p>}
               <br />
@@ -1143,9 +1119,9 @@ class BtnModalHoja extends Component {
           </ModalFooter>
         </Modal>
 
-        {/* Aqui comienza la segunda ventana modal */}
+       
         <Modal isOpen={this.state.modalAgregar2}>
-          {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
+         
           <ModalHeader style={{ display: "block" }}>
             REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
             <span style={{ float: "right" }}></span>
@@ -1179,16 +1155,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="dos"
-                id="dos"
-                maxLength="10"
-                placeholder="Tensión arterial"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.dos : ""}
-              /> */}
+              
               <br />
               <br />
               <label htmlFor="tres">Indice de masa corporal actual *: </label>
@@ -1204,17 +1171,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="tres"
-                id="tres"
-                size="50"
-                placeholder="Indice de masa corporal actual"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.tres : ""}
-              /> */}
+              
               <br />
               <br />
               <label htmlFor="cuatro">% de Grasa *: </label>
@@ -1230,16 +1187,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="cuatro"
-                id="cuatro"
-                placeholder="% de Grasa"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.cuatro : ""}
-              /> */}
+             
               <br />
               <br />
               <label htmlFor="cinco">% MM *: </label>
@@ -1255,16 +1203,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/*  <input
-                className="form-control"
-                type="text"
-                name="cinco"
-                id="cinco"
-                maxLength="10"
-                placeholder="% MM"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.cinco : ""}
-              /> */}
+              
               <br />
               <br />
               <label htmlFor="seis">KC correspondientes *: </label>
@@ -1280,16 +1219,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="seis"
-                id="seis"
-                maxLength="10"
-                placeholder="KC correspondientes"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.seis : ""}
-              /> */}
+             
               <br />
               <br />
               <label htmlFor="siete">Edad de acuerdo al peso *: </label>
@@ -1305,16 +1235,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="siete"
-                id="siete"
-                placeholder="Edad de acuerdo al peso"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.siete : ""}
-              /> */}
+              
               <br />
               <br />
               <label htmlFor="ocho">Grasa viceral *: </label>
@@ -1330,16 +1251,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="ocho"
-                id="ocho"
-                placeholder="Grasa viceral"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.ocho : ""}
-              /> */}
+              
               <br />
               <br />
               <label htmlFor="nueve">Situación Nutricional *: </label>
@@ -1370,16 +1282,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="diez"
-                id="diez"
-                placeholder="Horas de oficina"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.diez : ""}
-              /> */}
+              
               <br />
               <label htmlFor="once">
                 Gasto calórico por horas de movimiento *:{" "}
@@ -1396,16 +1299,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="once"
-                id="once"
-                placeholder="Horas de movimiento"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.once : ""}
-              /> */}
+              
               <br />
               <label htmlFor="doce">
                 Gasto calórico por horas de entrenamiento *:{" "}
@@ -1422,16 +1316,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="doce"
-                id="doce"
-                placeholder="Horas de entrenamiento"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.doce : ""}
-              /> */}
+              
               <br />
               <label htmlFor="trece">
                 Gasto calórico por horas de dormir *:{" "}
@@ -1448,16 +1333,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="trece"
-                id="trece"
-                placeholder="Horas de dormir"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.trece : ""}
-              /> */}
+              
               <br />
               <label htmlFor="catorce">Total de gasto calórico *: </label>
               <TextField
@@ -1472,16 +1348,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="catorce"
-                id="catorce"
-                placeholder="Gasto calórico"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.catorce : ""}
-              /> */}
+              
               <br />
               <label htmlFor="quince">
                 Total de calorías de acuerdo a su peso corporal *:
@@ -1498,16 +1365,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="quince"
-                id="quince"
-                placeholder="Total de calorías"
-                maxLength="10"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.quince : ""}
-              /> */}
+              
               <br />
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
               <TextField
@@ -1522,16 +1380,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="dieciseis"
-                id="dieciseis"
-                maxLength="10"
-                placeholder="Metabolismo basal (I CB)"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.dieciseis : ""}
-              /> */}
+              
               <br />
               <label htmlFor="diecisiete">Consumo calórico (C C) *: </label>
               <TextField
@@ -1546,16 +1395,7 @@ class BtnModalHoja extends Component {
                 }}
                 variant="outlined"
               />
-              {/* <input
-                className="form-control"
-                type="text"
-                name="diecisiete"
-                id="diecisiete"
-                maxLength="10"
-                placeholder="Consumo calórico"
-                onChange={this.handleChangeInputNumber2}
-                value={formcorps ? formcorps.diecisiete : ""}
-              /> */}
+              
             </div>
           </ModalBody>
 
@@ -1563,7 +1403,7 @@ class BtnModalHoja extends Component {
             <button
               className="btn btn-danger"
               onClick={
-                /* this.setState({ form: null, tipoModal: "Agregar" }); */
+                
                 this.modalAgregar
               }
             >
@@ -1587,9 +1427,9 @@ class BtnModalHoja extends Component {
           </ModalFooter>
         </Modal>
 
-        {/* Esta es la tercera ventana modal */}
+       
         <Modal isOpen={this.state.modalAgregar3}>
-          {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
+          
           <ModalHeader style={{ display: "block" }}>
             REGISTRAR HOJA CLINICA INFORMACION EXTRA
             <span style={{ float: "right" }}></span>
@@ -1754,8 +1594,8 @@ class BtnModalHoja extends Component {
             )}
           </ModalFooter>
         </Modal>
-      </div>
+        </>
     );
   }
 }
-export default BtnModalHoja;
+export default ModalHojaClinica;
