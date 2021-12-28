@@ -1023,18 +1023,19 @@ class TablaCompras extends Component {
               <br />
               <label htmlFor="price_s">Total de compra:</label>
               <br/>
-              <TextField
-                type="Number"
-                name="price_s"
-                id="pprice_s"
-                readOnly
-                onChange={this.total}
-                value={form2 ? this.state.total : 0}
-                variant="outlined"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
-                }}
-              />
+              <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                  <TextField
+                    type="Number"
+                    name="price_s"
+                    id="pprice_s"
+                    readOnly
+                    onChange={this.total}
+                    value={form2 ? this.state.total : 0}
+                    variant="outlined"
+                       
+                  />
+              </div>
               <br />
               {/* <label htmlFor="image">Cambio:</label>
               <input

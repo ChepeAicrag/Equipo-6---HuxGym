@@ -834,22 +834,23 @@ class TablaP extends Component {
               <br />
               <label htmlFor="price_c">Precio de compra*:</label>
               <br />
-              <TextField
-                        id="outlined-number"
-                        
-                        name="price_c"
-                        onChange={this.validateNumber}
-                        step="5"
-                        value={form ? form.price_c : "0.00"}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
-                        }}
-                    />
+              <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                              id="outlined-number"
+                              
+                              name="price_c"
+                              onChange={this.validateNumber}
+                              step="5"
+                              value={form ? form.price_c : "0.00"}
+                              type="number"
+                              InputLabelProps={{
+                                  shrink: true,
+                              }}
+                              variant="outlined"
+                              
+                          />
+              </div>
              {/*  <input
                 className="form-control"
                 type="number"
@@ -866,22 +867,23 @@ class TablaP extends Component {
               <br />
               <label htmlFor="price_s">Precio de venta*:</label>
               <br />
-              <TextField
-                        id="outlined-number"
-                        
-                        name="price_s"
-                        onChange={this.validateNumber}
-                        step="5"
-                        value={form ? form.price_s : "0.00"}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
-                        }}
-                    />
+              <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                              id="outlined-number"
+                              
+                              name="price_s"
+                              onChange={this.validateNumber}
+                              step="5"
+                              value={form ? form.price_s : "0.00"}
+                              type="number"
+                              InputLabelProps={{
+                                  shrink: true,
+                              }}
+                              variant="outlined"
+                              
+                          />
+              </div>
               {/* <input
                 className="form-control"
                 type="number"

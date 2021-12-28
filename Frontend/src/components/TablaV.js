@@ -1211,20 +1211,21 @@ class TablaV extends Component {
                   />
                   <br />
                   <label htmlFor="description" className="mt-3">Dinero en efectivo*:</label>
+                  <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                      type="number"
+                      name="pago"
+                      min="0"
+                      pattern="^[0-9]+"
+                      id="pago"
+                      onChange={this.handleChange3}
+                      value={this.state.pago ? this.state.pago : 0}
+                      variant="outlined" 
+                    />
+                  </div>
                   <br/>
-                  <TextField
-                    type="number"
-                    name="pago"
-                    min="0"
-                    pattern="^[0-9]+"
-                    id="pago"
-                    onChange={this.handleChange3}
-                    value={this.state.pago ? this.state.pago : 0}
-                    variant="outlined"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
-                    }}
-                  />
+                  
                   <br />
                 </div>
               ) : (
@@ -1267,21 +1268,22 @@ class TablaV extends Component {
                   
                   <label htmlFor="description " className="mt-4">Dinero en efectivo:</label>
                   <br/>
-                  <TextField
-                    type="number"
-                    name="pago"
-                    min="0"
-                    pattern="^[0-9]+"
-                    id="pago"
-                    readOnly
-                    onChange={this.handleChange3}
-                    value={this.state.pago != 0 ? this.state.pago : ""}
-                    variant="outlined"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
-                    }}
-                  />
-                  
+
+                  <div  className="signo">
+                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                    <TextField
+                      type="number"
+                      name="pago"
+                      min="0"
+                      pattern="^[0-9]+"
+                      id="pago"
+                      readOnly
+                      onChange={this.handleChange3}
+                      value={this.state.pago != 0 ? this.state.pago : ""}
+                      variant="outlined"
+                      
+                    />
+                  </div>
                   <br />
                 </>
               )}

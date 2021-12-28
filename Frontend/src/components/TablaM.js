@@ -492,6 +492,27 @@ class TablaM extends Component {
               />
               <br />
               <br />
+              <InputLabel htmlFor="standard-adornment-amount" style={{ color: "white"}}>Precio (*):</InputLabel>
+              <div className="signo ">
+                <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                
+                <TextField
+                    
+                    id="outlined-number"
+                    name="price"
+                    onChange={this.handleChangeInputNumber}
+                    value={form ? form.price : 0}
+                    InputProps={{ inputProps: { min: 0 } }}
+                    type="number"
+                    style={{borderRadius:"0px"}}
+                    placeholder="Precio de venta"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                />
+              </div>
+              
               {/* <label htmlFor="price">Precio (*):</label> */}
               
               {/* <input
@@ -504,26 +525,8 @@ class TablaM extends Component {
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.price : ""}
               /> */}
-              <InputLabel htmlFor="standard-adornment-amount" style={{ color: "white"}}>Precio (*):</InputLabel>
-              <TextField
-                
-                id="outlined-number"
-                name="price"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.price : 0}
-                InputProps={{ inputProps: { min: 0 } }}
-                type="number"
-                style={{borderRadius:"0px"}}
-                placeholder="Precio de venta"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-               
-                InputProps={{
-                  startAdornment: <InputAdornment position="start"><p className="m-0" style={{ color: "white"}}>$</p> </InputAdornment>,
-                }}
-             />
+              
+              
              
               <br />
               <br />
