@@ -1008,18 +1008,7 @@ class TablaCompras extends Component {
                 value={form ? form.observation : ""}
               />
               <br />
-              {/* <label htmlFor="description">Dinero en efectivo:</label>
-              <input
-                className="form-control"
-                type="number"
-                name="pago"
-                min="0"
-                pattern="^[0-9]+"
-                id="pago"
-                onChange={this.handleChange3}
-                value={this.state.pago != 0 ? this.state.pago : ""}
-              />
-              <br /> */}
+              
               <br />
               <label htmlFor="price_s">Total de compra:</label>
               <br/>
@@ -1037,21 +1026,9 @@ class TablaCompras extends Component {
                   />
               </div>
               <br />
-              {/* <label htmlFor="image">Cambio:</label>
-              <input
-                className="form-control"
-                type="Number"
-                name="cambio"
-                id="cambio"
-                readOnly
-                onChange={this.handleChange}
-                value={this.state.cambio > 0 ? this.state.cambio : 0}
-              />
-              <br /> */}
-
               <br />
             </div>
-            {/* Tabla Productos Seleccionados */}
+           
             
           </ModalBody>
 

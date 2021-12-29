@@ -686,6 +686,29 @@ class ModalHojaClinica extends Component {
 
     return { error: false };
   };
+  handleChangeInputDecimal = (e) => {
+    
+    const { name, value } = e.target;
+    console.log("entre a decimal "+  value)
+    let regex = new RegExp("^[0-9]+(\.[0-9]{1,2})?$");
+    console.log(regex.test(value))
+    if (regex.test(value) ) {
+      this.setState({
+        formcorps: {
+          ...this.state.formcorps,
+          [name]: value,
+        },
+      });
+    } else {
+      e.target.value = "";
+      swal({
+        text: "Este valor no esta permitido",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    }
+  };
 
   peticionPost = async () => {
     try {
@@ -1155,7 +1178,7 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+             
               <br />
               <br />
               <label htmlFor="tres">Indice de masa corporal actual *: </label>
@@ -1163,7 +1186,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="tres"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.tres : ""}
                 type="number"
                 InputLabelProps={{
@@ -1171,7 +1194,6 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
               <br />
               <br />
               <label htmlFor="cuatro">% de Grasa *: </label>
@@ -1187,7 +1209,7 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-             
+
               <br />
               <br />
               <label htmlFor="cinco">% MM *: </label>
@@ -1203,7 +1225,16 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+              {/*  <input
+                className="form-control"
+                type="text"
+                name="cinco"
+                id="cinco"
+                maxLength="10"
+                placeholder="% MM"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.cinco : ""}
+              /> */}
               <br />
               <br />
               <label htmlFor="seis">KC correspondientes *: </label>
@@ -1211,7 +1242,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="seis"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.seis : ""}
                 type="number"
                 InputLabelProps={{
@@ -1219,7 +1250,7 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-             
+          
               <br />
               <br />
               <label htmlFor="siete">Edad de acuerdo al peso *: </label>
@@ -1235,7 +1266,7 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+     
               <br />
               <br />
               <label htmlFor="ocho">Grasa viceral *: </label>
@@ -1243,7 +1274,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="ocho"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.ocho : ""}
                 type="number"
                 InputLabelProps={{
@@ -1251,7 +1282,7 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+
               <br />
               <br />
               <label htmlFor="nueve">Situación Nutricional *: </label>
@@ -1274,7 +1305,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="diez"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.diez : ""}
                 type="number"
                 InputLabelProps={{
@@ -1282,7 +1313,16 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+              {/* <input
+                className="form-control"
+                type="text"
+                name="diez"
+                id="diez"
+                placeholder="Horas de oficina"
+                maxLength="10"
+                onChange={this.handleChangeInputNumber2}
+                value={formcorps ? formcorps.diez : ""}
+              /> */}
               <br />
               <label htmlFor="once">
                 Gasto calórico por horas de movimiento *:{" "}
@@ -1291,7 +1331,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="once"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.once : ""}
                 type="number"
                 InputLabelProps={{
@@ -1299,7 +1339,6 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
               <br />
               <label htmlFor="doce">
                 Gasto calórico por horas de entrenamiento *:{" "}
@@ -1308,7 +1347,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="doce"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.doce : ""}
                 type="number"
                 InputLabelProps={{
@@ -1316,7 +1355,7 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+
               <br />
               <label htmlFor="trece">
                 Gasto calórico por horas de dormir *:{" "}
@@ -1325,7 +1364,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="trece"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.trece : ""}
                 type="number"
                 InputLabelProps={{
@@ -1333,14 +1372,13 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
               <br />
               <label htmlFor="catorce">Total de gasto calórico *: </label>
               <TextField
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="catorce"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.catorce : ""}
                 type="number"
                 InputLabelProps={{
@@ -1348,7 +1386,7 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+
               <br />
               <label htmlFor="quince">
                 Total de calorías de acuerdo a su peso corporal *:
@@ -1357,7 +1395,7 @@ class ModalHojaClinica extends Component {
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="quince"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.quince : ""}
                 type="number"
                 InputLabelProps={{
@@ -1365,14 +1403,14 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+
               <br />
               <label htmlFor="dieciseis">Metabolismo basal (I CB) *: </label>
               <TextField
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="dieciseis"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.dieciseis : ""}
                 type="number"
                 InputLabelProps={{
@@ -1380,14 +1418,14 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+
               <br />
               <label htmlFor="diecisiete">Consumo calórico (C C) *: </label>
               <TextField
                 id="outlined-number"
                 InputProps={{ inputProps: { min: 0 } }}
                 name="diecisiete"
-                onChange={this.handleChangeInputNumber2}
+                onChange={this.handleChangeInputDecimal}
                 value={formcorps ? formcorps.diecisiete : ""}
                 type="number"
                 InputLabelProps={{
@@ -1395,10 +1433,9 @@ class ModalHojaClinica extends Component {
                 }}
                 variant="outlined"
               />
-              
+
             </div>
           </ModalBody>
-
           <ModalFooter>
             <button
               className="btn btn-danger"

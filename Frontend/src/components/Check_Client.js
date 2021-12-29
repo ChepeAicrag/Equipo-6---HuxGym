@@ -3,7 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import swal from "sweetalert";
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
 import "../styles/Crud.css";
 
 const urlC = "https://www.huxgym.codes/customers/customers/";
@@ -13,6 +14,10 @@ const urlOut = "https://www.huxgym.codes/customers/attendance/check_out/";
 class Check_Client extends Component {
   state = {
     modalCheck: false,
+    busq1:"",
+    busq2:"",
+    busqueda1:[],
+    busqueda2:[],
     total: 0,
     errors:{},
     sinEntrar:[],
@@ -51,6 +56,7 @@ class Check_Client extends Component {
       }
     );
     this.setState({ sinEntrar: filtro });
+    this.setState({ busqueda1: filtro });
   }
 
   handleChange = async (e) => {
@@ -97,6 +103,7 @@ class Check_Client extends Component {
       if (res.status === 200 || res.status === 201) {
         this.setState({
           dataCA: res.data,
+          busqueda2: res.data,
         });
         this.state.total = res.data.length;
         if(res.data.length>14){
@@ -227,53 +234,47 @@ class Check_Client extends Component {
 
   buscador = async (e) => {
     e.persist();
-    await this.setState({ busqueda: e.target.value });
-    console.log(this.state.busqueda);
+    await this.setState({ busq1: e.target.value });
+    console.log(this.state.busq1);
     this.filtrarElementos();
   };
 
   filtrarElementos = () => {
-    var i = 0;
-    if (this.state.busqueda != "") {
-      var search = this.state.dataC.filter((item) => {
-        if (
-          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
-        ) {
-          i = 1;
+    this.setState({ sinEntrar: this.state.busqueda1 });
+    if (this.state.busq1 != "") {
+      var search = this.state.sinEntrar.filter((item) => {
+        if (item.name.toLowerCase().includes(this.state.busq1.toLowerCase())) {
+         
           return item;
         }
       });
-      this.setState({ clientes: search });
-      this.setState({ dataC: this.state.clientes });
+      
+      this.setState({ sinEntrar: search });
     } else {
-      this.peticionGetC();
+      this.setState({ sinEntrar: this.state.busqueda1 });
     }
   };
 
   buscador2 = async (e) => {
     e.persist();
-    await this.setState({ busqueda: e.target.value });
-    console.log(this.state.busqueda);
+    await this.setState({ busq2: e.target.value });
+    console.log(this.state.busq2);
     this.filtrarElementos2();
   };
 
   filtrarElementos2 = () => {
-    var i = 0;
-    if (this.state.busqueda != "") {
+    this.setState({ dataCA: this.state.busqueda2 });
+    if (this.state.busq2 != "") {
       var search = this.state.dataCA.filter((item) => {
-        if (
-          item.customer_id.name
-            .toLowerCase()
-            .includes(this.state.busqueda.toLowerCase())
-        ) {
-          i = 1;
+        if (item.customer_id.name.toLowerCase().includes(this.state.busq2.toLowerCase())) {
+         
           return item;
         }
       });
-      this.setState({ clientesA: search });
-      this.setState({ dataCA: this.state.clientesA });
+      
+      this.setState({ dataCA: search });
     } else {
-      this.peticionGetCA();
+      this.setState({ dataCA: this.state.busqueda2 });
     }
   };
 
@@ -310,7 +311,7 @@ class Check_Client extends Component {
                 id="busqueda"
                 placeholder="Buscar"
                 onChange={this.buscador}
-                value={form ? form.busqueda : ""}
+                value={form ? form.busq1 : ""}
               />
               <br />
               {this.state.errors.lleno && <p  className="errores mt-2">{this.state.errors.lleno}</p>}
@@ -319,9 +320,9 @@ class Check_Client extends Component {
                 <table className="tab-pane table-dark table">
                   <thead>
                     <tr>
-                      <th>Id</th>
+                      {/* <th>Id</th> */}
                       <th>Nombre</th>
-                      <th>Acciones</th>
+                      <th>Entrar</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -330,12 +331,12 @@ class Check_Client extends Component {
                         /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                         return (
                           <tr>
-                            <td>{clientes.id}</td>
+                            {/* <td>{clientes.id}</td> */}
                             <td>{clientes.name}</td>
                             <td>
                             {this.state.dataCA.length<15 ?
                               <button
-                                className="btn botonesdash"
+                                className="btn btn-dark"
                                 onClick={() => {
                                   /* this.seleccionarCategoria(categorias); */
                                   this.state.form.customer_id = clientes.id;
@@ -343,14 +344,14 @@ class Check_Client extends Component {
                                   this.peticionGetCA();
                                 }}
                               >
-                                Entrada
+                                <MeetingRoomOutlinedIcon></MeetingRoomOutlinedIcon>
                               </button>
                               :
                               <button
                                 className="btn botonesdash"
                                 disabled
                               >
-                                Entrada
+                                <MeetingRoomOutlinedIcon></MeetingRoomOutlinedIcon>
                               </button>
                               }
                             </td>
@@ -373,7 +374,7 @@ class Check_Client extends Component {
                 name="busqueda"
                 placeholder="Buscar"
                 onChange={this.buscador2}
-                value={form ? form.busqueda : ""}
+                value={form ? form.busq2 : ""}
               />
               <br />
               <br />
@@ -384,7 +385,7 @@ class Check_Client extends Component {
                     <tr>
                       <th>Nombre</th>
                       <th>Hora de entrada</th>
-                      <th>Acciones</th>
+                      <th>Salir</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -396,7 +397,7 @@ class Check_Client extends Component {
                             <td>{clientesA.check_in}</td>
                             <td>
                               <button
-                                className="btn botonesdash"
+                                className="btn btn-dark"
                                 onClick={() => {
                                   /* this.seleccionarCategoria(categorias); */
                                   this.state.form.customer_id =
@@ -405,7 +406,7 @@ class Check_Client extends Component {
                                   this.peticionGetCA();
                                 }}
                               >
-                                Salida
+                                <LogoutIcon></LogoutIcon>
                               </button>
                             </td>
                           </tr>
