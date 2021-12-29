@@ -25,6 +25,8 @@ class Customer(models.Model):
     dateJoined = models.DateField('Fecha de registro', auto_now=True)
     status_delete = models.BooleanField(default=False)
 
+    folio = models.CharField(max_length=10, blank=False, null=False)
+
     membership = models.ManyToManyField(
         Membership, through='Customer_Membership')
 
@@ -46,6 +48,8 @@ class Attendance(models.Model):
     status_delete = models.BooleanField(default=False)
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
+    folio = models.CharField(max_length=10, blank=False, null=False)
+
     def __str__(self):
         return str(self.id) + " - " + self.customer_id.name + " : " + str(self.date) + " : " + str(self.check_in)
 
@@ -66,6 +70,8 @@ class NutritionalSituation(models.Model):
     schedule = models.TextField(max_length=100, blank=True, null=True)
     status_delete = models.BooleanField(default=False)
 
+    folio = models.CharField(max_length=10, blank=False, null=False)
+
     def __str__(self):
         return "Situación nutricional: " + str(self.id)
 
@@ -82,6 +88,8 @@ class TypeExtraInformation(models.Model):
     description = models.TextField(max_length=150, blank=True, null=True)
     status_delete = models.BooleanField(default=False)
 
+    folio = models.CharField(max_length=10, blank=False, null=False)
+
     def __str__(self):
         return "Información extra: " + str(self.name)
 
@@ -97,6 +105,8 @@ class BodyAttribute(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     description = models.TextField(max_length=100, blank=True, null=True)
     status_delete = models.BooleanField(default=False)
+
+    folio = models.CharField(max_length=10, blank=False, null=False)
 
     def __str__(self):
         return "Atributo de cuerpo: " + str(self.name)
@@ -127,6 +137,8 @@ class HistoryClinic(models.Model):
     bodyAttribute = models.ManyToManyField(
         BodyAttribute, through='BodyAttribute_HistoryClinic')
 
+    folio = models.CharField(max_length=10, blank=False, null=False)
+
     def __str__(self):
         return "Historia clínico: " + str(self.customer_id.name)
 
@@ -145,6 +157,8 @@ class TypeExtraInformation_HistoryClinic(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
     value = models.BooleanField(default=False)
     status_delete = models.BooleanField(default=False)
+
+    folio = models.CharField(max_length=10, blank=False, null=False)
 
     def __str__(self):
         return "Historial clínico de: " + str(self.historyClinic_id.customer_id.name) + " - " + self.typeExtraInformation_id.name
@@ -165,6 +179,8 @@ class BodyAttribute_HistoryClinic(models.Model):
     value = models.CharField(default="Sin dato",  max_length=255)
     status_delete = models.BooleanField(default=False)
 
+    folio = models.CharField(max_length=10, blank=False, null=False)
+
     def __str__(self):
         return "Historial clínico de: " + str(self.historyClinic_id.customer_id.name) + " - " + self.bodyAttribute_id.name
 
@@ -184,6 +200,8 @@ class Customer_Membership(models.Model):
         'Fecha de vencimiento', blank=False, null=False)
     valid = models.BooleanField(default=True)
     status_delete = models.BooleanField(default=False)
+
+    folio = models.CharField(max_length=10, blank=False, null=False)
 
     def __str__(self):
         return self.customer_id.name + " : " + self.membership_id.name
