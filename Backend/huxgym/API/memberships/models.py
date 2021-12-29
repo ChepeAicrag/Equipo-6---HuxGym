@@ -11,7 +11,7 @@ class Membership(models.Model):
     day = models.IntegerField(default=7, null=False)
     status_delete = models.BooleanField(default=False)
 
-    folio = models.CharField(max_length=10, blank=False, null=False)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
 
     def __str__(self):
         return self.name

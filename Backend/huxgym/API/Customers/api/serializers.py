@@ -18,6 +18,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         instance.isStudiant = validated_data.get('isStudiant',instance.isStudiant)
         instance.dateJoined = validated_data.get('dateJoined',instance.dateJoined)
         instance.status_delete = validated_data.get('status_delete',instance.status_delete)
+        instance.folio = validated_data.get('folio',instance.folio)
         instance.save()
         return instance
 
@@ -33,9 +34,11 @@ class AttendanceSerializer(serializers.ModelSerializer):
         "date": instance.date,
         "check_in": instance.check_in,
         "check_out": instance.check_out,
+        "folio": instance.folio,
         "customer_id": {
             "id":instance.customer_id.id,
-            "name":instance.customer_id.name
+            "name":instance.customer_id.name,
+            "folio":instance.customer_id.folio
             }
         }
     
@@ -55,6 +58,7 @@ class TypeExtraInformationSerializer(serializers.ModelSerializer):
         "id": instance.id,
         "name": instance.name,
         "description": instance.description,
+        "folio": instance.folio,
     }
 
 class BodyAttributeSerializer(serializers.ModelSerializer):
@@ -67,6 +71,7 @@ class BodyAttributeSerializer(serializers.ModelSerializer):
         "id": instance.id,
         "name": instance.name,
         "description": instance.description,
+        "folio": instance.folio,
         }
 
 class HistoryClinicSerializer(serializers.ModelSerializer):
@@ -83,8 +88,10 @@ class HistoryClinicSerializer(serializers.ModelSerializer):
         "weigth": instance.weigth,
         "heigh": instance.heigh,
         "bloodType": instance.bloodType,
+        "folio": instance.folio,
         "customer_id": {
             "id":instance.customer_id.id,
+            "folio":instance.customer_id.folio,
             "name":instance.customer_id.name,
             "gender":instance.customer_id.gender,
             "membershipActivate": instance.customer_id.membershipActivate
@@ -111,15 +118,18 @@ class TypeExtraInformation_HistoryClinicSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
         "id": instance.id,
+        "folio": instance.folio,
         "name": instance.name,
         "value": instance.value,
         "typeExtraInformation_id": {
             "id": instance.typeExtraInformation_id.id,
+            "folio": instance.typeExtraInformation_id.folio,
             "name": instance.typeExtraInformation_id.name,
             "description": instance.typeExtraInformation_id.description,
             },
         "historyClinic_id":{
             "id": instance.historyClinic_id.id,
+            "folio": instance.historyClinic_id.folio,
             "date": instance.historyClinic_id.date,
             "age": instance.historyClinic_id.age,
             "weigth": instance.historyClinic_id.weigth,
@@ -142,14 +152,17 @@ class BodyAttribute_HistoryClinicSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
         "id": instance.id,
+        "folio": instance.folio,
         "value": instance.value,
         "bodyAttribute_id": {
             "id": instance.bodyAttribute_id.id,
+            "folio": instance.bodyAttribute_id.folio,
             "name": instance.bodyAttribute_id.name,
             "description": instance.bodyAttribute_id.description,
         },
         "historyClinic_id": {
             "id": instance.historyClinic_id.id,
+            "folio": instance.historyClinic_id.folio,
             "date": instance.historyClinic_id.date,
             "age": instance.historyClinic_id.age,
             "weigth": instance.historyClinic_id.weigth,
@@ -172,15 +185,18 @@ class Customer_MembershipSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
         "id": instance.id,
+        "folio": instance.folio,
         "date_register": instance.date_register,
         "date_due": instance.date_due,
         "valid": instance.valid,
         "membership_id": {
             "id": instance.membership_id.id,
+            "folio": instance.membership_id.folio,
             "name": instance.membership_id.name
         },
         "customer_id": {
             "id": instance.customer_id.id,
+            "folio": instance.customer_id.folio,
             "name": instance.customer_id.name,
             "membershipActivate": instance.customer_id.membershipActivate
         }
