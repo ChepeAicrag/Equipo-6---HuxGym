@@ -10,7 +10,6 @@ urlpatterns = [
     path('cash-register/close/', views.ClosedCashRegister.as_view()),
     path('cash-register/', views.ListCashRegisterOpen.as_view()),
     path('cash-closings/', views.ListAllCashRegister.as_view()),
-    path('cash-closings/<int:id_employee>/<int:id_cash_register>/',
-         views.ListUpdateDeleteCashRegister.as_view()),
+    path('cash-closings/<int:id_employee>/<int:id_cash_register>/', views.ListUpdateDeleteCashRegister.as_view()),
     path('profile/', views.Profile.as_view())
 ]
