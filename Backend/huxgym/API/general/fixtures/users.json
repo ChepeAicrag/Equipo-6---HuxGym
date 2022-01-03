@@ -3,7 +3,12 @@
         "model": "users.user",
         "pk": 1,
         "fields": {
-            "name": "Arturo Matus",
+            "name": "José Ángel",
+            "paternal_surname": "García",
+            "mothers_maiden_name": "García",
+            "birthdate": "2000-10-19",
+            "entity_birth": "OC",
+            "curp": "GAGA001019HOCRRNA9",
             "age": 20,
             "email": "18161117@itoaxaca.edu.mx",
             "phone": "9581248091",
