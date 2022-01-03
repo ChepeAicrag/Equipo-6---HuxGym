@@ -37,6 +37,7 @@ LOCAL_APPS = [
     'API.products',
     'API.purchases',
     'API.sales',
+    'API.reports',
 ]
 
 THIRD_APPS = [
