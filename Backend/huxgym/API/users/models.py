@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db.models.fields import AutoField
@@ -5,12 +6,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import get_template, render_to_string
 from django.utils.encoding import force_bytes
 from django.conf import settings
+from dateutil.relativedelta import relativedelta
 
 from API.general.utils import send_email_validation
 from API.general.models import Role
-
+from API.products.models import Product
 from .choices import roles
-
 
 def upload_load(instance, filename):
     return f'photos_users/{instance.email}/{filename}'
@@ -36,7 +37,7 @@ class UserManager(BaseUserManager):
             is_active=True,
             is_superuser=True,
             is_staff=True,
-            role_id=1,
+            role_id = 1,
             **extra_fields,
         )
         user.set_password(password)
@@ -46,6 +47,11 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=150, null=False, verbose_name='name',)
+    paternal_surname = models.CharField(max_length=150, null=False, verbose_name='paternal surname',)
+    mothers_maiden_name = models.CharField(max_length=150, null=False, verbose_name='mother maiden name',)
+    birthdate = models.DateField(null=False, verbose_name='birthdate')
+    entity_birth = models.CharField(max_length=2, null=False, verbose_name="entity birth")
+    curp = models.CharField(max_length=18, null=False, verbose_name='curp', unique=True)
     age = models.PositiveIntegerField(
         null=False, default=18, verbose_name='age')
     email = models.EmailField(
@@ -54,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     image = models.ImageField(upload_to=upload_load, default='default.jpg',
                               max_length=255, null=True, blank=True)
     gender = models.CharField(max_length=2, null=True, verbose_name='Gender')
-    token = models.CharField(max_length=40, null=True, default=None)
+    token = models.CharField(max_length=40,null=True,default=None)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -80,8 +86,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             'user': user.name,
             'email': user.email,
             'password': password,
-            'url': url,
-            'uid': urlsafe_base64_encode(force_bytes(user.id)),
+            'url': url, 
+            'uid': urlsafe_base64_encode(force_bytes(user.id)), 
             'token': user.token,
             'passwordb64': urlsafe_base64_encode(force_bytes(password)),
         })
@@ -105,6 +111,12 @@ class User(AbstractBaseUser, PermissionsMixin):
             user = None
         return user
 
+    @staticmethod
+    def calculate_age(birthdate):
+        fecha_nacimiento = datetime.strptime(str(birthdate), '%Y-%m-%d').date()
+        edad = relativedelta(datetime.now(), fecha_nacimiento)  
+        return edad.years
+    
 
 class Log(models.Model):
     user = models.ForeignKey(
@@ -121,22 +133,19 @@ class Log(models.Model):
         db_table = 'Log'
         ordering = ('id', )
 
-
 class AttendanceHorary(models.Model):
 
     date = models.DateField('Fecha de asistencia', auto_now=True)
     check_in = models.TimeField('Hora de entrada', null=False)
     check_out = models.TimeField('Hora de salida', null=True)
-    status_delete = models.BooleanField(
-        default=False, verbose_name='Status Delete')
+    status_delete = models.BooleanField(default=False, verbose_name='Status Delete')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    class Meta:
+    class Meta: 
         verbose_name = 'AttendanceHorary'
         verbose_name_plural = 'AttendancesHorary'
         db_table = 'AttendanceHorary'
         ordering = ['id']
-
 
 class CashRegister(models.Model):
 
