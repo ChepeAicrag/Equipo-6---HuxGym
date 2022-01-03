@@ -111,6 +111,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -132,9 +133,9 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
-#if config('DEVELOPMENT'):
-#   EMAIL_BACKEND = config('EMAIL_BACKEND')
-#    EMAIL_FILE_PATH = config('EMAIL_FILE_PATH')
+if config('DEVELOPMENT'):
+   EMAIL_BACKEND = config('EMAIL_BACKEND')
+   EMAIL_FILE_PATH = config('EMAIL_FILE_PATH')
 
 TOKEN_EXPIRED_AFTER_SECONDS = config('TOKEN_EXPIRED_AFTER_SECONDS')
 
