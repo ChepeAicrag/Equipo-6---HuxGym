@@ -1,0 +1,18 @@
+[
+    {
+        "model": "products.operationType",
+        "pk": 1,
+        "fields": {
+            "name": "Adición",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "products.operationType",
+        "pk": 2,
+        "fields": {
+            "name": "Resta",
+            "status_delete": "False"
+        }
+    }
+]

@@ -12,8 +12,6 @@ class Category(models.Model):
     description = models.CharField(max_length=100, blank=False, null=False)
     status_delete = models.BooleanField(default=False)
 
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
-
     def __str__(self):
         return self.name
 
@@ -30,8 +28,6 @@ class Provider(models.Model):
     phone = models.CharField(max_length=10, null=True, blank=True)
     rfc = models.CharField(max_length=13, null=False, blank=False)
     status_delete = models.BooleanField(default=False)
-
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
 
     def __str__(self):
         return self.name
@@ -53,8 +49,6 @@ class Product(models.Model):
     provider_id = models.ForeignKey(Provider, null=False, on_delete=models.PROTECT, blank=False)
     status_delete = models.BooleanField(default=False)
 
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
-
     def __str__(self):
         return self.name
 
@@ -71,8 +65,6 @@ class Stock(models.Model):
     amount = models.PositiveBigIntegerField(null=False, blank=False)
     status_delete = models.BooleanField(default=False)
 
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
-
     def __str__(self):
         return self.product_id.name + " : " + str(self.amount)
 
@@ -86,8 +78,6 @@ class OperationType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, null=False, blank=False)
     status_delete = models.BooleanField(default=False)
-
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
 
     def __str__(self):
         return self.name 
@@ -106,8 +96,6 @@ class Operation(models.Model):
 
     operationType_id = models.ForeignKey(OperationType, on_delete=models.SET_NULL, null=True, blank=True)
 
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
-
     def __str__(self):
         return "(" + str(self.id) + ") " + self.operationType_id.name + " : " + str(self.amount)
 
@@ -125,8 +113,6 @@ class HistoryInventory(models.Model):
 
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     operation_id = models.ForeignKey(Operation, on_delete=models.SET_NULL, null=True, blank=True)
-
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
 
     def __str__(self):
         return self.product_id.name + " / " + self.operation_id.description + " : " + str(self.operation_id.amount) + " / actual: " + str(self.amount) + " / " + str(self.date)
