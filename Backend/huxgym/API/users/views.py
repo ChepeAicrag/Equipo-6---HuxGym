@@ -1,19 +1,15 @@
-from django.utils.decorators import method_decorator
 from django.utils.crypto import get_random_string
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.exceptions import AuthenticationFailed
-from rest_framework import authentication, status, exceptions
-from typing import OrderedDict
+from rest_framework import status
 from random import randint
-from datetime import datetime, timedelta, timezone, time
+from datetime import datetime, time
 from decouple import config 
-import json
 
 from API.general.token_generator import account_activation_token
 from API.general.authentication_middleware import Authentication
+from API.general.utils import validate_data_curp
 from API.sales.models import Sale, SaleDetailsMembership, SaleDetailsProduct
 from API.sales.serializers import SaleDetailsMembershipSerializer, SaleDetailsProductSerializer, SaleSerializer
 from API.purchases.models import Purchase, Purchase_Details_Product
@@ -47,44 +43,36 @@ class CrearListarUser(Authentication, APIView):
             "sex": data.get('gender', None),
             "curp": data.get('curp', None)
         }
-        curp = data.get('curp', None)
-        if curp is None:
+        if payload["curp"] is None:
             return Response({ 'message': 'La curp es requerida' }, status=status.HTTP_400_BAD_REQUEST)
-        response_api, error = API().validate_curp(curp)
-        print(response_api)
+        response_api, error = API().validate_curp(payload["curp"])
         if(error):
             return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
-        validate, msg = User().validate_data_curp(payload, response_api)
+        validate, msg = validate_data_curp(payload, response_api)
         if not validate:
             return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
         data['role'] = int(role)
         data['password'] = get_random_string(randint(8, 15)).strip()
-        user_find = User.objects.filter(email=request.data['email'])
+        user = User.objects.filter(email=request.data['email']).first()
         url = config('URL_ACTIVATE')
-        if user_find.exists():
-            user = User.objects.get(email=request.data['email'])
+        if user:
             if user.is_active and not user.status_delete:
                 return Response({ 'message': 'Ya existe un usuario con ese correo' }, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                user = User.objects.get(curp=request.data['curp'])
-                if user.is_active and not user.status_delete:
-                    return Response({ 'message': 'Ya existe un usuario con esa curp registrado' }, status=status.HTTP_400_BAD_REQUEST)          
-                else:
-                    user.token = account_activation_token.make_token(user)
-                    user.status_delete = False
-                    user.is_active = False
-                    user.save()
-                    serializer = UserSerializer(instance=user, data=data)  
-                    serializer.is_valid(raise_exception=True)
-                    serializer.save()
-                    User.email_message('Reactivación de cuenta de usuario', url, user, data['password'], 'activation.html')
-                    user = UserListSerializer(user, many=False)
-                    return Response(user.data, status=status.HTTP_200_OK)
-        user = User.objects.filter(curp=request.data['curp'])
-        if user.exists():
-            user = User.objects.get(curp=request.data['curp'])
+            user = User.objects.filter(curp=request.data['curp']).first()
+            if user and user.is_active and not user.status_delete:
+                return Response({ 'message': 'Ya existe un usuario con esa curp registrado' }, status=status.HTTP_400_BAD_REQUEST)          
+            user = self.reactivate_user(user, data, request.data['email'])
+            User.email_message('Reactivación de cuenta de usuario', url, user, data['password'], 'activation.html')
+            user = UserListSerializer(user, many=False)
+            return Response(user.data, status=status.HTTP_200_OK)
+        user = User.objects.filter(curp=request.data['curp']).first()
+        if user:
             if user.is_active and not user.status_delete:
                 return Response({ 'message': 'Ya existe un usuario con esa curp registrado' }, status=status.HTTP_400_BAD_REQUEST)            
+            user = self.reactivate_user(user, data, request.data['email'])
+            User.email_message('Reactivación de cuenta de usuario', url, user, data['password'], 'activation.html')
+            user = UserListSerializer(user, many=False)
+            return Response(user.data, status=status.HTTP_200_OK)
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
             user = serializer.save()
@@ -96,6 +84,16 @@ class CrearListarUser(Authentication, APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def reactivate_user(self, user, data, email):
+        user.token = account_activation_token.make_token(user)
+        user.email = email
+        user.status_delete = False
+        user.is_active = False
+        user.save()
+        serializer = UserSerializer(instance=user, data=data)  
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return user
 class ActualizarListarEliminarUserById(Authentication, APIView):
 
     def get(self, request, id=None):
