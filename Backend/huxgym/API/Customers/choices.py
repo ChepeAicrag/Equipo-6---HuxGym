@@ -1,6 +1,6 @@
 genders =(
-    ('F', 'Femenino'),
-    ('M', 'Masculino')
+    ('M', 'Mujer'),
+    ('H', 'Hombre')
 )
 
 bloodTypes =(
