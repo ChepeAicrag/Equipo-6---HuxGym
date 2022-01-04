@@ -1,10 +1,9 @@
 import requests
-import json
 from decouple import config
 
 class API:
 
-    url = "https://curp-renapo.p.rapidapi.com/v1/curp"
+    url = "https://curp-mexico1.p.rapidapi.com/porCurp/"
 
     headers = {
         'content-type': "application/json",
@@ -12,6 +11,6 @@ class API:
         'x-rapidapi-key': config('x_rapidapi_key') 
         }
 
-    def validate_curp(self, payload):
-        response = requests.request("POST", self.url, data=json.dumps(payload), headers=self.headers)
-        return (response.text, False) if response.status_code == 200 else (response, True)
+    def validate_curp(self, curp):
+        response = requests.request("GET", self.url + curp, headers=self.headers)
+        return (response.json()['datos'], False) if response.status_code == 200 else ("No se pudo obtener el curp", True)
