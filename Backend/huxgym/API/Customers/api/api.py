@@ -1,13 +1,13 @@
-from datetime import date, datetime, timedelta
-from typing import Type
+from datetime import datetime, timedelta
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from API.general.authentication_middleware import Authentication
-from .serializers import *
-from API.customers.models import *
 from rest_framework.permissions import AllowAny
+
+from API.general.api import API
+from API.general.utils import calculate_age, validate_data_curp
+from API.customers.models import *
+from .serializers import *
 
 #VIEWSETS PARA LA DOCUMENTACIÓN
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -66,7 +66,37 @@ def customer_api_view(request):
         return Response(customer_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        customer_serializer = CustomerSerializer(data = request.data)
+        data = request.data.copy()
+        payload = {
+            "paternal_surname": data.get('paternal_surname', None),
+            "mothers_maiden_name": data.get('mothers_maiden_name', None),
+            "names": data.get('name', None),
+            "entity_birth": data.get('entity_birth', None),
+            "birthdate": data.get('birthdate', None),
+            "sex": data.get('gender', None),
+            "curp": data.get('curp', None)
+        }
+        if payload["curp"] is None:
+            return Response({ 'message': 'La curp es requerida' }, status=status.HTTP_400_BAD_REQUEST)
+        response_api, error = API().validate_curp(payload["curp"])
+        if(error):
+            return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
+        validate, msg = validate_data_curp(payload, response_api)
+        if not validate:
+            return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
+        data['folio'] = payload["curp"][-5:] + payload["sex"] + payload["birthdate"].split('-')[0]
+        customer = Customer.objects.filter(curp=request.data['curp']).first()
+        if customer:
+            if not customer.status_delete:
+                return Response({ 'message': 'Ya existe un cliente con esa curp registrado' }, status=status.HTTP_400_BAD_REQUEST)          
+            customer.status_delete = False
+            customer.membershipActivate = False
+            customer.save()
+            serializer = CustomerSerializer(instance=customer, data=data) 
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({'message': 'Cliente creado correctamente'}, status=status.HTTP_200_OK)
+        customer_serializer = CustomerSerializer(data = data)
         if customer_serializer.is_valid():
             customer_serializer.save()
             return Response({'message': 'Cliente creado correctamente'}, status = status.HTTP_201_CREATED)
@@ -366,7 +396,9 @@ def historyClinic_api_view(request):
         return Response(historyClinic_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        historyClinic_serializer = HistoryClinicSerializer(data = request.data)
+        data = request.data.copy()
+        data["age"] = calculate_age(request.data["birthdate"])
+        historyClinic_serializer = HistoryClinicSerializer(data = data)
         if historyClinic_serializer.is_valid():
             historyClinic_serializer.save()
             return Response(historyClinic_serializer.data, status = status.HTTP_201_CREATED)
