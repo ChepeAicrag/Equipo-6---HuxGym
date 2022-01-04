@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -243,7 +243,10 @@ def nutritionalSituation_api_view(request):
         return Response(nutritionalSituation_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        nutritionalSituation_serializer = NutritionalSituationSerializer(data = request.data)
+        data = request.data.copy()
+        fecha = date.today()
+        data['folio'] = 'SN' + str(fecha.year) +  str(fecha.month) + str(fecha.day)
+        nutritionalSituation_serializer = NutritionalSituationSerializer(data = data)
         if nutritionalSituation_serializer.is_valid():
             nutritionalSituation_serializer.save()
             return Response(nutritionalSituation_serializer.data, status = status.HTTP_201_CREATED)
@@ -397,7 +400,11 @@ def historyClinic_api_view(request):
 
     elif request.method == 'POST':
         data = request.data.copy()
-        data["age"] = calculate_age(request.data["birthdate"])
+        customer = Customer.objects.filter(id=request.data["customer_id"]).first()
+        count_hc = HistoryClinic.objects.all().count()
+        data["age"] = calculate_age(customer.birthdate)
+        fecha = date.today()
+        data["folio"] = 'HC' + str(count_hc) + str(fecha.year) +  str(fecha.month) + str(fecha.day)
         historyClinic_serializer = HistoryClinicSerializer(data = data)
         if historyClinic_serializer.is_valid():
             historyClinic_serializer.save()
