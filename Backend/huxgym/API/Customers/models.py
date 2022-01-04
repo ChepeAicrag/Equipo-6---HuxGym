@@ -17,6 +17,11 @@ def upload_load(instance, filename):
 class Customer(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=40, blank=False, null=False)
+    paternal_surname = models.CharField(max_length=150, null=False, verbose_name='paternal surname',)
+    mothers_maiden_name = models.CharField(max_length=150, null=False, verbose_name='mother maiden name',)
+    birthdate = models.DateField(null=False, verbose_name='birthdate')
+    entity_birth = models.CharField(max_length=2, null=False, verbose_name="entity birth")
+    curp = models.CharField(max_length=18, null=False, verbose_name='curp', unique=True)
     gender = models.CharField(max_length=1, choices=genders, default='M')
     phone = models.CharField(max_length=10, blank=False, null=False)
     image = models.ImageField(
