@@ -1,15 +1,7 @@
-from django.db import models
-from django.template.loader import get_template, render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes
-from requests.api import request
-from rest_framework import serializers
 from drf_base64.serializers import ModelSerializer
 
-from datetime import datetime, timezone
-
+from API.general.utils import calculate_age
 from .models import User, AttendanceHorary, CashRegister
-from API.general.token_generator import account_activation_token
 
 
 class UserSerializer(ModelSerializer):
@@ -26,7 +18,7 @@ class UserSerializer(ModelSerializer):
         password = validated_data.pop('password')
         user = User(
             name=validated_data['name'],
-            age = User.calculate_age(validated_data['birthdate']),
+            age = calculate_age(validated_data['birthdate']),
             email=validated_data['email'],
             gender=validated_data['gender'],
             role=validated_data['role'],
@@ -42,10 +34,7 @@ class UserSerializer(ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        #instance.name = validated_data.get('name', instance.name)
         instance.phone = validated_data.get('phone', instance.phone)
-        #instance.age = validated_data.get('age', instance.age)
-        #instance.gender = validated_data.get('gender', instance.gender)
         instance.image = validated_data.get('image', instance.image)
         instance.save()
         return instance
