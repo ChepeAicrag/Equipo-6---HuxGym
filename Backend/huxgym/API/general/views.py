@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes
 from decouple import config
 from datetime import datetime
 from random import randint
+import json
 
 from API.users.models import User, Log
 from API.users.serializers import UserSerializer
@@ -215,3 +216,9 @@ class ListRole(APIView):
         serializer = RoleSerializer(roles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
         
+class ListStates(APIView):
+
+    def get(self, request):
+        with open('API/general/fixtures/states.json') as file:
+            data = json.load(file)
+            return Response(data, status=status.HTTP_200_OK)
