@@ -10,4 +10,5 @@ urlpatterns = [
     path('change-password/', views.ChangePassword.as_view()),
     path('confirm-password/<str:uidb64>/<str:token>/<str:password>/', views.ConfirmPassword.as_view()),
     path('role/', views.ListRole.as_view()),
+    path('state/', views.ListStates.as_view()),
 ]
