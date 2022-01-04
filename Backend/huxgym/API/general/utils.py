@@ -17,3 +17,9 @@ def send_email_validation(subject, email, message):
     except BadHeaderError:
         return HttpResponse('Error al enviar el correo')
     return True
+
+def find_first_vocal(string):
+    for char in string.lower():
+        if char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u':
+            return char
+    return None
