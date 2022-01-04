@@ -10,6 +10,7 @@ from typing import OrderedDict
 from random import randint
 from datetime import datetime, timedelta, timezone, time
 from decouple import config 
+import json
 
 from API.general.token_generator import account_activation_token
 from API.general.authentication_middleware import Authentication
@@ -37,24 +38,28 @@ class CrearListarUser(Authentication, APIView):
             return Response({ 'message': 'El rol es requerido' }, status=status.HTTP_400_BAD_REQUEST)
         if int(role) == 1:
             return Response({ 'message': 'No puede crear un usuario con este rol' }, status=status.HTTP_400_BAD_REQUEST)
-        """
         payload = {
             "paternal_surname": data.get('paternal_surname', None),
             "mothers_maiden_name": data.get('mothers_maiden_name', None),
             "names": data.get('name', None),
             "entity_birth": data.get('entity_birth', None),
             "birthdate": data.get('birthdate', None),
-            "sex": data.get('gender', None)
+            "sex": data.get('gender', None),
+            "curp": data.get('curp', None)
         }
-        data, error = API().validate_curp(payload)
+        curp = data.get('curp', None)
+        if curp is None:
+            return Response({ 'message': 'La curp es requerida' }, status=status.HTTP_400_BAD_REQUEST)
+        response_api, error = API().validate_curp(curp)
+        print(response_api)
         if(error):
-            return Response({ 'message': data }, status=status.HTTP_400_BAD_REQUEST)
-        if(str(data.curp) != request.data.curp):
-            return Response({ 'message': 'Los datos personales no concuerdan con la CURP dada' }, status=status.HTTP_400_BAD_REQUEST)
-        """
+            return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
+        validate, msg = User().validate_data_curp(payload, response_api)
+        if not validate:
+            return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
         data['role'] = int(role)
-        data['password'] = get_random_string(randint(8, 15))
-        user_find = User.objects.filter(email=request.data['email'], curp=request.data['curp'])
+        data['password'] = get_random_string(randint(8, 15)).strip()
+        user_find = User.objects.filter(email=request.data['email'])
         url = config('URL_ACTIVATE')
         if user_find.exists():
             user = User.objects.get(email=request.data['email'])
@@ -75,6 +80,11 @@ class CrearListarUser(Authentication, APIView):
                     User.email_message('Reactivación de cuenta de usuario', url, user, data['password'], 'activation.html')
                     user = UserListSerializer(user, many=False)
                     return Response(user.data, status=status.HTTP_200_OK)
+        user = User.objects.filter(curp=request.data['curp'])
+        if user.exists():
+            user = User.objects.get(curp=request.data['curp'])
+            if user.is_active and not user.status_delete:
+                return Response({ 'message': 'Ya existe un usuario con esa curp registrado' }, status=status.HTTP_400_BAD_REQUEST)            
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
             user = serializer.save()
