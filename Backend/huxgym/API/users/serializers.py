@@ -79,7 +79,7 @@ class UserTokenSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'image', 'role', 'name']
+        fields = ['id', 'email', 'image', 'role', 'name', 'paternal_surname', 'mothers_maiden_name', 'birthdate', 'entity_birth', 'curp', 'age']
 
 
 class AttendanceHorarySerializer(ModelSerializer):
