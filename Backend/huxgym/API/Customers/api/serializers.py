@@ -10,15 +10,10 @@ class CustomerSerializer(serializers.ModelSerializer):
         exclude = ('status_delete',)
 
     def update(self, instance, validated_data):
-        instance.name = validated_data.get('name',instance.name)
-        instance.gender = validated_data.get('gender',instance.gender)
         instance.phone = validated_data.get('phone',instance.phone)
         instance.image = validated_data.get('image',instance.image)
         instance.membershipActivate = validated_data.get('membershipActivate',instance.membershipActivate)
         instance.isStudiant = validated_data.get('isStudiant',instance.isStudiant)
-        instance.dateJoined = validated_data.get('dateJoined',instance.dateJoined)
-        instance.status_delete = validated_data.get('status_delete',instance.status_delete)
-        instance.folio = validated_data.get('folio',instance.folio)
         instance.save()
         return instance
 
