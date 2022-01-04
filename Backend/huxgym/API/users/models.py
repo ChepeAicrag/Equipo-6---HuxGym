@@ -1,18 +1,11 @@
-from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from django.db.models.fields import AutoField
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import get_template, render_to_string
+from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
-from django.conf import settings
-from dateutil.relativedelta import relativedelta
-import json
 
 from API.general.utils import send_email_validation
 from API.general.models import Role
-from API.products.models import Product
-from ..general.utils import find_first_vocal
 from .choices import roles
 
 def upload_load(instance, filename):
@@ -112,47 +105,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         return user
-
-    @staticmethod
-    def calculate_age(birthdate):
-        fecha_nacimiento = datetime.strptime(str(birthdate), '%Y-%m-%d').date()
-        edad = relativedelta(datetime.now(), fecha_nacimiento)  
-        return edad.years
-    
-    @staticmethod
-    def validate_data_curp(user, data):
-        """
-        if str(user.curp).lower() != str(data.curp).lower():
-            return False, "La curp no corresponde a estos datos"
-        if str(user.name).lower() != str(data.name).lower():
-            return False, "El nombre no corresponde a esa curp"
-        if str(user.paternal_surname).lower() != str(data.paternal_surname).lower():
-            return False, "El apellido paterno no corresponde a esa curp"
-        if str(user.mothers_maiden_name).lower() != str(data.mothers_maiden_name).lower():
-            return False, "El apellido materno no corresponde a esa curp"
-        if str(user.birthdate) != str(data.birthdate):
-            return False, "El año de nacimiento no corresponde a esa curp"
-        if str(user.entity_birth).lower() != str(data.entity_birth).lower():
-            return False, "La enitdad de nacimiento no corresponde a esa curp"       
-        if str(user.gender).lower() != str(data.gender).lower():
-            return False, "El genero no corresponde a esa curp"
-        return True, None
-        """
-        if str(user['curp']).lower() != str(data['Curp']).lower():
-            return False, "La curp no corresponde a estos datos"
-        if str(user['names']).lower() != str(data['Nombre']).lower():
-            return False, "El nombre no corresponde a esa curp"
-        if str(user['paternal_surname']).lower() != str(data['ApellidoPaterno']).lower():
-            return False, "El apellido paterno no corresponde a esa curp"
-        if str(user['mothers_maiden_name']).lower() != str(data['ApellidoMaterno']).lower():
-            return False, "El apellido materno no corresponde a esa curp"
-        if str(user['birthdate']) != str(data['FechaNacimiento']):
-            return False, "El año de nacimiento no corresponde a esa curp"
-        if str(user['entity_birth']).lower() != str(data['NumEntidadReg']).lower():
-            return False, "La enitdad de nacimiento no corresponde a esa curp"       
-        if str(user['sex']).lower() != str(data['Sexo']).lower():
-            return False, "El genero no corresponde a esa curp"
-        return True, None
 class Log(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, verbose_name='Usuario Id')
