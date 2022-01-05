@@ -80,6 +80,7 @@ class BtnModalHoja extends Component {
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
+      birthdate: this.props.nacimiento_cliente,
       date: "",
       age: "0",
       height: "0",
@@ -749,7 +750,8 @@ class BtnModalHoja extends Component {
             const nutritionalSituation_id = res_form1.data.id;
             // Creación de la hoja clínica
             const res_hc = await axios.post(url_hc, {
-              age: form1.age,
+              //age: form1.age,
+              birthdate: form1.birthdate,
               weigth: form1.weight,
               heigh: form1.height,
               bloodType: form1.bloody,
@@ -974,7 +976,7 @@ class BtnModalHoja extends Component {
                 onChange={this.handleChange}
                 value={form ? form.customer_id : ""}
               /> */}
-              <label htmlFor="age">Edad actual *: </label>
+              {/* <label htmlFor="age">Edad actual *: </label>
               <br />
               <TextField
                 id="outlined-number"
@@ -989,9 +991,9 @@ class BtnModalHoja extends Component {
                   shrink: true,
                 }}
                 variant="outlined"
-              />
+              /> */}
 
-              <br />
+              
               {this.state.errors.edad && <p  className="errores mt-2">{this.state.errors.edad}</p>}
               <br />
               <label htmlFor="height">Estatura en centímetros *: </label>
