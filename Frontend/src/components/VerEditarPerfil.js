@@ -63,8 +63,20 @@ class VerEditarPerfil extends Component {
         console.log(res);
       }
     } catch (error) {
+      console.log("hay un errorVErEditarPErfin")
+      try { 
+        const msj = JSON.parse(error.request.response).message;
+        if (msj === "Credenciales invalidas") {
+              this.Expulsado();
+        }
+        console.log(msj);
+          
+        
+      }catch(error2){
+          console.log(error2)
+      }
       //const msj = JSON.parse(error.request.response).message;
-      console.log(error);
+      //console.log(error);
       /* if (msj === "Credenciales invalidas") {
         this.Expulsado();
       } else {

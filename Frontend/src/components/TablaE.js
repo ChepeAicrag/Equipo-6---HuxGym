@@ -61,11 +61,20 @@ class TablaE extends Component {
         data: res.data,
       }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
     } catch (error) {
-      const msj = JSON.parse(error.request.response).message;
-      if (msj === "Credenciales invalidas") {
-        this.Expulsado();
+
+      console.log("hay un error en TablaE en la peticion Get")
+      try { 
+        const msj = JSON.parse(error.request.response).message;
+        if (msj === "Credenciales invalidas") {
+              this.Expulsado();
+        }
+        console.log(msj);
+          
+        
+      }catch(error2){
+          console.log(error2)
       }
-      console.log(msj);
+      
     }
   };
 

@@ -71,6 +71,7 @@ class Tabla extends Component {
     try {
       const res = await axios.get(url);
       if (res.status === 200 || res.status === 201) {
+        console.log("peticion enter")
         this.setState({
           /* Con esto accedemos a las variables de state y modificamos */
 
@@ -80,11 +81,18 @@ class Tabla extends Component {
         
       }
     } catch (error) {
-      const msj = JSON.parse(error.request.response).message;
-      if (msj === "Credenciales invalidas") {
-        this.Expulsado();
+      console.log("hay un error en la peticion XD")
+      try { 
+        const msj = JSON.parse(error.request.response).message;
+        if (msj === "Credenciales invalidas") {
+              this.Expulsado();
+        }
+        console.log(msj);
+          
+        
+      }catch(error2){
+          console.log(error2)
       }
-      console.log(msj);
     }
 
     try {
@@ -448,6 +456,7 @@ class Tabla extends Component {
         });
       }
   };
+  
   handleChangeMembresia = (event) => {
     this.setState({
        membresia: event.target.value
@@ -512,7 +521,7 @@ class Tabla extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data.map((clientes) => {
+              {this.state.data && this.state.data.map((clientes) => {
                 return (
                   <tr className="cuerpoT">
                     <td>{clientes.id}</td>
