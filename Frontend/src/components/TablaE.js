@@ -7,13 +7,31 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { isEmpty } from "../helpers/methods";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 const url = "https://www.huxgym.codes/user/";
-
+function obtnerDate(date) {
+  let fecha = new Date(date);
+  console.log(fecha);
+  let year = fecha.getFullYear();
+  let mounth = fecha.getUTCMonth() + 1;
+  let day = fecha.getDate();
+  return year + "/" + mounth + "/" + day;
+}
 class TablaE extends Component {
-
-  campos = { "name": "nombre", "age": "edad", "gender": "genero", "image": "imagen", "phone": "télefono", "image": "imagen" };
+  campos = {
+    name: "nombre",
+    age: "edad",
+    gender: "genero",
+    image: "imagen",
+    phone: "télefono",
+    image: "imagen",
+  };
 
   state = {
     busqueda: "",
@@ -25,12 +43,16 @@ class TablaE extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
       name: "",
-      age: "",
+      paternal_surname: "",
+      mothers_maiden_name: "",
+      birthdate: new Date(),
+      entity_birth: "",
+      curp:"",
       gender: "",
       image: "",
       phone: "",
       email: "",
-      rol: 2,
+      role: 2,
     },
   };
 
@@ -47,7 +69,20 @@ class TablaE extends Component {
     });
     console.log(this.state.form);
   };
-
+  state = {
+    estados: [],
+  };
+  perticionState = async () => {
+    axios
+      .get("https://www.huxgym.codes/state/")
+      .then((response) => {
+        console.log(response);
+        this.setState({ estados: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   peticionGet = async () => {
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
     try {
@@ -61,20 +96,16 @@ class TablaE extends Component {
         data: res.data,
       }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
     } catch (error) {
-
-      console.log("hay un error en TablaE en la peticion Get")
-      try { 
+      console.log("hay un error en TablaE en la peticion Get");
+      try {
         const msj = JSON.parse(error.request.response).message;
         if (msj === "Credenciales invalidas") {
-              this.Expulsado();
+          this.Expulsado();
         }
         console.log(msj);
-          
-        
-      }catch(error2){
-          console.log(error2)
+      } catch (error2) {
+        console.log(error2);
       }
-      
     }
   };
 
@@ -108,12 +139,12 @@ class TablaE extends Component {
       };
     if (isEmpty(age))
       return { error: true, msj: "El campo de edad no puede estar vacío" };
-    const edad = parseInt(age)
-    if(edad < 18)
+    const edad = parseInt(age);
+    if (edad < 18)
       return { error: true, msj: "La edad debe ser mayor a 18 años" };
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
-    if(phone.length < 10)
+    if (phone.length < 10)
       return { error: true, msj: "El campo de telefono debe tener 10 dígitos" };
     if (isEmpty(email))
       return {
@@ -176,28 +207,28 @@ class TablaE extends Component {
     } catch (error) {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if(isEmpty(msj)){
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+      if (isEmpty(msj)) {
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
         swal({
-          text: msj,//Array.isArray(msj) ? msj[0] : msj,
+          text: msj, //Array.isArray(msj) ? msj[0] : msj,
           icon: "error",
           button: "Aceptar",
           timer: "5000",
         });
-      }
-      else if (msj === "Credenciales invalidas")
-        this.Expulsado();
-      else 
+      } else if (msj === "Credenciales invalidas") this.Expulsado();
+      else
         swal({
-            text: msj,//Array.isArray(msj) ? msj[0] : msj,
-            icon: "error",
-            button: "Aceptar",
-            timer: "5000",
+          text: msj, //Array.isArray(msj) ? msj[0] : msj,
+          icon: "error",
+          button: "Aceptar",
+          timer: "5000",
         });
-      }
+    }
   };
 
   peticionPut = async () => {
@@ -246,8 +277,7 @@ class TablaE extends Component {
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if (msj === "Credenciales invalidas") 
-        this.Expulsado();
+      if (msj === "Credenciales invalidas") this.Expulsado();
       swal({
         text: Array.isArray(msj) ? msj[0] : msj,
         icon: "error",
@@ -286,14 +316,14 @@ class TablaE extends Component {
         button: "Aceptar",
         timer: "5000",
       });
-      if (msj === "Credenciales invalidas") 
-        this.Expulsado();
+      if (msj === "Credenciales invalidas") this.Expulsado();
     }
   };
 
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
+    this.perticionState();
   }
 
   modalInsertar = () => {
@@ -347,7 +377,11 @@ class TablaE extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLocaleLowerCase().includes(this.state.busqueda.toLocaleLowerCase())) {
+        if (
+          item.name
+            .toLocaleLowerCase()
+            .includes(this.state.busqueda.toLocaleLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -402,7 +436,16 @@ class TablaE extends Component {
       });
     }
   };
-
+  handleDateChange = (e) => {
+    let value = obtnerDate(e);
+    console.log(value);
+    this.setState({
+      form: {
+        ...this.state.form,
+        birthdate: value,
+      },
+    });
+  };
   handleChangeInputImage = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
@@ -453,7 +496,8 @@ class TablaE extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo Empleado
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo
+            Empleado
           </button>
           <div className="esp"></div>
           <input
@@ -477,7 +521,7 @@ class TablaE extends Component {
         <div className="table-wrapper">
           <table className="tab-pane  table">
             <thead className="tablaHeader">
-              <tr className="encabezado" >
+              <tr className="encabezado">
                 <th>ID</th>
                 <th>Nombre completo</th>
                 <th>Edad</th>
@@ -490,53 +534,56 @@ class TablaE extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data.map((empleados) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                return (
-                  <tr>
-                    <td>{empleados.id}</td>
-                    <td>{empleados.name}</td>
-                    <td>{empleados.age}</td>
-                    <td>{empleados.gender}</td>
-                    <td>{empleados.phone}</td>
-                    <td>{empleados.email}</td>
-                    <td>{empleados.role === 2 ? "Encargado" : "Instructor"}</td>
-                    <td>
-                      <img
-                        src={`https://www.huxgym.codes/${empleados.image}`}
-                        width="170"
-                        height="150"
-                        align="center"
-                      />
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-editar"
-                        onClick={() => {
-                          this.seleccionarUsuario(empleados);
-                          this.modalInsertar();
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      {"  "}
-                      {localStorage.getItem("rol") == "Administrador" ? (
+              {this.state.data &&
+                this.state.data.map((empleados) => {
+                  /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                  return (
+                    <tr>
+                      <td>{empleados.id}</td>
+                      <td>{empleados.name}</td>
+                      <td>{empleados.age}</td>
+                      <td>{empleados.gender}</td>
+                      <td>{empleados.phone}</td>
+                      <td>{empleados.email}</td>
+                      <td>
+                        {empleados.role === 2 ? "Encargado" : "Instructor"}
+                      </td>
+                      <td>
+                        <img
+                          src={`https://www.huxgym.codes/${empleados.image}`}
+                          width="170"
+                          height="150"
+                          align="center"
+                        />
+                      </td>
+                      <td>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-editar"
                           onClick={() => {
                             this.seleccionarUsuario(empleados);
-                            this.setState({ modalEliminar: true });
+                            this.modalInsertar();
                           }}
                         >
-                          <FontAwesomeIcon icon={faTrashAlt} />
+                          <FontAwesomeIcon icon={faEdit} />
                         </button>
-                      ) : (
-                        <></>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+                        {"  "}
+                        {localStorage.getItem("rol") == "Administrador" ? (
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                              this.seleccionarUsuario(empleados);
+                              this.setState({ modalEliminar: true });
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </button>
+                        ) : (
+                          <></>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -561,19 +608,32 @@ class TablaE extends Component {
                 value={form ? form.name : ""}
               />
               <br />
-              <label htmlFor="age">Edad*:</label>
-              {/* <input
+              <label htmlFor="name">Apellido Paterno*:</label>
+              <input
                 className="form-control"
                 type="text"
-                name="age"
-                id="age"
-                min="18"
-                max="99"
-                placeholder="Edad en años"
-                maxlength="2"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.age : ""}
-              /> */}
+                name="paternal_surname"
+                id="paternal_surname"
+                maxlength="150"
+                placeholder="Apellido Paterno"
+                onChange={this.handleChangeInput}
+                value={form ? form.paternal_surname : ""}
+              />
+              <br />
+              <label htmlFor="name">Apellido Materno*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="mothers_maiden_name"
+                id="mothers_maiden_name"
+                maxlength="150"
+                placeholder="Apellido Materno"
+                onChange={this.handleChangeInput}
+                value={form ? form.mothers_maiden_name : ""}
+              />
+              {/* <br />
+              <label htmlFor="age">Edad*:</label>
+              
               <input
                 className="form-control"
                 type="number"
@@ -584,8 +644,49 @@ class TablaE extends Component {
                 placeholder="Edad en años"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.age : ""}
-              />
+              /> */}
               <br />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <label className="articulo mt-3">Fecha de Nacimiento</label>
+                <br />
+                <KeyboardDatePicker
+                  className="fecha"
+                  allowKeyboardControl={true}
+                  id="birthdate"
+                  format="yyyy/MM/dd"
+                  value={form ? form.birthdate : new Date()}
+                  onChange={this.handleDateChange}
+                  animateYearScrolling={true}
+                />
+              </MuiPickersUtilsProvider>
+              <br />
+              <br />
+
+              <label htmlFor="name">Estado*:</label>
+              <br />
+              <select
+                className="form-select"
+                aria-label="Default select example"
+              >
+                {this.state.estados.map((elemento) => (
+                  <option key={elemento.num} value={elemento.value}>
+                    {elemento.name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <label htmlFor="name">CURP*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="curp"
+                id="curp"
+                maxlength="150"
+                placeholder="CURP"
+                onChange={this.handleChangeInput}
+                value={form ? form.curp : ""}
+              />
+
               <label htmlFor="phone">Teléfono*:</label>
               <input
                 className="form-control"
@@ -670,95 +771,98 @@ class TablaE extends Component {
 
               {this.state.tipoModal === "insertar" ? (
                 <>
-                   <label htmlFor="role">Rol*: </label>
-              <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="2"
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 2
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Empleado
-                </label>
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="3"
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 3
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Instructor
-                </label>
-              </div>
+                  <label htmlFor="role">Rol*: </label>
+                  <br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="2"
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? false
+                            : form.role == 2
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Empleado
+                    </label>
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="3"
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? false
+                            : form.role == 3
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Instructor
+                    </label>
+                  </div>
                 </>
               ) : (
                 <>
                   <label htmlFor="role">Rol*: </label>
-              <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="2"
-                    disabled
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? true
-                        : form.role == 2
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Empleado
-                </label>
-                <label class="btn botonesForm m-1 ">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="3"
-                    disabled
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 3
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Instructor
-                </label>
-              </div>
+                  <br />
+                 {/*  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="2"
+                        disabled
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? true
+                            : form.role == 2
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Empleado
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="3"
+                        disabled
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? false
+                            : form.role == 3
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Instructor
+                    </label>
+                  </div> */}
                 </>
               )}
-              
-             
+
               <br />
             </div>
           </ModalBody>
