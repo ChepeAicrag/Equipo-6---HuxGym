@@ -78,12 +78,12 @@ def customer_api_view(request):
         }
         if payload["curp"] is None:
             return Response({ 'message': 'La curp es requerida' }, status=status.HTTP_400_BAD_REQUEST)
-        response_api, error = API().validate_curp(payload["curp"])
-        if(error):
-            return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
-        validate, msg = validate_data_curp(payload, response_api)
-        if not validate:
-            return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
+        #response_api, error = API().validate_curp(payload["curp"])
+        #if(error):
+        #    return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
+        #validate, msg = validate_data_curp(payload, response_api)
+        # if not validate:
+        #     return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
         data['folio'] = payload["curp"][-5:] + payload["sex"] + payload["birthdate"].split('-')[0]
         customer = Customer.objects.filter(curp=request.data['curp']).first()
         if customer:
@@ -160,8 +160,12 @@ def attendance_api_view(request):
             attendance = Attendance.objects.filter(customer_id = request.data['customer_id']).latest('id')
             if attendance.check_out == None:
                 return Response({'message': 'No puedes hacer check in de un cliente que no ha hecho check out'}, status = status.HTTP_400_BAD_REQUEST)
-             
-        attendance_serializer = AttendanceSerializer(data = request.data)
+        
+        data = request.data.copy()
+        count_a = Attendance.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'A' + str(count_a) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+        attendance_serializer = AttendanceSerializer(data = data)
         if attendance_serializer.is_valid():
             attendance_serializer.save()
             return Response({'message': 'Asistencia registrada correctamente'}, status = status.HTTP_201_CREATED)
@@ -290,7 +294,11 @@ def typeExtraInformation_api_view(request):
         return Response(typeExtraInformation_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        typeExtraInformation_serializer = TypeExtraInformationSerializer(data = request.data)
+        data = request.data.copy()
+        count_tei = TypeExtraInformation.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'TEI' + str(count_tei) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+        typeExtraInformation_serializer = TypeExtraInformationSerializer(data = data)
         if typeExtraInformation_serializer.is_valid():
             typeExtraInformation_serializer.save()
             return Response({'message': 'Información extra registrada correctamente'}, status = status.HTTP_201_CREATED)
@@ -343,7 +351,12 @@ def bodyAttribute_api_view(request):
         return Response(bodyAttribute_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        bodyAttribute_serializer = BodyAttributeSerializer(data = request.data)
+        data = request.data.copy()
+        count = BodyAttribute.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'BA' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        bodyAttribute_serializer = BodyAttributeSerializer(data = data)
         if bodyAttribute_serializer.is_valid():
             bodyAttribute_serializer.save()
             return Response({'message': 'Atributo de cuerpo registrada correctamente'}, status = status.HTTP_201_CREATED)
@@ -489,7 +502,12 @@ def typeExtraInformation_HistoryClinic_api_view(request):
         return Response(typeExtraInformation_HistoryClinic_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        typeExtraInformation_HistoryClinic_serializer = TypeExtraInformation_HistoryClinicSerializer(data = request.data)
+        data = request.data.copy()
+        count = TypeExtraInformation_HistoryClinic.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'TEI-HC' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        typeExtraInformation_HistoryClinic_serializer = TypeExtraInformation_HistoryClinicSerializer(data = data)
         if typeExtraInformation_HistoryClinic_serializer.is_valid():
             typeExtraInformation_HistoryClinic_serializer.save()
             return Response({'message': 'Relación registrada correctamente'}, status = status.HTTP_201_CREATED)
@@ -541,7 +559,12 @@ def bodyAttribute_HistoryClinic_api_view(request):
         return Response(bodyAttribute_HistoryClinic_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        bodyAttribute_HistoryClinic_serializer = BodyAttribute_HistoryClinicSerializer(data = request.data)
+        data = request.data.copy()
+        count = BodyAttribute_HistoryClinic.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'BA-HC' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        bodyAttribute_HistoryClinic_serializer = BodyAttribute_HistoryClinicSerializer(data = data)
         if bodyAttribute_HistoryClinic_serializer.is_valid():
             bodyAttribute_HistoryClinic_serializer.save()
             return Response({'message': 'Relación registrada correctamente'}, status = status.HTTP_201_CREATED)
@@ -631,6 +654,11 @@ def customer_membership_api_view(request):
         data = request.data.copy()
         membresia = Membership.objects.filter(id = data['membership_id'], status_delete = False).first()
         data['date_due'] = (datetime.now()).date() + timedelta(days=membresia.day)
+
+        count = Customer_Membership.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'C-M' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
         customer_membership_serializer = Customer_MembershipSerializer(data = data)
         if customer_membership_serializer.is_valid():
             cliente = Customer.objects.filter(id = request.data['customer_id']).latest('id')
