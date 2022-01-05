@@ -3,6 +3,7 @@ from decouple import config
 
 class API:
 
+
     url = "https://curp-mexico1.p.rapidapi.com/porCurp/"
 
     headers = {

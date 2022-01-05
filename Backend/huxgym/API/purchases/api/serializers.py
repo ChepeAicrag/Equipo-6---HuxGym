@@ -11,6 +11,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
                 "id": instance.id,
+                "folio": instance.folio,
                 "date": instance.date,
                 "observation": instance.observation,
                 "total": instance.total,
@@ -34,20 +35,24 @@ class PurchaseProductSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
                 "id": instance.id,
+                "folio": instance.folio,
                 "amount": instance.amount,
                 "total": instance.total,
                 "purchase_id": instance.purchase_id.id,
                 "product": {
                     "name": instance.product_id.name,
+                    "folio": instance.product_id.folio,
                     "description": instance.product_id.description,
                     "price_s": instance.product_id.price_s,
                     "price_c": instance.product_id.price_c,
                     "category": {
                         "id": instance.product_id.category_id.id,
+                        "folio": instance.product_id.category_id.folio,
                         "name": instance.product_id.category_id.name,
                 },
                 "provider": {
                     "id": instance.product_id.provider_id.id,
+                    "folio": instance.product_id.provider_id.folio,
                     "name": instance.product_id.provider_id.name
                 
 

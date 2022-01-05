@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from datetime import datetime
 from API.products.models import Stock, OperationType, Operation, HistoryInventory
 from API.products.api.serializers import OperationSerializer, OperationTypeSerializer, HistoryInventorySerializer
+from datetime import date, datetime, timedelta
 
 @api_view(['GET', 'POST'])
 def purchase_api_view(request):
@@ -18,7 +19,12 @@ def purchase_api_view(request):
         return Response(purchases_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        purchase_serializer = PurchaseSerializer(data = request.data)
+        data = request.data.copy()
+        count = Purchase.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'PUR' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        purchase_serializer = PurchaseSerializer(data = data)
         if purchase_serializer.is_valid():
             purchase_serializer.save()
             return Response({'message':'Compra registrada con exito'}, status = status.HTTP_201_CREATED)
@@ -74,7 +80,12 @@ def purchaseProduct_api_view(request):
         return Response(purchases_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        purchase_serializer = PurchaseProductSerializer(data = request.data)
+        data = request.data.copy()
+        count = Purchase_Details_Product.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'PUR-P' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        purchase_serializer = PurchaseProductSerializer(data = data)
         if purchase_serializer.is_valid():
             purchase_serializer.save()
             return Response({'message':'Compra registrada con exito'}, status = status.HTTP_201_CREATED)

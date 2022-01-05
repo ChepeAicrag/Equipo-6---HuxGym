@@ -15,6 +15,8 @@ class Purchase(models.Model):
     cashRegister_id = models.ForeignKey(CashRegister, on_delete=models.CASCADE)
     product = models.ManyToManyField(Product, through='Purchase_Details_Product')
 
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
+
     class Meta:
         verbose_name = 'Purchase'
         verbose_name_plural = 'Purchases'
@@ -29,6 +31,8 @@ class Purchase_Details_Product(models.Model):
 
     purchase_id = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product_id =models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
 
     class Meta:
         verbose_name = 'Purchase_Details_Product'
