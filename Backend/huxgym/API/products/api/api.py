@@ -3,6 +3,7 @@ from API.products.models import *
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from datetime import date, datetime, timedelta
 
 #API PARA EL MODELO PRODUCT
 @api_view(['GET', 'POST'])
@@ -41,12 +42,16 @@ def product_api_view(request):
             if i.name.upper() == request.data['name'].upper():
                 return Response({'message': 'Ya existe un producto con ese nombre'},status = status.HTTP_400_BAD_REQUEST )
 
+        count = Product.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'P' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
 
         product_serializer = ProductSerializer(data = data)
         if product_serializer.is_valid():
             product_serializer.save()
             producto = Product.objects.latest('id')
             stock = Stock(product_id = producto, amount = 0)
+            stock.folio = 'ST' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
             stock.save()
             return Response({'message': 'Producto registrado correctamente'}, status = status.HTTP_201_CREATED)
         return Response(product_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -115,10 +120,16 @@ def category_api_view(request):
         return Response(category_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
+        
         categorias = Category.objects.all().filter(name = request.data['name'], status_delete = False)
         if categorias:
             return Response({'message' : 'Ya existe esta categoría'}, status=status.HTTP_400_BAD_REQUEST)
-        category_serializer = CategorySerializer(data = request.data)
+
+        data = request.data.copy()
+        count = Category.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'CAT' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+        category_serializer = CategorySerializer(data = data)
         if category_serializer.is_valid():
             category_serializer.save()
             return Response({'message': 'Categoría creada correctamente'}, status = status.HTTP_201_CREATED)
@@ -182,7 +193,13 @@ def stock_api_view(request):
         stocks = Stock.objects.all().filter(product_id = request.data['product_id'])
         if stocks:
             return Response({'message': 'Ya existe un stock de este producto'}, status=status.HTTP_400_BAD_REQUEST)
-        stock_serializer = StockSerializer(data = request.data)
+        
+        data = request.data.copy()
+        count = Stock.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'ST' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        stock_serializer = StockSerializer(data = data)
         if stock_serializer.is_valid():
             stock_serializer.save()
             return Response({'message': 'Stock creado correctamente'}, status = status.HTTP_201_CREATED)
@@ -257,6 +274,7 @@ def anadirStock(request, pk = None):
             if cantidadASumar <= 0:
                 return Response({'message': 'La cantidad tiene que ser mayor a 0'}, status = status.HTTP_400_BAD_REQUEST)
             stock.amount = stock.amount + cantidadASumar
+            stock.folio = stock.folio
             stock.save()
 
             operation = {'amount': cantidadASumar,
@@ -298,7 +316,11 @@ def restarStock(request, pk = None):
         stock.amount = stock.amount - cantidadARestar
         stock.save()
 
-        operation = {'amount': cantidadARestar,
+        count = Operation.objects.all().count()
+        fecha = date.today()
+
+        operation = {'folio': 'OP' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
+                    'amount': cantidadARestar,
                     'description': "Se restó al stock" ,
                     'operationType_id': 2}
 
@@ -306,7 +328,8 @@ def restarStock(request, pk = None):
         if operation_serializer.is_valid():
             operation_serializer.save()
 
-            history = {'product_id': stock.product_id.id,
+            history = {'folio': 'HI' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
+                        'product_id': stock.product_id.id,
                         'amount': stock.amount ,
                         'operation_id': Operation.objects.latest('id').id
                         }
@@ -341,8 +364,12 @@ def provider_api_view(request):
                 return Response({'message' : 'El RFC está incompleto'}, status=status.HTTP_400_BAD_REQUEST)
         
 
+        data = request.data.copy()
+        count = Provider.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'PR' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
 
-        provider_serializer = ProviderSerializer(data = request.data)
+        provider_serializer = ProviderSerializer(data = data)
         if provider_serializer.is_valid():
             provider_serializer.save()
             return Response({'message': 'Proveedor creado correctamente'}, status = status.HTTP_201_CREATED)
@@ -405,7 +432,13 @@ def historyInventory_api_view(request):
         return Response(historyInventory_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        historyInventory_serializer = HistoryInventorySerializer(data = request.data)
+        
+        data = request.data.copy()
+        count = HistoryInventory.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'HI' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        historyInventory_serializer = HistoryInventorySerializer(data = data)
         if historyInventory_serializer.is_valid():
             historyInventory_serializer.save()
             return Response({'message': 'Historial de inventario creado correctamente'}, status = status.HTTP_201_CREATED)
@@ -446,6 +479,13 @@ def operation_api_view(request):
         return Response(operation_serializer.data, status = status.HTTP_200_OK)
 
     elif request.method == 'POST':
+
+        data = request.data.copy()
+        count = Operation.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'OP' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+
         operation_serializer = OperationSerializer(data = request.data)
         if operation_serializer.is_valid():
             operation_serializer.save()
