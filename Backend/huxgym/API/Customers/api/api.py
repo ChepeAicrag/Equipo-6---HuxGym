@@ -82,7 +82,7 @@ def customer_api_view(request):
         if(error):
             return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
         validate, msg = validate_data_curp(payload, response_api)
-         if not validate:
+        if not validate:
              return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
         data['folio'] = payload["curp"][-5:] + payload["sex"] + payload["birthdate"].split('-')[0]
         customer = Customer.objects.filter(curp=request.data['curp']).first()
