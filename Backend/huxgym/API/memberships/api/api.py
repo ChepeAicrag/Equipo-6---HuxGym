@@ -27,7 +27,13 @@ def membership_api_view(request):
         for i in objetos:
             if i.name.upper() == request.data['name'].upper():
                 return Response({'message': 'Ya existe una membresía con ese nombre'},status = status.HTTP_400_BAD_REQUEST )
-        membership_serializer = MembershipSerializer(data = request.data)
+
+        data = request.data.copy()
+        count = Membership.objects.all().count()
+        fecha = date.today()
+        data["folio"] = 'M' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+
+        membership_serializer = MembershipSerializer(data = data)
         if membership_serializer.is_valid():
             membership_serializer.save()
             return Response({'message': 'Membresía creada correctamente'}, status = status.HTTP_201_CREATED)
