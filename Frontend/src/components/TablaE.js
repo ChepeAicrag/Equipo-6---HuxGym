@@ -15,12 +15,13 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 const url = "https://www.huxgym.codes/user/";
+
 function obtnerDate(date) {
   let fecha = new Date(date);
   console.log(fecha);
   let year = fecha.getFullYear();
-  let mounth = fecha.getUTCMonth() + 1;
-  let day = fecha.getDate();
+  let mounth = fecha.getUTCMonth();
+  let day = fecha.getDate()+1;
   return year + "/" + mounth + "/" + day;
 }
 class TablaE extends Component {
@@ -47,7 +48,7 @@ class TablaE extends Component {
       mothers_maiden_name: "",
       birthdate: new Date(),
       entity_birth: "",
-      curp:"",
+      curp: "",
       gender: "",
       image: "",
       phone: "",
@@ -119,7 +120,16 @@ class TablaE extends Component {
     const phone = form.phone;
     const age = form.age;
     const role = form.role;
-
+    const curp = form.curp;
+    let regex = new RegExp(
+      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
+    );
+    if (!regex.test(curp)) {
+      return {
+        error: true,
+        msj: "El campo RFC es incorrecto",
+      };
+    }
     if (
       isEmpty(name) &&
       isEmpty(phone) &&
@@ -158,6 +168,9 @@ class TablaE extends Component {
         error: true,
         msj: "El campo de role no puede estar vacío",
       };
+
+    if (isEmpty(curp))
+      return { error: true, msj: "El campo de rfc no puede estar vacío" };
     return { error: false };
   };
 
@@ -180,13 +193,18 @@ class TablaE extends Component {
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-          formData.append("image", form.image);
-        formData.append("name", form.name);
-        formData.append("gender", form.gender);
-        formData.append("email", form.email);
-        formData.append("phone", form.phone);
-        formData.append("age", form.age);
-        formData.append("role", form.role);
+          formData.append("image", this.state.form.image);
+        formData.append("name", this.state.form.name.toUpperCase);
+        formData.append("paternal_surname", this.state.form.paternal_surname.toUpperCase);
+        formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase);
+        formData.append("birthdate", this.state.form.birthdate);
+        formData.append("entity_birth", this.state.form.entity_birth);
+        formData.append("curp", this.state.form.curp.toUpperCase);
+        formData.append("gender", this.state.form.gender.toUpperCase);
+        formData.append("email", this.state.form.email);
+        formData.append("phone", this.state.form.phone);
+        formData.append("role", this.state.form.role);
+        formData.append("end");
         const res = await axios.post(url, formData, {
           headers: {
             Authorization: "Token " + localStorage.getItem("token"),
@@ -250,7 +268,7 @@ class TablaE extends Component {
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-          formData.append("image", form.image);
+        formData.append("image", form.image);
         formData.append("name", form.name);
         formData.append("gender", form.gender);
         formData.append("email", form.email);
@@ -392,7 +410,43 @@ class TablaE extends Component {
       this.peticionGet();
     }
   };
+  handleChangeInputCURP = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: value,
+      },
+    });
+    // let regex = new RegExp("^[a-zA-Z ]+$");
+    /* let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
+    if (regex.test(value) || isEmpty(value)) {
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: value,
+        },
+      });
+    } else {
+      e.target.value = "";
+      swal({
+        text: "Solo se permiten letras y acentos",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    } */
+  };
+  changeEstado= (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: value,
+      },
+    });
 
+  }
   handleChangeInput = (e) => {
     const { name, value } = e.target;
     let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
@@ -662,19 +716,24 @@ class TablaE extends Component {
               <br />
               <br />
 
-              <label htmlFor="name">Estado*:</label>
+              <label htmlFor="entity_birth">Estado*:</label>
               <br />
               <select
                 className="form-select"
                 aria-label="Default select example"
+                name="entity_birth"
+                id="entity_birth"
+                onChange={this.changeEstado}
+                value={form ? form.entity_birth : "1"}
               >
                 {this.state.estados.map((elemento) => (
-                  <option key={elemento.num} value={elemento.value}>
+                  <option key={elemento.num} value={elemento.num}>
                     {elemento.name}
                   </option>
                 ))}
               </select>
               <br />
+
               <label htmlFor="name">CURP*:</label>
               <input
                 className="form-control"
@@ -683,7 +742,7 @@ class TablaE extends Component {
                 id="curp"
                 maxlength="150"
                 placeholder="CURP"
-                onChange={this.handleChangeInput}
+                onChange={this.handleChangeInputCURP}
                 value={form ? form.curp : ""}
               />
 
@@ -748,23 +807,23 @@ class TablaE extends Component {
                   <input
                     type="radio"
                     name="gender"
-                    value="M"
+                    value="H"
                     autocomplete="off"
                     onChange={this.handleChange}
-                    checked={form ? (form.gender === "M" ? true : false) : true}
+                    checked={form ? (form.gender === "H" ? true : false) : true}
                   />{" "}
-                  M
+                  H
                 </label>
                 <label class="btn botonesForm m-1 ">
                   <input
                     type="radio"
                     name="gender"
-                    value="F"
+                    value="M"
                     autocomplete="on"
                     onChange={this.handleChange}
-                    checked={form ? (form.gender === "F" ? true : false) : true}
+                    checked={form ? (form.gender === "M" ? true : false) : true}
                   />{" "}
-                  F
+                  M
                 </label>
               </div>
               <br />
@@ -818,7 +877,7 @@ class TablaE extends Component {
                 <>
                   <label htmlFor="role">Rol*: </label>
                   <br />
-                 {/*  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  {/*  <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn botonesForm m-1">
                       <input
                         type="radio"
