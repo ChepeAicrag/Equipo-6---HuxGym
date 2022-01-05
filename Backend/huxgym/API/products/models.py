@@ -8,9 +8,11 @@ def upload_load(instance,filename):
 # Create your models here.
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
     name = models.CharField(max_length=40, blank=False, null=False)
     description = models.CharField(max_length=100, blank=False, null=False)
     status_delete = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return self.name
@@ -23,6 +25,7 @@ class Category(models.Model):
 
 class Provider(models.Model):
     id = models.AutoField(primary_key=True)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
     name = models.CharField(max_length=50, blank=False, null=False)
     email = models.EmailField(null=True, blank=True)
     phone = models.CharField(max_length=10, null=True, blank=True)
@@ -40,6 +43,7 @@ class Provider(models.Model):
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
     name = models.CharField(max_length=40, blank=False, null=False)
     description = models.TextField(max_length=150, blank=False, null=False)
     price_s = models.FloatField(blank=False, null=False)
@@ -61,6 +65,7 @@ class Product(models.Model):
 
 class Stock(models.Model):
     id = models.AutoField(primary_key=True)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
     product_id = models.OneToOneField(Product, on_delete=models.CASCADE)
     amount = models.PositiveBigIntegerField(null=False, blank=False)
     status_delete = models.BooleanField(default=False)
@@ -76,6 +81,7 @@ class Stock(models.Model):
 
 class OperationType(models.Model):
     id = models.AutoField(primary_key=True)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
     name = models.CharField(max_length=20, null=False, blank=False)
     status_delete = models.BooleanField(default=False)
 
@@ -90,6 +96,7 @@ class OperationType(models.Model):
 
 class Operation(models.Model):
     id = models.AutoField(primary_key=True)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
     amount = models.IntegerField(blank=False, null=False)
     description = models.TextField(max_length=100, null=False, blank=False)
     status_delete = models.BooleanField(default=False)
@@ -107,6 +114,7 @@ class Operation(models.Model):
 
 class HistoryInventory(models.Model):
     id = models.AutoField(primary_key=True)
+    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
     date = models.DateField('Fecha de acción', auto_now_add=True)
     amount = models.IntegerField(null=False, blank=False)
     status_delete = models.BooleanField(default=False)
