@@ -9,6 +9,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name',instance.name)
+        instance.folio = validated_data.get('folio',instance.folio)
         instance.description = validated_data.get('description',instance.description)
         instance.price_s = validated_data.get('price_s',instance.price_s)
         instance.price_c = validated_data.get('price_c',instance.price_c)
@@ -34,12 +35,15 @@ class StockSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
         "id": instance.id,
+        "folio": instance.folio,
         "amount": instance.amount,
         "product_id": {
             "id": instance.product_id.id,
+            "folio": instance.product_id.folio,
             "name": instance.product_id.name,
             "category_id": {
                 "id": instance.product_id.category_id.id,
+                "folio": instance.product_id.category_id.folio,
                 "name": instance.product_id.category_id.name
             }
         }
@@ -58,14 +62,17 @@ class HistoryInventorySerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
         "id": instance.id,
+        "folio": instance.folio,
         "date": instance.date,
         "amount": instance.amount,
         "product_id": {
             instance.product_id.id,
+            instance.product_id.folio,
             instance.product_id.name
         },
         "operation_id": {
             instance.operation_id.id,
+            instance.operation_id.folio,
             #instance.operation_id.operationType_id.name,
             instance.operation_id.description,
         }
@@ -79,10 +86,12 @@ class OperationSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
         "id": instance.id,
+        "folio": instance.folio,
         "amount": instance.amount,
         "description": instance.description,
         "operationType_id": {
             instance.operationType_id.id,
+            instance.operationType_id.folio,
             instance.operationType_id.name
         }
     }
