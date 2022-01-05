@@ -1,16 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import swal from "sweetalert";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 import BtnModalHoja from "../components/BtnModalHoja";
 import ModalHojas from "../components/ModalHojas";
@@ -23,14 +24,31 @@ import ModalPrueba from "./modalPrueba";
 
 const url = "https://www.huxgym.codes/customers/customers/";
 const urlMembresias = "https://www.huxgym.codes/memberships/memberships";
+/* const [selectedDate, setSelectedDate] = useState; */
+/* const handleDateChange = (date) => {
+  setSelectedDate(date);
+}; */
+function obtnerDate(date) {
+  let fecha = new Date(date);
+  console.log(fecha);
+  let year = fecha.getFullYear();
+  let mounth = fecha.getUTCMonth() + 1;
+  let day = fecha.getDate();
+  return year + "/" + mounth + "/" + day;
+}
 class Tabla extends Component {
-  campos = { 'phone': 'teléfono', 'gender': 'género', 'isStudiant': 'si es estudiante', 'name': 'nombre' };
+  campos = {
+    phone: "teléfono",
+    gender: "género",
+    isStudiant: "si es estudiante",
+    name: "nombre",
+  };
 
   state = {
     busqueda: "",
-    membresia:"",
-    modalHojaclinica:false,
-    ultimo:{},
+    membresia: "",
+    modalHojaclinica: false,
+    ultimo: {},
     //membresiasList:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
@@ -40,8 +58,11 @@ class Tabla extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
       name: "",
+      paternal_surname: "",
+      mothers_maiden_name: "",
       dateJoined: "",
       gender: "",
+      birthdate: new Date(),
       phone: "",
       isStudiant: true,
       image: "",
@@ -64,9 +85,22 @@ class Tabla extends Component {
 
     console.log(this.state.form);
   };
-
+  state = {
+    estados: [],
+  };
+  perticionState = async () => {
+    axios
+      .get("https://www.huxgym.codes/state/")
+      .then((response) => {
+        console.log(response);
+        this.setState({ estados: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   peticionGet = async () => {
-    console.log("entre a petition get")
+    console.log("entre a petition get");
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
     try {
       const res = await axios.get(url);
@@ -75,9 +109,8 @@ class Tabla extends Component {
           /* Con esto accedemos a las variables de state y modificamos */
 
           data: res.data,
-          ultimo:res.data[res.data.length-1],
+          ultimo: res.data[res.data.length - 1],
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
-        
       }
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
@@ -96,12 +129,7 @@ class Tabla extends Component {
           membresiasList: res.data,
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
       }
-    } catch (error) {
-      
-    }
-
-
-
+    } catch (error) {}
   };
 
   validar = (form) => {
@@ -112,7 +140,12 @@ class Tabla extends Component {
     const isStudiant = form.isStudiant;
     const phone = form.phone;
 
-    if (isEmpty(name) && isEmpty(phone) && isEmpty(gender) && isEmpty(isStudiant))
+    if (
+      isEmpty(name) &&
+      isEmpty(phone) &&
+      isEmpty(gender) &&
+      isEmpty(isStudiant)
+    )
       return {
         error: true,
         msj: "Los campos de nombre, teléfono, género y si es estudiante son obligatorios",
@@ -133,12 +166,11 @@ class Tabla extends Component {
     return { error: false };
   };
 
-  getIdUltimo=(data)=>{
-    console.log("entree a get ultimo")
-    let id=data[data.length-1];
-    console.log(id)
-
-  }
+  getIdUltimo = (data) => {
+    console.log("entree a get ultimo");
+    let id = data[data.length - 1];
+    console.log(id);
+  };
 
   peticionPost = async () => {
     /* Son asincronas por que se ejeuctan en segundo plano */
@@ -168,27 +200,23 @@ class Tabla extends Component {
             .post(url, formData);
         if ((res.status === 200) | (res.status === 201)) {
           this.modalInsertar();
-          console.log("Antes d ela promesa")
-          var p3 = Promise.resolve('Éxito').then(this.peticionGet());
+          console.log("Antes d ela promesa");
+          var p3 = Promise.resolve("Éxito").then(this.peticionGet());
 
           p3.then((successMessage) => {
-            console.log("hoja clinica modal "+this.state.modalHojaclinica);
+            console.log("hoja clinica modal " + this.state.modalHojaclinica);
             this.modalHoja();
             this.setState({ modalHojaclinica: !this.state.modalHojaclinica });
             this.setState({
               modalHojaclinica: true,
             });
-            
-            
           });
 
-          
-          {/* <ModalHojaClinica id_cliente={this.state.ultimo}></ModalHojaClinica>  */}
+          {
+            /* <ModalHojaClinica id_cliente={this.state.ultimo}></ModalHojaClinica>  */
+          }
 
-
-
-         
-         /*  swal({
+          /*  swal({
             text: "Cliente registrado con éxito",
             icon: "success",
             button: "Aceptar",
@@ -200,13 +228,15 @@ class Tabla extends Component {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
       if (isEmpty(msj)) {
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
       }
       swal({
-        text: msj,//Array.isArray(msj) ? msj[0] : msj,
+        text: msj, //Array.isArray(msj) ? msj[0] : msj,
         icon: "error",
         button: "Aceptar",
         timer: "5000",
@@ -262,13 +292,15 @@ class Tabla extends Component {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
       if (isEmpty(msj)) {
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
       }
       swal({
-        text: msj,//Array.isArray(msj) ? msj[0] : msj,
+        text: msj, //Array.isArray(msj) ? msj[0] : msj,
         icon: "error",
         button: "Aceptar",
         timer: "5000",
@@ -304,9 +336,11 @@ class Tabla extends Component {
       });
     }
   };
+
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
+    this.perticionState();
   }
 
   Expulsado = () => {
@@ -348,7 +382,7 @@ class Tabla extends Component {
   buscador = async (e) => {
     await e.persist();
     this.setState({ busqueda: e.target.value });
-    
+
     this.filtrarElementos();
   };
 
@@ -356,7 +390,9 @@ class Tabla extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -389,7 +425,7 @@ class Tabla extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "Solo se permiten letras y acentos",
         icon: "info",
@@ -411,7 +447,7 @@ class Tabla extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "No se permiten letras",
         icon: "info",
@@ -420,7 +456,16 @@ class Tabla extends Component {
       });
     }
   };
-
+  handleDateChange = (e) => {
+    let value = obtnerDate(e);
+    console.log(value);
+    this.setState({
+      form: {
+        ...this.state.form,
+        birthdate: value,
+      },
+    });
+  };
   handleChangeInputImage = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
@@ -450,7 +495,7 @@ class Tabla extends Component {
   };
   handleChangeMembresia = (event) => {
     this.setState({
-       membresia: event.target.value
+      membresia: event.target.value,
     });
   };
 
@@ -469,11 +514,11 @@ class Tabla extends Component {
               this.modalInsertar();
             }}
           >
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo Cliente
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo
+            Cliente
           </button>
 
-
-          <div className="buscarBox"> 
+          <div className="buscarBox">
             <input
               type="text"
               className="textField"
@@ -483,14 +528,16 @@ class Tabla extends Component {
               onChange={this.buscador}
               value={form ? form.busqueda : ""}
             />
-            <button type="submit" className=" btn botonesBusqueda add-on" onClick={() => { }}>
+            <button
+              type="submit"
+              className=" btn botonesBusqueda add-on"
+              onClick={() => {}}
+            >
               <i className="bx bxs-user">
                 <box-icon name="search-alt-2" color="#fff"></box-icon>
               </i>
             </button>
-
           </div>
-
         </div>
         <br></br>
         <br></br>
@@ -522,15 +569,15 @@ class Tabla extends Component {
                     <td>{clientes.phone}</td>
                     <td>{clientes.isStudiant ? "Si" : "No"}</td>
                     <td>
-                        <img
-                          src={`https://www.huxgym.codes/${clientes.image}`}
-                          width="180"
-                          height="150"
-                          align="center"
-                        />
+                      <img
+                        src={`https://www.huxgym.codes/${clientes.image}`}
+                        width="180"
+                        height="150"
+                        align="center"
+                      />
                     </td>
                     <td>
-                       {/*  <BtnMembresia></BtnMembresia> */}
+                      {/* <BtnMembresia></BtnMembresia> */}
                       {clientes.membershipActivate ? "Activada" : "No Activada"}
                     </td>
 
@@ -572,11 +619,13 @@ class Tabla extends Component {
             </tbody>
           </table>
         </div>
-        {
-          this.state.modalHojaclinica &&
-          <ModalHojaClinica id_cliente={this.state.ultimo.id} activo={this.state.modalHojaclinica}></ModalHojaClinica>
-        }
-        
+        {this.state.modalHojaclinica && (
+          <ModalHojaClinica
+            id_cliente={this.state.ultimo.id}
+            activo={this.state.modalHojaclinica}
+          ></ModalHojaClinica>
+        )}
+
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
@@ -597,6 +646,74 @@ class Tabla extends Component {
                 value={form ? form.name : ""}
               />
               <br />
+              <label htmlFor="name">Apellido Paterno*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="paternal_surname"
+                id="paternal_surname"
+                placeholder="Apellido Paterno"
+                onChange={this.handleChangeInput}
+                value={form ? form.paternal_surname : ""}
+              />
+              <br />
+              <br />
+              <label htmlFor="name">Apellido Materno*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="mothers_maiden_name"
+                id="mothers_maiden_name"
+                placeholder="Apellido Materno"
+                onChange={this.handleChangeInput}
+                value={form ? form.mothers_maiden_name : ""}
+              />
+              <label htmlFor="name">CURP*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="name"
+                id="name"
+                placeholder="CURP"
+                onChange={this.handleChangeInput}
+                value={form ? form.name : ""}
+              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <label className="articulo mt-3">Fecha de Nacimiento</label>
+                <br />
+                <KeyboardDatePicker
+                  className="fecha"
+                  allowKeyboardControl={true}
+                  id="birthdate"
+                  format="yyyy/MM/dd"
+                  value={form ? form.birthdate : new Date()}
+                  onChange={this.handleDateChange}
+                  animateYearScrolling={true}
+                />
+              </MuiPickersUtilsProvider>
+              <br />
+              <label htmlFor="name">Estado*:</label>
+              <br />
+              {/* <select className="form-select" aria-label="Default select example">
+                {this.state.estados.map(elemento=>(
+                  <option key={elemento.num} value={elemento.value}>{elemento.name}</option>
+                )
+                  
+                  
+                )}
+                
+              </select> */}
+              {/* <label htmlFor="name">Fecha de Nacimiento*:</label>
+              <br />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider> */}
               <br />
               <label htmlFor="phone">Teléfono*:</label>
               <input
@@ -611,7 +728,6 @@ class Tabla extends Component {
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.phone : ""}
               />
-              <br />
               <br />
               {/* <label htmlFor="phone">Membresia*:</label>
               <br />
@@ -814,8 +930,6 @@ class Tabla extends Component {
             </button>
           </ModalFooter>
         </Modal>
-
-        
       </div>
     );
   }
