@@ -703,7 +703,7 @@ class Tabla extends Component {
               <br />
               <label htmlFor="name">Estado*:</label>
               <br />
-              {/* <select className="form-select" aria-label="Default select example">
+              <select className="form-select" aria-label="Default select example">
                 {this.state.estados.map(elemento=>(
                   <option key={elemento.num} value={elemento.value}>{elemento.name}</option>
                 )
@@ -711,7 +711,8 @@ class Tabla extends Component {
                   
                 )}
                 
-              </select> */}
+              </select>
+
               {/* <label htmlFor="name">Fecha de Nacimiento*:</label>
               <br />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
