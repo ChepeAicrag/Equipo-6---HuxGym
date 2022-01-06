@@ -16,7 +16,7 @@ class Sale(models.Model):
     total = models.DecimalField(max_digits=10, null=True, decimal_places=2)
     cash = models.DecimalField(max_digits=10, null=True, decimal_places=2)
     status_delete = models.BooleanField(default=False)
-
+    folio = models.CharField(max_length=50, blank=False, null=False, unique=True)
     class Meta():
 
         verbose_name = 'Sale'
