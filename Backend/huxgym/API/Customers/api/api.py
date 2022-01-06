@@ -249,7 +249,8 @@ def nutritionalSituation_api_view(request):
     elif request.method == 'POST':
         data = request.data.copy()
         fecha = date.today()
-        data['folio'] = 'SN' + str(fecha.year) +  str(fecha.month) + str(fecha.day)
+        num_situation = NutritionalSituation.objects.all().count()
+        data['folio'] = 'SN' + str(num_situation) + fecha.day
         nutritionalSituation_serializer = NutritionalSituationSerializer(data = data)
         if nutritionalSituation_serializer.is_valid():
             nutritionalSituation_serializer.save()
