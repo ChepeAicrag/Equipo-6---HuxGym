@@ -44,9 +44,10 @@ class TablaE extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
       name: "",
+      folio:"",
       paternal_surname: "",
       mothers_maiden_name: "",
-      birthdate: new Date(),
+      birthdate: obtnerDate(new Date()),
       entity_birth: "",
       curp: "",
       gender: "",
@@ -120,7 +121,6 @@ class TablaE extends Component {
     const gender = form.gender;
     const email = form.email;
     const phone = form.phone;
-    const age = form.age;
     const role = form.role;
     const curp = form.curp;
 
@@ -129,7 +129,6 @@ class TablaE extends Component {
       isEmpty(phone) &&
       isEmpty(gender) &&
       isEmpty(role) &&
-      isEmpty(age) &&
       isEmpty(email)
     )
       return {
@@ -265,16 +264,17 @@ class TablaE extends Component {
       } else {
         let formData = new FormData();
         console.log(this.state.form.image);
+        
         if (
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-          formData.append("image", form.image);
+        formData.append("folio", this.state.form.folio);
+        formData.append("image", form.image);
         formData.append("name", form.name);
         formData.append("gender", form.gender);
         formData.append("email", form.email);
         formData.append("phone", form.phone);
-        formData.append("age", form.age);
         // formData.append("role", parseInt(form.role));
 
         const res = await axios.put(url + this.state.form.id + "/", formData, {
@@ -358,8 +358,12 @@ class TablaE extends Component {
       form: {
         id: empleados.id,
         name: empleados.name,
-        age: empleados.age,
+        folio: empleados.folio,
         birthdate: this.crearFecha(empleados.birthdate),
+        mothers_maiden_name: empleados.mothers_maiden_name,
+        paternal_surname: empleados.paternal_surname,
+        curp: empleados.curp,
+        entity_birth: empleados.entity_birth,
         gender: empleados.gender,
         image: empleados.image,
         phone: empleados.phone,
@@ -595,7 +599,7 @@ class TablaE extends Component {
                   /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                   return (
                     <tr>
-                      <td>{empleados.id}</td>
+                      <td>{empleados.curp}</td>
                       <td>{empleados.name}</td>
                       <td>{empleados.age}</td>
                       <td>{empleados.gender}</td>
