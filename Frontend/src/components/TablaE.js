@@ -20,9 +20,9 @@ function obtnerDate(date) {
   let fecha = new Date(date);
   console.log(fecha);
   let year = fecha.getFullYear();
-  let mounth = fecha.getUTCMonth();
-  let day = fecha.getDate()+1;
-  return year + "/" + mounth + "/" + day;
+  let mounth = fecha.getUTCMonth() + 1;
+  let day = fecha.getDate();
+  return year + "-" + mounth + "-" + day;
 }
 class TablaE extends Component {
   campos = {
@@ -53,7 +53,7 @@ class TablaE extends Component {
       image: "",
       phone: "",
       email: "",
-      role: 2,
+      rol: 2,
     },
   };
 
@@ -70,6 +70,7 @@ class TablaE extends Component {
     });
     console.log(this.state.form);
   };
+
   state = {
     estados: [],
   };
@@ -121,15 +122,7 @@ class TablaE extends Component {
     const age = form.age;
     const role = form.role;
     const curp = form.curp;
-    let regex = new RegExp(
-      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
-    );
-    if (!regex.test(curp)) {
-      return {
-        error: true,
-        msj: "El campo RFC es incorrecto",
-      };
-    }
+    
     if (
       isEmpty(name) &&
       isEmpty(phone) &&
@@ -147,11 +140,7 @@ class TablaE extends Component {
         error: true,
         msj: "El campo de nombre no puede estar vacío",
       };
-    if (isEmpty(age))
-      return { error: true, msj: "El campo de edad no puede estar vacío" };
-    const edad = parseInt(age);
-    if (edad < 18)
-      return { error: true, msj: "La edad debe ser mayor a 18 años" };
+   
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
     if (phone.length < 10)
@@ -169,8 +158,7 @@ class TablaE extends Component {
         msj: "El campo de role no puede estar vacío",
       };
 
-    if (isEmpty(curp))
-      return { error: true, msj: "El campo de rfc no puede estar vacío" };
+    
     return { error: false };
   };
 
@@ -193,18 +181,24 @@ class TablaE extends Component {
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-          formData.append("image", this.state.form.image);
-        formData.append("name", this.state.form.name.toUpperCase);
-        formData.append("paternal_surname", this.state.form.paternal_surname.toUpperCase);
-        formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase);
-        formData.append("birthdate", this.state.form.birthdate);
-        formData.append("entity_birth", this.state.form.entity_birth);
-        formData.append("curp", this.state.form.curp.toUpperCase);
-        formData.append("gender", this.state.form.gender.toUpperCase);
-        formData.append("email", this.state.form.email);
-        formData.append("phone", this.state.form.phone);
-        formData.append("role", this.state.form.role);
-        formData.append("end");
+        formData.append("image", form.image);
+        formData.append("name", form.name.toUpperCase());
+        formData.append(
+          "paternal_surname",
+          form.paternal_surname.toUpperCase()
+        );
+        formData.append(
+          "mothers_maiden_name",
+          form.mothers_maiden_name.toUpperCase()
+        );
+        formData.append("birthdate", form.birthdate);
+        formData.append("entity_birth", form.entity_birth);
+        formData.append("curp", form.curp.toUpperCase());
+        formData.append("gender", form.gender.toUpperCase());
+        formData.append("email", form.email);
+        formData.append("phone", form.phone);
+        formData.append("role", form.role);
+        
         const res = await axios.post(url, formData, {
           headers: {
             Authorization: "Token " + localStorage.getItem("token"),
@@ -268,7 +262,7 @@ class TablaE extends Component {
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-        formData.append("image", form.image);
+          formData.append("image", form.image);
         formData.append("name", form.name);
         formData.append("gender", form.gender);
         formData.append("email", form.email);
@@ -437,7 +431,7 @@ class TablaE extends Component {
       });
     } */
   };
-  changeEstado= (e) => {
+  changeEstado = (e) => {
     const { name, value } = e.target;
     this.setState({
       form: {
@@ -445,8 +439,7 @@ class TablaE extends Component {
         [name]: value,
       },
     });
-
-  }
+  };
   handleChangeInput = (e) => {
     const { name, value } = e.target;
     let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
@@ -827,7 +820,7 @@ class TablaE extends Component {
                 </label>
               </div>
               <br />
-
+              
               {this.state.tipoModal === "insertar" ? (
                 <>
                   <label htmlFor="role">Rol*: </label>
@@ -876,49 +869,48 @@ class TablaE extends Component {
               ) : (
                 <>
                   <label htmlFor="role">Rol*: </label>
-                  <br />
-                  {/*  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="role"
-                        value="2"
-                        disabled
-                        autocomplete="off"
-                        onChange={this.handleChange}
-                        checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.role === undefined
-                            ? true
-                            : form.role == 2
-                            ? true
-                            : false
-                        }
-                      />{" "}
-                      Empleado
-                    </label>
-                    <label class="btn botonesForm m-1 ">
-                      <input
-                        type="radio"
-                        name="role"
-                        value="3"
-                        disabled
-                        autocomplete="off"
-                        onChange={this.handleChange}
-                        checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.role === undefined
-                            ? false
-                            : form.role == 3
-                            ? true
-                            : false
-                        }
-                      />{" "}
-                      Instructor
-                    </label>
-                  </div> */}
+              <br />
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn botonesForm m-1">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="2"
+                    disabled
+                    autocomplete="off"
+                    onChange={this.handleChange}
+                    checked={
+                      (this.state.tipoModal === "insertar" && form == null) ||
+                      form.role === undefined
+                        ? true
+                        : form.role == 2
+                        ? true
+                        : false
+                    }
+                  />{" "}
+                  Empleado
+                </label>
+                <label class="btn botonesForm m-1 ">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="3"
+                    disabled
+                    autocomplete="on"
+                    onChange={this.handleChange}
+                    checked={
+                      (this.state.tipoModal === "insertar" && form == null) ||
+                      form.role === undefined
+                        ? false
+                        : form.role == 3
+                        ? true
+                        : false
+                    }
+                  />{" "}
+                  Instructor
+                </label>
+              </div>
+              
                 </>
               )}
 
