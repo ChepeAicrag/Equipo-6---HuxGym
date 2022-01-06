@@ -9,6 +9,15 @@ from datetime import datetime
 from API.products.models import Stock, OperationType, Operation, HistoryInventory
 from API.products.api.serializers import OperationSerializer, OperationTypeSerializer, HistoryInventorySerializer
 from datetime import date, datetime, timedelta
+from rest_framework import status, viewsets
+
+class PurchaseViewSet(viewsets.ModelViewSet):
+    serializer_class = PurchaseSerializer
+    queryset = PurchaseSerializer.Meta.model.objects
+
+class Purchase_Details_ProductViewSet(viewsets.ModelViewSet):
+    serializer_class = PurchaseProductSerializer
+    queryset = PurchaseProductSerializer.Meta.model.objects
 
 @api_view(['GET', 'POST'])
 def purchase_api_view(request):
