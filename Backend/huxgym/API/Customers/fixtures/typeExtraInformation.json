@@ -4,7 +4,8 @@
         "pk": 1,
         "fields": {
             "name": "Sintomas",
-            "description": " "
+            "description": " ",
+	    "folio": "SI01"
         }
     },
     {
@@ -12,7 +13,8 @@
         "pk": 2,
         "fields": {
             "name": "Alergias",
-            "description": " "
+            "description": " ",
+	    "folio": "AL01"
         }
     },
     {
@@ -20,7 +22,8 @@
         "pk": 3,
         "fields": {
             "name": "Cirugias",
-            "description": " "
+            "description": " ",
+	    "folio": "CR01"
         }
     },
     {
@@ -28,7 +31,8 @@
         "pk": 4,
         "fields": {
             "name": "Fracturas",
-            "description": " "
+            "description": " ",
+	    "folio": "FR01"
         }
     },
     {
@@ -36,7 +40,8 @@
         "pk": 5,
         "fields": {
             "name": "Lesiones",
-            "description": " "
+            "description": " ",
+	    "folio": "LE01"
         }
     },
     {
@@ -44,7 +49,8 @@
         "pk": 6,
         "fields": {
             "name": "Medicamentos",
-            "description": " "
+            "description": " ",
+	    "folio": "ME01"
         }
     },
     {
@@ -52,7 +58,8 @@
         "pk": 7,
         "fields": {
             "name": "Suplementos",
-            "description": " "
+            "description": " ",
+	    "folio": "SUP01"
         }
     },
     {
@@ -60,7 +67,8 @@
         "pk": 8,
         "fields": {
             "name": "Hábitos",
-            "description": " "
+            "description": " ",
+	    "folio": "HAB01"
         }
     }
 ]
