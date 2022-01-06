@@ -54,6 +54,7 @@ class TablaE extends Component {
       phone: "",
       email: "",
       rol: 2,
+      role:"",
     },
   };
 
@@ -752,6 +753,7 @@ class TablaE extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
+
               {this.state.tipoModal === "insertar" ? (
                 <>
                   <label htmlFor="email">Email*:</label>
@@ -820,51 +822,48 @@ class TablaE extends Component {
                 </label>
               </div>
               <br />
-              
               {this.state.tipoModal === "insertar" ? (
                 <>
-                  <label htmlFor="role">Rol*: </label>
-                  <br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="role"
-                        value="2"
-                        autocomplete="off"
-                        onChange={this.handleChange}
-                        checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.role === undefined
-                            ? false
-                            : form.role == 2
-                            ? true
-                            : false
-                        }
-                      />{" "}
-                      Empleado
-                    </label>
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="role"
-                        value="3"
-                        autocomplete="on"
-                        onChange={this.handleChange}
-                        checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.role === undefined
-                            ? false
-                            : form.role == 3
-                            ? true
-                            : false
-                        }
-                      />{" "}
-                      Instructor
-                    </label>
-                  </div>
+                   <label htmlFor="role">Rol*: </label>
+              <br />
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn botonesForm m-1">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="2"
+                    autocomplete="off"
+                    onChange={this.handleChange}
+                    checked={
+                      (this.state.tipoModal === "insertar" && form == null) ||
+                      form.role === undefined
+                        ? false
+                        : form.role == 2
+                        ? true
+                        : false
+                    }
+                  />{" "}
+                  Empleado
+                </label>
+                <label class="btn botonesForm m-1">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="3"
+                    autocomplete="on"
+                    onChange={this.handleChange}
+                    checked={
+                      (this.state.tipoModal === "insertar" && form == null) ||
+                      form.role === undefined
+                        ? false
+                        : form.role == 3
+                        ? true
+                        : false
+                    }
+                  />{" "}
+                  Instructor
+                </label>
+              </div>
                 </>
               ) : (
                 <>
@@ -876,7 +875,7 @@ class TablaE extends Component {
                     type="radio"
                     name="role"
                     value="2"
-                    disabled
+                    
                     autocomplete="off"
                     onChange={this.handleChange}
                     checked={
@@ -895,7 +894,7 @@ class TablaE extends Component {
                     type="radio"
                     name="role"
                     value="3"
-                    disabled
+                    
                     autocomplete="on"
                     onChange={this.handleChange}
                     checked={
@@ -910,9 +909,9 @@ class TablaE extends Component {
                   Instructor
                 </label>
               </div>
-              
                 </>
               )}
+              
 
               <br />
             </div>
