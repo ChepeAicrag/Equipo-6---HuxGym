@@ -102,6 +102,8 @@ class Tabla extends Component {
         console.log(error);
       });
   };
+
+  
   peticionGet = async () => {
     console.log("entre a petition get");
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
@@ -177,6 +179,17 @@ class Tabla extends Component {
     return { error: false };
   };
 
+  
+  crearFecha = (data) => {
+    let dia= data.split("-")[2];
+    let mes=data.split("-")[1]-1;
+    let anio=data.split("-")[0];
+    let fecha =new Date(anio,mes,dia,0,0,0);
+    console.log("Fechaaa "+dia+"-"+mes+"-"+anio)
+    return fecha;
+
+  };
+
   getIdUltimo = (data) => {
     console.log("entree a get ultimo");
     let id = data[data.length - 1];
@@ -209,7 +222,7 @@ class Tabla extends Component {
       formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase());
       formData.append("gender", this.state.form.gender.toUpperCase());
       formData.append("isStudiant", this.state.form.isStudiant);
-      formData.append("birthdate", this.state.form.birthdate);
+      formData.append("birthdate", obtnerDate(this.state.form.birthdate));
       formData.append("phone", this.state.form.phone);
       formData.append("entity_birth", this.state.form.entity_birth);
         const res =
@@ -278,7 +291,7 @@ class Tabla extends Component {
       formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase());
       formData.append("gender", this.state.form.gender.toUpperCase());
       formData.append("isStudiant", this.state.form.isStudiant);
-      formData.append("birthdate", this.state.form.birthdate);
+      formData.append("birthdate", obtnerDate(this.state.form.birthdate));
       formData.append("phone", this.state.form.phone);
       formData.append("entity_birth", this.state.form.entity_birth);
       console.log(formData.toString);
@@ -312,22 +325,29 @@ class Tabla extends Component {
         }
       }
     } catch (error) {
-      var msj = JSON.parse(error.request.response).message;
-      console.log(msj);
-      if (isEmpty(msj)) {
-        const res = JSON.parse(error.request.response);
-        const c = Object.keys(res)[0];
-        console.log();
-        msj = res[c]
-          .toString()
-          .replace("Este campo", "El campo " + this.campos[c]);
+      try{
+
+        var msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+        if (isEmpty(msj)) {
+          const res = JSON.parse(error.request.response);
+          const c = Object.keys(res)[0];
+          console.log();
+          msj = res[c]
+            .toString()
+            .replace("Este campo", "El campo " + this.campos[c]);
+        }
+        swal({
+          text: msj, //Array.isArray(msj) ? msj[0] : msj,
+          icon: "error",
+          button: "Aceptar",
+          timer: "5000",
+        });
+
+      }catch(erro2){
+        console.log(erro2);
       }
-      swal({
-        text: msj, //Array.isArray(msj) ? msj[0] : msj,
-        icon: "error",
-        button: "Aceptar",
-        timer: "5000",
-      });
+      
     }
   };
 
@@ -366,6 +386,9 @@ class Tabla extends Component {
     this.perticionState();
   }
 
+
+  
+
   Expulsado = () => {
     swal({
       text: "Credenciales Invalidas, Adiosito",
@@ -395,7 +418,7 @@ class Tabla extends Component {
         paternal_surname:clientes.paternal_surname,
         mothers_maiden_name:clientes.mothers_maiden_name,
         curp:clientes.curp,
-        birthdate:clientes.birthdate,
+        birthdate:this.crearFecha(clientes.birthdate),
         entity_birth:clientes.entity_birth,
         gender: clientes.gender,
         phone: clientes.phone,
@@ -526,15 +549,15 @@ class Tabla extends Component {
   };
 
   handleDateChange = (e) => {
-    let value = obtnerDate(e);
-    console.log(value);
     this.setState({
       form: {
         ...this.state.form,
-        birthdate: value,
+        birthdate: e,
       },
     });
   };
+
+
   handleChangeInputImage = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
@@ -755,7 +778,7 @@ class Tabla extends Component {
                   className="fecha"
                   allowKeyboardControl={true}
                   id="birthdate"
-                  format="yyyy/MM/dd"
+                  format="yyyy-MM-dd"
                   value={form ? form.birthdate : new Date()}
                   onChange={this.handleDateChange}
                   animateYearScrolling={true}
