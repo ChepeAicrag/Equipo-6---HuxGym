@@ -441,6 +441,7 @@ class TablaE extends Component {
       },
     });
   };
+
   handleChangeInput = (e) => {
     const { name, value } = e.target;
     let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
@@ -484,6 +485,7 @@ class TablaE extends Component {
       });
     }
   };
+  
   handleDateChange = (e) => {
     let value = obtnerDate(e);
     console.log(value);
@@ -494,6 +496,7 @@ class TablaE extends Component {
       },
     });
   };
+
   handleChangeInputImage = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
@@ -701,7 +704,7 @@ class TablaE extends Component {
                   className="fecha"
                   allowKeyboardControl={true}
                   id="birthdate"
-                  format="yyyy/MM/dd"
+                  format="yyyy-MM-dd"
                   value={form ? form.birthdate : new Date()}
                   onChange={this.handleDateChange}
                   animateYearScrolling={true}
