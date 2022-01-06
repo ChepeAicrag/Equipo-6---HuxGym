@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from random import randint
-from datetime import datetime, time
+from datetime import date, datetime, time
 from decouple import config 
 
 from API.general.token_generator import account_activation_token
@@ -165,6 +165,9 @@ class OpenCashRegister(Authentication, APIView):
 
     def post(self, request):
         cash_init = request.data.get('cash_init', None)
+        count_cr = CashRegister.objects.all().count()
+        fecha = date.today()
+        folio = 'CR' + str(count_cr) + str(fecha.year) + str(fecha.month) + str(fecha.day)
         user = self.user
         dia = datetime.now()
         attendance_find = AttendanceHorary.objects.filter(user=user, date=dia)
@@ -176,7 +179,7 @@ class OpenCashRegister(Authentication, APIView):
             cash_register = CashRegister.objects.filter(user=user, date=dia, status=False, status_delete = False)
             if cash_register.exists():
                 return Response({'message': 'No se puede abrir dos cajas por el mismo usuario en el mismo día'}, status=status.HTTP_400_BAD_REQUEST)
-            cash_register = CashRegister.objects.create(user=user, date=dia, cash_init=cash_init, cash_end=cash_init)
+            cash_register = CashRegister.objects.create(user=user, date=dia, cash_init=cash_init, cash_end=cash_init, folio=folio)
             serializer = CashRegisterSerializer(cash_register, many=False)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'message': 'Necesita registrar su entrada previamente'}, status=status.HTTP_400_BAD_REQUEST)
