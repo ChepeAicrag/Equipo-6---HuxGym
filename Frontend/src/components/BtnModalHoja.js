@@ -493,13 +493,13 @@ class BtnModalHoja extends Component {
   validar = (form) => {
     if (isEmpty(form))
       return { error: true, msj: "Debe rellenar los campos obligatorios" };
-    const age = form.age;
+   /*  const age = form.age;
     if (age < 11) {
       return {
         error: true,
         msj: "La edad del cliente debe ser mayor a 12",
       };
-    }
+    } */
     const height = form.height;
     const weight = form.weight;
     const hour_breakfast = form.hour_breakfast;
@@ -509,7 +509,7 @@ class BtnModalHoja extends Component {
     const hour_dinner = form.hour_dinner;
 
     if (
-      isEmpty(age) &&
+      
       isEmpty(height) &&
       isEmpty(weight) &&
       isEmpty(hour_breakfast) &&
@@ -522,7 +522,7 @@ class BtnModalHoja extends Component {
         error: true,
         msj: "Los campos de Edad actual, Estatura en centímetro,Peso en kilogramos, Hora de desayuno, Hora de colación, Hora de comida, Hora de bocadillo y Hora de cena son obligatorios",
       };
-    if (isEmpty(age))
+    /* if (isEmpty(age))
       return {
         error: true,
         msj: "El campo de edad actual no puede estar vacío",
@@ -532,7 +532,7 @@ class BtnModalHoja extends Component {
       return {
         error: true,
         msj: "El campo de la edad debe ser mayor o igual 13",
-      };
+      }; */
     if (!height)
       return { error: true, msj: "El campo de estatura no puede estar vacío" };
     if (height < 100)

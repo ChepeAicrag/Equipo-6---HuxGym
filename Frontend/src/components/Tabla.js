@@ -232,7 +232,6 @@ class Tabla extends Component {
           {
             /* <ModalHojaClinica id_cliente={this.state.ultimo}></ModalHojaClinica>  */
           }
-
           /*  swal({
             text: "Cliente registrado con éxito",
             icon: "success",
