@@ -8,6 +8,11 @@ from rest_framework.decorators import api_view
 from .serializers import *
 from API.customers.models import Customer_Membership
 from API.memberships.models import *
+from rest_framework import status, viewsets
+
+class MembershipViewSet(viewsets.ModelViewSet):
+    serializer_class = MembershipSerializer
+    queryset = MembershipSerializer.Meta.model.objects
 
 #API  PARA EL MODELO MEMBERSHIPS
 
