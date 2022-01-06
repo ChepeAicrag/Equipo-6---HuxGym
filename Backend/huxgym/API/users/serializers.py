@@ -94,6 +94,7 @@ class CashRegisterSerializer(ModelSerializer):
         return {
             "id": instance.id,
             "date": instance.date,
+            "folio": instance.folio,
             "observations": instance.observations or 'Sin observaciones',
             "cash_init": instance.cash_init,
             "cash_end": instance.cash_end,
