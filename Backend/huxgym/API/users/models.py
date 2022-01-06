@@ -147,6 +147,7 @@ class CashRegister(models.Model):
     cambio = models.FloatField(null=True, default=0)
     status_delete = models.BooleanField(default=False)
     status = models.BooleanField(default=True)
+    folio = models.CharField(max_length=50, blank=False, null=False, unique=True)
 
     class Meta:
         verbose_name = 'Cash Register'
