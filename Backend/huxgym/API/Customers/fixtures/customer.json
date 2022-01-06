@@ -4,12 +4,17 @@
         "pk": 1,
         "fields": {
             "name": "Visitante",
-            "gender": "M",
+            "gender": "H",
             "phone": "123456789",
             "membershipActivate": "False",
             "isStudiant": "False",
             "dateJoined": "2019-12-04",
-            "status_delete": "False"
+            "status_delete": "False",
+	    "paternal_surname": " ",
+	    "mothers_maiden_name": " ",
+	    "birthdate": "2000-01-01",
+	    "entity_birth": "20",
+	    "curp": "XXXXXXXXXXXXXXXXXX"
         }
     }
 ]
