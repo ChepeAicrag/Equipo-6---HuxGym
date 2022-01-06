@@ -12,6 +12,7 @@ from ..products.models import Product, Stock
 from ..users.models import CashRegister
 from .models import Sale, SaleDetailsProduct, SaleDetailsMembership
 from .serializers import SaleSerializer
+from rest_framework import status, viewsets
 
 # Necesitamos el producto exista y tenga stock
 # Necesitamos auemntar la cantidad en caja de lo vendido
@@ -27,6 +28,18 @@ from API.users.models import User
 from API.sales.serializers import SaleDetailsMembershipSerializer, SaleDetailsProductSerializer
 from API.memberships.models import Membership
 from API.customers.api.serializers import Customer_MembershipSerializer
+
+class SaleViewSet(viewsets.ModelViewSet):
+    serializer_class = SaleSerializer
+    queryset = SaleSerializer.Meta.model.objects
+
+class SaleDetailsProductViewSet(viewsets.ModelViewSet):
+    serializer_class = SaleDetailsProductSerializer
+    queryset = SaleDetailsProductSerializer.Meta.model.objects
+
+class SaleDetailsMembershipViewSet(viewsets.ModelViewSet):
+    serializer_class = SaleDetailsMembershipSerializer
+    queryset = SaleDetailsMembershipSerializer.Meta.model.objects
 
 
 class CreateListSale(Authentication, APIView):
