@@ -878,14 +878,7 @@ class TablaE extends Component {
                     
                     autocomplete="off"
                     onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? true
-                        : form.role == 2
-                        ? true
-                        : false
-                    }
+                  
                   />{" "}
                   Empleado
                 </label>
@@ -897,14 +890,7 @@ class TablaE extends Component {
                     
                     autocomplete="on"
                     onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 3
-                        ? true
-                        : false
-                    }
+                    
                   />{" "}
                   Instructor
                 </label>
