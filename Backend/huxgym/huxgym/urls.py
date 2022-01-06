@@ -43,7 +43,7 @@ urlpatterns = [
     path('customers/', include('API.customers.api.routers')),
     path('memberships/', include('API.memberships.api.routers')),
     path('products/', include('API.products.api.routers')),
-    path('purchases/', include('API.purchases.api.urls')),
-    path('sales/', include('API.sales.urls')),
+    path('purchases/', include('API.purchases.api.routers')),
+    path('sales/', include('API.sales.routers')),
     path('reports/', include('API.reports.api.urls')),
 ]
