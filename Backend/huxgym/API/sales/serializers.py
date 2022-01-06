@@ -13,6 +13,7 @@ class SaleSerializer(serializers.ModelSerializer):
             "date": instance.date,
             "observation": instance.observation or 'Sin observacion',
             "total": instance.total,
+            "folio": instance.folio,
             "cash": instance.cash,
             "user": {
                 "id": instance.user.id, 
