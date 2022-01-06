@@ -1,14 +1,12 @@
-from datetime import datetime
-from _datetime import timedelta
-from rest_framework import exceptions, status
+from datetime import date, datetime
+from datetime import timedelta
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..customers.models import Customer
-from ..customers.api.serializers import CustomerSerializer
+from ..customers.models import Customer, Customer_Membership
 from ..general.authentication_middleware import Authentication
-from ..products.api.serializers import ProductSerializer
-from ..products.models import Product, Stock
+from ..products.models import Product, Stock, HistoryInventory
 from ..users.models import CashRegister
 from .models import Sale, SaleDetailsProduct, SaleDetailsMembership
 from .serializers import SaleSerializer
@@ -20,7 +18,6 @@ from .serializers import SaleSerializer
 # cambio = total de efectivo del cliente - total de la venta
 
 # Obtener ventas del día
-import json
 from API.products.api.serializers import HistoryInventorySerializer, OperationSerializer
 from API.products.models import Operation
 from API.users.models import User
@@ -95,7 +92,7 @@ class CreateListSale(Authentication, APIView):
     def post(self, request):
         user = self.user
         data = request.data.copy()
-        
+
         # Validar observaciones 
         observation = data.get('observation', None)
         if  observation is None or observation == '':
@@ -181,7 +178,9 @@ class CreateListSale(Authentication, APIView):
             return Response({'message': 'No hay suficiente dinero para dar cambio en efectivo'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Creación de la venta
-        sale = Sale(user=user, customer=find_customer, cash_register=caja, cash=cash, total=total_a_pagar, observation=observation)
+        fecha = date.today()
+        folio = 'SA' + str(Sale.objects.all().count()) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+        sale = Sale(user=user, customer=find_customer, cash_register=caja, cash=cash, total=total_a_pagar, observation=observation, folio=folio)
         sale.save()
 
         # Verificamos que detalles de venta crear
@@ -195,15 +194,19 @@ class CreateListSale(Authentication, APIView):
                 stock = Stock.objects.get(product_id=p)
                 stock.amount -= amount
                 stock.save()
+                operation_count = Operation.objects.all().count()
                 operation = {'amount': amount,
                             'description': "Se restó al stock",
-                            'operationType_id': 2}
+                            'operationType_id': 2,
+                            'folio': 'OP' + str(operation_count),}
                 operation_serializer = OperationSerializer(data=operation)
                 operation_serializer.is_valid(raise_exception=True)
                 operation_serializer.save()
+                count_hi = HistoryInventory.objects.all().count()
                 history = {'product_id': stock.product_id.id,
                         'amount': stock.amount,
-                        'operation_id': Operation.objects.latest('id').id
+                        'operation_id': Operation.objects.latest('id').id,
+                        'folio': 'HI' + str(count_hi)
                         }
                 history_serializer = HistoryInventorySerializer(data=history)
                 history_serializer.is_valid(raise_exception=True)
@@ -216,10 +219,12 @@ class CreateListSale(Authentication, APIView):
             
             # Registro de la relación membresía y cliente      
             hoy = datetime.now()
+            count_cm = Customer_Membership.objects.all().count
             data_customer_membership = {
                 'customer_id': find_customer.id, 
                 'membership_id': membership.id, 
-                'date_due': datetime.date(hoy + timedelta(days=membership.day))
+                'date_due': datetime.date(hoy + timedelta(days=membership.day)),
+                'folio': 'CM' + str(count_cm)
             }
             customer_membership = Customer_MembershipSerializer(data = data_customer_membership)
             customer_membership.is_valid(raise_exception=True)
