@@ -1,11 +1,9 @@
 from API.products.api.serializers import CategorySerializer, HistoryInventorySerializer, OperationSerializer, OperationTypeSerializer, ProductSerializer, ProviderSerializer, StockSerializer
 from API.products.models import *
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from datetime import date, datetime, timedelta
-from rest_framework import status, viewsets
-
+from datetime import date
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = ProductSerializer.Meta.model.objects
