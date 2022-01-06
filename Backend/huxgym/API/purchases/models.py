@@ -15,7 +15,7 @@ class Purchase(models.Model):
     cashRegister_id = models.ForeignKey(CashRegister, on_delete=models.CASCADE)
     product = models.ManyToManyField(Product, through='Purchase_Details_Product')
 
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
+    folio = models.CharField(max_length=50, blank=False, null=False, unique=True)
 
     class Meta:
         verbose_name = 'Purchase'
