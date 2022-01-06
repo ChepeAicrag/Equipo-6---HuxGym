@@ -114,7 +114,7 @@ class Operation(models.Model):
 
 class HistoryInventory(models.Model):
     id = models.AutoField(primary_key=True)
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
+    folio = models.CharField(max_length=50, blank=False, null=False, unique=True)
     date = models.DateField('Fecha de acción', auto_now_add=True)
     amount = models.IntegerField(null=False, blank=False)
     status_delete = models.BooleanField(default=False)
