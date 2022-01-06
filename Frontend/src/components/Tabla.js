@@ -57,13 +57,16 @@ class Tabla extends Component {
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
+      folio:"",
       name: "",
       paternal_surname: "",
       mothers_maiden_name: "",
-      dateJoined: "",
+      //dateJoined: "",
       gender: "",
       birthdate: new Date(),
       phone: "",
+      curp: "",
+      entity_birth: "",
       isStudiant: true,
       image: "",
       membershipActivate: false,
@@ -99,6 +102,8 @@ class Tabla extends Component {
         console.log(error);
       });
   };
+
+  
   peticionGet = async () => {
     console.log("entre a petition get");
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
@@ -174,6 +179,9 @@ class Tabla extends Component {
     return { error: false };
   };
 
+  
+  
+
   getIdUltimo = (data) => {
     console.log("entree a get ultimo");
     let id = data[data.length - 1];
@@ -198,11 +206,17 @@ class Tabla extends Component {
         /* console.log(form.image)
         console.log(isEmpty(this.state.form.image)) */
         if (typeof form.image !== "string" && !isEmpty(this.state.form.image))
-          formData.append("image", form.image);
-        formData.append("name", form.name);
-        formData.append("gender", form.gender);
-        formData.append("isStudiant", form.isStudiant);
-        formData.append("phone", form.phone);
+        
+      formData.append("image", this.state.form.image);
+      formData.append("name", this.state.form.name.toUpperCase());
+      formData.append("curp", this.state.form.curp.toUpperCase());
+      formData.append("paternal_surname", this.state.form.paternal_surname.toUpperCase());
+      formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase());
+      formData.append("gender", this.state.form.gender.toUpperCase());
+      formData.append("isStudiant", this.state.form.isStudiant);
+      formData.append("birthdate", obtnerDate(this.state.form.birthdate));
+      formData.append("phone", this.state.form.phone);
+      formData.append("entity_birth", this.state.form.entity_birth);
         const res =
           await axios /* a post de parametros le pasamos la url y los datos */
             .post(url, formData);
@@ -223,7 +237,6 @@ class Tabla extends Component {
           {
             /* <ModalHojaClinica id_cliente={this.state.ultimo}></ModalHojaClinica>  */
           }
-
           /*  swal({
             text: "Cliente registrado con éxito",
             icon: "success",
@@ -262,12 +275,18 @@ class Tabla extends Component {
         typeof this.state.form.image !== "string" &&
         !isEmpty(this.state.form.image)
       )
-        formData.append("image", this.state.form.image);
-      formData.append("name", this.state.form.name);
-      formData.append("gender", this.state.form.gender);
+      formData.append("image", this.state.form.image);
+      formData.append("name", this.state.form.name.toUpperCase());
+      formData.append("folio", this.state.form.folio);
+      formData.append("curp", this.state.form.curp.toUpperCase());
+      formData.append("paternal_surname", this.state.form.paternal_surname.toUpperCase());
+      formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase());
+      formData.append("gender", this.state.form.gender.toUpperCase());
       formData.append("isStudiant", this.state.form.isStudiant);
+      formData.append("birthdate", obtnerDate(this.state.form.birthdate));
       formData.append("phone", this.state.form.phone);
-      console.log(formData);
+      formData.append("entity_birth", this.state.form.entity_birth);
+      console.log(formData.toString);
       const validar = this.validar(this.state.form);
       if (validar.error) {
         swal({
@@ -288,6 +307,7 @@ class Tabla extends Component {
         if (res.status === 200 || res.status === 201) {
           this.modalInsertar(); /* Cambiamos el estado de modalInsertar y solicitamos de nuevo los datos */
           this.peticionGet();
+          console.log(res)
           swal({
             text: "Cliente actualizado con éxito",
             icon: "success",
@@ -297,22 +317,29 @@ class Tabla extends Component {
         }
       }
     } catch (error) {
-      var msj = JSON.parse(error.request.response).message;
-      console.log(msj);
-      if (isEmpty(msj)) {
-        const res = JSON.parse(error.request.response);
-        const c = Object.keys(res)[0];
-        console.log();
-        msj = res[c]
-          .toString()
-          .replace("Este campo", "El campo " + this.campos[c]);
+      try{
+
+        var msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+        if (isEmpty(msj)) {
+          const res = JSON.parse(error.request.response);
+          const c = Object.keys(res)[0];
+          console.log();
+          msj = res[c]
+            .toString()
+            .replace("Este campo", "El campo " + this.campos[c]);
+        }
+        swal({
+          text: msj, //Array.isArray(msj) ? msj[0] : msj,
+          icon: "error",
+          button: "Aceptar",
+          timer: "5000",
+        });
+
+      }catch(erro2){
+        console.log(erro2);
       }
-      swal({
-        text: msj, //Array.isArray(msj) ? msj[0] : msj,
-        icon: "error",
-        button: "Aceptar",
-        timer: "5000",
-      });
+      
     }
   };
 
@@ -351,6 +378,9 @@ class Tabla extends Component {
     this.perticionState();
   }
 
+
+  
+
   Expulsado = () => {
     swal({
       text: "Credenciales Invalidas, Adiosito",
@@ -377,11 +407,16 @@ class Tabla extends Component {
       form: {
         id: clientes.id,
         name: clientes.name,
-        dateJoined: clientes.dateJoined,
+        paternal_surname:clientes.paternal_surname,
+        mothers_maiden_name:clientes.mothers_maiden_name,
+        curp:clientes.curp,
+        birthdate:this.crearFecha(clientes.birthdate),
+        entity_birth:clientes.entity_birth,
         gender: clientes.gender,
         phone: clientes.phone,
         isStudiant: student,
         image: clientes.image,
+        folio: clientes.folio,
         membershipActivate: clientes.membershipActivate,
       },
     });
@@ -443,6 +478,46 @@ class Tabla extends Component {
     }
   };
 
+  handleChangeCurp = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: value,
+      },
+    });
+    // let regex = new RegExp("^[a-zA-Z ]+$");
+    /* let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
+
+    if (regex.test(value) || isEmpty(value)) {
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: value,
+        },
+      });
+    } else {
+      e.target.value = "";
+      swal({
+        text: "Solo se permiten letras y acentos",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    } */
+  };
+
+  changeEstado= (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: value,
+      },
+    });
+
+  }
+
   handleChangeInputNumber = (e) => {
     const { name, value } = e.target;
     let regex = new RegExp("^[0-9]+$");
@@ -464,16 +539,17 @@ class Tabla extends Component {
       });
     }
   };
+
   handleDateChange = (e) => {
-    let value = obtnerDate(e);
-    console.log(value);
     this.setState({
       form: {
         ...this.state.form,
-        birthdate: value,
+        birthdate: e,
       },
     });
   };
+
+
   handleChangeInputImage = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
@@ -555,7 +631,7 @@ class Tabla extends Component {
           <table className=" tab-pane table ">
             <thead className="tablaHeader">
               <tr className="encabezado">
-                <th>ID</th>
+                <th>Folio</th>
                 <th>Nombre completo</th>
                 <th>Fecha de registro</th>
                 <th>Género</th>
@@ -571,7 +647,7 @@ class Tabla extends Component {
               {this.state.data && this.state.data.map((clientes) => {
                 return (
                   <tr className="cuerpoT">
-                    <td>{clientes.id}</td>
+                    <td>{clientes.folio}</td>
                     <td>{clientes.name}</td>
                     <td>{clientes.dateJoined}</td>
                     <td>{clientes.gender}</td>
@@ -616,7 +692,7 @@ class Tabla extends Component {
                       )}
                     </td>
                     <td>
-                      <BtnModalHoja id_cliente={clientes.id} /> <br />
+                      <BtnModalHoja id_cliente={clientes.id} nacimiento_cliente={clientes.birthdate} /> <br />
                       <ModalHojas
                         id_cliente={clientes.id}
                         name_cliente={clientes.name}
@@ -681,11 +757,11 @@ class Tabla extends Component {
               <input
                 className="form-control"
                 type="text"
-                name="name"
-                id="name"
+                name="curp"
+                id="curp"
                 placeholder="CURP"
-                onChange={this.handleChangeInput}
-                value={form ? form.name : ""}
+                onChange={this.handleChangeCurp}
+                value={form ? form.curp : ""}
               />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <label className="articulo mt-3">Fecha de Nacimiento</label>
@@ -694,7 +770,7 @@ class Tabla extends Component {
                   className="fecha"
                   allowKeyboardControl={true}
                   id="birthdate"
-                  format="yyyy/MM/dd"
+                  format="yyyy-MM-dd"
                   value={form ? form.birthdate : new Date()}
                   onChange={this.handleDateChange}
                   animateYearScrolling={true}
@@ -703,9 +779,9 @@ class Tabla extends Component {
               <br />
               <label htmlFor="name">Estado*:</label>
               <br />
-              <select className="form-select" aria-label="Default select example">
+              <select name="entity_birth" id="entity_birth" className="form-select" onChange={this.changeEstado} value={form ? form.entity_birth: "1"} aria-label="Default select example">
                 {this.state.estados.map(elemento=>(
-                  <option key={elemento.num} value={elemento.value}>{elemento.name}</option>
+                  <option key={elemento.num} value={elemento.num}>{elemento.name}</option>
                 )
                   
                   
@@ -783,7 +859,7 @@ class Tabla extends Component {
                   <input
                     type="radio"
                     name="gender"
-                    value="M"
+                    value="H"
                     autocomplete="off"
                     onChange={this.handleChange}
                     checked={
@@ -796,13 +872,13 @@ class Tabla extends Component {
                       //   : false
                     }
                   />{" "}
-                  M
+                  H
                 </label>
                 <label class="btn botonesForm m-1 ">
                   <input
                     type="radio"
                     name="gender"
-                    value="F"
+                    value="M"
                     autocomplete="on"
                     onChange={this.handleChange}
                     checked={
@@ -815,7 +891,7 @@ class Tabla extends Component {
                       //   : false
                     }
                   />{" "}
-                  F
+                  M
                 </label>
               </div>
               <br />

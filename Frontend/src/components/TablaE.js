@@ -54,7 +54,7 @@ class TablaE extends Component {
       phone: "",
       email: "",
       rol: 2,
-      role:"",
+      role: "",
     },
   };
 
@@ -123,7 +123,7 @@ class TablaE extends Component {
     const age = form.age;
     const role = form.role;
     const curp = form.curp;
-    
+
     if (
       isEmpty(name) &&
       isEmpty(phone) &&
@@ -141,7 +141,7 @@ class TablaE extends Component {
         error: true,
         msj: "El campo de nombre no puede estar vacío",
       };
-   
+
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
     if (phone.length < 10)
@@ -159,10 +159,16 @@ class TablaE extends Component {
         msj: "El campo de role no puede estar vacío",
       };
 
-    
     return { error: false };
   };
-
+  crearFecha = (data) => {
+    let dia = data.split("-")[2];
+    let mes = data.split("-")[1] - 1;
+    let anio = data.split("-")[0];
+    let fecha = new Date(anio, mes, dia, 0, 0, 0);
+    console.log("Fechaaa " + dia + "-" + mes + "-" + anio);
+    return fecha;
+  };
   peticionPost = async () => {
     /* Son asincronas por que se ejeuctan en segundo plano */
     /* Con esto enviamos los datos al servidor */
@@ -182,7 +188,7 @@ class TablaE extends Component {
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-        formData.append("image", form.image);
+          formData.append("image", form.image);
         formData.append("name", form.name.toUpperCase());
         formData.append(
           "paternal_surname",
@@ -192,14 +198,14 @@ class TablaE extends Component {
           "mothers_maiden_name",
           form.mothers_maiden_name.toUpperCase()
         );
-        formData.append("birthdate", form.birthdate);
+        formData.append("birthdate", obtnerDate(this.state.form.birthdate));
         formData.append("entity_birth", form.entity_birth);
         formData.append("curp", form.curp.toUpperCase());
         formData.append("gender", form.gender.toUpperCase());
         formData.append("email", form.email);
         formData.append("phone", form.phone);
         formData.append("role", form.role);
-        
+
         const res = await axios.post(url, formData, {
           headers: {
             Authorization: "Token " + localStorage.getItem("token"),
@@ -353,6 +359,7 @@ class TablaE extends Component {
         id: empleados.id,
         name: empleados.name,
         age: empleados.age,
+        birthdate: this.crearFecha(empleados.birthdate),
         gender: empleados.gender,
         image: empleados.image,
         phone: empleados.phone,
@@ -485,14 +492,12 @@ class TablaE extends Component {
       });
     }
   };
-  
+
   handleDateChange = (e) => {
-    let value = obtnerDate(e);
-    console.log(value);
     this.setState({
       form: {
         ...this.state.form,
-        birthdate: value,
+        birthdate: e,
       },
     });
   };
@@ -827,80 +832,77 @@ class TablaE extends Component {
               <br />
               {this.state.tipoModal === "insertar" ? (
                 <>
-                   <label htmlFor="role">Rol*: </label>
-              <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="2"
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 2
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Empleado
-                </label>
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="3"
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 3
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Instructor
-                </label>
-              </div>
+                  <label htmlFor="role">Rol*: </label>
+                  <br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="2"
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? false
+                            : form.role == 2
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Empleado
+                    </label>
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="3"
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? false
+                            : form.role == 3
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Instructor
+                    </label>
+                  </div>
                 </>
               ) : (
                 <>
                   <label htmlFor="role">Rol*: </label>
-              <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="2"
-                    
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                  
-                  />{" "}
-                  Empleado
-                </label>
-                <label class="btn botonesForm m-1 ">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="3"
-                    
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    
-                  />{" "}
-                  Instructor
-                </label>
-              </div>
+                  <br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="2"
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                      />{" "}
+                      Empleado
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="3"
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                      />{" "}
+                      Instructor
+                    </label>
+                  </div>
                 </>
               )}
-              
 
               <br />
             </div>
