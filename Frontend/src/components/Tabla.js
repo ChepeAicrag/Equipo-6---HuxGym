@@ -704,6 +704,7 @@ class Tabla extends Component {
                       <ModalHojas
                         id_cliente={clientes.id}
                         name_cliente={clientes.name}
+                        nacimiento_cliente={clientes.birthdate}
                       />{" "}
                     </td>
                   </tr>
@@ -715,6 +716,7 @@ class Tabla extends Component {
         {this.state.modalHojaclinica && (
           <ModalHojaClinica
             id_cliente={this.state.ultimo.id}
+            nacimiento_cliente={this.state.ultimo.birthdate}
             activo={this.state.modalHojaclinica}
           ></ModalHojaClinica>
         )}

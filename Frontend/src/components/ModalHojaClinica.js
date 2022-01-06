@@ -80,6 +80,7 @@ class ModalHojaClinica extends Component {
     tipoModal: "Agregar",
     form: {
       customer_id: this.props.id_cliente,
+      birthdate: this.props.nacimiento_cliente,
       date: "",
       age: "0",
       height: "0",
@@ -468,13 +469,13 @@ class ModalHojaClinica extends Component {
   validar = (form) => {
     if (isEmpty(form))
       return { error: true, msj: "Debe rellenar los campos obligatorios" };
-    const age = form.age;
+    /* const age = form.age;
     if (age < 11) {
       return {
         error: true,
         msj: "La edad del cliente debe ser mayor a 12",
       };
-    }
+    } */
     const height = form.height;
     const weight = form.weight;
     const hour_breakfast = form.hour_breakfast;
@@ -484,7 +485,7 @@ class ModalHojaClinica extends Component {
     const hour_dinner = form.hour_dinner;
 
     if (
-      isEmpty(age) &&
+     /*  isEmpty(age) && */
       isEmpty(height) &&
       isEmpty(weight) &&
       isEmpty(hour_breakfast) &&
@@ -497,7 +498,7 @@ class ModalHojaClinica extends Component {
         error: true,
         msj: "Los campos de Edad actual, Estatura en centímetro,Peso en kilogramos, Hora de desayuno, Hora de colación, Hora de comida, Hora de bocadillo y Hora de cena son obligatorios",
       };
-    if (isEmpty(age))
+    /* if (isEmpty(age))
       return {
         error: true,
         msj: "El campo de edad actual no puede estar vacío",
@@ -507,7 +508,7 @@ class ModalHojaClinica extends Component {
       return {
         error: true,
         msj: "El campo de la edad debe ser mayor o igual 13",
-      };
+      }; */
     if (!height)
       return { error: true, msj: "El campo de estatura no puede estar vacío" };
     if (height < 100)
@@ -748,11 +749,11 @@ class ModalHojaClinica extends Component {
             const nutritionalSituation_id = res_form1.data.id;
             // Creación de la hoja clínica
             const res_hc = await axios.post(url_hc, {
-              age: form1.age,
+              birthdate: form1.birthdate,
               weigth: form1.weight,
               heigh: form1.height,
               bloodType: form1.bloody,
-              customer_id: this.props.id_cliente,
+              customer_id: form1.customer_id,
               nutritionalSituation_id,
             });
 
@@ -961,7 +962,7 @@ class ModalHojaClinica extends Component {
           <ModalBody>
             <div className="form-group">
               
-              <label htmlFor="age">Edad actual *: </label>
+              {/* <label htmlFor="age">Edad actual *: </label>
               <br />
               <TextField
                 id="outlined-number"
@@ -980,7 +981,7 @@ class ModalHojaClinica extends Component {
              
               <br />
               {this.state.errors.edad && <p  className="errores mt-2">{this.state.errors.edad}</p>}
-              <br />
+              <br /> */}
               <label htmlFor="height">Estatura en centímetros *: </label>
               <br />
               <TextField

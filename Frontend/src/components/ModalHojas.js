@@ -95,6 +95,7 @@ class BtnModalHoja extends Component {
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario modal 1*/
       customer_id: this.props.id_cliente,
+      birthdate: this.props.nacimiento_cliente,
       id: "",
       customer_name: "",
       date: "",
@@ -194,7 +195,7 @@ class BtnModalHoja extends Component {
     const hour_snack = form.hour_snack;
     const hour_dinner = form.hour_dinner;
 
-    if (isEmpty(age) && isEmpty(height) && isEmpty(weight) && isEmpty(hour_breakfast) && isEmpty(hour_collation) && isEmpty(hour_lunch) && isEmpty(hour_snack)&& isEmpty(hour_dinner))
+    /* if (isEmpty(age) && isEmpty(height) && isEmpty(weight) && isEmpty(hour_breakfast) && isEmpty(hour_collation) && isEmpty(hour_lunch) && isEmpty(hour_snack)&& isEmpty(hour_dinner))
       return {
         error: true,
         msj: "Los campos de Edad actual, Estatura en centímetro,Peso en kilogramos, Hora de desayuno, Hora de colación, Hora de comida, Hora de bocadillo y Hora de cena son obligatorios",
@@ -206,7 +207,7 @@ class BtnModalHoja extends Component {
       };
     const edad = parseInt(age);
     if (edad <= 12)
-      return { error: true, msj: "El campo de la edad debe ser mayor o igual 13" };  
+      return { error: true, msj: "El campo de la edad debe ser mayor o igual 13" };   */
     if (isEmpty(height))
       return { error: true, msj: "El campo de estatura no puede estar vacío" };
     if (height<100)
@@ -500,6 +501,7 @@ class BtnModalHoja extends Component {
       // Editar la hoja clínica
       const res_hc = await axios.put(url_hc + historyClinic_id + "/", {
         age: form1.age,
+        birthdate: form1.birthdate,
         weigth: form1.weight,
         heigh: form1.height,
         customer_id: form1.customer_id,
@@ -540,7 +542,8 @@ class BtnModalHoja extends Component {
             await axios.put(url_te_hc + "/" + historyClinic_id + "/", {
               value: e.value == "true" ? true : false,
               name: e.name,
-              typeExtraInformation_id: e.typeExtraInformation_id.id, 
+              typeExtraInformation_id: 
+              e.typeExtraInformation_id.id, 
               historyClinic_id,
           })});
           
@@ -890,7 +893,7 @@ validatePeso = (event) => {
                 <table className="table table-striped table-bordered ">
                   <thead>
                     <tr>
-                      <th>Id</th>
+                      <th>Folio</th>
                       <th>Nombre del cliente</th>
                       <th>Fecha de registro</th>
                       <th>Tipo de sangre:</th>
@@ -901,7 +904,7 @@ validatePeso = (event) => {
                     {this.state.data.map((hojas) => {
                       return (
                         <tr>
-                          <td>{hojas.id}</td>
+                          <td>{hojas.folio}</td>
                           <td>{hojas.customer_id.name}</td>
                           <td>{hojas.date}</td>
                           <td>{hojas.bloodType}</td>
@@ -962,7 +965,7 @@ validatePeso = (event) => {
                     /> */}
 
                     
-                    <label htmlFor="age">Edad actual *: </label>
+                    {/* <label htmlFor="age">Edad actual *: </label>
                       <br />
                       <TextField
                         id="outlined-number"
@@ -979,7 +982,7 @@ validatePeso = (event) => {
                         }}
                         variant="outlined"
                     />
-                    <br />
+                    <br /> */}
                     <br />
                     <label htmlFor="height">Estatura en centímetros *:  </label>
                     <br />
