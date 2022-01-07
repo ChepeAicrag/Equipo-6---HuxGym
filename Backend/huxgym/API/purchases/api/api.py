@@ -219,13 +219,19 @@ class realizarCompra(Authentication, APIView):
             stock = Stock.objects.get(product_id=p)
             stock.amount += amount
             stock.save()
-            operation = {'amount': amount,
+
+            count = Operation.objects.all().count()
+            fecha = date.today()
+            
+            operation = {'folio': 'OP' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
+                        'amount': amount,
                         'description': "Se añadió al stock",
                         'operationType_id': 1}
             operation_serializer = OperationSerializer(data=operation)
             operation_serializer.is_valid(raise_exception=True)
             operation_serializer.save()
-            history = {'product_id': stock.product_id.id,
+            history = {'folio': 'HI' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
+                    'product_id': stock.product_id.id,
                       'amount': stock.amount,
                       'operation_id': Operation.objects.latest('id').id
                       }
