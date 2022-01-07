@@ -298,7 +298,7 @@ class TablaC extends Component {
           <table className="tab-pane  table">
             <thead className="tablaHeader">
               <tr className="encabezado">
-                <th>Id</th>
+                <th>Folio</th>
                 <th>Nombre de la categoría</th>
                 <th>Descripción</th>
                 <th>Acciones</th>
@@ -309,7 +309,7 @@ class TablaC extends Component {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
                   <tr>
-                    <td>{categorias.id}</td>
+                    <td>{categorias.folio}</td>
                     <td>{categorias.name}</td>
                     <td>{categorias.description}</td>
                     <td>

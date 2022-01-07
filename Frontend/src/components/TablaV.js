@@ -260,14 +260,20 @@ class TablaV extends Component {
           Authorization: "Token " + localStorage.getItem("token"),
         },
       });
+      console.log("respuesta");
       console.log(res);
       this.setState({
         data: res.data,
         dataBuscar:res.data,
       });
     } catch (error) {
-      const msj = JSON.parse(error.request.response).message;
-      console.log(msj);
+      try{
+        const msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+      }catch (Error2){
+        console.log(Error2);
+      }
+      
     }
   };
 
@@ -894,7 +900,7 @@ class TablaV extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data.map((ventas) => {
+              {this.state.data ? this.state.data.map((ventas) => {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
                   <tr>
@@ -933,7 +939,9 @@ class TablaV extends Component {
                     </td>
                   </tr>
                 );
-              })}
+              }
+              ):
+              <p>No se encontro datos</p>}
             </tbody>
           </table>
         </div>
@@ -1046,7 +1054,7 @@ class TablaV extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.dataS.map((ProductoS) => {
+                    {this.state.dataS && this.state.dataS.map((ProductoS) => {
                       return (
                         <tr>
                           {this.state.tipoModal === "insertar" ? (

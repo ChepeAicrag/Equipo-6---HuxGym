@@ -97,6 +97,7 @@ class BtnModalHoja extends Component {
       customer_id: this.props.id_cliente,
       birthdate: this.props.nacimiento_cliente,
       id: "",
+      folio:"",
       customer_name: "",
       date: "",
       age: 0,
@@ -501,8 +502,9 @@ class BtnModalHoja extends Component {
       // Editar la hoja clínica
       const res_hc = await axios.put(url_hc + historyClinic_id + "/", {
         age: form1.age,
-        birthdate: form1.birthdate,
+        //birthdate: form1.birthdate,
         weigth: form1.weight,
+        folio:form1.folio,
         heigh: form1.height,
         customer_id: form1.customer_id,
         nutritionalSituation_id,
@@ -517,6 +519,7 @@ class BtnModalHoja extends Component {
             hour_collation: form1.hour_collation,
             hour_lunch: form1.hour_lunch,
             hour_snack: form1.hour_snack,
+            folio:form1.folio,
             hour_dinner: form1.hour_dinner,
             schedule: "Planeación",
           }
@@ -532,6 +535,7 @@ class BtnModalHoja extends Component {
           this.state.atributosCuerpo.forEach(async (e) => {
             await axios.put(url_ac + e.id + "/", {
               value: e.value,
+              folio: e.folio,
               bodyAttribute_id: e.bodyAttribute_id.id,
               historyClinic_id,
             });
@@ -607,6 +611,8 @@ class BtnModalHoja extends Component {
         customer_name: hojas.customer_id.name,
         date: hojas.date,
         age: hojas.age,
+        folio: hojas.folio,
+        //birthdate:hojas.birthdate,
         height: hojas.heigh,
         weight: hojas.weigth,
         bloody: hojas.bloodType,

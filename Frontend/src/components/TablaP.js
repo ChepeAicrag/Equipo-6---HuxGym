@@ -706,7 +706,7 @@ class TablaP extends Component {
           <table className="tab-pane  table">
             <thead className="tablaHeader">
               <tr className="encabezado" >
-                <th>Id</th>
+                <th>Folio</th>
                 <th>Nombre del producto</th>
                 <th>Precio de venta</th>
                 <th>Precio de compra</th>
@@ -721,7 +721,7 @@ class TablaP extends Component {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
                   <tr>
-                    <td>{productos.id}</td>
+                    <td>{productos.folio}</td>
                     <td>{productos.name}</td>
                     <td>{"$ " +productos.price_s}</td>
                     <td>{"$ " +productos.price_c}</td>

@@ -403,7 +403,7 @@ class TablaProvedor extends Component {
           <table className="tab-pane table">
             <thead className="tablaHeader">
               <tr className="encabezado">
-                <th>Id</th>
+                <th>Folio</th>
                 <th>Nombre del proveedor</th>
                 <th>Email</th>
                 <th>Teléfono</th>
@@ -416,7 +416,7 @@ class TablaProvedor extends Component {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
                   <tr>
-                    <td>{proveedores.id}</td>
+                    <td>{proveedores.folio}</td>
                     <td>{proveedores.name}</td>
                     <td>{proveedores.email}</td>
                     <td>{proveedores.phone}</td>

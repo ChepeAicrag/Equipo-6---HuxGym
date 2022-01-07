@@ -719,7 +719,7 @@ class TablaCompras extends Component {
           <table className="tab-pane  table ">
             <thead  className="tablaHeader">
               <tr className="encabezado">
-                <th>Id de compra</th>
+                <th>Folio de compra</th>
                 <th>Nombre del proveedor</th>
                 <th>Precio de la compra</th>
                 {/* <th>Precio de compra</th> */}
@@ -732,7 +732,7 @@ class TablaCompras extends Component {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
                   <tr>
-                    <td>{compra.Purchase.id}</td>
+                    <td>{compra.Purchase.folio}</td>
                     <td>{compra.purchase_detail[0].product.provider.name}</td>
                     <td>{"$ " +compra.Purchase.total}</td>
                     <td>{compra.Purchase.date.split("T")[0]}</td>
