@@ -32,7 +32,7 @@ class Purchase_Details_Product(models.Model):
     purchase_id = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product_id =models.ForeignKey(Product, on_delete=models.CASCADE)
 
-    folio = models.CharField(max_length=10, blank=False, null=False, unique=True)
+    folio = models.CharField(max_length=50, blank=False, null=False, unique=True)
 
     class Meta:
         verbose_name = 'Purchase_Details_Product'
