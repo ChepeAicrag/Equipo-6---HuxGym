@@ -22,6 +22,10 @@ function obtnerDate(date) {
   let year = fecha.getFullYear();
   let mounth = fecha.getUTCMonth() + 1;
   let day = fecha.getDate();
+  if (mounth < 10) {
+    mounth = "0" + mounth;
+  }
+  console.log(mounth + "aqui es");
   return year + "-" + mounth + "-" + day;
 }
 class TablaE extends Component {
@@ -200,8 +204,8 @@ class TablaE extends Component {
           "mothers_maiden_name",
           this.state.form.mothers_maiden_name.toUpperCase()
         );
-        formData.append("image", this.state.form.image);
-        formData.append("curp", this.state.form.curp);
+
+        formData.append("curp", this.state.form.curp.toUpperCase());
         formData.append("gender", this.state.form.gender.toUpperCase());
         formData.append("email", this.state.form.email);
         formData.append("phone", this.state.form.phone);
@@ -271,9 +275,9 @@ class TablaE extends Component {
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-        formData.append("image", this.state.form.image);
+          formData.append("image", this.state.form.image);
         formData.append("name", this.state.form.name);
-        formData.append("curp", this.state.form.curp);
+        formData.append("curp", this.state.form.curp.toUpperCase());
         formData.append(
           "paternal_surname",
           this.state.form.paternal_surname.toUpperCase()
@@ -617,7 +621,7 @@ class TablaE extends Component {
                       <td>{empleados.phone}</td>
                       <td>{empleados.email}</td>
                       <td>
-                        {empleados.role === 2 ? "Empleado" : "Instructor"}
+                        {empleados.role === 2 ? "Encargado" : "Instructor"}
                       </td>
                       <td>
                         <img
