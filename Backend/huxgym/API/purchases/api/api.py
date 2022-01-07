@@ -208,21 +208,26 @@ class realizarCompra(Authentication, APIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
         #Creación de la compra
-        purchase = Purchase(total=total_a_pagar, user_id=user, cashRegister_id = caja, observation=observation)
+        
+        count_pur = Purchase.objects.all().count()
+        fecha = date.today()
+        folio = 'PUR' + str(count_pur) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+        purchase = Purchase(total=total_a_pagar, user_id=user, cashRegister_id = caja, observation=observation, folio=folio)
         purchase.save()
 
         # Registro de los detalles de la venta y actualización del stock
         for p_id, amount, total in products_stock:
             p = Product.objects.get(id=p_id)
-            detalle = Purchase_Details_Product(purchase_id=purchase, product_id=p, amount=amount, total=total)
+            count_pd = Purchase_Details_Product.objects.all().count()
+            folio_pd = 'PDP' + str(count_pd) + str(fecha.year) + str(fecha.month) + str(fecha.day)
+            detalle = Purchase_Details_Product(purchase_id=purchase, product_id=p, amount=amount, total=total, folio=folio_pd)
             detalle.save()
             stock = Stock.objects.get(product_id=p)
             stock.amount += amount
             stock.save()
 
             count = Operation.objects.all().count()
-            fecha = date.today()
-            
+
             operation = {'folio': 'OP' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
                         'amount': amount,
                         'description': "Se añadió al stock",
