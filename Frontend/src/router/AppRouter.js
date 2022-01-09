@@ -28,7 +28,14 @@ import PurchPage from "../pages/PurchPage";
 import AccountingPage from "../pages/AccountingPage";
 import ExpensePage from "../pages/ExpensePage";
 import IncomePage from "../pages/IncomePage";
+
 import Grafics from "../pages/Grafics";
+import GraficsAsistencia from "../pages/GraficsAsistencia";
+import GraficsVentasP from "../pages/GraficsVentasP";
+import GraficsVentasM from "../pages/GraficsVentasM";
+import GraficsCompras from "../pages/GraficsCompras";
+import GraficsCliente from "../pages/GraficsCliente";
+import GraficsEmpleado from "../pages/GraficsEmpleado";
 
 export default function AppRouter() {
   return (
@@ -69,6 +76,18 @@ export default function AppRouter() {
         <PrivateRoute path="/IncomePage" component={IncomePage} />
 
         <PrivateRoute path="/Grafics" component={Grafics} />
+
+        <PrivateRoute path="/GraficsAsistencia" component={GraficsAsistencia} />
+
+        <PrivateRoute path="/GraficsVentasP" component={GraficsVentasP} />
+
+        <PrivateRoute path="/GraficsVentasM" component={GraficsVentasM} />
+
+        <PrivateRoute path="/GraficsCompras" component={GraficsCompras} />
+
+        <PrivateRoute path="/GraficsCliente" component={GraficsCliente} />
+
+        <PrivateRoute path="/GraficsEmpleado" component={GraficsEmpleado} />
 
         {/* <Route exact path="/Sidebar" component={Sidebar} />
 
