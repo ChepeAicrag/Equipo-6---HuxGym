@@ -1,0 +1,47 @@
+import React from "react";
+import "../styles/BotonProducts.css";
+import { NavLink, Link } from "react-router-dom";
+
+export default function BotonGrafics(){
+    return(
+        <>
+            <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
+                <li class="nav-item espaciado">
+                    <NavLink className="letra nav-link btn contenedor2" to="/Grafics" activeClass="btn contenedor active">
+                        Gastos Totales
+                    </NavLink>
+                </li>
+                <li class="nav-item espaciado">
+                    <NavLink className="letra nav-link btn contenedor2" to="/CategoriesPage" activeClass="btn contenedor active">
+                        Asistencias
+                    </NavLink>
+                </li>
+                <li class="nav-item espaciado">
+                    <NavLink className="letra nav-link btn contenedor2" to="/ProvidersPage" activeClass="btn contenedor active">
+                        Venta de productos
+                    </NavLink> 
+                </li>
+                <li class="nav-item espaciado">
+                    <NavLink className="letra nav-link btn contenedor2" to="/ProvidersPage" activeClass="btn contenedor active">
+                        Venta de membresias
+                    </NavLink> 
+                </li>
+                <li class="nav-item espaciado">
+                    <NavLink className="letra nav-link btn contenedor2" to="/ProvidersPage" activeClass="btn contenedor active">
+                        Compras
+                    </NavLink> 
+                </li>
+                <li class="nav-item espaciado">
+                    <NavLink className="letra nav-link btn contenedor2" to="/ProvidersPage" activeClass="btn contenedor active">
+                        Cliente
+                    </NavLink> 
+                </li>
+                <li class="nav-item espaciado">
+                    <NavLink className="letra nav-link btn contenedor2" to="/ProvidersPage" activeClass="btn contenedor active">
+                        Empleado
+                    </NavLink> 
+                </li>
+            </ul>
+        </>
+    )
+}

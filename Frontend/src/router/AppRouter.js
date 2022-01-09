@@ -28,6 +28,7 @@ import PurchPage from "../pages/PurchPage";
 import AccountingPage from "../pages/AccountingPage";
 import ExpensePage from "../pages/ExpensePage";
 import IncomePage from "../pages/IncomePage";
+import Grafics from "../pages/Grafics";
 
 export default function AppRouter() {
   return (
@@ -67,6 +68,8 @@ export default function AppRouter() {
 
         <PrivateRoute path="/IncomePage" component={IncomePage} />
 
+        <PrivateRoute path="/Grafics" component={Grafics} />
+
         {/* <Route exact path="/Sidebar" component={Sidebar} />
 
         <Route exact path="/Pruebas" component={Pruebas} /> */}
@@ -74,6 +77,8 @@ export default function AppRouter() {
         <PublicRoute exact path="/" component={Login} />
 
         <Route path="*" component={NotFoundPage} />
+
+        
       </Switch>
     </Router>
   );

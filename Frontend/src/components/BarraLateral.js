@@ -147,6 +147,25 @@ export default function BarraLateral() {
             <></>
           )}
           
+          {rol == "Administrador" || rol == "Encargado" ? (
+            <li>
+              <NavLink to="/Grafics">
+                <i className="bx bxs-cart">
+                  <box-icon
+                    name="bar-chart-alt-2"
+                    type="solid"
+                    color="#000"
+                    animation="tada"
+                  ></box-icon>
+                </i>
+                <span className="links_names">
+                <p className="opcionBarra"> Graficas</p>
+                </span>
+              </NavLink>
+            </li>
+          ) : (
+            <></>
+          )}
           
           {/* { rol == "Administrador" ? ( <> 
            { <li>

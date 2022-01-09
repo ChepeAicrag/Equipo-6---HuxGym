@@ -1,0 +1,19 @@
+.Selector{
+    width: 20%;
+}
+
+.SelectorWrapper{
+    display: flex;
+    justify-content: end;
+}
+
+.GraficaWrapper{
+    height: 60%;
+    display: flex;
+    justify-content: center;
+}
+
+.Grafica{
+    height: 50%;
+    width: 70%;
+}
