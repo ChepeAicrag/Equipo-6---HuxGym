@@ -41,11 +41,12 @@ class GraficaTotal extends Component{
                 borderWidth: 1,
                 height:'100%',
                 with:'30%',
-                data: [1,2]
+                data: [1,2]//datos que lleva dentro la grafica
             }]
         };
         const opciones={
             /* maintainAspectsRatio: false, */
+            indexAxis:'y',
             responsive: true
         }
         return(

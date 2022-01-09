@@ -33,10 +33,10 @@ class GraficaTotal extends Component{
     render(){
         const { form } = this.state;
         const data={
-            labels: ["ingreso ventas","gasto compras"],
+            labels: ["Ejemplo1","Ejmplo2"],
             datasets:[{
                 label:"Totales",
-                backgroundColor: ['purple','orange'],
+                backgroundColor: ['purple','orange','brown','blue','rose','yellow'],
                 bordercolor: 'black',
                 borderWidth: 1,
                 height:'100%',
@@ -46,6 +46,7 @@ class GraficaTotal extends Component{
         };
         const opciones={
             /* maintainAspectsRatio: false, */
+            indexAxis:'y',
             responsive: true
         }
         return(
@@ -54,7 +55,20 @@ class GraficaTotal extends Component{
                     <BotonGrafics />
                 </div>
             </div><br />
-            <div className="SelectorWrapper">
+            <div className="SelectorWrapperAsistencia">
+                <label className="Texto">Seleccionar tipo:</label>
+                <div className="SelectorP">
+                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
+                </div>
+                <label className="Texto">Seleccionar categoria:</label>
+                <div className="SelectorP">
+                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
+                </div>
+                <label className="Texto">Seleccionar orden:</label>
+                <div className="SelectorP">
+                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
+                </div>
+                <div class="esp"></div>
                 <div className="Selector">
                     <select className="fechas" class="form-select" onChange={this.handleChange}/> 
                 </div>

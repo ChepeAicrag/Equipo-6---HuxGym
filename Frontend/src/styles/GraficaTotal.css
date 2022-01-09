@@ -2,9 +2,22 @@
     width: 20%;
 }
 
+.SelectorP{
+    width: 15%;
+}
+
+.SelectorEdad{
+    width: 8%;
+}
+
 .SelectorWrapper{
     display: flex;
     justify-content: end;
+}
+
+.SelectorWrapperAsistencia{
+    display: flex;
+    justify-content: space-between;
 }
 
 .GraficaWrapper{
@@ -16,4 +29,12 @@
 .Grafica{
     height: 50%;
     width: 70%;
+}
+
+.esp{
+    width: 2%;
+}
+
+.esp2{
+    width: 50%;
 }
