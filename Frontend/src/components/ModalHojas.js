@@ -543,7 +543,7 @@ class BtnModalHoja extends Component {
 
           // Tercera ventana modal 
           this.state.body.forEach(async (e) => {
-            await axios.put(url_te_hc + "/" + historyClinic_id + "/", {
+            await axios.put(url_te_hc  + historyClinic_id + "/", {
               value: e.value == "true" ? true : false,
               name: e.name,
               typeExtraInformation_id: 
@@ -561,14 +561,19 @@ class BtnModalHoja extends Component {
         }
       }}}
     } catch (error) {
-      const msj = JSON.parse(error.request.response).message;
-      console.log(msj);
-      swal({
-        text: Array.isArray(msj) ? msj[0] : msj,
-        icon: "error",
-        button: "Aceptar 2",
-        timer: "5000",
-      });
+      try{
+        const msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+        swal({
+          text: Array.isArray(msj) ? msj[0] : msj,
+          icon: "error",
+          button: "Aceptar 2",
+          timer: "5000",
+        });
+      }catch(errr2){
+       
+      }
+      
     }
   };
 
