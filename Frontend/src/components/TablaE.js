@@ -7,13 +7,36 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { isEmpty } from "../helpers/methods";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 const url = "https://www.huxgym.codes/user/";
 
+function obtnerDate(date) {
+  let fecha = new Date(date);
+  console.log(fecha);
+  let year = fecha.getFullYear();
+  let mounth = fecha.getUTCMonth() + 1;
+  let day = fecha.getDate();
+  if (mounth < 10) {
+    mounth = "0" + mounth;
+  }
+  console.log(mounth + "aqui es");
+  return year + "-" + mounth + "-" + day;
+}
 class TablaE extends Component {
-
-  campos = { "name": "nombre", "age": "edad", "gender": "genero", "image": "imagen", "phone": "télefono", "image": "imagen" };
+  campos = {
+    name: "nombre",
+    age: "edad",
+    gender: "genero",
+    image: "imagen",
+    phone: "télefono",
+    image: "imagen",
+  };
 
   state = {
     busqueda: "",
@@ -25,12 +48,18 @@ class TablaE extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
       name: "",
-      age: "",
+      folio: "",
+      paternal_surname: "",
+      mothers_maiden_name: "",
+      birthdate: obtnerDate(new Date()),
+      entity_birth: "",
+      curp: "",
       gender: "",
       image: "",
       phone: "",
       email: "",
       rol: 2,
+      role: "",
     },
   };
 
@@ -48,6 +77,20 @@ class TablaE extends Component {
     console.log(this.state.form);
   };
 
+  state = {
+    estados: [],
+  };
+  perticionState = async () => {
+    axios
+      .get("https://www.huxgym.codes/state/")
+      .then((response) => {
+        console.log(response);
+        this.setState({ estados: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   peticionGet = async () => {
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
     try {
@@ -61,20 +104,16 @@ class TablaE extends Component {
         data: res.data,
       }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
     } catch (error) {
-
-      console.log("hay un error en TablaE en la peticion Get")
-      try { 
+      console.log("hay un error en TablaE en la peticion Get");
+      try {
         const msj = JSON.parse(error.request.response).message;
         if (msj === "Credenciales invalidas") {
-              this.Expulsado();
+          this.Expulsado();
         }
         console.log(msj);
-          
-        
-      }catch(error2){
-          console.log(error2)
+      } catch (error2) {
+        console.log(error2);
       }
-      
     }
   };
 
@@ -86,15 +125,14 @@ class TablaE extends Component {
     const gender = form.gender;
     const email = form.email;
     const phone = form.phone;
-    const age = form.age;
     const role = form.role;
+    const curp = form.curp;
 
     if (
       isEmpty(name) &&
       isEmpty(phone) &&
       isEmpty(gender) &&
       isEmpty(role) &&
-      isEmpty(age) &&
       isEmpty(email)
     )
       return {
@@ -106,14 +144,10 @@ class TablaE extends Component {
         error: true,
         msj: "El campo de nombre no puede estar vacío",
       };
-    if (isEmpty(age))
-      return { error: true, msj: "El campo de edad no puede estar vacío" };
-    const edad = parseInt(age)
-    if(edad < 18)
-      return { error: true, msj: "La edad debe ser mayor a 18 años" };
+
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
-    if(phone.length < 10)
+    if (phone.length < 10)
       return { error: true, msj: "El campo de telefono debe tener 10 dígitos" };
     if (isEmpty(email))
       return {
@@ -127,9 +161,17 @@ class TablaE extends Component {
         error: true,
         msj: "El campo de role no puede estar vacío",
       };
+
     return { error: false };
   };
-
+  crearFecha = (data) => {
+    let dia = data.split("-")[2];
+    let mes = data.split("-")[1] - 1;
+    let anio = data.split("-")[0];
+    let fecha = new Date(anio, mes, dia, 0, 0, 0);
+    console.log("Fechaaa " + dia + "-" + mes + "-" + anio);
+    return fecha;
+  };
   peticionPost = async () => {
     /* Son asincronas por que se ejeuctan en segundo plano */
     /* Con esto enviamos los datos al servidor */
@@ -150,12 +192,25 @@ class TablaE extends Component {
           !isEmpty(this.state.form.image)
         )
           formData.append("image", form.image);
-        formData.append("name", form.name);
-        formData.append("gender", form.gender);
-        formData.append("email", form.email);
-        formData.append("phone", form.phone);
-        formData.append("age", form.age);
-        formData.append("role", form.role);
+        formData.append("name", form.name.toUpperCase());
+
+        formData.append("birthdate", obtnerDate(this.state.form.birthdate));
+        formData.append("entity_birth", this.state.form.entity_birth);
+        formData.append(
+          "paternal_surname",
+          this.state.form.paternal_surname.toUpperCase()
+        );
+        formData.append(
+          "mothers_maiden_name",
+          this.state.form.mothers_maiden_name.toUpperCase()
+        );
+
+        formData.append("curp", this.state.form.curp.toUpperCase());
+        formData.append("gender", this.state.form.gender.toUpperCase());
+        formData.append("email", this.state.form.email);
+        formData.append("phone", this.state.form.phone);
+        formData.append("role", this.state.form.role);
+
         const res = await axios.post(url, formData, {
           headers: {
             Authorization: "Token " + localStorage.getItem("token"),
@@ -176,28 +231,28 @@ class TablaE extends Component {
     } catch (error) {
       var msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if(isEmpty(msj)){
-        const res = JSON.parse(error.request.response)
-        const c = Object.keys(res)[0]
-        console.log()
-        msj = res[c].toString().replace('Este campo', 'El campo ' + this.campos[c])
+      if (isEmpty(msj)) {
+        const res = JSON.parse(error.request.response);
+        const c = Object.keys(res)[0];
+        console.log();
+        msj = res[c]
+          .toString()
+          .replace("Este campo", "El campo " + this.campos[c]);
         swal({
-          text: msj,//Array.isArray(msj) ? msj[0] : msj,
+          text: msj, //Array.isArray(msj) ? msj[0] : msj,
           icon: "error",
           button: "Aceptar",
           timer: "5000",
         });
-      }
-      else if (msj === "Credenciales invalidas")
-        this.Expulsado();
-      else 
+      } else if (msj === "Credenciales invalidas") this.Expulsado();
+      else
         swal({
-            text: msj,//Array.isArray(msj) ? msj[0] : msj,
-            icon: "error",
-            button: "Aceptar",
-            timer: "5000",
+          text: msj, //Array.isArray(msj) ? msj[0] : msj,
+          icon: "error",
+          button: "Aceptar",
+          timer: "5000",
         });
-      }
+    }
   };
 
   peticionPut = async () => {
@@ -215,18 +270,28 @@ class TablaE extends Component {
       } else {
         let formData = new FormData();
         console.log(this.state.form.image);
+
         if (
           typeof this.state.form.image !== "string" &&
           !isEmpty(this.state.form.image)
         )
-          formData.append("image", form.image);
-        formData.append("name", form.name);
+          formData.append("image", this.state.form.image);
+        formData.append("name", this.state.form.name);
+        formData.append("curp", this.state.form.curp.toUpperCase());
+        formData.append(
+          "paternal_surname",
+          this.state.form.paternal_surname.toUpperCase()
+        );
+        formData.append(
+          "mothers_maiden_name",
+          this.state.form.mothers_maiden_name.toUpperCase()
+        );
+        formData.append("entity_birth", this.state.form.entity_birth);
         formData.append("gender", form.gender);
         formData.append("email", form.email);
         formData.append("phone", form.phone);
-        formData.append("age", form.age);
         // formData.append("role", parseInt(form.role));
-
+        console.log(formData);
         const res = await axios.put(url + this.state.form.id + "/", formData, {
           headers: {
             Authorization: "Token " + localStorage.getItem("token"),
@@ -246,8 +311,7 @@ class TablaE extends Component {
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
       console.log(msj);
-      if (msj === "Credenciales invalidas") 
-        this.Expulsado();
+      if (msj === "Credenciales invalidas") this.Expulsado();
       swal({
         text: Array.isArray(msj) ? msj[0] : msj,
         icon: "error",
@@ -286,14 +350,14 @@ class TablaE extends Component {
         button: "Aceptar",
         timer: "5000",
       });
-      if (msj === "Credenciales invalidas") 
-        this.Expulsado();
+      if (msj === "Credenciales invalidas") this.Expulsado();
     }
   };
 
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
+    this.perticionState();
   }
 
   modalInsertar = () => {
@@ -309,7 +373,12 @@ class TablaE extends Component {
       form: {
         id: empleados.id,
         name: empleados.name,
-        age: empleados.age,
+        folio: empleados.folio,
+        birthdate: this.crearFecha(empleados.birthdate),
+        mothers_maiden_name: empleados.mothers_maiden_name,
+        paternal_surname: empleados.paternal_surname,
+        curp: empleados.curp,
+        entity_birth: empleados.entity_birth,
         gender: empleados.gender,
         image: empleados.image,
         phone: empleados.phone,
@@ -347,7 +416,11 @@ class TablaE extends Component {
     var i = 0;
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLocaleLowerCase().includes(this.state.busqueda.toLocaleLowerCase())) {
+        if (
+          item.name
+            .toLocaleLowerCase()
+            .includes(this.state.busqueda.toLocaleLowerCase())
+        ) {
           i = 1;
           return item;
         }
@@ -357,6 +430,42 @@ class TablaE extends Component {
     } else {
       this.peticionGet();
     }
+  };
+  handleChangeInputCURP = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: value,
+      },
+    });
+    // let regex = new RegExp("^[a-zA-Z ]+$");
+    /* let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
+    if (regex.test(value) || isEmpty(value)) {
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: value,
+        },
+      });
+    } else {
+      e.target.value = "";
+      swal({
+        text: "Solo se permiten letras y acentos",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    } */
+  };
+  changeEstado = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: value,
+      },
+    });
   };
 
   handleChangeInput = (e) => {
@@ -401,6 +510,15 @@ class TablaE extends Component {
         timer: "5000",
       });
     }
+  };
+
+  handleDateChange = (e) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        birthdate: e,
+      },
+    });
   };
 
   handleChangeInputImage = (e) => {
@@ -453,7 +571,8 @@ class TablaE extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo Empleado
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo
+            Empleado
           </button>
           <div className="esp"></div>
           <input
@@ -477,7 +596,7 @@ class TablaE extends Component {
         <div className="table-wrapper">
           <table className="tab-pane  table">
             <thead className="tablaHeader">
-              <tr className="encabezado" >
+              <tr className="encabezado">
                 <th>ID</th>
                 <th>Nombre completo</th>
                 <th>Edad</th>
@@ -490,53 +609,56 @@ class TablaE extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data.map((empleados) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                return (
-                  <tr>
-                    <td>{empleados.id}</td>
-                    <td>{empleados.name}</td>
-                    <td>{empleados.age}</td>
-                    <td>{empleados.gender}</td>
-                    <td>{empleados.phone}</td>
-                    <td>{empleados.email}</td>
-                    <td>{empleados.role === 2 ? "Encargado" : "Instructor"}</td>
-                    <td>
-                      <img
-                        src={`https://www.huxgym.codes/${empleados.image}`}
-                        width="170"
-                        height="150"
-                        align="center"
-                      />
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-editar"
-                        onClick={() => {
-                          this.seleccionarUsuario(empleados);
-                          this.modalInsertar();
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      {"  "}
-                      {localStorage.getItem("rol") == "Administrador" ? (
+              {this.state.data &&
+                this.state.data.map((empleados) => {
+                  /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                  return (
+                    <tr>
+                      <td>{empleados.curp}</td>
+                      <td>{empleados.name}</td>
+                      <td>{empleados.age}</td>
+                      <td>{empleados.gender}</td>
+                      <td>{empleados.phone}</td>
+                      <td>{empleados.email}</td>
+                      <td>
+                        {empleados.role === 2 ? "Encargado" : "Instructor"}
+                      </td>
+                      <td>
+                        <img
+                          src={`https://www.huxgym.codes/${empleados.image}`}
+                          width="170"
+                          height="150"
+                          align="center"
+                        />
+                      </td>
+                      <td>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-editar"
                           onClick={() => {
                             this.seleccionarUsuario(empleados);
-                            this.setState({ modalEliminar: true });
+                            this.modalInsertar();
                           }}
                         >
-                          <FontAwesomeIcon icon={faTrashAlt} />
+                          <FontAwesomeIcon icon={faEdit} />
                         </button>
-                      ) : (
-                        <></>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+                        {"  "}
+                        {localStorage.getItem("rol") == "Administrador" ? (
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                              this.seleccionarUsuario(empleados);
+                              this.setState({ modalEliminar: true });
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </button>
+                        ) : (
+                          <></>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -549,31 +671,106 @@ class TablaE extends Component {
 
           <ModalBody>
             <div className="form-group">
-              <label htmlFor="name">Nombre completo*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="name"
-                id="name"
-                maxlength="150"
-                placeholder="Nombre del empleado"
-                onChange={this.handleChangeInput}
-                value={form ? form.name : ""}
-              />
-              <br />
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <label htmlFor="name">Nombre completo*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    maxlength="150"
+                    placeholder="Nombre del empleado"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.name : ""}
+                  />
+                  <br />
+                </>
+              ) : (
+                <>
+                  <label htmlFor="name">Nombre completo*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    disabled
+                    maxlength="150"
+                    placeholder="Nombre del empleado"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.name : ""}
+                  />
+                  <br />
+                </>
+              )}
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <label htmlFor="name">Apellido Paterno*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="paternal_surname"
+                    id="paternal_surname"
+                    maxlength="150"
+                    placeholder="Apellido Paterno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.paternal_surname : ""}
+                  />
+                  <br />
+                </>
+              ) : (
+                <>
+                  <label htmlFor="name">Apellido Paterno*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="paternal_surname"
+                    id="paternal_surname"
+                    maxlength="150"
+                    disabled
+                    placeholder="Apellido Paterno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.paternal_surname : ""}
+                  />
+                  <br />
+                </>
+              )}
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <label htmlFor="name">Apellido Materno*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="mothers_maiden_name"
+                    id="mothers_maiden_name"
+                    maxlength="150"
+                    placeholder="Apellido Materno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.mothers_maiden_name : ""}
+                  />
+                  <br />
+                </>
+              ) : (
+                <>
+                  <label htmlFor="name">Apellido Materno*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="mothers_maiden_name"
+                    id="mothers_maiden_name"
+                    maxlength="150"
+                    disabled
+                    placeholder="Apellido Materno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.mothers_maiden_name : ""}
+                  />
+                  <br />
+                </>
+              )}
+
+              {/* <br />
               <label htmlFor="age">Edad*:</label>
-              {/* <input
-                className="form-control"
-                type="text"
-                name="age"
-                id="age"
-                min="18"
-                max="99"
-                placeholder="Edad en años"
-                maxlength="2"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.age : ""}
-              /> */}
+              
               <input
                 className="form-control"
                 type="number"
@@ -584,8 +781,115 @@ class TablaE extends Component {
                 placeholder="Edad en años"
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.age : ""}
-              />
+              /> */}
+
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {this.state.tipoModal === "insertar" ? (
+                  <>
+                    <label className="articulo mt-3">Fecha de Nacimiento</label>
+                    <br />
+                    <KeyboardDatePicker
+                      className="fecha"
+                      allowKeyboardControl={true}
+                      id="birthdate"
+                      format="yyyy-MM-dd"
+                      value={form ? form.birthdate : new Date()}
+                      onChange={this.handleDateChange}
+                      animateYearScrolling={true}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <label className="articulo mt-3">Fecha de Nacimiento</label>
+                    <br />
+                    <KeyboardDatePicker
+                      className="fecha"
+                      allowKeyboardControl={true}
+                      id="birthdate"
+                      format="yyyy-MM-dd"
+                      disabled
+                      value={form ? form.birthdate : new Date()}
+                      onChange={this.handleDateChange}
+                      animateYearScrolling={true}
+                    />
+                  </>
+                )}
+              </MuiPickersUtilsProvider>
               <br />
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <label htmlFor="entity_birth">Estado*:</label>
+                  <br />
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    name="entity_birth"
+                    id="entity_birth"
+                    onChange={this.changeEstado}
+                    value={form ? form.entity_birth : "1"}
+                  >
+                    {this.state.estados.map((elemento) => (
+                      <option key={elemento.num} value={elemento.num}>
+                        {elemento.name}
+                      </option>
+                    ))}
+                  </select>
+                  <br />
+                </>
+              ) : (
+                <>
+                  <label htmlFor="entity_birth">Estado*:</label>
+                  <br />
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    name="entity_birth"
+                    id="entity_birth"
+                    disabled
+                    onChange={this.changeEstado}
+                    value={form ? form.entity_birth : "1"}
+                  >
+                    {this.state.estados.map((elemento) => (
+                      <option key={elemento.num} value={elemento.num}>
+                        {elemento.name}
+                      </option>
+                    ))}
+                  </select>
+                  <br />
+                </>
+              )}
+
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <label htmlFor="name">CURP*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    maxlength="150"
+                    placeholder="CURP"
+                    onChange={this.handleChangeInputCURP}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              ) : (
+                <>
+                  <label htmlFor="name">CURP*:</label>
+                  <input
+                    className="form-control"
+                    disabled
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    maxlength="150"
+                    placeholder="CURP"
+                    onChange={this.handleChangeInputCURP}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              )}
+
               <label htmlFor="phone">Teléfono*:</label>
               <input
                 className="form-control"
@@ -599,6 +903,7 @@ class TablaE extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
+
               {this.state.tipoModal === "insertar" ? (
                 <>
                   <label htmlFor="email">Email*:</label>
@@ -640,125 +945,154 @@ class TablaE extends Component {
                 accept="image/png, image/jpeg, image/jpg, image/ico"
                 onChange={this.handleChangeInputImage}
               />
-              <label htmlFor="gender">Género*:</label>
-              <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="M"
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={form ? (form.gender === "M" ? true : false) : true}
-                  />{" "}
-                  M
-                </label>
-                <label class="btn botonesForm m-1 ">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="F"
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={form ? (form.gender === "F" ? true : false) : true}
-                  />{" "}
-                  F
-                </label>
-              </div>
-              <br />
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <label htmlFor="gender">Género*:</label>
+                  <br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="H"
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "H" ? true : false) : true
+                        }
+                      />{" "}
+                      H
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="M"
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "M" ? true : false) : true
+                        }
+                      />{" "}
+                      M
+                    </label>
+                  </div>
+                  <br />
+                </>
+              ) : (
+                <>
+                  <label htmlFor="gender">Género*:</label>
+                  <br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="H"
+                        autocomplete="off"
+                        disabled
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "H" ? true : false) : true
+                        }
+                      />{" "}
+                      H
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="M"
+                        disabled
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "M" ? true : false) : true
+                        }
+                      />{" "}
+                      M
+                    </label>
+                  </div>
+                  <br />
+                </>
+              )}
 
               {this.state.tipoModal === "insertar" ? (
                 <>
-                   <label htmlFor="role">Rol*: </label>
-              <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="2"
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 2
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Empleado
-                </label>
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="3"
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 3
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Instructor
-                </label>
-              </div>
+                  <label htmlFor="role">Rol*: </label>
+                  <br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="2"
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? false
+                            : form.role == 2
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Empleado
+                    </label>
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="3"
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                        checked={
+                          (this.state.tipoModal === "insertar" &&
+                            form == null) ||
+                          form.role === undefined
+                            ? false
+                            : form.role == 3
+                            ? true
+                            : false
+                        }
+                      />{" "}
+                      Instructor
+                    </label>
+                  </div>
                 </>
               ) : (
                 <>
                   <label htmlFor="role">Rol*: </label>
-              <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="2"
-                    disabled
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? true
-                        : form.role == 2
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Empleado
-                </label>
-                <label class="btn botonesForm m-1 ">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="3"
-                    disabled
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                      (this.state.tipoModal === "insertar" && form == null) ||
-                      form.role === undefined
-                        ? false
-                        : form.role == 3
-                        ? true
-                        : false
-                    }
-                  />{" "}
-                  Instructor
-                </label>
-              </div>
+                  <br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="2"
+                        disabled
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                      />{" "}
+                      Empleado
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="3"
+                        disabled
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                      />{" "}
+                      Instructor
+                    </label>
+                  </div>
                 </>
               )}
-              
-             
+
               <br />
             </div>
           </ModalBody>
