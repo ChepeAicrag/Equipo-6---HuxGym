@@ -648,7 +648,7 @@ class TablaP extends Component {
         timer: "5000",
       });  
     }
-};
+ };
 
   render() {
     const { form } = this.state;
