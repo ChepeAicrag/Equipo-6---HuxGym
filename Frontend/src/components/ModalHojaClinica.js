@@ -79,7 +79,7 @@ class ModalHojaClinica extends Component {
     modalAgregar3: false,
     tipoModal: "Agregar",
     form: {
-      customer_id: this.props.id_cliente,
+      customer_id: this.props.id_cliente+1,
       birthdate: this.props.nacimiento_cliente,
       date: "",
       age: "0",
@@ -712,6 +712,7 @@ class ModalHojaClinica extends Component {
   };
 
   peticionPost = async () => {
+    console.log("entre a post de modal hoja clinica")
     try {
       const form1 = this.state.form;
       const form2 = this.state.formcorps;
@@ -744,6 +745,7 @@ class ModalHojaClinica extends Component {
             hour_dinner: form1.hour_dinner,
             schedule: "Planeación",
           });
+          console.log(res_form1)
 
           if (res_form1.status === 200 || res_form1.status === 201) {
             const nutritionalSituation_id = res_form1.data.id;
@@ -756,7 +758,7 @@ class ModalHojaClinica extends Component {
               customer_id: form1.customer_id,
               nutritionalSituation_id,
             });
-
+            console.log(res_form1)
             if (res_hc.status === 200 || res_hc.status === 201) {
               const historyClinic_id = res_hc.data.id;
               const typeExtraInformation = this.state.list;
@@ -769,7 +771,7 @@ class ModalHojaClinica extends Component {
                   historyClinic_id,
                 });
               });
-
+              
               // Registro a la hoja clínica la información de atributos del cuerpo
               const pet_ab_1 = await this.peticionAtributoCuerpo(
                 { id: 1, value: form2.uno },

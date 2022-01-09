@@ -34,6 +34,10 @@ function obtnerDate(date) {
   let year = fecha.getFullYear();
   let mounth = fecha.getUTCMonth() + 1;
   let day = fecha.getDate();
+  if (mounth < 10) {
+    mounth = "0" + mounth;
+  }
+  console.log(mounth + "aqui es");
   return year + "-" + mounth + "-" + day;
 }
 class Tabla extends Component {
@@ -655,7 +659,7 @@ class Tabla extends Component {
               {this.state.data && this.state.data.map((clientes) => {
                 return (
                   <tr className="cuerpoT">
-                    <td>{clientes.folio}</td>
+                    <td>{clientes.id}</td>
                     <td>{clientes.name}</td>
                     <td>{clientes.dateJoined}</td>
                     <td>{clientes.gender}</td>
@@ -873,7 +877,7 @@ class Tabla extends Component {
                     autocomplete="off"
                     onChange={this.handleChange}
                     checked={
-                      form ? (form.gender === "M" ? true : false) : true
+                      form ? (form.gender === "H" ? true : false) : true
                       // (this.state.tipoModal == "insertar" && form == null) ||
                       // form.gender === undefined
                       //   ? true
@@ -892,7 +896,7 @@ class Tabla extends Component {
                     autocomplete="on"
                     onChange={this.handleChange}
                     checked={
-                      form ? (form.gender === "F" ? true : false) : true
+                      form ? (form.gender === "M" ? true : false) : true
                       // (this.state.tipoModal === "insertar" && form == null) ||
                       // form.gender === undefined
                       //   ? false
