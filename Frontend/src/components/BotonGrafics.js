@@ -31,11 +31,11 @@ export default function BotonGrafics(){
                         Compras
                     </NavLink> 
                 </li>
-                <li class="nav-item espaciado">
+                {/* <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/GraficsCliente" activeClass="btn contenedor active">
                         Cliente
                     </NavLink> 
-                </li>
+                </li> */}
                 <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/GraficsEmpleado" activeClass="btn contenedor active">
                         Empleado
