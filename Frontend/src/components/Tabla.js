@@ -61,7 +61,7 @@ class Tabla extends Component {
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
-      folio:"",
+      folio: "",
       name: "",
       paternal_surname: "",
       mothers_maiden_name: "",
@@ -107,14 +107,13 @@ class Tabla extends Component {
       });
   };
 
-  
   peticionGet = async () => {
     console.log("entre a petition get");
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
     try {
       const res = await axios.get(url);
       if (res.status === 200 || res.status === 201) {
-        console.log("peticion enter")
+        console.log("peticion enter");
         this.setState({
           /* Con esto accedemos a las variables de state y modificamos */
 
@@ -123,17 +122,15 @@ class Tabla extends Component {
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
       }
     } catch (error) {
-      console.log("hay un error en la peticion XD")
-      try { 
+      console.log("hay un error en la peticion XD");
+      try {
         const msj = JSON.parse(error.request.response).message;
         if (msj === "Credenciales invalidas") {
-              this.Expulsado();
+          this.Expulsado();
         }
         console.log(msj);
-          
-        
-      }catch(error2){
-          console.log(error2)
+      } catch (error2) {
+        console.log(error2);
       }
     }
 
@@ -183,15 +180,13 @@ class Tabla extends Component {
     return { error: false };
   };
 
-  
   crearFecha = (data) => {
-    let dia= data.split("-")[2];
-    let mes=data.split("-")[1]-1;
-    let anio=data.split("-")[0];
-    let fecha =new Date(anio,mes,dia,0,0,0);
-    console.log("Fechaaa "+dia+"-"+mes+"-"+anio)
+    let dia = data.split("-")[2];
+    let mes = data.split("-")[1] - 1;
+    let anio = data.split("-")[0];
+    let fecha = new Date(anio, mes, dia, 0, 0, 0);
+    console.log("Fechaaa " + dia + "-" + mes + "-" + anio);
     return fecha;
-
   };
 
   getIdUltimo = (data) => {
@@ -218,17 +213,22 @@ class Tabla extends Component {
         /* console.log(form.image)
         console.log(isEmpty(this.state.form.image)) */
         if (typeof form.image !== "string" && !isEmpty(this.state.form.image))
-        
-      formData.append("image", this.state.form.image);
-      formData.append("name", this.state.form.name.toUpperCase());
-      formData.append("curp", this.state.form.curp.toUpperCase());
-      formData.append("paternal_surname", this.state.form.paternal_surname.toUpperCase());
-      formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase());
-      formData.append("gender", this.state.form.gender.toUpperCase());
-      formData.append("isStudiant", this.state.form.isStudiant);
-      formData.append("birthdate", obtnerDate(this.state.form.birthdate));
-      formData.append("phone", this.state.form.phone);
-      formData.append("entity_birth", this.state.form.entity_birth);
+          formData.append("image", this.state.form.image);
+        formData.append("name", this.state.form.name.toUpperCase());
+        formData.append("curp", this.state.form.curp.toUpperCase());
+        formData.append(
+          "paternal_surname",
+          this.state.form.paternal_surname.toUpperCase()
+        );
+        formData.append(
+          "mothers_maiden_name",
+          this.state.form.mothers_maiden_name.toUpperCase()
+        );
+        formData.append("gender", this.state.form.gender.toUpperCase());
+        formData.append("isStudiant", this.state.form.isStudiant);
+        formData.append("birthdate", obtnerDate(this.state.form.birthdate));
+        formData.append("phone", this.state.form.phone);
+        formData.append("entity_birth", this.state.form.entity_birth);
         const res =
           await axios /* a post de parametros le pasamos la url y los datos */
             .post(url, formData);
@@ -287,12 +287,18 @@ class Tabla extends Component {
         typeof this.state.form.image !== "string" &&
         !isEmpty(this.state.form.image)
       )
-      formData.append("image", this.state.form.image);
+        formData.append("image", this.state.form.image);
       formData.append("name", this.state.form.name.toUpperCase());
       formData.append("folio", this.state.form.folio);
       formData.append("curp", this.state.form.curp.toUpperCase());
-      formData.append("paternal_surname", this.state.form.paternal_surname.toUpperCase());
-      formData.append("mothers_maiden_name", this.state.form.mothers_maiden_name.toUpperCase());
+      formData.append(
+        "paternal_surname",
+        this.state.form.paternal_surname.toUpperCase()
+      );
+      formData.append(
+        "mothers_maiden_name",
+        this.state.form.mothers_maiden_name.toUpperCase()
+      );
       formData.append("gender", this.state.form.gender.toUpperCase());
       formData.append("isStudiant", this.state.form.isStudiant);
       formData.append("birthdate", obtnerDate(this.state.form.birthdate));
@@ -319,7 +325,7 @@ class Tabla extends Component {
         if (res.status === 200 || res.status === 201) {
           this.modalInsertar(); /* Cambiamos el estado de modalInsertar y solicitamos de nuevo los datos */
           this.peticionGet();
-          console.log(res)
+          console.log(res);
           swal({
             text: "Cliente actualizado con éxito",
             icon: "success",
@@ -329,8 +335,7 @@ class Tabla extends Component {
         }
       }
     } catch (error) {
-      try{
-
+      try {
         var msj = JSON.parse(error.request.response).message;
         console.log(msj);
         if (isEmpty(msj)) {
@@ -347,11 +352,9 @@ class Tabla extends Component {
           button: "Aceptar",
           timer: "5000",
         });
-
-      }catch(erro2){
+      } catch (erro2) {
         console.log(erro2);
       }
-      
     }
   };
 
@@ -390,9 +393,6 @@ class Tabla extends Component {
     this.perticionState();
   }
 
-
-  
-
   Expulsado = () => {
     swal({
       text: "Credenciales Invalidas, Adiosito",
@@ -419,11 +419,11 @@ class Tabla extends Component {
       form: {
         id: clientes.id,
         name: clientes.name,
-        paternal_surname:clientes.paternal_surname,
-        mothers_maiden_name:clientes.mothers_maiden_name,
-        curp:clientes.curp,
-        birthdate:this.crearFecha(clientes.birthdate),
-        entity_birth:clientes.entity_birth,
+        paternal_surname: clientes.paternal_surname,
+        mothers_maiden_name: clientes.mothers_maiden_name,
+        curp: clientes.curp,
+        birthdate: this.crearFecha(clientes.birthdate),
+        entity_birth: clientes.entity_birth,
         gender: clientes.gender,
         phone: clientes.phone,
         isStudiant: student,
@@ -519,7 +519,7 @@ class Tabla extends Component {
     } */
   };
 
-  changeEstado= (e) => {
+  changeEstado = (e) => {
     const { name, value } = e.target;
     this.setState({
       form: {
@@ -527,8 +527,7 @@ class Tabla extends Component {
         [name]: value,
       },
     });
-
-  }
+  };
 
   handleChangeInputNumber = (e) => {
     const { name, value } = e.target;
@@ -561,7 +560,6 @@ class Tabla extends Component {
     });
   };
 
-
   handleChangeInputImage = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
@@ -589,7 +587,7 @@ class Tabla extends Component {
         });
       }
   };
-  
+
   handleChangeMembresia = (event) => {
     this.setState({
       membresia: event.target.value,
@@ -656,64 +654,71 @@ class Tabla extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data && this.state.data.map((clientes) => {
-                return (
-                  <tr className="cuerpoT">
-                    <td>{clientes.id}</td>
-                    <td>{clientes.name}</td>
-                    <td>{clientes.dateJoined}</td>
-                    <td>{clientes.gender}</td>
-                    <td>{clientes.phone}</td>
-                    <td>{clientes.isStudiant ? "Si" : "No"}</td>
-                    <td>
-                      <img
-                        src={`https://www.huxgym.codes/${clientes.image}`}
-                        width="180"
-                        height="150"
-                        align="center"
-                      />
-                    </td>
-                    <td>
-                      {/* <BtnMembresia></BtnMembresia> */}
-                      {clientes.membershipActivate ? "Activada" : "No Activada"}
-                    </td>
+              {this.state.data &&
+                this.state.data.map((clientes) => {
+                  return (
+                    <tr className="cuerpoT">
+                      <td>{clientes.id}</td>
+                      <td>{clientes.name}</td>
+                      <td>{clientes.dateJoined}</td>
+                      <td>{clientes.gender}</td>
+                      <td>{clientes.phone}</td>
+                      <td>{clientes.isStudiant ? "Si" : "No"}</td>
+                      <td>
+                        <img
+                          src={`https://www.huxgym.codes/${clientes.image}`}
+                          width="180"
+                          height="150"
+                          align="center"
+                        />
+                      </td>
+                      <td>
+                        {/* <BtnMembresia></BtnMembresia> */}
+                        {clientes.membershipActivate
+                          ? "Activada"
+                          : "No Activada"}
+                      </td>
 
-                    <td className="">
-                      <button
-                        className="btn btn-editar"
-                        onClick={() => {
-                          this.seleccionarUsuario(clientes);
-                          this.modalInsertar();
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      {"  "}
-                      {localStorage.getItem("rol") == "Administrador" ? (
+                      <td className="">
                         <button
-                          className="btn btn-danger mt-2"
+                          className="btn btn-editar"
                           onClick={() => {
                             this.seleccionarUsuario(clientes);
-                            this.setState({ modalEliminar: true });
+                            this.modalInsertar();
                           }}
                         >
-                          <FontAwesomeIcon icon={faTrashAlt} />
+                          <FontAwesomeIcon icon={faEdit} />
                         </button>
-                      ) : (
-                        <></>
-                      )}
-                    </td>
-                    <td>
-                      <BtnModalHoja id_cliente={clientes.id} nacimiento_cliente={clientes.birthdate} /> <br />
-                      <ModalHojas
-                        id_cliente={clientes.id}
-                        name_cliente={clientes.name}
-                        nacimiento_cliente={clientes.birthdate}
-                      />{" "}
-                    </td>
-                  </tr>
-                );
-              })}
+                        {"  "}
+                        {localStorage.getItem("rol") == "Administrador" ? (
+                          <button
+                            className="btn btn-danger mt-2"
+                            onClick={() => {
+                              this.seleccionarUsuario(clientes);
+                              this.setState({ modalEliminar: true });
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </button>
+                        ) : (
+                          <></>
+                        )}
+                      </td>
+                      <td>
+                        <BtnModalHoja
+                          id_cliente={clientes.id}
+                          nacimiento_cliente={clientes.birthdate}
+                        />{" "}
+                        <br />
+                        <ModalHojas
+                          id_cliente={clientes.id}
+                          name_cliente={clientes.name}
+                          nacimiento_cliente={clientes.birthdate}
+                        />{" "}
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -735,73 +740,190 @@ class Tabla extends Component {
           <ModalBody>
             <div className="form-group">
               <label htmlFor="name">Nombre completo*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Nombre del cliente"
-                onChange={this.handleChangeInput}
-                value={form ? form.name : ""}
-              />
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Nombre del cliente"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.name : ""}
+                  />
+                </>
+              ) : (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    disabled
+                    placeholder="Nombre del cliente"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.name : ""}
+                  />
+                </>
+              )}
+
               <br />
               <label htmlFor="name">Apellido Paterno*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="paternal_surname"
-                id="paternal_surname"
-                placeholder="Apellido Paterno"
-                onChange={this.handleChangeInput}
-                value={form ? form.paternal_surname : ""}
-              />
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="paternal_surname"
+                    id="paternal_surname"
+                    placeholder="Apellido Paterno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.paternal_surname : ""}
+                  />
+                </>
+              ) : (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="paternal_surname"
+                    id="paternal_surname"
+                    disabled
+                    placeholder="Apellido Paterno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.paternal_surname : ""}
+                  />
+                </>
+              )}
+
               <br />
               <br />
               <label htmlFor="name">Apellido Materno*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="mothers_maiden_name"
-                id="mothers_maiden_name"
-                placeholder="Apellido Materno"
-                onChange={this.handleChangeInput}
-                value={form ? form.mothers_maiden_name : ""}
-              />
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="mothers_maiden_name"
+                    id="mothers_maiden_name"
+                    placeholder="Apellido Materno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.mothers_maiden_name : ""}
+                  />
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="mothers_maiden_name"
+                    id="mothers_maiden_name"
+                    placeholder="Apellido Materno"
+                    disabled
+                    onChange={this.handleChangeInput}
+                    value={form ? form.mothers_maiden_name : ""}
+                  />
+                </>
+              )}
+
               <label htmlFor="name">CURP*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="curp"
-                id="curp"
-                placeholder="CURP"
-                onChange={this.handleChangeCurp}
-                value={form ? form.curp : ""}
-              />
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              ) : (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    disabled
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              )}
+
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <label className="articulo mt-3">Fecha de Nacimiento</label>
                 <br />
-                <KeyboardDatePicker
-                  className="fecha"
-                  allowKeyboardControl={true}
-                  id="birthdate"
-                  format="yyyy-MM-dd"
-                  value={form ? form.birthdate : new Date()}
-                  onChange={this.handleDateChange}
-                  animateYearScrolling={true}
-                />
+                {this.state.tipoModal === "insertar" ? (
+                  <>
+                    <KeyboardDatePicker
+                      className="fecha"
+                      allowKeyboardControl={true}
+                      id="birthdate"
+                      format="yyyy-MM-dd"
+                      value={form ? form.birthdate : new Date()}
+                      onChange={this.handleDateChange}
+                      animateYearScrolling={true}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <KeyboardDatePicker
+                      className="fecha"
+                      allowKeyboardControl={true}
+                      id="birthdate"
+                      format="yyyy-MM-dd"
+                      disabled
+                      value={form ? form.birthdate : new Date()}
+                      onChange={this.handleDateChange}
+                      animateYearScrolling={true}
+                    />
+                  </>
+                )}
               </MuiPickersUtilsProvider>
               <br />
               <label htmlFor="name">Estado*:</label>
               <br />
-              <select name="entity_birth" id="entity_birth" className="form-select" onChange={this.changeEstado} value={form ? form.entity_birth: "1"} aria-label="Default select example">
-                {this.state.estados.map(elemento=>(
-                  <option key={elemento.num} value={elemento.num}>{elemento.name}</option>
-                )
-                  
-                  
-                )}
-                
-              </select>
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <select
+                    name="entity_birth"
+                    id="entity_birth"
+                    className="form-select"
+                    onChange={this.changeEstado}
+                    value={form ? form.entity_birth : "1"}
+                    aria-label="Default select example"
+                  >
+                    {this.state.estados.map((elemento) => (
+                      <option key={elemento.num} value={elemento.num}>
+                        {elemento.name}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ) : (
+                <>
+                  <select
+                    name="entity_birth"
+                    id="entity_birth"
+                    className="form-select"
+                    disabled
+                    onChange={this.changeEstado}
+                    value={form ? form.entity_birth : "1"}
+                    aria-label="Default select example"
+                  >
+                    {this.state.estados.map((elemento) => (
+                      <option key={elemento.num} value={elemento.num}>
+                        {elemento.name}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
 
               {/* <label htmlFor="name">Fecha de Nacimiento*:</label>
               <br />
@@ -868,45 +990,93 @@ class Tabla extends Component {
 
               <label htmlFor="gender">Género*: </label>
               <br />
+
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="H"
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                      form ? (form.gender === "H" ? true : false) : true
-                      // (this.state.tipoModal == "insertar" && form == null) ||
-                      // form.gender === undefined
-                      //   ? true
-                      //   : form.gender === "M"
-                      //   ? true
-                      //   : false
-                    }
-                  />{" "}
-                  H
-                </label>
-                <label class="btn botonesForm m-1 ">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="M"
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                      form ? (form.gender === "M" ? true : false) : true
-                      // (this.state.tipoModal === "insertar" && form == null) ||
-                      // form.gender === undefined
-                      //   ? false
-                      //   : form.gender === "F"
-                      //   ? true
-                      //   : false
-                    }
-                  />{" "}
-                  M
-                </label>
+                {this.state.tipoModal === "insertar" ? (
+                  <>
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="H"
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "H" ? true : false) : true
+                          // (this.state.tipoModal == "insertar" && form == null) ||
+                          // form.gender === undefined
+                          //   ? true
+                          //   : form.gender === "M"
+                          //   ? true
+                          //   : false
+                        }
+                      />{" "}
+                      H
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="M"
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "M" ? true : false) : true
+                          // (this.state.tipoModal === "insertar" && form == null) ||
+                          // form.gender === undefined
+                          //   ? false
+                          //   : form.gender === "F"
+                          //   ? true
+                          //   : false
+                        }
+                      />{" "}
+                      M
+                    </label>
+                  </>
+                ) : (
+                  <>
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="H"
+                        autocomplete="off"
+                        disabled
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "H" ? true : false) : true
+                          // (this.state.tipoModal == "insertar" && form == null) ||
+                          // form.gender === undefined
+                          //   ? true
+                          //   : form.gender === "M"
+                          //   ? true
+                          //   : false
+                        }
+                      />{" "}
+                      H
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="M"
+                        autocomplete="on"
+                        disabled
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "M" ? true : false) : true
+                          // (this.state.tipoModal === "insertar" && form == null) ||
+                          // form.gender === undefined
+                          //   ? false
+                          //   : form.gender === "F"
+                          //   ? true
+                          //   : false
+                        }
+                      />{" "}
+                      M
+                    </label>
+                  </>
+                )}
               </div>
               <br />
 
