@@ -56,11 +56,15 @@ class GraficaTotal extends Component{
                 </div>
             </div><br />
             <div className="SelectorWrapperAsistencia">
-                <label className="Texto">Seleccionar Empleado:</label>
+                <label className="Texto">Orden:</label>
                 <div className="SelectorP">
                     <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
                 </div>
-                <div class="esp2"></div>
+                <label className="Texto">Fecha inicial</label>
+                <div className="Selector">
+                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
+                </div>
+                <label className="Texto">Fecha Final</label>
                 <div className="Selector">
                     <select className="fechas" class="form-select" onChange={this.handleChange}/> 
                 </div>

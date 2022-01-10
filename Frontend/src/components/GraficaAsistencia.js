@@ -8,6 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonGrafics from "../components/BotonGrafics";
+import ToggleButton from 'react-toggle-button';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import {Bar} from 'react-chartjs-2'
@@ -20,6 +21,7 @@ import {
   } from "@material-ui/pickers";
 
 import { isEmpty } from "../helpers/methods";
+import { toggleButtonClasses } from "@mui/material";
 
 class GraficaTotal extends Component{
     
@@ -57,18 +59,17 @@ class GraficaTotal extends Component{
                 </div>
             </div><br />
             <div className="SelectorWrapperAsistencia">
-                <label className="Texto">Tipo de persona</label>
+                <label className="Texto">Filtro</label>
                 <div className="SelectorP">
                     <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
                 </div>
-                <label className="Texto">Genero</label>
-                <div className="SelectorP">
+                <label className="Texto">Estudante</label>
+                <ToggleButton inactiveLabel={"OFF"} activeLabel={"ON"} value={this.state.value} onToggle={(value) => {this.setState({value: !value,})}} />
+                <label className="Texto">Fecha inicial</label>
+                <div className="Selector">
                     <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
                 </div>
-                <label className="Texto">Edad</label>
-                <div className="SelectorEdad">
-                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
-                </div>
+                <label className="Texto">Fecha Final</label>
                 <div className="Selector">
                     <select className="fechas" class="form-select" onChange={this.handleChange}/> 
                 </div>
