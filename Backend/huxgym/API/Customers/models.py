@@ -164,7 +164,7 @@ class TypeExtraInformation_HistoryClinic(models.Model):
     value = models.BooleanField(default=False)
     status_delete = models.BooleanField(default=False)
 
-    folio = models.CharField(max_length=50, blank=False, null=False, unique=True)
+    folio = models.CharField(max_length=50, blank=False, null=False)
 
     def __str__(self):
         return "Historial clínico de: " + str(self.historyClinic_id.customer_id.name) + " - " + self.typeExtraInformation_id.name
