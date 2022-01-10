@@ -659,7 +659,7 @@ class Tabla extends Component {
               {this.state.data && this.state.data.map((clientes) => {
                 return (
                   <tr className="cuerpoT">
-                    <td>{clientes.id}</td>
+                    <td>{clientes.folio}</td>
                     <td>{clientes.name}</td>
                     <td>{clientes.dateJoined}</td>
                     <td>{clientes.gender}</td>

@@ -923,8 +923,9 @@ validatePeso = (event) => {
                             <button
                               className="btn btn-primary"
                               onClick={() => {
+                                
                                 this.state.form.id = hojas.id;
-                                console.log(hojas.id);
+                                console.log("id "+hojas.id);
                                 this.seleccionarUsuario(hojas);
                                 this.peticionGete();
                                 this.peticionAtributosCuerpo();
