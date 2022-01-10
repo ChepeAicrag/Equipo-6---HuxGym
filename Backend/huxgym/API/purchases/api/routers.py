@@ -5,7 +5,7 @@ from API.purchases.api.api import PurchaseViewSet, Purchase_Details_ProductViewS
 
 router = DefaultRouter()
 
-router.register(r'purchse',PurchaseViewSet)
-router.register(r'purchaseProduct',Purchase_Details_ProductViewSet)
+router.register(r'purchseDoc',PurchaseViewSet)
+router.register(r'purchaseProductDoc',Purchase_Details_ProductViewSet)
 
 urlpatterns = router.urls 
