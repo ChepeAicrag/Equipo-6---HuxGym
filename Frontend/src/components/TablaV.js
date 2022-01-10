@@ -5,7 +5,7 @@ import swal from "sweetalert";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import InputAdornment from '@mui/material/InputAdornment';
+import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
 import "../styles/Crud.css";
@@ -18,7 +18,7 @@ const urlM = "https://www.huxgym.codes/memberships/memberships/";
 class TablaV extends Component {
   state = {
     busqueda: "",
-    dataBuscar:[],
+    dataBuscar: [],
     dataP: [],
     dataC: [],
     dataS: [],
@@ -264,16 +264,15 @@ class TablaV extends Component {
       console.log(res);
       this.setState({
         data: res.data,
-        dataBuscar:res.data,
+        dataBuscar: res.data,
       });
     } catch (error) {
-      try{
+      try {
         const msj = JSON.parse(error.request.response).message;
         console.log(msj);
-      }catch (Error2){
+      } catch (Error2) {
         console.log(Error2);
       }
-      
     }
   };
 
@@ -370,9 +369,9 @@ class TablaV extends Component {
       const msj = JSON.parse(error.request.response).message;
       console.log(msj);
       // if(msj === "El cliente ya tiene una membresía activa"){
-        this.limpiarTablaS()
-        this.modalInsertar()
-        this.modalInsertar()
+      this.limpiarTablaS();
+      this.modalInsertar();
+      this.modalInsertar();
       // }
       swal({
         text: Array.isArray(msj) ? msj[0] : msj,
@@ -474,9 +473,9 @@ class TablaV extends Component {
       name_cliente: "",
       customer_id: "",
       form3: { customer_id: "", products: [], cash: 0, observation: "" },
-      form:  {
-        observation : ""
-      } 
+      form: {
+        observation: "",
+      },
     });
     this.state.dataS = [];
     this.state.cantidades = [];
@@ -640,20 +639,29 @@ class TablaV extends Component {
     this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        console.log()
-        if (item.sale.user.name.toUpperCase().includes(this.state.busqueda.toUpperCase())|
-            item.sale.id.toString().includes(this.state.busqueda.toUpperCase())|
-            item.sale.cash.toString().includes(this.state.busqueda.toUpperCase())|
-            item.sale.date.toString().includes(this.state.busqueda.toUpperCase())|
-            item.sale.customer.name.toString().toUpperCase().includes(this.state.busqueda.toUpperCase())|
-            item.sale.total.toString().includes(this.state.busqueda.toUpperCase())) {
-         
+        console.log();
+        if (
+          item.sale.user.name
+            .toUpperCase()
+            .includes(this.state.busqueda.toUpperCase()) |
+          item.sale.id.toString().includes(this.state.busqueda.toUpperCase()) |
+          item.sale.cash
+            .toString()
+            .includes(this.state.busqueda.toUpperCase()) |
+          item.sale.date
+            .toString()
+            .includes(this.state.busqueda.toUpperCase()) |
+          item.sale.customer.name
+            .toString()
+            .toUpperCase()
+            .includes(this.state.busqueda.toUpperCase()) |
+          item.sale.total.toString().includes(this.state.busqueda.toUpperCase())
+        ) {
           return item;
         }
       });
 
       this.setState({ data: search });
-      
     } else {
       this.setState({ data: this.state.dataBuscar });
     }
@@ -695,7 +703,7 @@ class TablaV extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "Solo se permiten letras y acentos",
         icon: "info",
@@ -717,7 +725,7 @@ class TablaV extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "No se permiten letras",
         icon: "info",
@@ -730,35 +738,32 @@ class TablaV extends Component {
   handleChangeInputNumberDecimal = (e) => {
     let val = e.target.value;
     const name = e.target.name;
-    if(val.toString().includes('-')){
+    if (val.toString().includes("-")) {
       swal({
         text: "No se permiten negativos",
         icon: "info",
         button: "Aceptar",
         timer: "5000",
       });
-    }else{
+    } else {
       val = val.replace(/([^0-9.]+)/, "");
       val = val.replace(/^(0|\.)/, "");
       const match = /(\d{0,7})[^.]*((?:\.\d{0,2})?)/g.exec(val);
       const value = match[1] + match[2];
       e.target.value = value;
       this.setState({
-          ...this.state,
-          [name]: value,
-        },
-      );
+        ...this.state,
+        [name]: value,
+      });
       if (val.length > 0) {
         e.target.value = Number(value).toFixed(2);
         this.setState({
-            ...this.state,
-            [name]: Number(value).toFixed(2),
-          },
-        );
+          ...this.state,
+          [name]: Number(value).toFixed(2),
+        });
       }
     }
   };
-
 
   // limpiarTablaS = () => {
   //   this.setState({
@@ -858,12 +863,11 @@ class TablaV extends Component {
               this.modalInsertar();
             }}
           >
-        
             Vender Producto
           </button>
 
           <div className="esp"></div>
-         
+
           <input
             type="text"
             className="textField"
@@ -875,11 +879,8 @@ class TablaV extends Component {
           />
 
           <button type="submit" className="add-on" onClick={() => {}}>
-            
-              <box-icon name="search-alt-2" color="#fff"></box-icon>
-           
+            <box-icon name="search-alt-2" color="#fff"></box-icon>
           </button>
-
         </div>
 
         <br />
@@ -900,48 +901,50 @@ class TablaV extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data ? this.state.data.map((ventas) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                return (
-                  <tr>
-                    <td>{ventas.sale.id}</td>
-                    <td>{ventas.sale.user.name}</td>
-                    <td>{"$ " +ventas.sale.total}</td>
-                    <td>{"$ " +ventas.sale.cash}</td>
-                    <td>{"$ " +(ventas.sale.cash - ventas.sale.total)}</td>
-                    <td>{ventas.sale.date}</td>
-                    <td>{ventas.sale.customer.name}</td>
+              {this.state.data ? (
+                this.state.data.map((ventas) => {
+                  /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                  return (
+                    <tr>
+                      <td>{ventas.sale.id}</td>
+                      <td>{ventas.sale.user.name}</td>
+                      <td>{"$ " + ventas.sale.total}</td>
+                      <td>{"$ " + ventas.sale.cash}</td>
+                      <td>{"$ " + (ventas.sale.cash - ventas.sale.total)}</td>
+                      <td>{ventas.sale.date}</td>
+                      <td>{ventas.sale.customer.name}</td>
 
-                    <td>
-                      <button
-                        className="btn btn-editar"
-                        onClick={() => {
-                          this.seleccionarUsuario(ventas);
-                          this.modalInsertar();
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      {"  "}
-                      {localStorage.getItem("rol") == "Administrador" ? (
+                      <td>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-editar"
                           onClick={() => {
                             this.seleccionarUsuario(ventas);
-                            this.setState({ modalEliminar: true });
+                            this.modalInsertar();
                           }}
                         >
-                          <FontAwesomeIcon icon={faTrashAlt} />
+                          <FontAwesomeIcon icon={faEdit} />
                         </button>
-                      ) : (
-                        <></>
-                      )}
-                    </td>
-                  </tr>
-                );
-              }
-              ):
-              <p>No se encontro datos</p>}
+                        {"  "}
+                        {localStorage.getItem("rol") == "Administrador" ? (
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                              this.seleccionarUsuario(ventas);
+                              this.setState({ modalEliminar: true });
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </button>
+                        ) : (
+                          <></>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <p>No se encontro datos</p>
+              )}
             </tbody>
           </table>
         </div>
@@ -973,9 +976,11 @@ class TablaV extends Component {
                     Seleccionar Cliente
                   </button>
                   <br />
-                  
+
                   <h5>
-                    {this.state.name_cliente!=""  ? this.state.name_cliente : "Aún no se selecciona cliente"}
+                    {this.state.name_cliente != ""
+                      ? this.state.name_cliente
+                      : "Aún no se selecciona cliente"}
                   </h5>
                   {this.state.modalMembresia ? (
                     this.state.cantidades.length == 0 ? (
@@ -1008,187 +1013,198 @@ class TablaV extends Component {
                   )}
                   <br />
                   <div className="form-groupT">
-              <div className="table-responsiveV20">
-                <table className="tab-pane table  ">
-                  <thead className="tablaHeader">
-                    <tr>
-                      {this.state.modalMembresia ? (
-                        <>
-                          {this.state.tipoModal === "insertar" ? (
-                            <>
-                              <th>Id</th>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                          <th>Nombre</th>
-                          <th>Precio</th>
+                    <div className="table-responsiveV20">
+                      <table className="tab-pane table  ">
+                        <thead className="tablaHeader">
+                          <tr>
+                            {this.state.modalMembresia ? (
+                              <>
+                                {this.state.tipoModal === "insertar" ? (
+                                  <>
+                                    <th>Id</th>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                                <th>Nombre</th>
+                                <th>Precio</th>
 
-                          {this.state.tipoModal === "insertar" ? (
-                            <th>Accion</th>
-                          ) : (
-                            <></>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {" "}
-                          {this.state.tipoModal === "insertar" ? (
-                            <>
-                              <th>Id</th>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                          <th>Nombre</th>
-                          <th>Precio</th>
-                          <th>Cantidad</th>
-                          <th>Total</th>
-                          {this.state.tipoModal === "insertar" ? (
-                            <th>Accion</th>
-                          ) : (
-                            <></>
-                          )}
-                        </>
-                      )}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.dataS && this.state.dataS.map((ProductoS) => {
-                      return (
-                        <tr>
-                          {this.state.tipoModal === "insertar" ? (
-                            <>
-                              <td>{ProductoS.id}</td>
-                            </>
-                          ) : (
-                            <></>
-                          )}
+                                {this.state.tipoModal === "insertar" ? (
+                                  <th>Accion</th>
+                                ) : (
+                                  <></>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {" "}
+                                {this.state.tipoModal === "insertar" ? (
+                                  <>
+                                    <th>Id</th>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                                {this.state.tipoModal === "insertar" ? (
+                                  <th>Accion</th>
+                                ) : (
+                                  <></>
+                                )}
+                              </>
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {this.state.dataS &&
+                            this.state.dataS.map((ProductoS) => {
+                              return (
+                                <tr>
+                                  {this.state.tipoModal === "insertar" ? (
+                                    <>
+                                      <td>{ProductoS.id}</td>
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
 
-                          <td>{ProductoS.name}</td>
+                                  <td>{ProductoS.name}</td>
 
-                          {this.state.modalMembresia ? (
-                            <>
-                              <td>{ProductoS.price}</td>
-                              <td>
-                                <Button
-                                  className="btn-danger"
-                                  onClick={() => {
-                                    this.eliminar(ProductoS);
-                                    this.eliminarCantidad(ProductoS);
-                                    this.total();
-                                    this.calcularCambio();
-                                  }}
-                                >
-                                  Eliminar
-                                </Button>
-                              </td>
-                            </>
-                          ) : (
-                            <>
-                              <td>{ProductoS.price_s}</td>
-                              {this.state.tipoModal == "actualizar" ? (
-                                <>
-                                  <td>
-                                    <input
-                                      className="form-control"
-                                      type="Number"
-                                      name="cantidad"
-                                      id="cantidad"
-                                      readOnly
-                                      value={ProductoS.cantidad}
-                                    />
-                                  </td>
-                                  <td>
-                                    <input
-                                      className="form-control"
-                                      type="Number"
-                                      min="0"
-                                      name="total"
-                                      id="total"
-                                      readOnly
-                                      value={ProductoS.total}
-                                    />
-                                  </td>
-                                </>
-                              ) : (
-                                <>
-                                  <td>
-                                    <input
-                                      className="form-control"
-                                      type="Number"
-                                      min="1"
-                                      name="cantidad"
-                                      id="cantidad"
-                                      onChange={async (e) => {
-                                        var v = e.target.value;
-                                        if (v == "") {
-                                          v = 1;
-                                        }
-                                        await this.setState({
-                                          form2: {
-                                            ...this.state.form2,
-                                            cantidad: v /* e.target.value */,
-                                            id: ProductoS.id,
-                                            precio: ProductoS.price_s,
-                                          },
-                                        });
-                                        await this.arregloCantidad(
-                                          this.state.form2
-                                        );
-                                        /* console.log(this.state.form2);
+                                  {this.state.modalMembresia ? (
+                                    <>
+                                      <td>{ProductoS.price}</td>
+                                      <td>
+                                        <Button
+                                          className="btn-danger"
+                                          onClick={() => {
+                                            this.eliminar(ProductoS);
+                                            this.eliminarCantidad(ProductoS);
+                                            this.total();
+                                            this.calcularCambio();
+                                          }}
+                                        >
+                                          Eliminar
+                                        </Button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <td>{ProductoS.price_s}</td>
+                                      {this.state.tipoModal == "actualizar" ? (
+                                        <>
+                                          <td>
+                                            <input
+                                              className="form-control"
+                                              type="Number"
+                                              name="cantidad"
+                                              id="cantidad"
+                                              readOnly
+                                              value={ProductoS.cantidad}
+                                            />
+                                          </td>
+                                          <td>
+                                            <input
+                                              className="form-control"
+                                              type="Number"
+                                              min="0"
+                                              name="total"
+                                              id="total"
+                                              readOnly
+                                              value={ProductoS.total}
+                                            />
+                                          </td>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <td>
+                                            <input
+                                              className="form-control"
+                                              type="Number"
+                                              min="1"
+                                              name="cantidad"
+                                              id="cantidad"
+                                              onChange={async (e) => {
+                                                var v = e.target.value;
+                                                if (v == "") {
+                                                  v = 1;
+                                                }
+                                                await this.setState({
+                                                  form2: {
+                                                    ...this.state.form2,
+                                                    cantidad:
+                                                      v /* e.target.value */,
+                                                    id: ProductoS.id,
+                                                    precio: ProductoS.price_s,
+                                                  },
+                                                });
+                                                await this.arregloCantidad(
+                                                  this.state.form2
+                                                );
+                                                /* console.log(this.state.form2);
                                 console.log(this.devolverCantidad(ProductoS)); */
-                                        console.log(this.state.cantidades);
-                                        this.total();
-                                        this.calcularCambio();
-                                      }}
-                                      value={
-                                        form2
-                                          ? this.devolverCantidad(ProductoS)
-                                          : this.devolverCantidad(ProductoS)
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <input
-                                      className="form-control"
-                                      type="Number"
-                                      min="0"
-                                      name="total"
-                                      id="total"
-                                      readOnly
-                                      /* onChange={} */
-                                      value={
-                                        this.devolverCantidad(ProductoS) *
-                                        ProductoS.price_s
-                                      }
-                                    />
-                                  </td>
+                                                console.log(
+                                                  this.state.cantidades
+                                                );
+                                                this.total();
+                                                this.calcularCambio();
+                                              }}
+                                              value={
+                                                form2
+                                                  ? this.devolverCantidad(
+                                                      ProductoS
+                                                    )
+                                                  : this.devolverCantidad(
+                                                      ProductoS
+                                                    )
+                                              }
+                                            />
+                                          </td>
+                                          <td>
+                                            <input
+                                              className="form-control"
+                                              type="Number"
+                                              min="0"
+                                              name="total"
+                                              id="total"
+                                              readOnly
+                                              /* onChange={} */
+                                              value={
+                                                this.devolverCantidad(
+                                                  ProductoS
+                                                ) * ProductoS.price_s
+                                              }
+                                            />
+                                          </td>
 
-                                  <td>
-                                    <Button
-                                      className="btn-danger"
-                                      onClick={() => {
-                                        this.eliminar(ProductoS);
-                                        this.eliminarCantidad(ProductoS);
-                                        this.total();
-                                        this.calcularCambio();
-                                      }}
-                                    >
-                                      Eliminar
-                                    </Button>
-                                  </td>
-                                </>
-                              )}
-                            </>
-                          )}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                                          <td>
+                                            <Button
+                                              className="btn-danger"
+                                              onClick={() => {
+                                                this.eliminar(ProductoS);
+                                                this.eliminarCantidad(
+                                                  ProductoS
+                                                );
+                                                this.total();
+                                                this.calcularCambio();
+                                              }}
+                                            >
+                                              Eliminar
+                                            </Button>
+                                          </td>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                   {/* <br />
                   <button
                     className="btn btn-success"
@@ -1218,9 +1234,13 @@ class TablaV extends Component {
                     value={form ? form.observation : ""}
                   />
                   <br />
-                  <label htmlFor="description" className="mt-3">Dinero en efectivo*:</label>
-                  <div  className="signo">
-                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                  <label htmlFor="description" className="mt-3">
+                    Dinero en efectivo*:
+                  </label>
+                  <div className="signo">
+                    <h4 className="mr-2" style={{ color: "white" }}>
+                      $
+                    </h4>
                     <TextField
                       type="number"
                       name="pago"
@@ -1229,11 +1249,11 @@ class TablaV extends Component {
                       id="pago"
                       onChange={this.handleChange3}
                       value={this.state.pago ? this.state.pago : 0}
-                      variant="outlined" 
+                      variant="outlined"
                     />
                   </div>
-                  <br/>
-                  
+                  <br />
+
                   <br />
                 </div>
               ) : (
@@ -1248,7 +1268,7 @@ class TablaV extends Component {
                     onChange={this.handleChange}
                     value={form ? form.id : ""}
                   /> */}
-                  
+
                   {/* <input
                     className="form-control"
                     type="text"
@@ -1260,10 +1280,14 @@ class TablaV extends Component {
                   /> */}
 
                   <h3>
-                  {this.state.name_cliente!="" ? this.state.name_cliente : "Aún no se selecciona cliente"}
+                    {this.state.name_cliente != ""
+                      ? this.state.name_cliente
+                      : "Aún no se selecciona cliente"}
                   </h3>
                   <br />
-                  <label htmlFor="price_c" className="mb-3">Observacion*:</label>
+                  <label htmlFor="price_c" className="mb-3">
+                    Observacion*:
+                  </label>
                   <input
                     className="form-control"
                     type="text"
@@ -1273,12 +1297,16 @@ class TablaV extends Component {
                     value={form ? form.observation : ""}
                   />
                   <br />
-                  
-                  <label htmlFor="description " className="mt-4">Dinero en efectivo:</label>
-                  <br/>
 
-                  <div  className="signo">
-                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
+                  <label htmlFor="description " className="mt-4">
+                    Dinero en efectivo:
+                  </label>
+                  <br />
+
+                  <div className="signo">
+                    <h4 className="mr-2" style={{ color: "white" }}>
+                      $
+                    </h4>
                     <TextField
                       type="number"
                       name="pago"
@@ -1289,7 +1317,6 @@ class TablaV extends Component {
                       onChange={this.handleChange3}
                       value={this.state.pago != 0 ? this.state.pago : ""}
                       variant="outlined"
-                      
                     />
                   </div>
                   <br />
@@ -1300,19 +1327,23 @@ class TablaV extends Component {
 
               <label htmlFor="price_s">Total de venta:</label>
               <h3>
-               <label>$ {this.state.total > 0 ? this.state.total : 0}</label>
+                <label>$ {this.state.total > 0 ? this.state.total : 0}</label>
               </h3>
               <br />
               <label htmlFor="image">Cambio:</label>
               <h3>
-              <label>$ {this.state.cambio > 0 ? Number(this.state.cambio).toFixed(2) : 0}</label>
+                <label>
+                  ${" "}
+                  {this.state.cambio > 0
+                    ? Number(this.state.cambio).toFixed(2)
+                    : 0}
+                </label>
               </h3>
               <br />
 
               <br />
             </div>
             {/* Tabla Productos Seleccionados */}
-            
           </ModalBody>
 
           <ModalFooter className="FooterVenta">
