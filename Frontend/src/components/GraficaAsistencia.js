@@ -61,7 +61,11 @@ class GraficaTotal extends Component{
             <div className="SelectorWrapperAsistencia">
                 <label className="Texto">Filtro</label>
                 <div className="SelectorP">
-                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
+                    <select className="Opciones" class="form-select" onChange={this.handleChange}> 
+                        <option selected>--Selecciona--</option>
+                        <option value="gender">Género</option>
+                        <option value="age">Edad</option>
+                    </select> 
                 </div>
                 <label className="Texto">Estudante</label>
                 <ToggleButton inactiveLabel={"OFF"} activeLabel={"ON"} value={this.state.value} onToggle={(value) => {this.setState({value: !value,})}} />

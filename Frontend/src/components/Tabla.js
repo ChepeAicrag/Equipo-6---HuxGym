@@ -922,17 +922,7 @@ class Tabla extends Component {
                 </>
               )}
 
-              {/* <label htmlFor="name">Fecha de Nacimiento*:</label>
-              <br />
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  value={value}
-                  onChange={(newValue) => {
-                    setValue(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider> */}
+             
               <br />
               <label htmlFor="phone">Teléfono*:</label>
               <input
@@ -948,30 +938,7 @@ class Tabla extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
-              {/* <label htmlFor="phone">Membresia*:</label>
-              <br />
-              <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-filled-label">Membresia</InputLabel>
-                <Select
-                  labelId="demo-simple-select-filled-label"
-                  id="demo-simple-select-filled"
-                  name="membresia"
-                  value={this.state.membresia}
-                  onChange={this.handleChangeMembresia}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"No activa"}>Sin membresia</MenuItem>
-                  {this.state.membresiasList.map((memebresia) => {
-                    return (
-                      <MenuItem value={" jj"}>{memebresia.name}</MenuItem>
-                      
-                    );})}
-                  
-                  
-                </Select>
-              </FormControl> */}
+              
               <br />
               <label htmlFor="image">Foto:</label>
               <input

@@ -3,7 +3,7 @@ import BarraLateral from "../components/BarraLateral";
 import HeadC from "../components/HeadC";
 import "../styles/Crud.css";
 import GraficaAsistencia from "../components/GraficaAsistencia";
-import "../styles/GraficaTotal.css";
+//import "../styles/GraficaTotal.css";
 
 function Grafics(){
     return(

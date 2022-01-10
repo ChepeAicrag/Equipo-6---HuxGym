@@ -15,6 +15,7 @@
     justify-content: end;
 }
 
+
 .SelectorWrapperAsistencia{
     display: flex;
     justify-content: space-between;
@@ -38,3 +39,10 @@
 .esp2{
     width: 50%;
 }
+
+
+.MuiIconButton-label > svg:nth-child(1) > path:nth-child(1) {
+    color: rgb(191, 196, 197) !important;
+   }
+   
+   

@@ -19,7 +19,7 @@
 }
 
 svg:not(:root) {
-    color: white;
+    color: #ffffff;
 }
 
 .MuiInput-underline::before {

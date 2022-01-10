@@ -24,6 +24,7 @@ const url_hc_tei =
   "https://www.huxgym.codes/customers/typeExtraInformation_HistoryClinic/";
 const url_hc_ba =
   "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
+
 const materialTheme = createMuiTheme({
   palette: {
     background: {

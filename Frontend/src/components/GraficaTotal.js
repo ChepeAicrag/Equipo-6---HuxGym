@@ -3,16 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Crud.css";
 import axios from "axios";
 import swal from "sweetalert";
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
 import BotonGrafics from "../components/BotonGrafics";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+
 import {Bar} from 'react-chartjs-2'
 import DateFnsUtils from "@date-io/date-fns";
-import "../styles/GraficaTotal.css";
+import  "../styles/GraficaTotal.css";
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
@@ -21,6 +18,27 @@ import {
 
 import { isEmpty } from "../helpers/methods";
 
+const materialTheme = createMuiTheme({
+    
+    palette: {
+        background: {
+            paper: '#EDEDED',
+            default: '#1b1a17',
+        },
+        text: {
+          default: '#072227',
+        },
+        textColor: '#000',
+        primary: {
+          main: '#000',
+        },
+        secondary: {
+            main: "#0000"
+          },
+    }
+
+  
+});
 class GraficaTotal extends Component{
     
     state = {
@@ -56,20 +74,52 @@ class GraficaTotal extends Component{
                 </div>
             </div><br />
             <div className="SelectorWrapperAsistencia">
-            <label className="Texto">Seleccionar orden:</label>
-                <div className="SelectorP">
-                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
-                </div>
-                <label className="Texto">Fecha inicial</label>
-                <div className="Selector">
-                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
-                </div>
-                <label className="Texto">Fecha Final</label>
-                <div className="Selector">
-                    <select className="fechas" class="form-select" onChange={this.handleChange}/> 
-                </div>
+            <label className="Texto mt-3">Seleccionar orden:</label>
+            <div className="SelectorP mt-3">
+                    <select className="Opciones" class="form-select" onChange={this.handleChange}>
+                        <option selected>--Selecciona--</option>
+                        <option value="asen">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select> 
+                    
             </div>
-            <div className="GraficaWrapper">
+                
+                <ThemeProvider theme={materialTheme}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <label className="Texto mt-3">Fecha inicial</label>
+                    <>
+                        <KeyboardDatePicker
+                        className="fecha"
+                        allowKeyboardControl={true}
+                        id="birthdate"
+                        format="yyyy-MM-dd"
+                        value={form ? form.birthdate : new Date()}
+                        onChange={this.handleDateChange}
+                        animateYearScrolling={true}
+                        />
+                    </>
+                </MuiPickersUtilsProvider>
+                </ThemeProvider>
+                
+               
+                <ThemeProvider theme={materialTheme}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <label className="Texto mt-3">Fecha Final</label>
+                    <>
+                        <KeyboardDatePicker
+                        className="fecha"
+                        allowKeyboardControl={true}
+                        id="birthdate"
+                        format="yyyy-MM-dd"
+                        value={form ? form.birthdate : new Date()}
+                        onChange={this.handleDateChange}
+                        animateYearScrolling={true}
+                        />
+                    </>
+                </MuiPickersUtilsProvider>
+                </ThemeProvider>
+            </div>
+            <div className="GraficaWrapper mt-2">
                 <div className="Grafica">
                     <Bar data={data} options={opciones}/>
                 </div>

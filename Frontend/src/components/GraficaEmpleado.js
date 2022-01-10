@@ -12,7 +12,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import {Bar} from 'react-chartjs-2'
 import DateFnsUtils from "@date-io/date-fns";
-import "../styles/GraficaTotal.css";
+//import "../styles/GraficaTotal.css";
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
@@ -58,7 +58,11 @@ class GraficaTotal extends Component{
             <div className="SelectorWrapperAsistencia">
                 <label className="Texto">Orden:</label>
                 <div className="SelectorP">
-                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
+                    <select className="Opciones" class="form-select" onChange={this.handleChange}>
+                        <option selected>--Selecciona--</option>
+                        <option value="asen">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select>
                 </div>
                 <label className="Texto">Fecha inicial</label>
                 <div className="Selector">
