@@ -9,14 +9,14 @@ from API.customers.api.api import CustomerViewSet, AttendanceViewSet,\
 
 router = DefaultRouter()
 
-router.register(r'customers', CustomerViewSet, )
-router.register(r'attendance', AttendanceViewSet, )
-router.register(r'nutritionalSituation', NutritionalSituationViewSet, )
-router.register(r'typeExtraInformation', TypeExtraInformationViewSet, )
-router.register(r'bodyAttribute', BodyAttributeViewSet, )
-router.register(r'historyClinic', HistoryClinicViewSet, )
-router.register(r'typeExtraInformation_HistoryClinic', TypeExtraInformation_HistoryClinicViewSet, )
-router.register(r'bodyAttribute_HistoryClinic', BodyAttribute_HistoryClinicViewSet, )
-router.register(r'Customer_Membership', Customer_MembershipViewSet, )
+router.register(r'customersDoc', CustomerViewSet, )
+router.register(r'attendanceDoc', AttendanceViewSet, )
+router.register(r'nutritionalSituationDoc', NutritionalSituationViewSet, )
+router.register(r'typeExtraInformationDoc', TypeExtraInformationViewSet, )
+router.register(r'bodyAttributeDoc', BodyAttributeViewSet, )
+router.register(r'historyClinicDoc', HistoryClinicViewSet, )
+router.register(r'typeExtraInformation_HistoryClinicDoc', TypeExtraInformation_HistoryClinicViewSet, )
+router.register(r'bodyAttribute_HistoryClinicDoc', BodyAttribute_HistoryClinicViewSet, )
+router.register(r'Customer_MembershipDoc', Customer_MembershipViewSet, )
 
 urlpatterns = router.urls

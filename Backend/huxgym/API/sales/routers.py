@@ -5,8 +5,8 @@ from API.sales.views import SaleViewSet, SaleDetailsProductViewSet, SaleDetailsM
 
 router = DefaultRouter()
 
-router.register(r'sale',SaleViewSet)
-router.register(r'saleDetailsProduct',SaleDetailsProductViewSet)
-router.register(r'saleDetailsMembershipProduct',SaleDetailsMembershipViewSet)
+router.register(r'saleDoc',SaleViewSet)
+router.register(r'saleDetailsProductDoc',SaleDetailsProductViewSet)
+router.register(r'saleDetailsMembershipProductDoc',SaleDetailsMembershipViewSet)
 
 urlpatterns = router.urls 

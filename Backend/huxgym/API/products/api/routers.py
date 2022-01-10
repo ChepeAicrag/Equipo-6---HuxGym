@@ -6,12 +6,12 @@ from API.products.api.api import ProductViewSet, CatergoryViewSet, StockViewSet,
 
 router = DefaultRouter()
 
-router.register(r'products',ProductViewSet)
-router.register(r'category',CatergoryViewSet)
-router.register(r'stock',StockViewSet)
-router.register(r'provider',ProviderViewSet)
-router.register(r'historyInventory',HistoryInventoryViewSet)
-router.register(r'operation',OperationViewSet)
-router.register(r'operationType',OperationTypeViewSet)
+router.register(r'productsDoc',ProductViewSet)
+router.register(r'categoryDoc',CatergoryViewSet)
+router.register(r'stockDoc',StockViewSet)
+router.register(r'providerDoc',ProviderViewSet)
+router.register(r'historyInventoryDoc',HistoryInventoryViewSet)
+router.register(r'operationDoc',OperationViewSet)
+router.register(r'operationTypeDoc',OperationTypeViewSet)
 
 urlpatterns = router.urls 

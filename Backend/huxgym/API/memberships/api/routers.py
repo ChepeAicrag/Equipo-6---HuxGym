@@ -4,6 +4,6 @@ from API.memberships.api.api import MembershipViewSet
 
 router = DefaultRouter()
 
-router.register(r'memberships', MembershipViewSet, )
+router.register(r'membershipsDoc', MembershipViewSet, )
 
 urlpatterns = router.urls 
