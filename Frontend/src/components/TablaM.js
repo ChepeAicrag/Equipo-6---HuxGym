@@ -26,6 +26,7 @@ class TablaM extends Component {
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
+      folio:"",
       name: "",
       price: "",
       description: "",
@@ -70,7 +71,7 @@ class TablaM extends Component {
     const price = form.price;
     const description = form.description;
     const day = form.day;
-
+    const folio=form.folio;
     if (isEmpty(name)) {
       return { error: true, msj: "El campo nombre no puede estar vacío" };
     }
@@ -145,6 +146,7 @@ class TablaM extends Component {
 
   peticionPut = async () => {
     /* con put enviamos informacion al endpoint para modificar*/
+    
     try {
       const validate = this.validar();
       if (validate.error) {
@@ -163,6 +165,7 @@ class TablaM extends Component {
             headers: {},
           }
         );
+        
         if (res.status === 200 || res.status === 201) {
           this.modalInsertar(); /* Cambiamos el estado de modalInsertar y solicitamos de nuevo los datos */
           this.peticionGet();
@@ -405,7 +408,7 @@ class TablaM extends Component {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
                   <tr>
-                    <td>{membresias.id}</td>
+                    <td>{membresias.folio}</td>
                     <td>{membresias.name}</td>
                     <td>{membresias.description}</td>
                     <td>{"$ " + membresias.price}</td>
