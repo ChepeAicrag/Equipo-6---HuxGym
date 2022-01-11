@@ -8,7 +8,7 @@ export default function BotonGrafics(){
             <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
                 <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/Grafics" activeClass="btn contenedor active">
-                        Gastos Totales
+                        Compra Productos 
                     </NavLink>
                 </li>
                 <li class="nav-item espaciado">

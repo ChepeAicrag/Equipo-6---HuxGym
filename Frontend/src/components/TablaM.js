@@ -30,6 +30,7 @@ class TablaM extends Component {
       price: "",
       description: "",
       day: 7,
+      folio:""
     },
   };
 
@@ -144,7 +145,7 @@ class TablaM extends Component {
   };
 
   peticionPut = async () => {
-    /* con put enviamos informacion al endpoint para modificar*/
+    console.log("ddddd")
     try {
       const validate = this.validar();
       if (validate.error) {
@@ -236,6 +237,7 @@ class TablaM extends Component {
         description: membresias.description,
         price: membresias.price,
         day: membresias.day,
+        folio:membresias.folio,
       },
     });
   };
@@ -392,7 +394,7 @@ class TablaM extends Component {
           <table className="tab-pane  table ">
             <thead className="tablaHeader">
               <tr className="encabezado">
-                <th>Id</th>
+                <th>Folio</th>
                 <th>Nombre del membresía</th>
                 <th>Descripción</th>
                 <th>Precio</th>
@@ -405,7 +407,7 @@ class TablaM extends Component {
                 /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                 return (
                   <tr>
-                    <td>{membresias.id}</td>
+                    <td>{membresias.folio}</td>
                     <td>{membresias.name}</td>
                     <td>{membresias.description}</td>
                     <td>{"$ " + membresias.price}</td>

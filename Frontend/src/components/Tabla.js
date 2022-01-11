@@ -214,9 +214,9 @@ class Tabla extends Component {
         console.log(isEmpty(this.state.form.image)) */
         if (typeof form.image !== "string" && !isEmpty(this.state.form.image))
           formData.append("image", this.state.form.image);
-        formData.append("name", this.state.form.name.toUpperCase());
-        formData.append("curp", this.state.form.curp.toUpperCase());
-        formData.append(
+          formData.append("name", this.state.form.name.toUpperCase());
+          formData.append("curp", this.state.form.curp.toUpperCase());
+          formData.append(
           "paternal_surname",
           this.state.form.paternal_surname.toUpperCase()
         );
@@ -437,7 +437,6 @@ class Tabla extends Component {
   buscador = async (e) => {
     await e.persist();
     this.setState({ busqueda: e.target.value });
-
     this.filtrarElementos();
   };
 

@@ -12,7 +12,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import {Bar} from 'react-chartjs-2'
 import DateFnsUtils from "@date-io/date-fns";
-//import "../styles/GraficaTotal.css";
+import "../styles/GraficaTotal.css";
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
