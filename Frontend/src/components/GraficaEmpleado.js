@@ -120,8 +120,11 @@ class GraficaTotal extends Component{
             });
             console.log(Object.values(this.state.data));
         })
-        .catch(function (error) {
-        console.log(error);
+        .catch( error=>{ 
+            this.setState({
+                data:[]
+            });
+            console.log(error);
         });
     };
 
