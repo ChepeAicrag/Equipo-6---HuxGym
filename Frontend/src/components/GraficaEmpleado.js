@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonGrafics from "../components/BotonGrafics";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {Bar} from 'react-chartjs-2'
 import DateFnsUtils from "@date-io/date-fns";
 //import "../styles/GraficaTotal.css";
@@ -20,20 +21,117 @@ import {
   } from "@material-ui/pickers";
 
 import { isEmpty } from "../helpers/methods";
+const url ="https://www.huxgym.codes/reports/employees/";
+const materialTheme = createMuiTheme({ 
+    palette: {
+        background: {
+            paper: '#EDEDED',
+            default: '#1b1a17',
+        },
+        text: {
+          default: '#072227',
+        },
+        textColor: '#000',
+        primary: {
+          main: '#000',
+        },
+        secondary: {
+            main: "#0000"
+          },
+    }
+});
 
+function obtenerTotales(data){
+    let nuevo=data.map(dato=>{
+        return(dato.total)
+    })
+    return nuevo;
+}
+
+function getDate(date) {
+    let fecha = new Date(date);
+    let year = fecha.getFullYear();
+    let mounth = fecha.getUTCMonth() + 1;
+    let day = fecha.getDate();
+    if (mounth < 10) {
+      mounth = "0" + mounth;
+    }
+    return year + "-" + mounth + "-" + day;
+}
+
+function getEmpleados(data){
+    let nuevo=data.map(dato=>{
+        return(dato)
+    })
+    return nuevo;
+}
 class GraficaTotal extends Component{
     
     state = {
-        selectedOption: null
+        fechaInicial:new Date(),
+        fechaFinal:new Date(),
+        order:"",
+        selectedOption: "",
+        data:[],
+        etiquetas:[],
     };
-    handleChange = selectedOption => {
-        this.setState({ selectedOption });
+
+    handleChange = async selectedOption => {
+        await this.setState({ selectedOption: selectedOption.target.value});
+        this.peticionGet();
+    };
+
+    handleFechaInicial = async(e) => {
+        await this.setState({
+          fechaInicial:e,
+        });
+        this.peticionGet();
+    };
+
+    handleFechaFinal = async (e) => {
+        await this.setState({
+            fechaFinal:e,
+        });
+        this.peticionGet();
+    };
+
+    peticionGet = async () => { 
+        var FormData = require('form-data');
+        var data = new FormData();
+        data.append('first_date', getDate(this.state.fechaInicial ));
+        data.append('last_date',getDate( this.state.fechaFinal));
+        data.append('order', this.state.selectedOption);
+        
+        var config = {
+        method: 'POST',
+        url: "https://www.huxgym.codes/reports/employees/",
+        headers: { 
+                /* Allow:"GET, OPTIONS", */
+        },
+        data : data
+        };
+        
+        axios(config)
+        .then( res=>{
+            console.log(res);
+            this.setState({
+                data:Object.values(res.data.total),
+                etiquetas:Object.keys(res.data.total),
+            });
+            console.log(Object.values(this.state.data));
+        })
+        .catch( error=>{ 
+            this.setState({
+                data:[]
+            });
+            console.log(error);
+        });
     };
 
     render(){
         const { form } = this.state;
         const data={
-            labels: ["Ejemplo1","Ejemplo2"],
+            labels: this.state.etiquetas,
             datasets:[{
                 label:"Totales",
                 backgroundColor: ['purple','brown','blue','rose','yellow'],
@@ -41,7 +139,7 @@ class GraficaTotal extends Component{
                 borderWidth: 1,
                 height:'100%',
                 with:'30%',
-                data: [1,2]
+                data:this.state.data
             }]
         };
         const opciones={
@@ -56,22 +154,55 @@ class GraficaTotal extends Component{
                 </div>
             </div><br />
             <div className="SelectorWrapperAsistencia">
-                <label className="Texto">Orden:</label>
-                <div className="SelectorP">
-                    <select className="Opciones" class="form-select" onChange={this.handleChange}>
+                <label className="Texto mt-3">Seleccionar orden:</label>
+                <div className="SelectorP mt-3">
+                    <select 
+                        name="selectedOption"
+                        className="Opciones form-select"  
+                        onChange={this.handleChange}
+                        value={this.state.selectedOption}
+                    >
                         <option selected>--Selecciona--</option>
                         <option value="asen">Ascendente</option>
                         <option value="desc">Descendente</option>
-                    </select>
+                    </select> 
                 </div>
-                <label className="Texto">Fecha inicial</label>
-                <div className="Selector">
-                    <select className="Opciones" class="form-select" onChange={this.handleChange}/> 
-                </div>
-                <label className="Texto">Fecha Final</label>
-                <div className="Selector">
-                    <select className="fechas" class="form-select" onChange={this.handleChange}/> 
-                </div>
+                <ThemeProvider theme={materialTheme}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <label className="Texto mt-3">Fecha inicial</label>
+                    <>
+                        <KeyboardDatePicker
+                        className="fecha"
+                        name="fechaInicial"
+                        allowKeyboardControl={true}
+                        id="fechaInicial"
+                        format="yyyy-MM-dd"
+                        value={ this.state.fechaInicial}
+                        onChange={this.handleFechaInicial}
+                        animateYearScrolling={true}
+                        />
+                    </>
+                </MuiPickersUtilsProvider>
+                </ThemeProvider>
+                
+               
+                <ThemeProvider theme={materialTheme}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <label className="Texto mt-3">Fecha Final</label>
+                    <>
+                        <KeyboardDatePicker
+                        className="fecha"
+                        allowKeyboardControl={true}
+                        id="fechaFinal"
+                        name="fechaFinal"
+                        format="yyyy-MM-dd"
+                        value={this.state.fechaFinal}
+                        onChange={this.handleFechaFinal}
+                        animateYearScrolling={true}
+                        />
+                    </>
+                </MuiPickersUtilsProvider>
+                </ThemeProvider>
             </div>
             <div className="GraficaWrapper">
                 <div className="Grafica">

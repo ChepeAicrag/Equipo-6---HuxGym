@@ -127,8 +127,11 @@ class GraficaTotal extends Component{
             });
         
         })
-        .catch(function (error) {
-        console.log(error);
+        .catch( error=>{ 
+            this.setState({
+                data:[]
+            });
+            console.log(error);
         });
     };
 
