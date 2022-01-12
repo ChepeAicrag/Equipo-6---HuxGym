@@ -26,6 +26,7 @@ class TablaC extends Component {
       id: "",
       name: "",
       description: "",
+      folio:"",
     },
   };
 
@@ -199,6 +200,7 @@ class TablaC extends Component {
         id: categorias.id,
         name: categorias.name,
         description: categorias.description,
+        folio:categorias.folio
       },
     });
   };

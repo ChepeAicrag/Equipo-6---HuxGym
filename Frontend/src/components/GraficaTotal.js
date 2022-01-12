@@ -100,21 +100,7 @@ class GraficaTotal extends Component{
         this.peticionGet();
     };
 
-    peticionGet = async () => {
-        /* let fechaI=obtnerDate(this.state.fechaInicial);
-        let fechaF=obtnerDate(this.state.fechaFinal);
-        let orden=obtnerDate(this.state.selectedOption);
-        console.log(value)
-        if(value.name==="selectedOption"){
-            orden=value.value;
-        } 
-        if(value.name==="fechaInicial"){
-            fechaI=value.value;
-        }
-        if(value.name==="fechaFinal"){
-            fechaF=value.value;
-        } */
-        
+    peticionGet = async () => { 
         var FormData = require('form-data');
         var data = new FormData();
         /* data.append('first_date',fechaI );

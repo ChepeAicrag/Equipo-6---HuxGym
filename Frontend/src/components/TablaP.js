@@ -53,6 +53,7 @@ class TablaP extends Component {
       provider_id: "",
       stock: 0,
       id_stock: 0,
+      folio:""
     },
   };
 
@@ -352,6 +353,7 @@ class TablaP extends Component {
       formData.append("category_id", this.state.form.category_id);
       formData.append("description", this.state.form.description);
       formData.append("name", this.state.form.name);
+      formData.append("folio", this.state.form.folio);
       if (typeof this.state.form.image !== "string" && !isEmpty(this.state.form.image))
         formData.append("image", this.state.form.image);
       try {
@@ -473,6 +475,7 @@ class TablaP extends Component {
         image: productos.image,
         stock: productos.stock,
         id_stock: productos.id_stock,
+        folio:productos.folio,
         category_id: pet_category.data.id,
         provider_id: pet_provider.data.id,
       },

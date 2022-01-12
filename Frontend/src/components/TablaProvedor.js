@@ -29,6 +29,7 @@ class TablaProvedor extends Component {
       email: "",
       phone: "",
       rfc: "",
+      folio:"",
     },
   };
 
@@ -237,6 +238,7 @@ class TablaProvedor extends Component {
         email: proveedores.email,
         phone: proveedores.phone,
         rfc: proveedores.rfc,
+        folio:proveedores.folio,
       },
     });
   };
