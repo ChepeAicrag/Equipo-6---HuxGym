@@ -101,12 +101,11 @@ class GraficaTotal extends Component {
       this.state.valor = [];
       this.state.nombres = [];
       for (const prop in res.data) {
-        console.log(`${prop} = ${res.data[prop]}`);
         await this.state.nombres.push(prop);
         await this.state.valor.push(res.data[prop]);
       }
-      console.log("Nombres" + this.state.nombres);
-      console.log("Valores" + this.state.valor);
+      /* console.log("Nombres" + this.state.nombres);
+      console.log("Valores" + this.state.valor); */
       /* res.data.products.map((product) => {
         this.state.nombres.push(product.names);
         this.state.valor.push(product.value);
@@ -155,8 +154,12 @@ class GraficaTotal extends Component {
   };
   render() {
     const { form } = this.state;
+    const name = this.state.nombres;
+    const valores = this.state.valor;
+    console.log("Nombres de las memberships: " + name);
+    console.log("Valores de las memberships: " + valores);
     const data = {
-      labels: this.state.nombres,
+      labels: name,
       datasets: [
         {
           label: "Totales",
@@ -165,7 +168,7 @@ class GraficaTotal extends Component {
           borderWidth: 1,
           height: "100%",
           with: "30%",
-          data: this.state.valor,
+          data: valores,
         },
       ],
     };
