@@ -1,6 +1,6 @@
 .HeaderOficial {
   position: fixed;
-  background: #284B63;
+  background: #284b63;
   float: right;
   height: 100px;
   color: aliceblue;
@@ -12,7 +12,7 @@
   width: 100%;
   position: relative;
   box-shadow: 5px 0px 20px 0px rgba(0, 0, 0, 0.705);
-  z-index:1;
+  z-index: 1;
 }
 .Perfil {
   width: 10%;
@@ -42,7 +42,7 @@
   /* margin-right: 15px; */
 }
 
-.info-config{
+.info-config {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -70,11 +70,11 @@
 
 .Perfil .NombreRol .Opciones {
   display: flex;
-  font-family: 'Dongle', sans-serif;
+  font-family: "Dongle", sans-serif;
 }
 
-.nombre .Rol{
-  font-family: 'Dongle', sans-serif;
+.nombre .Rol {
+  font-family: "Dongle", sans-serif;
 }
 
 .Spac {
@@ -91,7 +91,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-family: 'Dongle', sans-serif;
+  font-family: "Dongle", sans-serif;
   font-size: 30px;
   /* line-height: 50px;
   margin-left: 600px; */
@@ -116,7 +116,7 @@
   transition: all 0.4s ease;
   border-radius: 12px;
   white-space: nowrap;
- /*  float: right; */
+  /*  float: right; */
   margin-right: 50px;
 }
 
@@ -139,14 +139,14 @@
   width: 100%;
 }
 
-.logo_name{
+.logo_name {
   text-align: center;
   height: 100%;
   font-size: 33px;
-  font-family: 'Mochiy Pop One', sans-serif;
+  font-family: "Mochiy Pop One", sans-serif;
 }
 
-.logo_content .logo{
+.logo_content .logo {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -156,34 +156,30 @@
   width: 30%;
 }
 
-
-
-
-
 @media only screen and (max-width: 1210px) {
   .Correo {
     width: 40%;
     text-align: center;
     font-size: 20px !important;
   }
-  .imgPerfil{
+  .imgPerfil {
     width: 70%;
     height: 70%;
   }
-  .Rol{
-    font-family: 'Dongle', sans-serif;
-    font-size: 20px
+  .Rol {
+    font-family: "Dongle", sans-serif;
+    font-size: 20px;
   }
-  .logo_name{
-    font-family: 'Mochiy Pop One', sans-serif;
-    font-size: 20px
+  .logo_name {
+    font-family: "Mochiy Pop One", sans-serif;
+    font-size: 20px;
   }
 
-  .logo_content{
+  .logo_content {
     width: 30%;
   }
 
-  .info-config{
+  .info-config {
     width: 70%;
     display: flex;
     flex-direction: row;
@@ -198,31 +194,29 @@
     text-align: center;
     font-size: 15px !important;
   }
-  .imgPerfil{
+  .imgPerfil {
     width: 60%;
     height: 60%;
-    
   }
-  .Rol{
-    font-family: 'Dongle', sans-serif;
-    font-size: 15px
+  .Rol {
+    font-family: "Dongle", sans-serif;
+    font-size: 15px;
   }
-  .logo_name{
-    font-family: 'Mochiy Pop One', sans-serif;
-    font-size: 17px
+  .logo_name {
+    font-family: "Mochiy Pop One", sans-serif;
+    font-size: 17px;
   }
 
-  .logo_content{
+  .logo_content {
     width: 40%;
   }
-  .info-config{
+  .info-config {
     width: 60%;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: center;
   }
-
 }
 
 @media only screen and (max-width: 412px) {
@@ -231,23 +225,23 @@
     text-align: center;
     font-size: 6px !important;
   }
-  .imgPerfil{
+  .imgPerfil {
     width: 25%;
     height: 30%;
   }
-  .Rol{
-    font-family: 'Dongle', sans-serif;
-    font-size: 15px
+  .Rol {
+    font-family: "Dongle", sans-serif;
+    font-size: 15px;
   }
-  .logo_name{
-    font-family: 'Mochiy Pop One', sans-serif;
-    font-size: 10px
+  .logo_name {
+    font-family: "Mochiy Pop One", sans-serif;
+    font-size: 10px;
   }
 
-  .logo_content{
+  .logo_content {
     width: 25%;
   }
-  .info-config{
+  .info-config {
     width: 70%;
     display: flex;
     flex-direction: row;
@@ -255,6 +249,4 @@
     align-items: center;
     margin-left: 10px;
   }
-
 }
-
