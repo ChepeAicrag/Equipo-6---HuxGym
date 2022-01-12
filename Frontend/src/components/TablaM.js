@@ -146,12 +146,7 @@ class TablaM extends Component {
   };
 
   peticionPut = async () => {
-<<<<<<< HEAD
     console.log("ddddd")
-=======
-    /* con put enviamos informacion al endpoint para modificar*/
-
->>>>>>> Melvin
     try {
       const validate = this.validar();
       if (validate.error) {
