@@ -37,6 +37,12 @@ function obtnerDate(date) {
   console.log(year + "-" + mounth + "-" + day);
   return year + "-" + mounth + "-" + day;
 }
+
+function prueba(date) {
+  console.log("purba")
+  console.log(date)
+}
+
 const materialTheme = createMuiTheme({
   palette: {
     background: {
@@ -95,17 +101,28 @@ class GraficaTotal extends Component {
           timer: "50",
         });
       }
-      this.setState({
-        data: res.data,
-      });
-      this.state.valor = [];
-      this.state.nombres = [];
+      
+      
+      let nom=[];
+      let valores=[];
       for (const prop in res.data) {
+<<<<<<< HEAD
         await this.state.nombres.push(prop);
         await this.state.valor.push(res.data[prop]);
       }
       /* console.log("Nombres" + this.state.nombres);
       console.log("Valores" + this.state.valor); */
+=======
+        console.log(`${prop} = ${res.data[prop]}`);
+        nom.push(prop);
+        valores.push(res.data[prop]);
+      }
+      await this.setState({
+        data: res.data,
+        nombres:nom,
+        valor:valores,
+      });
+>>>>>>> bd15b652bfe0791195325a59f39ea61cb057242b
       /* res.data.products.map((product) => {
         this.state.nombres.push(product.names);
         this.state.valor.push(product.value);
