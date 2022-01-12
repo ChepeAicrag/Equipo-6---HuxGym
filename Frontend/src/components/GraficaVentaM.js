@@ -39,8 +39,8 @@ function obtnerDate(date) {
 }
 
 function prueba(date) {
-  console.log("purba")
-  console.log(date)
+  console.log("purba");
+  console.log(date);
 }
 
 const materialTheme = createMuiTheme({
@@ -101,28 +101,19 @@ class GraficaTotal extends Component {
           timer: "50",
         });
       }
-      
-      
-      let nom=[];
-      let valores=[];
+
+      let nom = [];
+      let valores = [];
       for (const prop in res.data) {
-<<<<<<< HEAD
-        await this.state.nombres.push(prop);
-        await this.state.valor.push(res.data[prop]);
-      }
-      /* console.log("Nombres" + this.state.nombres);
-      console.log("Valores" + this.state.valor); */
-=======
         console.log(`${prop} = ${res.data[prop]}`);
         nom.push(prop);
         valores.push(res.data[prop]);
       }
       await this.setState({
         data: res.data,
-        nombres:nom,
-        valor:valores,
+        nombres: nom,
+        valor: valores,
       });
->>>>>>> bd15b652bfe0791195325a59f39ea61cb057242b
       /* res.data.products.map((product) => {
         this.state.nombres.push(product.names);
         this.state.valor.push(product.value);
@@ -171,12 +162,8 @@ class GraficaTotal extends Component {
   };
   render() {
     const { form } = this.state;
-    const name = this.state.nombres;
-    const valores = this.state.valor;
-    console.log("Nombres de las memberships: " + name);
-    console.log("Valores de las memberships: " + valores);
     const data = {
-      labels: name,
+      labels: this.state.nombres,
       datasets: [
         {
           label: "Totales",
@@ -185,7 +172,7 @@ class GraficaTotal extends Component {
           borderWidth: 1,
           height: "100%",
           with: "30%",
-          data: valores,
+          data: this.state.valor,
         },
       ],
     };
