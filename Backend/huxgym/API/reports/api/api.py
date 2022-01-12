@@ -241,8 +241,7 @@ def report_membership_view(request):
             for item in enumerate(counts_sort):
                 values[item[1][0]] = counts[item[1][0]]
 
-            return Response({'message': 'Membresías',
-                            'products': values},
+            return Response(values,
                             status = status.HTTP_200_OK)  
 
         else:
