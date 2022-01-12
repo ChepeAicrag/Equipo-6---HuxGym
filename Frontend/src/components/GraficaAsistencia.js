@@ -131,7 +131,7 @@ class GraficaTotal extends Component{
                     tipo:"Asistencia segun el género"
                 });
             }
-            
+            console.log(this.state.data);
         
         })
         .catch(function (error) {
