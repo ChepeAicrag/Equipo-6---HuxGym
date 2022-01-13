@@ -19,7 +19,7 @@ Attendence reporting API
 returns statistics on attendance in a range of dates, 
 grouped by age, gender, and student status
 """
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def report_attendence_view(request):
     if 'first_date' in request.data and 'last_date' in request.data:
         try:
@@ -94,7 +94,7 @@ Buying customers API
 Returns statistics on the number of customers who purchase a product 
 in relation to the total number of customers.
 """
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def report_customer_product(request):
     if 'first_date' in request.data and 'last_date' in request.data:
         try:
@@ -124,7 +124,7 @@ def report_customer_product(request):
 Purchases report API
 No bugs pending, pending due to changes to the User model
 """
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def report_purchase_view(request):
     if 'first_date' in request.data and 'last_date' in request.data:
         try:
@@ -170,7 +170,7 @@ def report_purchase_view(request):
 Sales report API
 No bugs pending, pending tests of usage, pending due to changes to the User model 
 """
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def report_sales_view(request):
     if 'first_date' in request.data and 'last_date' in request.data:
         try:
@@ -216,7 +216,7 @@ def report_sales_view(request):
 Memberships report API
 No bugs pending 
 """
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def report_membership_view(request):
     if request.data['first_date'] and request.data['last_date']:
         try:
@@ -241,8 +241,7 @@ def report_membership_view(request):
             for item in enumerate(counts_sort):
                 values[item[1][0]] = counts[item[1][0]]
 
-            return Response({'message': 'Membresías',
-                            'products': values},
+            return Response(values,
                             status = status.HTTP_200_OK)  
 
         else:
@@ -256,7 +255,7 @@ def report_membership_view(request):
 General employees report API
 No bugs pending, pending due to changes to the User model
 """
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def report_employees_view(request):
     if request.data['first_date'] and request.data['last_date']:
         try:
