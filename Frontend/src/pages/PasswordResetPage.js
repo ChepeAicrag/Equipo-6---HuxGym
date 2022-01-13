@@ -5,7 +5,7 @@ import axios from "axios";
 import { isEmpty } from '../helpers/methods';
 import swal from 'sweetalert';
 
-const url = "https://www.huxgym.codes/restore-password/";
+const url = "https://www.api.huxgym.codes/restore-password/";
 class PasswordResetPage extends Component {
   state = {
     form: {

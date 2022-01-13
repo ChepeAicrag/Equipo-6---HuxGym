@@ -11,7 +11,7 @@ import BotonProducts from "../components/BotonProducts";
 
 import { isEmpty } from "../helpers/methods";
 
-const url = "https://www.huxgym.codes/products/provider/";
+const url = "https://www.api.huxgym.codes/products/provider/";
 
 class TablaProvedor extends Component {
   campos = { name: "nombre", phone: "telefono" };

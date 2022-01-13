@@ -21,7 +21,7 @@ import {
   } from "@material-ui/pickers";
 
 import { isEmpty } from "../helpers/methods";
-const url ="https://www.huxgym.codes/reports/sales/";
+const url ="https://www.api.huxgym.codes/reports/sales/";
 const materialTheme = createMuiTheme({ 
     palette: {
         background: {

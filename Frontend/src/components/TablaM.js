@@ -13,7 +13,7 @@ import { isEmpty } from "../helpers/methods";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
-const url = "https://www.huxgym.codes/memberships/memberships/";
+const url = "https://www.api.huxgym.codes/memberships/memberships/";
 
 class TablaM extends Component {
   state = {
@@ -59,8 +59,18 @@ class TablaM extends Component {
         data: res.data,
       });
     } catch (error) {
-      const msj = JSON.parse(error.request.response).message;
-      console.log(msj);
+      try {
+        const msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+      }catch(error2){
+             swal({
+                  text: "Error en el servidor",
+                  icon: "error",
+                  button: "Aceptar",
+                  timer: "3000",
+                }); 
+      }
+      
     }
   };
 

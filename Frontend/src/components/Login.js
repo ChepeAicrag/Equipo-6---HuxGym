@@ -4,7 +4,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { isEmpty } from "../helpers/methods";
 /* const url_login = process.env.REACT_APP_url_login */
-const url_login ="https://www.huxgym.codes/login/";
+const url_login ="https://www.api.huxgym.codes/login/";
 
 const validate = (values) => {
   const errors = {};
@@ -122,21 +122,31 @@ class Login extends Component {
         }
       }
     } catch (error) {
-      console.log(error);
-      var msj = JSON.parse(error.request.response).message;
-      console.log(msj);
-      if(msj === 'Credentials incorrects')
-        msj = 'Contraseña incorrecta'
-      else if(msj === 'User not found' )
-        msj = 'No hay usuario con email dado'
-      else if (msj === 'User not activated')
-        msj = 'Usuario no activado, active su cuenta previamente por favor'
-      swal({
-        text: msj,
-        icon: "error",
-        button: "Aceptar",
-        timer: "3000",
-      }); 
+      try {
+        console.log(error);
+        var msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+        if(msj === 'Credentials incorrects')
+          msj = 'Contraseña incorrecta'
+        else if(msj === 'User not found' )
+          msj = 'No hay usuario con email dado'
+        else if (msj === 'User not activated')
+          msj = 'Usuario no activado, active su cuenta previamente por favor'
+        swal({
+          text: msj,
+          icon: "error",
+          button: "Aceptar",
+          timer: "3000",
+        }); 
+        }catch(error2){
+          swal({
+            text: "Error en el servidor",
+            icon: "error",
+            button: "Aceptar",
+            timer: "3000",
+          }); 
+        }
+      
     }
   };
 

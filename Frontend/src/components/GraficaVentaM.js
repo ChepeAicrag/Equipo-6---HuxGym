@@ -21,7 +21,7 @@ import {
 } from "@material-ui/pickers";
 
 import { isEmpty } from "../helpers/methods";
-const url = "https://www.huxgym.codes/reports/memberships/";
+const url = "https://www.api.huxgym.codes/reports/memberships/";
 function obtnerDate(date) {
   let fecha = new Date(date);
   console.log(fecha);

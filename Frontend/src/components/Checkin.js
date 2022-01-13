@@ -4,8 +4,8 @@ import axios from "axios";
 import swal from "sweetalert";
 import "../styles/checkin.css";
 
-const url = "https://www.huxgym.codes/user/attendance/checkin/";
-const url_checkout = "https://www.huxgym.codes/user/attendance/checkout/";
+const url = "https://www.api.huxgym.codes/user/attendance/checkin/";
+const url_checkout = "https://www.api.huxgym.codes/user/attendance/checkout/";
 
 class Checkin extends Component {
   peticionPost = async () => {

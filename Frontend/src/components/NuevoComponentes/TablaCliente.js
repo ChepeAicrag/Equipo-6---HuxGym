@@ -12,7 +12,7 @@ import "../../styles/Crud.css";
 import "../../styles/clientes.css";
 import { isEmpty } from "../../helpers/methods";
 
-const url = "https://www.huxgym.codes/customers/customers/";
+const url = "https://www.api.huxgym.codes/customers/customers/";
 class Tabla extends Component {
   campos = { 'phone': 'teléfono', 'gender': 'género', 'isStudiant': 'si es estudiante', 'name': 'nombre' };
 
@@ -461,7 +461,7 @@ class Tabla extends Component {
                     <td>{clientes.isStudiant ? "Si" : "No"}</td>
                     <td>
                       <img
-                        src={`https://www.huxgym.codes/${clientes.image}`}
+                        src={`https://www.api.huxgym.codes/${clientes.image}`}
                         width="200"
                         height="200"
                         align="center"

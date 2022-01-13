@@ -14,7 +14,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-const url = "https://www.huxgym.codes/user/";
+const url = "https://www.api.huxgym.codes/user/";
 
 function obtnerDate(date) {
   let fecha = new Date(date);
@@ -103,7 +103,7 @@ class TablaE extends Component {
   };
   perticionState = async () => {
     axios
-      .get("https://www.huxgym.codes/state/")
+      .get("https://www.api.huxgym.codes/state/")
       .then((response) => {
         console.log(response);
         this.setState({ estados: response.data });
@@ -646,7 +646,7 @@ class TablaE extends Component {
                       </td>
                       <td>
                         <img
-                          src={`https://www.huxgym.codes/${empleados.image}`}
+                          src={`https://www.api.huxgym.codes/${empleados.image}`}
                           width="170"
                           height="150"
                           align="center"

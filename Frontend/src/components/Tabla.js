@@ -22,8 +22,8 @@ import { isEmpty } from "../helpers/methods";
 import BtnMembresia from "./CambioMembresia";
 import ModalPrueba from "./modalPrueba";
 
-const url = "https://www.huxgym.codes/customers/customers/";
-const urlMembresias = "https://www.huxgym.codes/memberships/memberships";
+const url = "https://www.api.huxgym.codes/customers/customers/";
+const urlMembresias = "https://www.api.huxgym.codes/memberships/memberships";
 /* const [selectedDate, setSelectedDate] = useState; */
 /* const handleDateChange = (date) => {
   setSelectedDate(date);
@@ -97,7 +97,7 @@ class Tabla extends Component {
   };
   perticionState = async () => {
     axios
-      .get("https://www.huxgym.codes/state/")
+      .get("https://www.api.huxgym.codes/state/")
       .then((response) => {
         console.log(response);
         this.setState({ estados: response.data });
@@ -664,7 +664,7 @@ class Tabla extends Component {
                     <td>{clientes.isStudiant ? "Si" : "No"}</td>
                     <td>
                       <img
-                        src={`https://www.huxgym.codes/${clientes.image}`}
+                        src={`https://www.api.huxgym.codes/${clientes.image}`}
                         width="180"
                         height="150"
                         align="center"

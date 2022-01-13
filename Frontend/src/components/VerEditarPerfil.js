@@ -6,7 +6,7 @@ import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { isEmpty } from "../helpers/methods";
 
-const url = "https://www.huxgym.codes/user/";
+const url = "https://www.api.huxgym.codes/user/";
 class VerEditarPerfil extends Component {
   constructor(props) {
     super(props);
@@ -108,18 +108,28 @@ class VerEditarPerfil extends Component {
         this.peticionGet();
       }
     } catch (error) {
-      //const msj = JSON.parse(error.request.response).message;
-      console.log(error);
-      /* if (msj === "Credenciales invalidas") {
-        this.Expulsado();
-      } else {
-        swal({
-          text: msj,
-          icon: "error",
-          button: "Aceptar",
-          timer: "5000",
-        });
-      } */
+      try {
+        //const msj = JSON.parse(error.request.response).message;
+        console.log(error);
+        /* if (msj === "Credenciales invalidas") {
+          this.Expulsado();
+        } else {
+          swal({
+            text: msj,
+            icon: "error",
+            button: "Aceptar",
+            timer: "5000",
+          });
+        } */
+      }catch(error2){
+             swal({
+                  text: "Error en el servidor",
+                  icon: "error",
+                  button: "Aceptar",
+                  timer: "3000",
+                }); 
+      }
+      
     }
   };
 
@@ -351,7 +361,7 @@ class VerEditarPerfil extends Component {
                   <label htmlFor="foto">Foto</label>
                   <div className="form-control foto" align="center">
                     <img
-                      src={`https://www.huxgym.codes/${localStorage.getItem(
+                      src={`https://www.api.huxgym.codes/${localStorage.getItem(
                         "image"
                       )}`}
                       width="200"

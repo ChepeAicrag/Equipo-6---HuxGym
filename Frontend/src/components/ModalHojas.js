@@ -20,14 +20,14 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-const base_url = "https://www.huxgym.codes/";
-const url = "https://www.huxgym.codes/customers/historiasClinicasCliente/";
-const urlm = "https://www.huxgym.codes/customers/infoExtraHistoriaClinica/";
-const url_delete = "https://www.huxgym.codes/customers/historyClinic/";
-const url_ac = "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
-const url_te_hc = "https://www.huxgym.codes/customers/typeExtraInformation_HistoryClinic/"
+const base_url = "https://www.api.huxgym.codes/";
+const url = "https://www.api.huxgym.codes/customers/historiasClinicasCliente/";
+const urlm = "https://www.api.huxgym.codes/customers/infoExtraHistoriaClinica/";
+const url_delete = "https://www.api.huxgym.codes/customers/historyClinic/";
+const url_ac = "https://www.api.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
+const url_te_hc = "https://www.api.huxgym.codes/customers/typeExtraInformation_HistoryClinic/"
 const url_edsn = `${base_url}customers/nutritionalSituation/`;
-const url_hc = "https://www.huxgym.codes/customers/historyClinic/";
+const url_hc = "https://www.api.huxgym.codes/customers/historyClinic/";
 
 const materialTheme = createMuiTheme({
     
@@ -350,7 +350,7 @@ class BtnModalHoja extends Component {
             (this.state.formcorps[id_attribute_name[index]] = ele.value)
         );
         await axios
-          .get("https://www.huxgym.codes/customers/typeExtraInformation/")
+          .get("https://www.api.huxgym.codes/customers/typeExtraInformation/")
           .then((response) => {
             console.log(response);
             this.setState({ sintomas: response.data });

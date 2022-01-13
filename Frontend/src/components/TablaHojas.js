@@ -13,7 +13,7 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-const url = "https://www.huxgym.codes/customers/historyClinic/5/";
+const url = "https://www.api.huxgym.codes/customers/historyClinic/5/";
 
 
 class TablaHojas extends Component {

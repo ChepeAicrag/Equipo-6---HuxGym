@@ -11,14 +11,14 @@ function HeadC() {
 
       <div className="info-config">
         <div className="Correo">
-          <div>{localStorage.getItem("name")}</div>
+          <div>BIENVENIDO {localStorage.getItem("name")}</div>
         </div>
 
         <div className="Perfil ">
           <div className="imagenP">
             <img
               className="imgPerfil"
-              src={`https://www.huxgym.codes/${localStorage.getItem("image")}`}
+              src={`https://www.api.huxgym.codes/${localStorage.getItem("image")}`}
               width="50"
               height="50"
               align="center"
