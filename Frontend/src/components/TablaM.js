@@ -31,7 +31,7 @@ class TablaM extends Component {
       price: "",
       description: "",
       day: 7,
-      folio:""
+      folio: "",
     },
   };
 
@@ -146,12 +146,8 @@ class TablaM extends Component {
   };
 
   peticionPut = async () => {
-<<<<<<< HEAD
-    console.log("ddddd")
-=======
     /* con put enviamos informacion al endpoint para modificar*/
 
->>>>>>> Melvin
     try {
       const validate = this.validar();
       if (validate.error) {
@@ -244,7 +240,7 @@ class TablaM extends Component {
         description: membresias.description,
         price: membresias.price,
         day: membresias.day,
-        folio:membresias.folio,
+        folio: membresias.folio,
       },
     });
   };
