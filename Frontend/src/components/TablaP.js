@@ -258,7 +258,7 @@ class TablaP extends Component {
       else{
         const res = await axios.post(urlA + this.state.form.id_stock, {
           amount: stock_editar,
-          folio:this.state.form.folio,
+          
         });
         if (res.status === 200 || res.status === 201) {
           this.setState({
