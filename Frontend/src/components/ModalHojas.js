@@ -549,9 +549,11 @@ class BtnModalHoja extends Component {
               typeExtraInformation_id: 
               e.typeExtraInformation_id.id, 
               historyClinic_id,
+              folio:e.folio,
           })});
           
           this.componentDidMount()
+          this.peticionGet();
           swal({
             text: "Hoja clínica actualizada",
             icon: "success",
@@ -571,7 +573,12 @@ class BtnModalHoja extends Component {
           timer: "5000",
         });
       }catch(errr2){
-       
+        swal({
+          text: "Error en el servidor",
+          icon: "error",
+          button: "Aceptar 2",
+          timer: "5000",
+        });
       }
       
     }
@@ -650,6 +657,7 @@ class BtnModalHoja extends Component {
 
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
+    this.peticionGet();
   }
 
   modalInsertar = () => {
