@@ -304,15 +304,21 @@ def anadirStock(request, pk = None):
             stock.folio = stock.folio
             stock.save()
 
-            operation = {'amount': cantidadASumar,
+            count = Operation.objects.all().count()
+            fecha = date.today()
+
+            operation = {'folio': 'OPS' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
+                        'amount': cantidadASumar,
                         'description': "Se añadió al stock" ,
                         'operationType_id': 1}
 
             operation_serializer = OperationSerializer(data= operation)
             if operation_serializer.is_valid():
                 operation_serializer.save()
+                count = HistoryInventory.objects.all().count()
 
-                history = {'product_id': stock.product_id.id,
+                history = {'folio': 'HI' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
+                            'product_id': stock.product_id.id,
                             'amount': stock.amount ,
                             'operation_id': Operation.objects.latest('id').id
                             }
@@ -346,7 +352,7 @@ def restarStock(request, pk = None):
         count = Operation.objects.all().count()
         fecha = date.today()
 
-        operation = {'folio': 'OP' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
+        operation = {'folio': 'OPR' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
                     'amount': cantidadARestar,
                     'description': "Se restó al stock" ,
                     'operationType_id': 2}
@@ -354,6 +360,7 @@ def restarStock(request, pk = None):
         operation_serializer = OperationSerializer(data= operation)
         if operation_serializer.is_valid():
             operation_serializer.save()
+            count = HistoryInventory.objects.all().count()
 
             history = {'folio': 'HI' + str(count) + str(fecha.year) + str(fecha.month) + str(fecha.day),
                         'product_id': stock.product_id.id,
