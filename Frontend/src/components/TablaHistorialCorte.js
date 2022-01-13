@@ -11,15 +11,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import TablaVV from "../components/TablaVV"
-const urlCash = "https://www.huxgym.codes/user/cash-register/open/";
-const url_close = "https://www.huxgym.codes/user/cash-register/close/";
-const urlVentas ="https://www.huxgym.codes/sales/";
-const url_caja = "https://www.huxgym.codes/user/cash-register/"
+const urlCash = "https://www.api.huxgym.codes/user/cash-register/open/";
+const url_close = "https://www.api.huxgym.codes/user/cash-register/close/";
+const urlVentas ="https://www.api.huxgym.codes/sales/";
+const url_caja = "https://www.api.huxgym.codes/user/cash-register/"
 
-const url = "https://www.huxgym.codes/sales/"; /* Aqui va la url principal */
-const urlC = "https://www.huxgym.codes/customers/customers/";
-const urlP = "https://www.huxgym.codes/products/products/";
-const urlM = "https://www.huxgym.codes/memberships/memberships/";
+const url = "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
+const urlC = "https://www.api.huxgym.codes/customers/customers/";
+const urlP = "https://www.api.huxgym.codes/products/products/";
+const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 class TablaHistorialCorte extends Component {
 
   state = {

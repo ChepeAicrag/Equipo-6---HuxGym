@@ -34,7 +34,7 @@ function Grafica_Barras() {
   const peticion = async () => {
     try {
       const res = await axios.get(
-        "https://www.huxgym.codes/user/cash-register/",
+        "https://www.api.huxgym.codes/user/cash-register/",
         {
           headers: {
             Authorization: "Token " + localStorage.getItem("token"),

@@ -16,7 +16,7 @@ import {
 } from "@material-ui/pickers";
 
 import { isEmpty } from "../helpers/methods";
-const url = "https://www.huxgym.codes/reports/customerproduct/";
+const url = "https://www.api.huxgym.codes/reports/customerproduct/";
 
 function obtnerDate(date) {
   let fecha = new Date(date);
@@ -110,6 +110,9 @@ class GraficaTotal extends Component {
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
       console.log(msj);
+      this.setState({
+        data: [],
+      });
     }
   };
   handleDateChangeI = async (e) => {

@@ -7,10 +7,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
 import "../styles/Crud.css";
 
-const urlC = "https://www.huxgym.codes/customers/customers/";
-const urlCA = "https://www.huxgym.codes/customers/clientesActuales";
-const urlIn = "https://www.huxgym.codes/customers/attendance/";
-const urlOut = "https://www.huxgym.codes/customers/attendance/check_out/";
+const urlC = "https://www.api.huxgym.codes/customers/customers/";
+const urlCA = "https://www.api.huxgym.codes/customers/clientesActuales";
+const urlIn = "https://www.api.huxgym.codes/customers/attendance/";
+const urlOut = "https://www.api.huxgym.codes/customers/attendance/check_out/";
 class Check_Client extends Component {
   state = {
     modalCheck: false,

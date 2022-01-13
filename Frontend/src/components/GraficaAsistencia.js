@@ -23,7 +23,7 @@ import {
 
 import { isEmpty } from "../helpers/methods";
 import { toggleButtonClasses } from "@mui/material";
-const url ="https://www.huxgym.codes/reports/purchases/";
+const url ="https://www.api.huxgym.codes/reports/purchases/";
 const materialTheme = createMuiTheme({ 
     palette: {
         background: {
@@ -108,7 +108,7 @@ class GraficaTotal extends Component{
         
         var config = {
         method: 'POST',
-        url: 'https://www.huxgym.codes/reports/attendence/',
+        url: 'https://www.api.huxgym.codes/reports/attendence/',
         headers: { 
                 /* Allow:"GET, OPTIONS", */
         },
@@ -131,7 +131,7 @@ class GraficaTotal extends Component{
                     tipo:"Asistencia segun el género"
                 });
             }
-            
+            console.log(this.state.data);
         
         })
         .catch(function (error) {

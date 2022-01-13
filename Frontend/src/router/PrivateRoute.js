@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import axios from "axios";
-const baseUrl = "https://www.huxgym.codes/profile/";
+const baseUrl = "https://www.api.huxgym.codes/profile/";
 
 /* const user = null; */
 var acceder = false

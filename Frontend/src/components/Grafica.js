@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 
-const url_caja = "https://www.huxgym.codes/user/cash-register/";
+const url_caja = "https://www.api.huxgym.codes/user/cash-register/";
 
 class Grafica extends Component {
   state = {

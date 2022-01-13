@@ -21,7 +21,7 @@ import {
 } from "@material-ui/pickers";
 
 import { isEmpty } from "../helpers/methods";
-const url = "https://www.huxgym.codes/reports/memberships/";
+const url = "https://www.api.huxgym.codes/reports/memberships/";
 function obtnerDate(date) {
   let fecha = new Date(date);
   console.log(fecha);
@@ -125,6 +125,11 @@ class GraficaTotal extends Component {
     } catch (error) {
       const msj = JSON.parse(error.request.response).message;
       console.log(msj);
+      await this.setState({
+        data: [],
+        nombres: [],
+        valor: [],
+      });
     }
   };
   handleChange = async (e) => {

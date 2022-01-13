@@ -20,7 +20,7 @@ import { isEmpty } from "../helpers/methods";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 
-const base_url = "https://www.huxgym.codes/";
+const base_url = "https://www.api.huxgym.codes/";
 
 
 class BtnMembresia extends Component {
