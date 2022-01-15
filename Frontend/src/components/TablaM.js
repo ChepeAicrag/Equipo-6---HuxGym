@@ -62,15 +62,14 @@ class TablaM extends Component {
       try {
         const msj = JSON.parse(error.request.response).message;
         console.log(msj);
-      }catch(error2){
-             swal({
-                  text: "Error en el servidor",
-                  icon: "error",
-                  button: "Aceptar",
-                  timer: "3000",
-                }); 
+      } catch (error2) {
+        swal({
+          text: "Error en el servidor",
+          icon: "error",
+          button: "Aceptar",
+          timer: "3000",
+        });
       }
-      
     }
   };
 
@@ -156,12 +155,9 @@ class TablaM extends Component {
   };
 
   peticionPut = async () => {
-<<<<<<< HEAD
     /* con put enviamos informacion al endpoint para modificar*/
 
-=======
-    console.log("ddddd")
->>>>>>> 735d10428d86071697c2e0ce69d9af171cff5e40
+    console.log("ddddd");
     try {
       const validate = this.validar();
       if (validate.error) {
