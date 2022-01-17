@@ -4,16 +4,16 @@ import "../styles/Crud.css";
 import "../styles/tablaStyle.css";
 import swal from "sweetalert";
 import axios from "axios";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
-import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
-const url = "https://www.huxgym.codes/memberships/memberships/";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import Input from "@mui/material/Input";
+const url = "https://www.api.huxgym.codes/memberships/memberships/";
 
 class TablaM extends Component {
   state = {
@@ -22,15 +22,18 @@ class TablaM extends Component {
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     membresias: [],
+    dataBuscar:[],
+
     errors: {},
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
+      folio: "",
       name: "",
       price: "",
       description: "",
       day: 7,
-      folio:""
+      folio: "",
     },
   };
 
@@ -56,10 +59,20 @@ class TablaM extends Component {
       console.log(res);
       this.setState({
         data: res.data,
+        dataBuscar: res.data,
       });
     } catch (error) {
-      const msj = JSON.parse(error.request.response).message;
-      console.log(msj);
+      try {
+        const msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+      } catch (error2) {
+        swal({
+          text: "Error en el servidor",
+          icon: "error",
+          button: "Aceptar",
+          timer: "3000",
+        });
+      }
     }
   };
 
@@ -71,7 +84,7 @@ class TablaM extends Component {
     const price = form.price;
     const description = form.description;
     const day = form.day;
-
+    const folio = form.folio;
     if (isEmpty(name)) {
       return { error: true, msj: "El campo nombre no puede estar vacío" };
     }
@@ -145,7 +158,9 @@ class TablaM extends Component {
   };
 
   peticionPut = async () => {
-    console.log("ddddd")
+    /* con put enviamos informacion al endpoint para modificar*/
+
+    console.log("ddddd");
     try {
       const validate = this.validar();
       if (validate.error) {
@@ -164,6 +179,7 @@ class TablaM extends Component {
             headers: {},
           }
         );
+
         if (res.status === 200 || res.status === 201) {
           this.modalInsertar(); /* Cambiamos el estado de modalInsertar y solicitamos de nuevo los datos */
           this.peticionGet();
@@ -237,7 +253,7 @@ class TablaM extends Component {
         description: membresias.description,
         price: membresias.price,
         day: membresias.day,
-        folio:membresias.folio,
+        folio: membresias.folio,
       },
     });
   };
@@ -249,21 +265,27 @@ class TablaM extends Component {
     this.filtrarElementos();
   };
 
+  
+
   filtrarElementos = () => {
-    var i = 0;
+    this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (
-          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
-        ) {
-          i = 1;
+        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.description.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.price.toString().toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.day.toString().toLowerCase().includes(this.state.busqueda.toLowerCase())
+            
+           ) {
+         
           return item;
         }
       });
-      this.setState({ membresias: search });
-      this.setState({ data: this.state.membresias });
+      
+      this.setState({ data: search });
     } else {
-      this.peticionGet();
+      this.setState({ data: this.state.dataBuscar });
     }
   };
 
@@ -292,9 +314,9 @@ class TablaM extends Component {
 
   handleChangeInputNumber = (e) => {
     const { name, value } = e.target;
-    
+
     let regex = new RegExp("^[0-9]+$");
-    console.log(regex.test(value))
+    console.log(regex.test(value));
     if (regex.test(value)) {
       console.log(name, value);
       this.setState({
@@ -369,7 +391,8 @@ class TablaM extends Component {
                 animation="tada"
               ></box-icon> */}
             </i>
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nueva Membresia
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nueva
+            Membresia
           </button>
           <div className="esp"></div>
           <input
@@ -456,7 +479,7 @@ class TablaM extends Component {
                 <></>
               ) : (
                 <>
-                 {/*  <label htmlFor="id">Id</label>
+                  {/*  <label htmlFor="id">Id</label>
                   <input
                     className="form-control"
                     type="text"
@@ -494,29 +517,35 @@ class TablaM extends Component {
               />
               <br />
               <br />
-              <InputLabel htmlFor="standard-adornment-amount" style={{ color: "white"}}>Precio (*):</InputLabel>
+              <InputLabel
+                htmlFor="standard-adornment-amount"
+                style={{ color: "white" }}
+              >
+                Precio (*):
+              </InputLabel>
               <div className="signo ">
-                <h4 className="mr-2" style={{ color: "white"}}>$</h4>
-                
+                <h4 className="mr-2" style={{ color: "white" }}>
+                  $
+                </h4>
+
                 <TextField
-                    
-                    id="outlined-number"
-                    name="price"
-                    onChange={this.handleChangeInputNumber}
-                    value={form ? form.price : 0}
-                    InputProps={{ inputProps: { min: 0 } }}
-                    type="number"
-                    style={{borderRadius:"0px"}}
-                    placeholder="Precio de venta"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    variant="outlined"
+                  id="outlined-number"
+                  name="price"
+                  onChange={this.handleChangeInputNumber}
+                  value={form ? form.price : 0}
+                  InputProps={{ inputProps: { min: 0 } }}
+                  type="number"
+                  style={{ borderRadius: "0px" }}
+                  placeholder="Precio de venta"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="outlined"
                 />
               </div>
-              
+
               {/* <label htmlFor="price">Precio (*):</label> */}
-              
+
               {/* <input
                 className="form-control"
                 type="text"
@@ -527,9 +556,7 @@ class TablaM extends Component {
                 onChange={this.handleChangeInputNumber}
                 value={form ? form.price : ""}
               /> */}
-              
-              
-             
+
               <br />
               <br />
               <label htmlFor="price">Duración (cantidad de días) (*):</label>
@@ -556,7 +583,6 @@ class TablaM extends Component {
                   shrink: true,
                 }}
                 variant="outlined"
-                
               />
               <br />
             </div>

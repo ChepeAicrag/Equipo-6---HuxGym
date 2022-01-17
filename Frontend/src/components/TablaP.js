@@ -19,12 +19,12 @@ import { isEmpty } from "../helpers/methods";
 
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons"; */
-const url = "https://www.huxgym.codes/products/products/";
-const urlC = "https://www.huxgym.codes/products/category/";
-const urlP = "https://www.huxgym.codes/products/provider/";
-const urlA = "https://www.huxgym.codes/products/anadirStock/";
-const urlE = "https://www.huxgym.codes/products/restarStock/";
-const urlStock = "https://www.huxgym.codes/products/stockDeProducto/";
+const url = "https://www.api.huxgym.codes/products/products/";
+const urlC = "https://www.api.huxgym.codes/products/category/";
+const urlP = "https://www.api.huxgym.codes/products/provider/";
+const urlA = "https://www.api.huxgym.codes/products/anadirStock/";
+const urlE = "https://www.api.huxgym.codes/products/restarStock/";
+const urlStock = "https://www.api.huxgym.codes/products/stockDeProducto/";
 class TablaP extends Component {
   state = {
     busqueda: "",
@@ -258,6 +258,7 @@ class TablaP extends Component {
       else{
         const res = await axios.post(urlA + this.state.form.id_stock, {
           amount: stock_editar,
+          
         });
         if (res.status === 200 || res.status === 201) {
           this.setState({
@@ -685,7 +686,7 @@ class TablaP extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nuevo Producto
           </button>
           <div className="esp"></div>
           <input
@@ -733,7 +734,7 @@ class TablaP extends Component {
                     <td>
                       {" "}
                       <img
-                        src={`https://www.huxgym.codes/${productos.image}`}
+                        src={`https://www.api.huxgym.codes/${productos.image}`}
                         width="170"
                         height="150"
                         align="center"

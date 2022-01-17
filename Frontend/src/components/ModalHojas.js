@@ -20,14 +20,14 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-const base_url = "https://www.huxgym.codes/";
-const url = "https://www.huxgym.codes/customers/historiasClinicasCliente/";
-const urlm = "https://www.huxgym.codes/customers/infoExtraHistoriaClinica/";
-const url_delete = "https://www.huxgym.codes/customers/historyClinic/";
-const url_ac = "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
-const url_te_hc = "https://www.huxgym.codes/customers/typeExtraInformation_HistoryClinic/"
+const base_url = "https://www.api.huxgym.codes/";
+const url = "https://www.api.huxgym.codes/customers/historiasClinicasCliente/";
+const urlm = "https://www.api.huxgym.codes/customers/infoExtraHistoriaClinica/";
+const url_delete = "https://www.api.huxgym.codes/customers/historyClinic/";
+const url_ac = "https://www.api.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
+const url_te_hc = "https://www.api.huxgym.codes/customers/typeExtraInformation_HistoryClinic/"
 const url_edsn = `${base_url}customers/nutritionalSituation/`;
-const url_hc = "https://www.huxgym.codes/customers/historyClinic/";
+const url_hc = "https://www.api.huxgym.codes/customers/historyClinic/";
 
 const materialTheme = createMuiTheme({
     
@@ -350,7 +350,7 @@ class BtnModalHoja extends Component {
             (this.state.formcorps[id_attribute_name[index]] = ele.value)
         );
         await axios
-          .get("https://www.huxgym.codes/customers/typeExtraInformation/")
+          .get("https://www.api.huxgym.codes/customers/typeExtraInformation/")
           .then((response) => {
             console.log(response);
             this.setState({ sintomas: response.data });
@@ -549,9 +549,11 @@ class BtnModalHoja extends Component {
               typeExtraInformation_id: 
               e.typeExtraInformation_id.id, 
               historyClinic_id,
+              folio:e.folio,
           })});
           
           this.componentDidMount()
+          this.peticionGet();
           swal({
             text: "Hoja clínica actualizada",
             icon: "success",
@@ -571,7 +573,12 @@ class BtnModalHoja extends Component {
           timer: "5000",
         });
       }catch(errr2){
-       
+        swal({
+          text: "Error en el servidor",
+          icon: "error",
+          button: "Aceptar 2",
+          timer: "5000",
+        });
       }
       
     }
@@ -650,6 +657,7 @@ class BtnModalHoja extends Component {
 
   componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
+    this.peticionGet();
   }
 
   modalInsertar = () => {
@@ -1677,7 +1685,7 @@ validatePeso = (event) => {
                               {/* <th>ID</th> */}
                               <th>Tipo de información</th>
                               <th>Nombre</th>
-                              <th>Estatus</th>
+                              <th>Reciente</th>
                               {/* <th>Acciones</th> */}
                             </tr>
                           </thead>
@@ -1801,7 +1809,7 @@ validatePeso = (event) => {
                 value={this.state.formextra ? this.state.formextra.descriptione : ""}
               />
               <br />
-              <label htmlFor="statuse"> ¿Lo posee? </label>
+              <label htmlFor="statuse"> ¿Reciente? </label>
               <br />
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-info">

@@ -14,10 +14,10 @@ import TablaVV from "../components/TablaVV";
 import TablaCC from "../components/TablaCC";
 import { isEmpty } from "../helpers/methods";
 
-const urlCash = "https://www.huxgym.codes/user/cash-register/open/";
-const url_close = "https://www.huxgym.codes/user/cash-register/close/";
-const urlVentas = "https://www.huxgym.codes/sales/";
-const url_caja = "https://www.huxgym.codes/user/cash-register/";
+const urlCash = "https://www.api.huxgym.codes/user/cash-register/open/";
+const url_close = "https://www.api.huxgym.codes/user/cash-register/close/";
+const urlVentas = "https://www.api.huxgym.codes/sales/";
+const url_caja = "https://www.api.huxgym.codes/user/cash-register/";
 
 class Monto extends Component {
   state = {

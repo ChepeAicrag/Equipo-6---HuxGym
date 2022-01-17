@@ -11,14 +11,14 @@ import { isEmpty } from "../helpers/methods";
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@material-ui/core/TextField";
 const url =
-  "https://www.huxgym.codes/purchases/obtenerCompras/"; /* Aqui va la url principal */
+  "https://www.api.huxgym.codes/purchases/obtenerCompras/"; /* Aqui va la url principal */
 
-const url_rc = "https://www.huxgym.codes/purchases/realizarCompra/";
-const url_ec = "https://www.huxgym.codes/purchases/purchase/";
+const url_rc = "https://www.api.huxgym.codes/purchases/realizarCompra/";
+const url_ec = "https://www.api.huxgym.codes/purchases/purchase/";
 
-const urlC = "https://www.huxgym.codes/products/provider/";
-const urlP = "https://www.huxgym.codes/products/products/";
-const urlM = "https://www.huxgym.codes/memberships/memberships/";
+const urlC = "https://www.api.huxgym.codes/products/provider/";
+const urlP = "https://www.api.huxgym.codes/products/products/";
+const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 class TablaCompras extends Component {
   state = {
     busqueda: "",

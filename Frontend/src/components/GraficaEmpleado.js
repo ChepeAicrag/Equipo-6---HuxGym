@@ -21,7 +21,7 @@ import {
   } from "@material-ui/pickers";
 
 import { isEmpty } from "../helpers/methods";
-const url ="https://www.huxgym.codes/reports/employees/";
+const url ="https://www.api.huxgym.codes/reports/employees/";
 const materialTheme = createMuiTheme({ 
     palette: {
         background: {
@@ -104,7 +104,7 @@ class GraficaTotal extends Component{
         
         var config = {
         method: 'POST',
-        url: "https://www.huxgym.codes/reports/employees/",
+        url: "https://www.api.huxgym.codes/reports/employees/",
         headers: { 
                 /* Allow:"GET, OPTIONS", */
         },

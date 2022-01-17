@@ -11,8 +11,8 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { isEmpty } from '../helpers/methods';
 import TablaVV from "../components/TablaVV";
 import TablaCC from "../components/TablaCC";
-const url = "https://www.huxgym.codes/user/cash-closings/";
-const url2 = "https://www.huxgym.codes/user/cash-closings/";
+const url = "https://www.api.huxgym.codes/user/cash-closings/";
+const url2 = "https://www.api.huxgym.codes/user/cash-closings/";
 class TablaCortes extends Component {
   state = {
     data_purchase: [],

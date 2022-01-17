@@ -33,11 +33,14 @@ function Grafica_Barras() {
   };
   const peticion = async () => {
     try {
-      const res = await axios.get("https://www.huxgym.codes/user/cash-register/", {
-        headers: {
-          Authorization: "Token " + localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        "https://www.api.huxgym.codes/user/cash-register/",
+        {
+          headers: {
+            Authorization: "Token " + localStorage.getItem("token"),
+          },
+        }
+      );
       /* console.log(res); */
       if (res.status === 200 || res.status === 201) {
         console.log(res);

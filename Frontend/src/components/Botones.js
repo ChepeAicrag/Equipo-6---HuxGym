@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import "../styles/Dashboard.css";
-const url = "https://www.huxgym.codes/user/attendance/checkin/";
-const urll = "https://www.huxgym.codes/user/attendance/checkout/";
+const url = "https://www.api.huxgym.codes/user/attendance/checkin/";
+const urll = "https://www.api.huxgym.codes/user/attendance/checkout/";
 
 class Botones extends Component {
   peticionPost = async () => {

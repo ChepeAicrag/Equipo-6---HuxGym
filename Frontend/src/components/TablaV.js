@@ -11,10 +11,10 @@ import { isEmpty } from "../helpers/methods";
 import "../styles/Crud.css";
 import "../styles/Ventas.css";
 
-const url = "https://www.huxgym.codes/sales/"; /* Aqui va la url principal */
-const urlC = "https://www.huxgym.codes/customers/customers/";
-const urlP = "https://www.huxgym.codes/products/products/";
-const urlM = "https://www.huxgym.codes/memberships/memberships/";
+const url = "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
+const urlC = "https://www.api.huxgym.codes/customers/customers/";
+const urlP = "https://www.api.huxgym.codes/products/products/";
+const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 class TablaV extends Component {
   state = {
     busqueda: "",
@@ -890,7 +890,7 @@ class TablaV extends Component {
           <table className="tab-pane  table ">
             <thead className="tablaHeader">
               <tr>
-                <th>Id de venta</th>
+                <th>Folio de venta</th>
                 <th>Empleado que realizó la venta</th>
                 <th>Total de la venta</th>
                 <th>Efectivo</th>
@@ -906,7 +906,7 @@ class TablaV extends Component {
                   /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                   return (
                     <tr>
-                      <td>{ventas.sale.id}</td>
+                      <td>{ventas.sale.folio}</td>
                       <td>{ventas.sale.user.name}</td>
                       <td>{"$ " + ventas.sale.total}</td>
                       <td>{"$ " + ventas.sale.cash}</td>

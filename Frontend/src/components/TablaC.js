@@ -12,7 +12,7 @@ import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons"; */
 import { isEmpty } from "../helpers/methods";
 import BotonProducts from "../components/BotonProducts";
 
-const url = "https://www.huxgym.codes/products/category/";
+const url = "https://www.api.huxgym.codes/products/category/";
 
 class TablaC extends Component {
   state = {
@@ -277,7 +277,7 @@ class TablaC extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nueva Categoría
           </button>
           <div className="esp"></div>
           <input

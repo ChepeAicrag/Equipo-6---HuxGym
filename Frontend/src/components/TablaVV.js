@@ -11,10 +11,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@material-ui/core/TextField";
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons"; */
-const url = "https://www.huxgym.codes/sales/"; /* Aqui va la url principal */
-const urlC = "https://www.huxgym.codes/customers/customers/";
-const urlP = "https://www.huxgym.codes/products/products/";
-const urlM = "https://www.huxgym.codes/memberships/memberships/";
+const url = "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
+const urlC = "https://www.api.huxgym.codes/customers/customers/";
+const urlP = "https://www.api.huxgym.codes/products/products/";
+const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 class TablaVV extends Component {
   constructor(props) {
     super(props);

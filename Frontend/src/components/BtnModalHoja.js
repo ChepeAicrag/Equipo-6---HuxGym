@@ -17,13 +17,13 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import TimeField from "react-simple-timefield";
 import { isEmpty } from "../helpers/methods";
 import TextField from "@material-ui/core/TextField";
-const url = "https://www.huxgym.codes/customers/customers/";
-const url_sn = "https://www.huxgym.codes/customers/nutritionalSituation/";
-const url_hc = "https://www.huxgym.codes/customers/historyClinic/";
+const url = "https://www.api.huxgym.codes/customers/customers/";
+const url_sn = "https://www.api.huxgym.codes/customers/nutritionalSituation/";
+const url_hc = "https://www.api.huxgym.codes/customers/historyClinic/";
 const url_hc_tei =
-  "https://www.huxgym.codes/customers/typeExtraInformation_HistoryClinic/";
+  "https://www.api.huxgym.codes/customers/typeExtraInformation_HistoryClinic/";
 const url_hc_ba =
-  "https://www.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
+  "https://www.api.huxgym.codes/customers/bodyAttribute_HistoryClinic/";
 
 const materialTheme = createMuiTheme({
   palette: {
@@ -916,7 +916,7 @@ class BtnModalHoja extends Component {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
     axios
-      .get("https://www.huxgym.codes/customers/typeExtraInformation/")
+      .get("https://www.api.huxgym.codes/customers/typeExtraInformation/")
       .then((response) => {
         console.log(response);
         this.setState({ sintomas: response.data });
@@ -1518,7 +1518,7 @@ class BtnModalHoja extends Component {
               />
               <br />
               <br />
-              <label htmlFor="statuse"> ¿Lo posee? </label>
+              <label htmlFor="statuse"> ¿Reciente? </label>
               <br />{" "}
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn botonesForm m-1">
@@ -1578,7 +1578,7 @@ class BtnModalHoja extends Component {
                   } else {
                     if (isEmpty(tiene)) {
                       swal({
-                        text: "El campo lo ¿Lo posee? no debe estar vacio",
+                        text: "El campo lo ¿Reciente? no debe estar vacio",
                         icon: "info",
                         button: "Aceptar",
                         timer: "5000",
@@ -1599,7 +1599,7 @@ class BtnModalHoja extends Component {
                         <th>ID</th>
                         <th>Tipo de información</th>
                         <th>Nombre</th>
-                        <th>Estatus</th>
+                        <th>Reciente</th>
                       </tr>
                     </thead>
                     <tbody>

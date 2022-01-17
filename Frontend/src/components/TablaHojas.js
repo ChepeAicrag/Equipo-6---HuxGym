@@ -13,7 +13,7 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-const url = "https://www.huxgym.codes/customers/historyClinic/5/";
+const url = "https://www.api.huxgym.codes/customers/historyClinic/5/";
 
 
 class TablaHojas extends Component {
@@ -747,7 +747,7 @@ class TablaHojas extends Component {
                 Agregar
               </button>
               <br />
-              <label htmlFor="statuse"> ¿Lo posee? </label>
+              <label htmlFor="statuse"> ¿Reciente? </label>
               <br />
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-info">
@@ -797,7 +797,7 @@ class TablaHojas extends Component {
                   <th>ID</th>
                 <th>Tipo de información</th>
                 <th>Nombre</th>
-                <th>Estatus</th>
+                <th>Reciente</th>
               </tr>
             </thead>
             <tbody>

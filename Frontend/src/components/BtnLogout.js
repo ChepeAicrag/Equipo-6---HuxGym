@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import swal from 'sweetalert';
-const baseUrl = "https://www.huxgym.codes/logout/";
+const baseUrl = "https://www.api.huxgym.codes/logout/";
 
 export default function BtnLogout() {
   const handleOut = async() => {

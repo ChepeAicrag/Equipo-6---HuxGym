@@ -4,7 +4,7 @@ import axios from "axios";
 import swal from 'sweetalert';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { isEmpty } from '../helpers/methods';
-const url = "https://www.huxgym.codes/change-password/";
+const url = "https://www.api.huxgym.codes/change-password/";
 
 class CambiarContra extends Component {
   state = {
