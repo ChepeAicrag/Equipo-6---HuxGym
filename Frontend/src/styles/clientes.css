@@ -276,7 +276,7 @@ flex-direction: row;
 
 @media only screen and (min-height: 840px) {
   .table-wrapper {
-    height: 700px; 
+    height: 600px; 
   }
   
 }
