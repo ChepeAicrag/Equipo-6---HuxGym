@@ -40,10 +40,12 @@ class TablaE extends Component {
 
   state = {
     busqueda: "",
+    dataBuscar:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     empleados: [],
+    
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
@@ -60,6 +62,7 @@ class TablaE extends Component {
       email: "",
       rol: 2,
       role: "",
+      
     },
   };
 
@@ -123,6 +126,7 @@ class TablaE extends Component {
       this.setState({
         /* Con esto accedemos a las variables de state y modificamos */
         data: res.data,
+        dataBuscar: res.data,
       }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
     } catch (error) {
       console.log("hay un error en TablaE en la peticion Get");
@@ -137,6 +141,7 @@ class TablaE extends Component {
       }
     }
   };
+
 
   validar = (form) => {
     if (isEmpty(form))
@@ -185,6 +190,7 @@ class TablaE extends Component {
 
     return { error: false };
   };
+
   crearFecha = (data) => {
     let dia = data.split("-")[2];
     let mes = data.split("-")[1] - 1;
@@ -193,6 +199,7 @@ class TablaE extends Component {
     console.log("Fechaaa " + dia + "-" + mes + "-" + anio);
     return fecha;
   };
+
   peticionPost = async () => {
     /* Son asincronas por que se ejeuctan en segundo plano */
     /* Con esto enviamos los datos al servidor */
@@ -427,29 +434,31 @@ class TablaE extends Component {
   };
 
   buscador = async (e) => {
-    await e.persist();
-    this.setState({ busqueda: e.target.value });
+    e.persist();
+    await  this.setState({ busqueda: e.target.value });
     console.log(this.state.busqueda);
     this.filtrarElementos();
   };
 
   filtrarElementos = () => {
-    var i = 0;
+    this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (
-          item.name
-            .toLocaleLowerCase()
-            .includes(this.state.busqueda.toLocaleLowerCase())
-        ) {
-          i = 1;
+        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.curp.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.phone.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.age.toString().toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.email.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            
+           ) {
+         
           return item;
         }
       });
-      this.setState({ empleados: search });
-      this.setState({ data: this.state.empleados });
+      
+      this.setState({ data: search });
     } else {
-      this.peticionGet();
+      this.setState({ data: this.state.dataBuscar });
     }
   };
   handleChangeInputCURP = (e) => {
@@ -603,7 +612,7 @@ class TablaE extends Component {
             id="busqueda"
             placeholder="Buscar"
             onChange={this.buscador}
-            value={form ? form.busqueda : ""}
+            value={this.state.busqueda}
           />
           <button type="submit" className="add-on" onClick={() => {}}>
             <i className="bx bxs-user">
@@ -618,7 +627,7 @@ class TablaE extends Component {
           <table className="tab-pane  table">
             <thead className="tablaHeader">
               <tr className="encabezado">
-                <th>ID</th>
+                <th>Curp</th>
                 <th>Nombre completo</th>
                 <th>Edad</th>
                 <th>Género</th>
@@ -969,9 +978,9 @@ class TablaE extends Component {
               />
               {this.state.tipoModal === "insertar" ? (
                 <>
-                  <label htmlFor="gender">Género*:</label>
+                  <label className=" mt-3 " htmlFor="gender">Género*:</label>
                   <br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <div className="" >
                     <label class="btn botonesForm m-1">
                       <input
                         type="radio"
@@ -979,9 +988,7 @@ class TablaE extends Component {
                         value="H"
                         autocomplete="off"
                         onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "H" ? true : false) : true
-                        }
+                        
                       />{" "}
                       H
                     </label>
@@ -992,9 +999,7 @@ class TablaE extends Component {
                         value="M"
                         autocomplete="on"
                         onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "M" ? true : false) : true
-                        }
+                        
                       />{" "}
                       M
                     </label>
@@ -1003,9 +1008,9 @@ class TablaE extends Component {
                 </>
               ) : (
                 <>
-                  <label htmlFor="gender">Género*:</label>
+                  <label className=" mt-3 " htmlFor="gender">Género*:</label>
                   <br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <div className="" >
                     <label class="btn botonesForm m-1">
                       <input
                         type="radio"
@@ -1013,9 +1018,10 @@ class TablaE extends Component {
                         value="H"
                         autocomplete="off"
                         disabled
-                        onChange={this.handleChange}
+                        //onChange={this.handleChange}
                         checked={
-                          form ? (form.gender === "H" ? true : false) : true
+                          form ? (form.gender === "H" ? "checked" : "") : "ff"
+                          
                         }
                       />{" "}
                       H
@@ -1027,9 +1033,10 @@ class TablaE extends Component {
                         value="M"
                         disabled
                         autocomplete="on"
-                        onChange={this.handleChange}
+                        //onChange={this.handleChange}
                         checked={
-                          form ? (form.gender === "M" ? true : false) : true
+                          form ? (form.gender === "M" ? "checked" : "") : "ff"
+                          
                         }
                       />{" "}
                       M
@@ -1043,7 +1050,7 @@ class TablaE extends Component {
                 <>
                   <label htmlFor="role">Rol*: </label>
                   <br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <div class="" >
                     <label class="btn botonesForm m-1">
                       <input
                         type="radio"
@@ -1051,17 +1058,9 @@ class TablaE extends Component {
                         value="2"
                         autocomplete="off"
                         onChange={this.handleChange}
-                        checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.role === undefined
-                            ? false
-                            : form.role == 2
-                            ? true
-                            : false
-                        }
+                        
                       />{" "}
-                      Empleado
+                      Encargado
                     </label>
                     <label class="btn botonesForm m-1">
                       <input
@@ -1070,15 +1069,7 @@ class TablaE extends Component {
                         value="3"
                         autocomplete="on"
                         onChange={this.handleChange}
-                        checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.role === undefined
-                            ? false
-                            : form.role == 3
-                            ? true
-                            : false
-                        }
+                        
                       />{" "}
                       Instructor
                     </label>
@@ -1088,7 +1079,7 @@ class TablaE extends Component {
                 <>
                   <label htmlFor="role">Rol*: </label>
                   <br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <div class="" >
                     <label class="btn botonesForm m-1">
                       <input
                         type="radio"
@@ -1097,8 +1088,12 @@ class TablaE extends Component {
                         disabled
                         autocomplete="off"
                         onChange={this.handleChange}
+                        checked={
+                          form ? (form.role === 2 ? "checked" : "") : "ff"
+                          
+                        }
                       />{" "}
-                      Empleado
+                      Encargado
                     </label>
                     <label class="btn botonesForm m-1 ">
                       <input
@@ -1108,6 +1103,10 @@ class TablaE extends Component {
                         disabled
                         autocomplete="on"
                         onChange={this.handleChange}
+                        checked={
+                          form ? (form.role === 3 ? "checked" : "") : "ff"
+                          
+                        }
                       />{" "}
                       Instructor
                     </label>

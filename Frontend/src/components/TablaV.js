@@ -890,7 +890,7 @@ class TablaV extends Component {
           <table className="tab-pane  table ">
             <thead className="tablaHeader">
               <tr>
-                <th>Id de venta</th>
+                <th>Folio de venta</th>
                 <th>Empleado que realizó la venta</th>
                 <th>Total de la venta</th>
                 <th>Efectivo</th>
@@ -906,7 +906,7 @@ class TablaV extends Component {
                   /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                   return (
                     <tr>
-                      <td>{ventas.sale.id}</td>
+                      <td>{ventas.sale.folio}</td>
                       <td>{ventas.sale.user.name}</td>
                       <td>{"$ " + ventas.sale.total}</td>
                       <td>{"$ " + ventas.sale.cash}</td>

@@ -22,6 +22,8 @@ class TablaM extends Component {
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     membresias: [],
+    dataBuscar:[],
+
     errors: {},
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
@@ -57,6 +59,7 @@ class TablaM extends Component {
       console.log(res);
       this.setState({
         data: res.data,
+        dataBuscar: res.data,
       });
     } catch (error) {
       try {
@@ -261,21 +264,27 @@ class TablaM extends Component {
     this.filtrarElementos();
   };
 
+  
+
   filtrarElementos = () => {
-    var i = 0;
+    this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (
-          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
-        ) {
-          i = 1;
+        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.description.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.price.toString().toLowerCase().includes(this.state.busqueda.toLowerCase())
+            | item.day.toString().toLowerCase().includes(this.state.busqueda.toLowerCase())
+            
+           ) {
+         
           return item;
         }
       });
-      this.setState({ membresias: search });
-      this.setState({ data: this.state.membresias });
+      
+      this.setState({ data: search });
     } else {
-      this.peticionGet();
+      this.setState({ data: this.state.dataBuscar });
     }
   };
 
