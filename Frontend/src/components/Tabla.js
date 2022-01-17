@@ -216,9 +216,9 @@ class Tabla extends Component {
         console.log(isEmpty(this.state.form.image)) */
         if (typeof form.image !== "string" && !isEmpty(this.state.form.image))
           formData.append("image", this.state.form.image);
-          formData.append("name", this.state.form.name.toUpperCase());
-          formData.append("curp", this.state.form.curp.toUpperCase());
-          formData.append(
+        formData.append("name", this.state.form.name.toUpperCase());
+        formData.append("curp", this.state.form.curp.toUpperCase());
+        formData.append(
           "paternal_surname",
           this.state.form.paternal_surname.toUpperCase()
         );
@@ -656,27 +656,30 @@ class Tabla extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data && this.state.data.map((clientes) => {
-                return (
-                  <tr className="cuerpoT">
-                    <td>{clientes.folio}</td>
-                    <td>{clientes.name}</td>
-                    <td>{clientes.dateJoined}</td>
-                    <td>{clientes.gender}</td>
-                    <td>{clientes.phone}</td>
-                    <td>{clientes.isStudiant ? "Si" : "No"}</td>
-                    <td>
-                      <img
-                        src={`https://www.api.huxgym.codes/${clientes.image}`}
-                        width="180"
-                        height="150"
-                        align="center"
-                      />
-                    </td>
-                    <td>
-                      {/* <BtnMembresia></BtnMembresia> */}
-                      {clientes.membershipActivate ? "Activada" : "No Activada"}
-                    </td>
+              {this.state.data &&
+                this.state.data.map((clientes) => {
+                  return (
+                    <tr className="cuerpoT">
+                      <td>{clientes.folio}</td>
+                      <td>{clientes.name}</td>
+                      <td>{clientes.dateJoined}</td>
+                      <td>{clientes.gender}</td>
+                      <td>{clientes.phone}</td>
+                      <td>{clientes.isStudiant ? "Si" : "No"}</td>
+                      <td>
+                        <img
+                          src={`https://www.api.huxgym.codes/${clientes.image}`}
+                          width="180"
+                          height="150"
+                          align="center"
+                        />
+                      </td>
+                      <td>
+                        {/* <BtnMembresia></BtnMembresia> */}
+                        {clientes.membershipActivate
+                          ? "Activada"
+                          : "No Activada"}
+                      </td>
 
                       <td className="">
                         <button
@@ -924,7 +927,6 @@ class Tabla extends Component {
                 </>
               )}
 
-             
               <br />
               <label htmlFor="phone">Teléfono*:</label>
               <input
@@ -940,7 +942,7 @@ class Tabla extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
-              
+
               <br />
               <label htmlFor="image">Foto:</label>
               <input

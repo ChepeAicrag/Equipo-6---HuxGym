@@ -1685,7 +1685,7 @@ validatePeso = (event) => {
                               {/* <th>ID</th> */}
                               <th>Tipo de información</th>
                               <th>Nombre</th>
-                              <th>Estatus</th>
+                              <th>Reciente</th>
                               {/* <th>Acciones</th> */}
                             </tr>
                           </thead>
@@ -1809,7 +1809,7 @@ validatePeso = (event) => {
                 value={this.state.formextra ? this.state.formextra.descriptione : ""}
               />
               <br />
-              <label htmlFor="statuse"> ¿Lo posee? </label>
+              <label htmlFor="statuse"> ¿Reciente? </label>
               <br />
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-info">

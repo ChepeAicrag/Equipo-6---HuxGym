@@ -1518,7 +1518,7 @@ class BtnModalHoja extends Component {
               />
               <br />
               <br />
-              <label htmlFor="statuse"> ¿Lo posee? </label>
+              <label htmlFor="statuse"> ¿Reciente? </label>
               <br />{" "}
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn botonesForm m-1">
@@ -1578,7 +1578,7 @@ class BtnModalHoja extends Component {
                   } else {
                     if (isEmpty(tiene)) {
                       swal({
-                        text: "El campo lo ¿Lo posee? no debe estar vacio",
+                        text: "El campo lo ¿Reciente? no debe estar vacio",
                         icon: "info",
                         button: "Aceptar",
                         timer: "5000",
@@ -1599,7 +1599,7 @@ class BtnModalHoja extends Component {
                         <th>ID</th>
                         <th>Tipo de información</th>
                         <th>Nombre</th>
-                        <th>Estatus</th>
+                        <th>Reciente</th>
                       </tr>
                     </thead>
                     <tbody>
