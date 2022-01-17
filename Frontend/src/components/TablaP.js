@@ -686,7 +686,7 @@ class TablaP extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nuevo Producto
           </button>
           <div className="esp"></div>
           <input

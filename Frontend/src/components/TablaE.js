@@ -76,12 +76,13 @@ class TablaE extends Component {
     });
     console.log(this.state.form);
   };
-  manejadorCorreo = async () =>{
-    var expReg= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-    try{
+  manejadorCorreo = async () => {
+    var expReg =
+      /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+    try {
       const email = this.state.form.email;
-      var esValido= expReg.test(email);
-      if(!esValido){
+      var esValido = expReg.test(email);
+      if (!esValido) {
         swal({
           text: "Correo no valido",
           icon: "info",
@@ -89,7 +90,7 @@ class TablaE extends Component {
           timer: "3000",
         });
       }
-    }catch(error){
+    } catch (error) {
       swal({
         text: "Correo no valido",
         icon: "info",
@@ -97,7 +98,7 @@ class TablaE extends Component {
         timer: "3000",
       });
     }
-  }
+  };
   state = {
     estados: [],
   };

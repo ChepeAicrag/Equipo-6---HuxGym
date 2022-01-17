@@ -277,7 +277,7 @@ class TablaC extends Component {
                 animation="tada"
               ></box-icon>
             </i> */}
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nueva Categoría
           </button>
           <div className="esp"></div>
           <input

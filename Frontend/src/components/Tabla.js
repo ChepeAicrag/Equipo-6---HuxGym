@@ -214,9 +214,9 @@ class Tabla extends Component {
         console.log(isEmpty(this.state.form.image)) */
         if (typeof form.image !== "string" && !isEmpty(this.state.form.image))
           formData.append("image", this.state.form.image);
-          formData.append("name", this.state.form.name.toUpperCase());
-          formData.append("curp", this.state.form.curp.toUpperCase());
-          formData.append(
+        formData.append("name", this.state.form.name.toUpperCase());
+        formData.append("curp", this.state.form.curp.toUpperCase());
+        formData.append(
           "paternal_surname",
           this.state.form.paternal_surname.toUpperCase()
         );
@@ -653,27 +653,30 @@ class Tabla extends Component {
               </tr>
             </thead>
             <tbody className="cuerpoTabla base">
-              {this.state.data && this.state.data.map((clientes) => {
-                return (
-                  <tr className="cuerpoT">
-                    <td>{clientes.folio}</td>
-                    <td>{clientes.name}</td>
-                    <td>{clientes.dateJoined}</td>
-                    <td>{clientes.gender}</td>
-                    <td>{clientes.phone}</td>
-                    <td>{clientes.isStudiant ? "Si" : "No"}</td>
-                    <td>
-                      <img
-                        src={`https://www.api.huxgym.codes/${clientes.image}`}
-                        width="180"
-                        height="150"
-                        align="center"
-                      />
-                    </td>
-                    <td>
-                      {/* <BtnMembresia></BtnMembresia> */}
-                      {clientes.membershipActivate ? "Activada" : "No Activada"}
-                    </td>
+              {this.state.data &&
+                this.state.data.map((clientes) => {
+                  return (
+                    <tr className="cuerpoT">
+                      <td>{clientes.folio}</td>
+                      <td>{clientes.name}</td>
+                      <td>{clientes.dateJoined}</td>
+                      <td>{clientes.gender}</td>
+                      <td>{clientes.phone}</td>
+                      <td>{clientes.isStudiant ? "Si" : "No"}</td>
+                      <td>
+                        <img
+                          src={`https://www.api.huxgym.codes/${clientes.image}`}
+                          width="180"
+                          height="150"
+                          align="center"
+                        />
+                      </td>
+                      <td>
+                        {/* <BtnMembresia></BtnMembresia> */}
+                        {clientes.membershipActivate
+                          ? "Activada"
+                          : "No Activada"}
+                      </td>
 
                       <td className="">
                         <button
@@ -921,7 +924,6 @@ class Tabla extends Component {
                 </>
               )}
 
-             
               <br />
               <label htmlFor="phone">Teléfono*:</label>
               <input
@@ -937,7 +939,7 @@ class Tabla extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
-              
+
               <br />
               <label htmlFor="image">Foto:</label>
               <input
@@ -964,15 +966,9 @@ class Tabla extends Component {
                         value="H"
                         autocomplete="off"
                         onChange={this.handleChange}
-                        checked={
+                        /* checked={
                           form ? (form.gender === "H" ? true : false) : true
-                          // (this.state.tipoModal == "insertar" && form == null) ||
-                          // form.gender === undefined
-                          //   ? true
-                          //   : form.gender === "M"
-                          //   ? true
-                          //   : false
-                        }
+                        } */
                       />{" "}
                       H
                     </label>
@@ -983,22 +979,22 @@ class Tabla extends Component {
                         value="M"
                         autocomplete="on"
                         onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "M" ? true : false) : true
-                          // (this.state.tipoModal === "insertar" && form == null) ||
-                          // form.gender === undefined
-                          //   ? false
-                          //   : form.gender === "F"
-                          //   ? true
-                          //   : false
-                        }
+                        /* checked={
+                          form ? (this.state.form.gender === "H" ? true : false) : true
+                           (this.state.tipoModal === "insertar" && form == null) ||
+                           form.gender === undefined
+                             ? false
+                             : form.gender === "F"
+                             ? true
+                            : false
+                        } */
                       />{" "}
                       M
                     </label>
                   </>
                 ) : (
                   <>
-                    <label class="btn botonesForm m-1">
+                    {/* <label class="btn botonesForm m-1">
                       <input
                         type="radio"
                         name="gender"
@@ -1007,34 +1003,21 @@ class Tabla extends Component {
                         disabled
                         onChange={this.handleChange}
                         checked={
-                          form ? (form.gender === "H" ? true : false) : true
-                          // (this.state.tipoModal == "insertar" && form == null) ||
-                          // form.gender === undefined
-                          //   ? true
-                          //   : form.gender === "M"
-                          //   ? true
-                          //   : false
+                          form ? (this.state.form.gender === "H" ? true : false) : true
+                          console.log(this.state.form.gender)
                         }
                       />{" "}
                       H
-                    </label>
+                    </label> */}
                     <label class="btn botonesForm m-1 ">
                       <input
                         type="radio"
                         name="gender"
                         value="M"
-                        autocomplete="on"
+                        autocomplete="off "
                         disabled
                         onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "M" ? true : false) : true
-                          // (this.state.tipoModal === "insertar" && form == null) ||
-                          // form.gender === undefined
-                          //   ? false
-                          //   : form.gender === "F"
-                          //   ? true
-                          //   : false
-                        }
+                        checked="true"
                       />{" "}
                       M
                     </label>
@@ -1046,38 +1029,87 @@ class Tabla extends Component {
               <br />
               <label htmlFor="isStudiant">Estudiante*:</label>
               <br />
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="isStudiant"
-                    value={true}
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                      form ? (form.isStudiant === "true" ? true : false) : true
-                    }
-                  />{" "}
-                  Sí
-                </label>
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="isStudiant"
-                    value={false}
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                      form
-                        ? form.isStudiant === "false"
-                          ? true
-                          : false
-                        : false
-                    }
-                  />{" "}
-                  No
-                </label>
-              </div>
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="isStudiant"
+                        value={true}
+                        autocomplete="on"
+                        onChange={this.handleChange}
+                        checked={
+                          form
+                            ? form.isStudiant === "true"
+                              ? true
+                              : false
+                            : true
+                        }
+                      />{" "}
+                      Sí
+                    </label>
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="isStudiant"
+                        value={false}
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          form
+                            ? form.isStudiant === "false"
+                              ? true
+                              : false
+                            : false
+                        }
+                      />{" "}
+                      No
+                    </label>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="isStudiant"
+                        value={true}
+                        autocomplete="on"
+                        disabled
+                        onChange={this.handleChange}
+                        checked={
+                          form
+                            ? form.isStudiant === "true"
+                              ? true
+                              : false
+                            : true
+                        }
+                      />{" "}
+                      Sí
+                    </label>
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="isStudiant"
+                        value={false}
+                        autocomplete="off"
+                        disabled
+                        onChange={this.handleChange}
+                        checked={
+                          form
+                            ? form.isStudiant === "false"
+                              ? true
+                              : false
+                            : false
+                        }
+                      />{" "}
+                      No
+                    </label>
+                  </div>
+                </>
+              )}
             </div>
           </ModalBody>
 
