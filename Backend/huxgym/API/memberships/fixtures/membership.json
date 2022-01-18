@@ -1,0 +1,13 @@
+[
+    {
+        "model": "memberships.membership",
+        "pk": 1,
+        "fields": {
+            "name": "Visitante",
+            "description": "Esta membresía es para un visitante",
+            "price": 50,
+            "day": 1,
+            "status_delete": "False"
+        }
+    }
+]

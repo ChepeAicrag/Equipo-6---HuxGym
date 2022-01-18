@@ -1,0 +1,41 @@
+{% load inlinecss %}
+{% inlinecss "css/style.css" %}
+{% autoescape off %}
+<html>
+
+<head>
+</head>
+
+<body>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+
+  <div class="activation__wrapper" align='center'>
+    <div class="activation__container">
+      <div class="activation__header"><img class="activation__logo" src="https://i.anunciosya.com.mx/i-a/cCHj-50.png" />
+      </div>
+      <div class="activation__subject">HuxGym</div>
+      <br>Activación de Cuenta</br>
+      <div class="activation__message">
+        <div> Hola, <span class="activation__user">{{user}}</span>
+          <div>A continuación se te proporcionará tus credenciales, por favor, activa tu cuenta para acceder al sistema.
+          </div>
+          <div>----------------------------------</div>
+          <div><b>email:</b> {{email}}</div>
+          <div><b>password:</b> {{password}}</div>
+          <div>----------------------------------</div>
+          <div>No olvides cambiar tu contraseña por una más segura</div>
+        </div>
+        <div class="activation__link">
+          <a class="activation__btn" href="{{url}}/{{uid}}/{{token}}">Clic aquí para activar tu cuenta</a>
+        </div>
+        <div class="activation__footer">
+          Gracias
+          <br /> HuxGym Support Team <br />
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
+{% endautoescape %}
+{% endinlinecss %}

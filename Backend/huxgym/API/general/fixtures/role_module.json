@@ -1,0 +1,192 @@
+[
+    {
+        "model": "general.rolemodule",
+        "pk": 1,
+        "fields": {
+            "role_id": 1,
+            "module_id": 1,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 2,
+        "fields": {
+            "role_id": 1,
+            "module_id": 2,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 3,
+        "fields": {
+            "role_id": 1,
+            "module_id": 3,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 4,
+        "fields": {
+            "role_id": 1,
+            "module_id": 4,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 5,
+        "fields": {
+            "role_id": 1,
+            "module_id": 5,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 6,
+        "fields": {
+            "role_id": 1,
+            "module_id": 6,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 7,
+        "fields": {
+            "role_id": 1,
+            "module_id": 7,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 8,
+        "fields": {
+            "role_id": 2,
+            "module_id": 1,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 9,
+        "fields": {
+            "role_id": 2,
+            "module_id": 3,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 10,
+        "fields": {
+            "role_id": 2,
+            "module_id": 4,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 11,
+        "fields": {
+            "role_id": 2,
+            "module_id": 5,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 12,
+        "fields": {
+            "role_id": 2,
+            "module_id": 6,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 13,
+        "fields": {
+            "role_id": 2,
+            "module_id": 7,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 14,
+        "fields": {
+            "role_id": 3,
+            "module_id": 1,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 15,
+        "fields": {
+            "role_id": 3,
+            "module_id": 3,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 16,
+        "fields": {
+            "role_id": 3,
+            "module_id": 4,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 17,
+        "fields": {
+            "role_id": 3,
+            "module_id": 5,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 18,
+        "fields": {
+            "role_id": 3,
+            "module_id": 6,
+            "status": "True",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.rolemodule",
+        "pk": 19,
+        "fields": {
+            "role_id": 3,
+            "module_id": 7,
+            "status": "True",
+            "status_delete": "False"
+        }
+    }
+]

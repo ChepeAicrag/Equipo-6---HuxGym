@@ -1,0 +1,65 @@
+[
+    {
+        "model": "general.module",
+        "pk": 1,
+        "fields": {
+            "name": "Customers",
+            "description": "Módulo para la gestión de clientes",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.module",
+        "pk": 2,
+        "fields": {
+            "name": "Users",
+            "description": "Módulo para la gestión de clientes",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.module",
+        "pk": 3,
+        "fields": {
+            "name": "Membership",
+            "description": "Módulo para la gestión de membresias",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.module",
+        "pk": 4,
+        "fields": {
+            "name": "Product",
+            "description": "Módulo para la gestión de clientes",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.module",
+        "pk": 5,
+        "fields": {
+            "name": "Purchase",
+            "description": "Módulo para la gestión de clientes",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.module",
+        "pk": 6,
+        "fields": {
+            "name": "Sale",
+            "description": "Módulo para la gestión de clientes",
+            "status_delete": "False"
+        }
+    },
+    {
+        "model": "general.module",
+        "pk": 7,
+        "fields": {
+            "name": "Accounting",
+            "description": "Módulo para la gestión de clientes",
+            "status_delete": "False"
+        }
+    }
+]

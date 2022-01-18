@@ -1,0 +1,95 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Source Sans Pro", sans-serif;
+  }
+  
+  nav {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    justify-items: start;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 50px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 1rem;
+  }
+  
+  nav > img {
+    width: 120px;
+  }
+  
+  nav > p {
+    width: 100%;
+    margin: 0;
+    font-size: 24px;
+    color: #263238;
+    font-weight: 700;
+  }
+  .layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    width: 300px;
+  }
+  .form_wrapper > img {
+    width: 140px;
+  }
+  .form_wrapper > p {
+    font-size: 18px;
+    color: #263238;
+    margin-bottom: 2.5rem;
+    font-family: 400;
+  }
+  
+  .input_style {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+  }
+  .input_style.first {
+    margin-top: 0;
+  }
+  .input_style > label {
+    font-size: 18px;
+    color: #263238;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  .input_style > input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 18px;
+    color: #263238;
+    padding: 0.5rem;
+    border: 1x solid #90a4ae;
+  }
+  .btn_submit {
+    width: 100%;
+    margin-top: 2rem;
+    border: none;
+    padding: 1rem;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    background-color: #ff9100;
+    cursor: pointer;
+    transition: 0.4s ease;
+  }
+  .btn_submit:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
