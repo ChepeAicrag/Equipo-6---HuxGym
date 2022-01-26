@@ -7,5 +7,6 @@ urlpatterns = [
     path('purchases/', report_purchase_view, name = 'report_product_api'),
     path('memberships/', report_membership_view, name = 'report_membership_api'),
     path('sales/', report_sales_view, name='report_sale_api'),
-    path('employees/',report_employees_view, name='report_employees_api')
+    path('employees/',report_employees_view, name='report_employees_api'),
+    path('ticket/<int:pk>',ticket_view, name='tickets'),
 ]

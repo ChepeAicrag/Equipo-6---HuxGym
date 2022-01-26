@@ -1,3 +1,4 @@
+from itertools import product
 from API.purchases.models import *
 from API.reports.api.serializers import *
 from API.reports.models import *
@@ -9,10 +10,15 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from API.general.authentication_middleware import Authentication
 from rest_framework.views import APIView
-from datetime import datetime
+from datetime import datetime, date
 import operator
 from django.db.models import Sum
 from API.products.models import Stock, OperationType, Operation, HistoryInventory
+from io import BytesIO
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.template import Context
+from django.http import HttpResponse
 
 """
 Attendence reporting API
@@ -291,4 +297,42 @@ def report_employees_view(request):
     else:
         return Response({'message': 'Se requiere un rango de fechas'},
                             status = status.HTTP_400_BAD_REQUEST)
+
+
+def render_to_pdf(template_src, context_dict):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return Response({'message': 'Error al generar el PDF'},
+                            status = status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+@api_view(['GET','POST'])
+def ticket_view(request, pk=None):
+    sale = Sale.objects.filter(status_delete=False, id = pk).first()
+    if not sale:
+        return Response({'message': 'No se encuentra la venta'},
+                            status = status.HTTP_400_BAD_REQUEST)
+
+    serializer_venta = SaleReportSerializer(sale, many=False)
+
+    sale_detail = SaleDetailsProduct.objects.filter(sale=sale, status_delete=False).first()
+    if sale_detail:
+        sale_detail = SaleDetailsProduct.objects.filter(sale=sale, status_delete=False)
+        serializer_detail_venta = DetailsReportSerializer(sale_detail, many=True)
+    else:
+        sale_detail = SaleDetailsMembership.objects.filter(sale=sale, status_delete=False)
+        serializer_detail_venta = DetailsMemReportSerializer(sale_detail, many=True)
+    
+    return render_to_pdf(
+            'ticket.html',
+            {
+                'sale': serializer_venta.data,
+                'details': serializer_detail_venta.data,
+            }
+        )
         
