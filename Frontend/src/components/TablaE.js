@@ -45,6 +45,8 @@ class TablaE extends Component {
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     empleados: [],
+    estados: [],
+    errors:{curp:null},
     
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
@@ -79,6 +81,7 @@ class TablaE extends Component {
     });
     console.log(this.state.form);
   };
+
   manejadorCorreo = async () => {
     var expReg =
       /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
@@ -102,9 +105,10 @@ class TablaE extends Component {
       });
     }
   };
-  state = {
+  /* state = {
     estados: [],
   };
+ */
   perticionState = async () => {
     axios
       .get("https://www.api.huxgym.codes/state/")
@@ -116,6 +120,7 @@ class TablaE extends Component {
         console.log(error);
       });
   };
+
   peticionGet = async () => {
     /* Con esto obtenemos los datos de la url(data) y lo almacenamos en data(data[]) */
     try {
@@ -154,6 +159,9 @@ class TablaE extends Component {
     const phone = form.phone;
     const role = form.role;
     const curp = form.curp;
+    const paternal_surname = form.paternal_surname;
+    const maiden_name = form.mothers_maiden_name;
+    
 
     if (
       isEmpty(name) &&
@@ -170,7 +178,19 @@ class TablaE extends Component {
       return {
         error: true,
         msj: "El campo de nombre no puede estar vacío",
-      };
+    };
+
+    if (isEmpty(paternal_surname))
+      return {
+        error: true,
+        msj: "El apellido paterno no puede estar vacío",
+    };
+
+    if (isEmpty(maiden_name))
+      return {
+        error: true,
+        msj: "El apellido materno no puede estar vacío",
+    };
 
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
@@ -188,6 +208,12 @@ class TablaE extends Component {
         error: true,
         msj: "El campo de role no puede estar vacío",
       };
+    if(this.state.errors.curp){
+      return {
+        error: true,
+        msj: "La curp esta incorrecta",
+      };
+    }  
 
     return { error: false };
   };
@@ -208,6 +234,7 @@ class TablaE extends Component {
       const { form } = this.state;
       const validar = this.validar(form);
       if (validar.error) {
+      
         swal({
           text: validar.msj,
           icon: "info",
@@ -462,12 +489,137 @@ class TablaE extends Component {
       this.setState({ data: this.state.dataBuscar });
     }
   };
-  handleChangeInputCURP = (e) => {
+
+async validarCurp(valor){
+  
+  let p = "XVXX999999SXXCCC??";
+  let digitos=" 0123456789";
+  let lyn= " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"; 
+  let letras= " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
+  let sexo=" HM";
+  let l = p.length;;
+  let v = valor;
+  let m = v.length;
+  let c = "A";
+  let exe = 0;
+  let e=0;
+  let q;
+  await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: null,
+        } }));
+  let consonantes=" BCDFGHJKLMNPQRSTUVWXYZ";
+  let vocales=" AEIOUX";
+  if (v.charAt(0) !== "*") {
+    for (let i = 0; i < m; i++) {
+      
+      c = "" + v.charAt(i);
+      q = p.charAt(i);
+      if (q === "?" && lyn.indexOf(c) < 1) {
+        await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: 'La posición '+(i+1) + "debe ser una letra o dígito (0-9)",
+        }}));
+        i = l + 1;
+        if (exe === 0) e = e + 1;
+      }
+      if (q === "X" && letras.indexOf(c) < 1) {
+        console.log("i "+i)
+        await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: "La posición " + (i+1) +" debe ser una letra",
+        } }));
+        i = l + 1;
+        if (exe === 0) e = e + 1;
+      }
+      if (q === "V" && vocales.indexOf(c) < 1) {
+        /* console.log("i "+i) */
+        await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: "La posición " +(i + 1) +" debe ser una vocal",
+        }}))
+        
+        i = l + 1;
+        if (exe === 0) e = e + 1;
+      }
+      if (q === "C" && consonantes.indexOf(c) < 1) {
+        await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: "La posición " +(i + 1) +" debe ser una consonante",
+        }
+        }))
+        
+        i = l + 1;
+        if (exe === 0) e = e + 1;
+      }
+      if (q === "9" && digitos.indexOf(c) < 1) {
+        console.log("i "+i)
+        await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser un número (0-9)",
+        }
+        }))
+        
+        i = l + 1;
+        if (exe === 0) e = e + 1;
+      }
+      if (q === "S" && sexo.indexOf(c) < 1) {
+        await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: "La posición " +(i + 1) +" debe ser H(ombre) o M(ujer)",
+        }
+        }))
+       
+        i = l + 1;
+        if (exe === 0) e = e + 1;
+      }
+
+      
+    }
+  } else {
+    
+  }
+
+  if (v.length>=1 && v.length<18) {
+    try{
+      /* console.log(this.state.errors.curp) */
+      if(!this.state.errors.curp){
+        await this.setState(prevState => ({
+          errors: {
+              ...prevState.errors,
+              curp: "Deben ser " + l + " posiciones",
+             }
+           }))
+      }
+    }catch(error){
+
+    }
+    
+
+    
+   
+    if (exe === 0) e = e + 1;
+  }
+  if (e < 1) {
+   
+  }
+}
+
+handleChangeInputCURP = (e) => {
     const { name, value } = e.target;
+    let value2=value.toUpperCase();
+    this.validarCurp(value2);
     this.setState({
       form: {
         ...this.state.form,
-        [name]: value,
+        [name]: value2,
       },
     });
     // let regex = new RegExp("^[a-zA-Z ]+$");
@@ -488,16 +640,18 @@ class TablaE extends Component {
         timer: "5000",
       });
     } */
-  };
-  changeEstado = (e) => {
+};
+
+changeEstado = (e) => {
     const { name, value } = e.target;
+    
     this.setState({
       form: {
         ...this.state.form,
         [name]: value,
       },
     });
-  };
+};
 
   handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -903,6 +1057,7 @@ class TablaE extends Component {
                     onChange={this.handleChangeInputCURP}
                     value={form ? form.curp : ""}
                   />
+                  {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
                 </>
               ) : (
                 <>
@@ -920,7 +1075,7 @@ class TablaE extends Component {
                   />
                 </>
               )}
-
+              
               <label htmlFor="phone">Teléfono*:</label>
               <input
                 className="form-control"
