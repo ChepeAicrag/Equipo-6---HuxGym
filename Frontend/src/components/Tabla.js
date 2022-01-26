@@ -28,6 +28,64 @@ const urlMembresias = "https://www.api.huxgym.codes/memberships/memberships";
 /* const handleDateChange = (date) => {
   setSelectedDate(date);
 }; */
+
+function obtenerMes(date) {
+  let fecha = new Date(date);
+  let mounth = fecha.getUTCMonth() + 1;
+  if (mounth < 10) {
+    mounth = "0" + mounth;
+  }
+  
+  return mounth;
+}
+function entidades(abre) {
+  let res="--"
+  if(abre==="1") res ="AS";
+  if(abre==="2") res ="BC";
+  if(abre==="3") res ="BS";
+  if(abre==="4") res ="CC";
+  if(abre==="5") res ="CL";
+  if(abre==="6") res ="CM";
+  if(abre==="7") res ="CS";
+  if(abre==="8") res ="CH";
+  if(abre==="9") res ="DF";
+  if(abre==="10") res ="DG";
+  if(abre==="11") res ="GT";
+  if(abre==="12") res ="GR";
+  if(abre==="13") res ="HG";
+  if(abre==="14") res ="JC";
+  if(abre==="15") res ="MC";
+  if(abre==="16") res ="MN";
+  if(abre==="17") res ="MS";
+  if(abre==="18") res ="NT";
+  if(abre==="19") res ="NL";
+  if(abre==="20") res= "OC";
+  if(abre==="21") res ="PL";
+  if(abre==="22") res ="QQ";
+  if(abre==="23") res ="QR";
+  if(abre==="24") res ="SP";
+  if(abre==="25") res ="SL";
+  if(abre==="26") res ="SR";
+  if(abre==="27") res ="TC";
+  if(abre==="28") res ="TS";
+  if(abre==="29") res ="TL";
+  if(abre==="30") res ="VZ";
+  if(abre==="31") res ="YN";
+  if(abre==="32") res ="ZS";
+
+  return res;
+}
+
+function obtenerDia(date) {
+  let fecha = new Date(date);
+  let day = fecha.getDate();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  
+  return day;
+}
+
 function obtnerDate(date) {
   let fecha = new Date(date);
   console.log(fecha);
@@ -54,11 +112,13 @@ class Tabla extends Component {
     modalHojaclinica: false,
     dataBuscar:[],
     ultimo: {},
+    errors:{curp:null},
     //membresiasList:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     clientes: [],
+    estados: [],
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
@@ -93,9 +153,7 @@ class Tabla extends Component {
 
     console.log(this.state.form);
   };
-  state = {
-    estados: [],
-  };
+  
   perticionState = async () => {
     axios
       .get("https://www.api.huxgym.codes/state/")
@@ -107,6 +165,291 @@ class Tabla extends Component {
         console.log(error);
       });
   };
+
+  async validarCurp(valor){
+  
+    let p = "XVXX999999SXXCCC??";
+    let digitos=" 0123456789";
+    let lyn= " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"; 
+    let letras= " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
+    let sexo=" HM";
+    let l = p.length;;
+    let v = valor;
+    let m = v.length;
+    let c = "A";
+    let exe = 0;
+    let e=0;
+    let q;
+    await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: null,
+          } }));
+    let consonantes=" BCDFGHJKLMNPQRSTUVWXYZ";
+    let vocales=" AEIOUX";
+    if (v.charAt(0) !== "*") {
+      for (let i = 0; i < m; i++) {
+        
+        c = "" + v.charAt(i);
+        q = p.charAt(i);
+        if (q === "?" && lyn.indexOf(c) < 1) {
+          await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: 'La posición '+(i+1) + "debe ser una letra o dígito (0-9)",
+          }}));
+          i = l + 1;
+          if (exe === 0) e = e + 1;
+        }
+        if (q === "X" && letras.indexOf(c) < 1) {
+          console.log("i "+i)
+          await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: "La posición " + (i+1) +" debe ser una letra",
+          } }));
+          i = l + 1;
+          if (exe === 0) e = e + 1;
+        }
+        if (q === "V" && vocales.indexOf(c) < 1) {
+          /* console.log("i "+i) */
+          await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: "La posición " +(i + 1) +" debe ser una vocal",
+          }}))
+          
+          i = l + 1;
+          if (exe === 0) e = e + 1;
+        }
+        if (q === "C" && consonantes.indexOf(c) < 1) {
+          await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: "La posición " +(i + 1) +" debe ser una consonante",
+          }
+          }))
+          
+          i = l + 1;
+          if (exe === 0) e = e + 1;
+        }
+        if (q === "9" && digitos.indexOf(c) < 1) {
+          console.log("i "+i)
+          await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: "La posición " + (i + 1) + " debe ser un número (0-9)",
+          }
+          }))
+          
+          i = l + 1;
+          if (exe === 0) e = e + 1;
+        }
+        if (q === "S" && sexo.indexOf(c) < 1) {
+          await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: "La posición " +(i + 1) +" debe ser H(ombre) o M(ujer)",
+          }
+          }))
+         
+          i = l + 1;
+          if (exe === 0) e = e + 1;
+        }
+  
+        
+      }
+    } else {
+      
+    }
+  
+
+    if (v.length==2) {
+      try{
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.paternal_surname)){
+          let contenido=this.state.form.paternal_surname.toString().substring(0,2).toUpperCase()
+          if(v!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "Lo correcto seria "+contenido,
+                 }
+               }))
+          }
+        }
+          //console.log()
+        }
+      }catch(error){}
+    }
+  
+    if (v.length==3) {
+      try{
+        let contenido=this.state.form.mothers_maiden_name.toString().substring(0,1).toUpperCase()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.mothers_maiden_name)){
+          
+          if(v.toString().substring(2,3)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 3 seria "+contenido,
+                 }
+               }))
+          }
+        }
+          //console.log()
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===4) {
+      try{
+        let contenido=this.state.form.name.toString().substring(0,1).toUpperCase()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.name)){
+          
+          if(v.toString().substring(3,4)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 4 seria "+contenido,
+                 }
+               }))
+          }
+        }
+          //console.log()
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===6) {
+      try{
+        let contenido=this.state.form.birthdate.getFullYear().toString().substring(1,3).toUpperCase()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.birthdate)){
+          
+          if(v.toString().substring(4,6)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 5 y 6 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===8) {
+      try{
+        let contenido=obtenerMes(this.state.form.birthdate).toString()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.birthdate)){
+          
+          if(v.toString().substring(6,8)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 7 y 8 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===10) {
+      try{
+        let contenido=obtenerDia(this.state.form.birthdate).toString()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.birthdate)){
+          
+          if(v.toString().substring(8,10)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 9 y 10 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===11) {
+      try{
+        let contenido=this.state.form.gender.toString()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.gender)){
+          
+          if(v.toString().substring(10,11)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 11 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  //-----------------Estadossss----------------------------------------------------
+    if (v.length===13) {
+      try{
+        let contenido=entidades(this.state.form.entity_birth.toString())
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.entity_birth)){
+          
+          if(v.toString().substring(11,13)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 12 y 13 tu entidad federativa es incorrecta debe ser " + contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+
+
+    if (v.length>=1 && v.length<18) {
+      try{
+        /* console.log(this.state.errors.curp) */
+        if(!this.state.errors.curp){
+          await this.setState(prevState => ({
+            errors: {
+                ...prevState.errors,
+                curp: "Deben ser " + l + " posiciones",
+               }
+             }))
+        }
+      }catch(error){
+  
+      }
+      
+  
+      
+     
+      if (exe === 0) e = e + 1;
+    }
+    if (e < 1) {
+     
+    }
+  }
 
   peticionGet = async () => {
     console.log("entre a petition get");
@@ -155,6 +498,8 @@ class Tabla extends Component {
     const gender = form.gender;
     const isStudiant = form.isStudiant;
     const phone = form.phone;
+    const paternal_surname = form.paternal_surname;
+    const maiden_name = form.mothers_maiden_name;
 
     if (
       isEmpty(name) &&
@@ -171,6 +516,17 @@ class Tabla extends Component {
         error: true,
         msj: "El campo de nombre no puede estar vacío",
       };
+      if (isEmpty(paternal_surname))
+      return {
+        error: true,
+        msj: "El apellido paterno no puede estar vacío",
+    };
+
+    if (isEmpty(maiden_name))
+      return {
+        error: true,
+        msj: "El apellido materno no puede estar vacío",
+    };
     if (isEmpty(phone))
       return { error: true, msj: "El campo de teléfono no puede estar vacío" };
     if (phone.length < 10)
@@ -179,6 +535,14 @@ class Tabla extends Component {
       return { error: true, msj: "El campo de género no puede estar vacío" };
     if (isEmpty(isStudiant))
       return { error: true, msj: "Debe seleccionar si es estudiante o no" };
+
+    if(this.state.errors.curp){
+        return {
+          error: true,
+          msj: "La curp esta incorrecta",
+        };
+    }  
+
     return { error: false };
   };
 
@@ -494,10 +858,12 @@ class Tabla extends Component {
 
   handleChangeCurp = (e) => {
     const { name, value } = e.target;
+    let value2=value.toUpperCase();
+    this.validarCurp(value2);
     this.setState({
       form: {
         ...this.state.form,
-        [name]: value,
+        [name]: value2,
       },
     });
     // let regex = new RegExp("^[a-zA-Z ]+$");
@@ -829,33 +1195,7 @@ class Tabla extends Component {
                 </>
               )}
 
-              <label htmlFor="name">CURP*:</label>
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                </>
-              ) : (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    disabled
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                </>
-              )}
+              
 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <label className="articulo mt-3">Fecha de Nacimiento</label>
@@ -926,36 +1266,6 @@ class Tabla extends Component {
                   </select>
                 </>
               )}
-
-              <br />
-              <label htmlFor="phone">Teléfono*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="phone"
-                id="phone"
-                size="10"
-                placeholder="Teléfono"
-                maxLength="10"
-                placeholder="Teléfono"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.phone : ""}
-              />
-              <br />
-
-              <br />
-              <label htmlFor="image">Foto:</label>
-              <input
-                className="form-control"
-                type="file"
-                name="image"
-                ref="file"
-                id="image"
-                accept="image/png, image/jpeg, image/jpg, image/ico"
-                onChange={this.handleChangeInputImage}
-              />
-              <br />
-
               <label htmlFor="gender">Género*: </label>
               <br />
 
@@ -1023,6 +1333,63 @@ class Tabla extends Component {
                 )}
               </div>
               <br />
+              <label htmlFor="name">CURP*:</label>
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                   {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
+                </>
+              ) : (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    disabled
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              )}
+              <label htmlFor="phone">Teléfono*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="phone"
+                id="phone"
+                size="10"
+                placeholder="Teléfono"
+                maxLength="10"
+                placeholder="Teléfono"
+                onChange={this.handleChangeInputNumber}
+                value={form ? form.phone : ""}
+              />
+              <br />
+
+              <br />
+              <label htmlFor="image">Foto:</label>
+              <input
+                className="form-control"
+                type="file"
+                name="image"
+                ref="file"
+                id="image"
+                accept="image/png, image/jpeg, image/jpg, image/ico"
+                onChange={this.handleChangeInputImage}
+              />
+              <br />
+
+              
 
               <br />
               <label htmlFor="isStudiant">Estudiante*:</label>
