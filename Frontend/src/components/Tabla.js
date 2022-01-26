@@ -40,8 +40,39 @@ function obtenerMes(date) {
 }
 function entidades(abre) {
   let res="--"
+  if(abre==="1") res ="AS";
+  if(abre==="2") res ="BC";
+  if(abre==="3") res ="BS";
+  if(abre==="4") res ="CC";
+  if(abre==="5") res ="CL";
+  if(abre==="6") res ="CM";
+  if(abre==="7") res ="CS";
+  if(abre==="8") res ="CH";
+  if(abre==="9") res ="DF";
+  if(abre==="10") res ="DG";
+  if(abre==="11") res ="GT";
+  if(abre==="12") res ="GR";
+  if(abre==="13") res ="HG";
+  if(abre==="14") res ="JC";
+  if(abre==="15") res ="MC";
+  if(abre==="16") res ="MN";
+  if(abre==="17") res ="MS";
+  if(abre==="18") res ="NT";
+  if(abre==="19") res ="NL";
   if(abre==="20") res= "OC";
-  if(abre==="9") res= "DF";
+  if(abre==="21") res ="PL";
+  if(abre==="22") res ="QQ";
+  if(abre==="23") res ="QR";
+  if(abre==="24") res ="SP";
+  if(abre==="25") res ="SL";
+  if(abre==="26") res ="SR";
+  if(abre==="27") res ="TC";
+  if(abre==="28") res ="TS";
+  if(abre==="29") res ="TL";
+  if(abre==="30") res ="VZ";
+  if(abre==="31") res ="YN";
+  if(abre==="32") res ="ZS";
+
   return res;
 }
 
@@ -1164,34 +1195,7 @@ class Tabla extends Component {
                 </>
               )}
 
-              <label htmlFor="name">CURP*:</label>
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                   {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
-                </>
-              ) : (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    disabled
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                </>
-              )}
+              
 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <label className="articulo mt-3">Fecha de Nacimiento</label>
@@ -1262,36 +1266,6 @@ class Tabla extends Component {
                   </select>
                 </>
               )}
-
-              <br />
-              <label htmlFor="phone">Teléfono*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="phone"
-                id="phone"
-                size="10"
-                placeholder="Teléfono"
-                maxLength="10"
-                placeholder="Teléfono"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.phone : ""}
-              />
-              <br />
-
-              <br />
-              <label htmlFor="image">Foto:</label>
-              <input
-                className="form-control"
-                type="file"
-                name="image"
-                ref="file"
-                id="image"
-                accept="image/png, image/jpeg, image/jpg, image/ico"
-                onChange={this.handleChangeInputImage}
-              />
-              <br />
-
               <label htmlFor="gender">Género*: </label>
               <br />
 
@@ -1359,6 +1333,63 @@ class Tabla extends Component {
                 )}
               </div>
               <br />
+              <label htmlFor="name">CURP*:</label>
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                   {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
+                </>
+              ) : (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    disabled
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              )}
+              <label htmlFor="phone">Teléfono*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="phone"
+                id="phone"
+                size="10"
+                placeholder="Teléfono"
+                maxLength="10"
+                placeholder="Teléfono"
+                onChange={this.handleChangeInputNumber}
+                value={form ? form.phone : ""}
+              />
+              <br />
+
+              <br />
+              <label htmlFor="image">Foto:</label>
+              <input
+                className="form-control"
+                type="file"
+                name="image"
+                ref="file"
+                id="image"
+                accept="image/png, image/jpeg, image/jpg, image/ico"
+                onChange={this.handleChangeInputImage}
+              />
+              <br />
+
+              
 
               <br />
               <label htmlFor="isStudiant">Estudiante*:</label>
