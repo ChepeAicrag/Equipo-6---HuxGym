@@ -796,7 +796,7 @@ async validarCurp(valor){
           await this.setState(prevState => ({
             errors: {
                 ...prevState.errors,
-                curp: "En la posicion 12 y 13 tu entidad federativa es incorrecta",
+                curp: "En la posicion 12 y 13 tu entidad federativa es incorrecta debe ser " + contenido,
                }
              }))
         }
