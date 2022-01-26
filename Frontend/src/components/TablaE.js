@@ -826,8 +826,9 @@ async validarCurp(valor){
 }
 
 handleChangeInputCURP = (e) => {
-    const { name, value } = e.target;
-    let value2=value.toUpperCase();
+  const { name, value } = e.target;
+  let value2=value.toUpperCase();
+  if(value2.length<19){
     this.validarCurp(value2);
     this.setState({
       form: {
@@ -835,6 +836,7 @@ handleChangeInputCURP = (e) => {
         [name]: value2,
       },
     });
+  }
     // let regex = new RegExp("^[a-zA-Z ]+$");
     /* let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
     if (regex.test(value) || isEmpty(value)) {
