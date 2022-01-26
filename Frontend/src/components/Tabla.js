@@ -28,6 +28,33 @@ const urlMembresias = "https://www.api.huxgym.codes/memberships/memberships";
 /* const handleDateChange = (date) => {
   setSelectedDate(date);
 }; */
+
+function obtenerMes(date) {
+  let fecha = new Date(date);
+  let mounth = fecha.getUTCMonth() + 1;
+  if (mounth < 10) {
+    mounth = "0" + mounth;
+  }
+  
+  return mounth;
+}
+function entidades(abre) {
+  let res="--"
+  if(abre==="20") res= "OC";
+  if(abre==="9") res= "DF";
+  return res;
+}
+
+function obtenerDia(date) {
+  let fecha = new Date(date);
+  let day = fecha.getDate();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  
+  return day;
+}
+
 function obtnerDate(date) {
   let fecha = new Date(date);
   console.log(fecha);
@@ -205,6 +232,169 @@ class Tabla extends Component {
       
     }
   
+
+    if (v.length==2) {
+      try{
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.paternal_surname)){
+          let contenido=this.state.form.paternal_surname.toString().substring(0,2).toUpperCase()
+          if(v!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "Lo correcto seria "+contenido,
+                 }
+               }))
+          }
+        }
+          //console.log()
+        }
+      }catch(error){}
+    }
+  
+    if (v.length==3) {
+      try{
+        let contenido=this.state.form.mothers_maiden_name.toString().substring(0,1).toUpperCase()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.mothers_maiden_name)){
+          
+          if(v.toString().substring(2,3)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 3 seria "+contenido,
+                 }
+               }))
+          }
+        }
+          //console.log()
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===4) {
+      try{
+        let contenido=this.state.form.name.toString().substring(0,1).toUpperCase()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.name)){
+          
+          if(v.toString().substring(3,4)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 4 seria "+contenido,
+                 }
+               }))
+          }
+        }
+          //console.log()
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===6) {
+      try{
+        let contenido=this.state.form.birthdate.getFullYear().toString().substring(1,3).toUpperCase()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.birthdate)){
+          
+          if(v.toString().substring(4,6)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 5 y 6 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===8) {
+      try{
+        let contenido=obtenerMes(this.state.form.birthdate).toString()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.birthdate)){
+          
+          if(v.toString().substring(6,8)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 7 y 8 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===10) {
+      try{
+        let contenido=obtenerDia(this.state.form.birthdate).toString()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.birthdate)){
+          
+          if(v.toString().substring(8,10)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 9 y 10 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  
+    if (v.length===11) {
+      try{
+        let contenido=this.state.form.gender.toString()
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.gender)){
+          
+          if(v.toString().substring(10,11)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 11 seria "+contenido,
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+  //-----------------Estadossss----------------------------------------------------
+    if (v.length===13) {
+      try{
+        let contenido=entidades(this.state.form.entity_birth.toString())
+        console.log(contenido)
+        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
+        if(!isEmpty(this.state.form.entity_birth)){
+          
+          if(v.toString().substring(11,13)!==contenido){
+            await this.setState(prevState => ({
+              errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 12 y 13 tu entidad federativa es incorrecta",
+                 }
+               }))
+          }
+        }
+        }
+      }catch(error){}
+    }
+
+
     if (v.length>=1 && v.length<18) {
       try{
         /* console.log(this.state.errors.curp) */
