@@ -180,13 +180,17 @@ class Tabla extends Component {
     let exe = 0;
     let e=0;
     let q;
+    let consonantes=" BCDFGHJKLMNPQRSTUVWXYZ";
+    let vocales=" AEIOUX";
+
+    
     await this.setState(prevState => ({
             errors: {
                 ...prevState.errors,
                 curp: null,
           } }));
-    let consonantes=" BCDFGHJKLMNPQRSTUVWXYZ";
-    let vocales=" AEIOUX";
+    
+
     if (v.charAt(0) !== "*") {
       for (let i = 0; i < m; i++) {
         
@@ -440,10 +444,6 @@ class Tabla extends Component {
       }catch(error){
   
       }
-      
-  
-      
-     
       if (exe === 0) e = e + 1;
     }
     if (e < 1) {
@@ -859,13 +859,16 @@ class Tabla extends Component {
   handleChangeCurp = (e) => {
     const { name, value } = e.target;
     let value2=value.toUpperCase();
-    this.validarCurp(value2);
-    this.setState({
-      form: {
-        ...this.state.form,
-        [name]: value2,
-      },
-    });
+    if(value2.length<19){
+      this.validarCurp(value2);
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: value2,
+        },
+      });
+    }
+    
     // let regex = new RegExp("^[a-zA-Z ]+$");
     /* let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
 
