@@ -390,6 +390,15 @@ class TablaV extends Component {
     }
   };
 
+
+peticionTicket (id)  {
+    console.log(urlT+id);
+    console.log("id de venta es "+id);
+    //window.location.href = urlT+id;
+    
+};
+
+
   peticionPut = async () => {
     /* con put enviamos informacion al endpoint para modificar*/
     try {
@@ -530,7 +539,7 @@ class TablaV extends Component {
     });
   };
 
-  seleccionarUsuario = (venta) => {
+seleccionarUsuario = async (venta) => {
     /* Para obtener los datos del usuario a eliminar */
     console.log(venta.sale_detail.length);
 
@@ -546,7 +555,7 @@ class TablaV extends Component {
             total: o.total,
           });
         });
-        this.setState({
+        await this.setState({
           ...this.state.form,
           tipoModal: "actualizar",
           dataS: info,
@@ -578,7 +587,7 @@ class TablaV extends Component {
           });
         });
         console.log("No we");
-        this.setState({
+        await this.setState({
           ...this.state.form,
           tipoModal: "actualizar",
           dataS: info,
@@ -610,7 +619,7 @@ class TablaV extends Component {
           total: x.total,
         });
       });
-      this.setState({
+      await this.setState({
         ...this.state.form,
         tipoModal: "actualizar",
         dataS: info,
@@ -947,13 +956,15 @@ class TablaV extends Component {
                           <></>
                         )}
 
-                        <button
-                          component={Link}
-                          to="www.google.com"
+                        <a
                           className="btn btn-info ml-1"
+                          href={urlT+ventas.sale.id} target="_blank"
+                          onClick={() => this.peticionTicket(ventas.sale.id)}
+                          
+                          
                         >
                           <FontAwesomeIcon icon={faClipboardCheck} />
-                        </button>
+                        </a>
                       </td>
                     </tr>
                   );
