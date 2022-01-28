@@ -1,20 +1,28 @@
-import React, { Component } from "react";
+import React, { Component, Link } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrashAlt,
+  faClipboardCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
 import "../styles/Crud.css";
 import "../styles/Ventas.css";
 
-const url = "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
+const url =
+  "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
 const urlC = "https://www.api.huxgym.codes/customers/customers/";
 const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
+const urlT = "https://www.api.huxgym.codes/reports/ticket/";
+
 class TablaV extends Component {
   state = {
     busqueda: "",
@@ -938,6 +946,14 @@ class TablaV extends Component {
                         ) : (
                           <></>
                         )}
+
+                        <button
+                          component={Link}
+                          to="www.google.com"
+                          className="btn btn-info ml-1"
+                        >
+                          <FontAwesomeIcon icon={faClipboardCheck} />
+                        </button>
                       </td>
                     </tr>
                   );
