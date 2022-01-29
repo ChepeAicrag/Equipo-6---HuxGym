@@ -371,6 +371,8 @@ class TablaV extends Component {
           });
           this.modalInsertar();
           this.limpiarTablaS();
+          
+          window.open(urlT+res.data.id);
         }
       }
     } catch (error) {
