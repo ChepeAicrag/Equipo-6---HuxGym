@@ -2,10 +2,8 @@ from datetime import date, datetime, timedelta
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.permissions import AllowAny
 
-from API.general.api import API
-from API.general.utils import calculate_age, validate_data_curp
+from API.general.utils import calculate_age
 from API.customers.models import *
 from .serializers import *
 
@@ -78,12 +76,14 @@ def customer_api_view(request):
         }
         if payload["curp"] is None:
             return Response({ 'message': 'La curp es requerida' }, status=status.HTTP_400_BAD_REQUEST)
+        """
         response_api, error = API().validate_curp(payload["curp"])
         if(error):
             return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
         validate, msg = validate_data_curp(payload, response_api)
         if not validate:
              return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
+        """
         data['folio'] = payload["curp"][-5:] + payload["sex"] + payload["birthdate"].split('-')[0]
         customer = Customer.objects.filter(curp=request.data['curp']).first()
         if customer:
