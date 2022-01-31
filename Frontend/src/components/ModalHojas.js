@@ -902,7 +902,7 @@ validatePeso = (event) => {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader className="HeadCheck" style={{ display: "block" }}>
-            Historial de hojas clinicas
+            Historial de hojas clínicas
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 

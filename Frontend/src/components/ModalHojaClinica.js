@@ -957,7 +957,7 @@ class ModalHojaClinica extends Component {
         <Modal isOpen={ this.state.modalAgregar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            REGISTRAR HOJA CLINICA SITUACION NUTRICIONAL
+            Registrar hoja clínica situación nutricional
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 

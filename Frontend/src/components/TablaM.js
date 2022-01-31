@@ -395,7 +395,7 @@ class TablaM extends Component {
               ></box-icon> */}
             </i>
             <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nueva
-            Membresia
+            Membresía
           </button>
           <div className="esp"></div>
           <input
@@ -472,7 +472,7 @@ class TablaM extends Component {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            <p className="titulo">Membresia</p>
+            <p className="titulo">Membresía</p>
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 

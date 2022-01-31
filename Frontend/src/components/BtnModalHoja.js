@@ -961,7 +961,7 @@ class BtnModalHoja extends Component {
         <Modal isOpen={this.state.modalAgregar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            REGISTRAR HOJA CLINICA SITUACION NUTRICIONAL
+            Registrar Hoja Clínica Situación Nutricional
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 

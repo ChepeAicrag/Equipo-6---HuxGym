@@ -984,7 +984,7 @@ seleccionarUsuario = async (venta) => {
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader className="HeadVenta" style={{ display: "block" }}>
             {this.state.modalMembresia ? (
-              <h2>Realizar Venta de Membresia</h2>
+              <h2>Realizar Venta de Membresía</h2>
             ) : (
               <h2>Realizar Venta de Productos</h2>
             )}
@@ -1024,11 +1024,11 @@ seleccionarUsuario = async (venta) => {
                           this.modalProducto();
                         }}
                       >
-                        Seleccionar Membresia
+                        Seleccionar Membresía
                       </button>
                     ) : (
                       <button className="btn btn-success" disabled="true">
-                        Seleccionar Membresia
+                        Seleccionar Membresía
                       </button>
                     )
                   ) : (
