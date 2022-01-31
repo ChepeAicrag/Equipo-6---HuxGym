@@ -19,6 +19,9 @@ const url_close = "https://www.api.huxgym.codes/user/cash-register/close/";
 const urlVentas = "https://www.api.huxgym.codes/sales/";
 const url_caja = "https://www.api.huxgym.codes/user/cash-register/";
 
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class Monto extends Component {
   state = {
     cashInit: "",
@@ -319,23 +322,23 @@ class Monto extends Component {
         )}
         <label htmlFor="nombre">Efectivo de ventas:</label>
         <h5>
-          {"$ " + (formCash ? formCash.efeVentas : 0)}
+          {"$ " + formatNumber(formCash ? formCash.efeVentas : 0)}
         </h5>
         <label htmlfor="nombre">Gastos de compras:</label>
         <h5>
-         {"$ " + (formCash ? formCash.gasCompras : 0)}
+         {"$ " + formatNumber(formCash ? formCash.gasCompras : 0)}
         </h5>
         <label htmlfor="nombre">Efectivo total ingresado:</label>
         <h5>
-          {"$ " +(formCash ? formCash.efeIngresado : 0)}
+          {"$ " + formatNumber(formCash ? formCash.efeIngresado : 0)}
         </h5>
         <label htmlfor="nombre">Cambio dado:</label>
         <h5>
-          {"$ " +(formCash ? formCash.cambio : 0)}
+          {"$ " + formatNumber(formCash ? formCash.cambio : 0)}
         </h5>
         <label htmlfor="nombre">Efectivo final:</label>
         <h5>
-          {"$ " +(formCash ? formCash.efeFinal : 0)}
+          {"$ " + formatNumber(formCash ? formCash.efeFinal : 0)}
         </h5>
         <h3 className="lineadiv"></h3>
         <div className="botonesA">

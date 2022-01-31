@@ -19,6 +19,11 @@ const url_ec = "https://www.api.huxgym.codes/purchases/purchase/";
 const urlC = "https://www.api.huxgym.codes/products/provider/";
 const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
+
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
+
 class TablaCompras extends Component {
   state = {
     busqueda: "",
@@ -734,7 +739,7 @@ class TablaCompras extends Component {
                   <tr>
                     <td>{compra.Purchase.folio}</td>
                     <td>{compra.purchase_detail[0].product.provider.name}</td>
-                    <td>{"$ " +compra.Purchase.total}</td>
+                    <td>{"$ " +formatNumber(compra.Purchase.total)}</td>
                     <td>{compra.Purchase.date.split("T")[0]}</td>
 
                     <td>

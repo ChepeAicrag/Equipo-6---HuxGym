@@ -23,6 +23,9 @@ const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 const urlT = "https://www.api.huxgym.codes/reports/ticket/";
 
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class TablaV extends Component {
   state = {
     busqueda: "",
@@ -927,9 +930,9 @@ seleccionarUsuario = async (venta) => {
                     <tr>
                       <td>{ventas.sale.folio}</td>
                       <td>{ventas.sale.user.name}</td>
-                      <td>{"$ " + ventas.sale.total}</td>
-                      <td>{"$ " + ventas.sale.cash}</td>
-                      <td>{"$ " + (ventas.sale.cash - ventas.sale.total)}</td>
+                      <td>{"$ " + formatNumber(ventas.sale.total)}</td>
+                      <td>{"$ " + formatNumber(ventas.sale.cash)}</td>
+                      <td>{"$ " + formatNumber(ventas.sale.cash - ventas.sale.total)}</td>
                       <td>{ventas.sale.date}</td>
                       <td>{ventas.sale.customer.name}</td>
 
@@ -1356,16 +1359,16 @@ seleccionarUsuario = async (venta) => {
 
               <label htmlFor="price_s">Total de venta:</label>
               <h3>
-                <label>$ {this.state.total > 0 ? this.state.total : 0}</label>
+                <label>$ {formatNumber(this.state.total > 0 ? this.state.total : 0)}</label>
               </h3>
               <br />
               <label htmlFor="image">Cambio:</label>
               <h3>
                 <label>
                   ${" "}
-                  {this.state.cambio > 0
+                  {formatNumber(this.state.cambio > 0
                     ? Number(this.state.cambio).toFixed(2)
-                    : 0}
+                    : 0)}
                 </label>
               </h3>
               <br />

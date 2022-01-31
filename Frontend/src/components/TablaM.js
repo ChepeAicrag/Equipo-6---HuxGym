@@ -15,6 +15,9 @@ import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 const url = "https://www.api.huxgym.codes/memberships/memberships/";
 
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class TablaM extends Component {
   state = {
     busqueda: "",
@@ -433,7 +436,7 @@ class TablaM extends Component {
                     <td>{membresias.folio}</td>
                     <td>{membresias.name}</td>
                     <td>{membresias.description}</td>
-                    <td>{"$ " + membresias.price}</td>
+                    <td>{"$ " + formatNumber(membresias.price)}</td>
                     <td>{membresias.day}</td>
                     <td>
                       <button

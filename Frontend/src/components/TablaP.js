@@ -25,6 +25,11 @@ const urlP = "https://www.api.huxgym.codes/products/provider/";
 const urlA = "https://www.api.huxgym.codes/products/anadirStock/";
 const urlE = "https://www.api.huxgym.codes/products/restarStock/";
 const urlStock = "https://www.api.huxgym.codes/products/stockDeProducto/";
+
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
+
 class TablaP extends Component {
   state = {
     busqueda: "",
@@ -727,10 +732,10 @@ class TablaP extends Component {
                   <tr>
                     <td>{productos.folio}</td>
                     <td>{productos.name}</td>
-                    <td>{"$ " +productos.price_s}</td>
-                    <td>{"$ " +productos.price_c}</td>
+                    <td>{"$ " +formatNumber(productos.price_s)}</td>
+                    <td>{"$ " +formatNumber(productos.price_c)}</td>
                     <td>{productos.description}</td>
-                    <td>{productos.stock}</td>
+                    <td>{formatNumber(productos.stock)}</td>
                     <td>
                       {" "}
                       <img
@@ -846,7 +851,7 @@ class TablaP extends Component {
                               name="price_c"
                               onChange={this.validateNumber}
                               step="5"
-                              value={form ? form.price_c : "0.00"}
+                              value={form ? form.price_c : "0"}
                               type="number"
                               InputLabelProps={{
                                   shrink: true,
