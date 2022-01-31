@@ -45,12 +45,14 @@ class CrearListarUser(Authentication, APIView):
         }
         if payload["curp"] is None:
             return Response({ 'message': 'La curp es requerida' }, status=status.HTTP_400_BAD_REQUEST)
+        """
         response_api, error = API().validate_curp(payload["curp"])
         if(error):
             return Response({ 'message': response_api }, status=status.HTTP_400_BAD_REQUEST)
         validate, msg = validate_data_curp(payload, response_api)
         if not validate:
             return Response({ 'message': msg }, status=status.HTTP_400_BAD_REQUEST)
+        """
         data['role'] = int(role)
         data['password'] = get_random_string(randint(8, 15)).strip()
         user = User.objects.filter(email=request.data['email']).first()
