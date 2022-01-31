@@ -1149,7 +1149,7 @@ class ModalHojaClinica extends Component {
         <Modal isOpen={this.state.modalAgregar2}>
          
           <ModalHeader style={{ display: "block" }}>
-            REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
+            REGISTRAR HOJA CLÍNICA ESTRUCTURA CORPORAL
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 

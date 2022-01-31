@@ -1255,7 +1255,7 @@ validatePeso = (event) => {
               <Modal isOpen={this.state.modalAgregar2}>
                 {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
                 <ModalHeader style={{ display: "block" }}>
-                  REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
+                  REGISTRAR HOJA CLÍNICA ESTRUCTURA CORPORAL
                   <span style={{ float: "right" }}></span>
                 </ModalHeader>
 
