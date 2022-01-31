@@ -27,9 +27,12 @@ class Provider(models.Model):
     id = models.AutoField(primary_key=True)
     folio = models.CharField(max_length=50, blank=False, null=False, unique=True)
     name = models.CharField(max_length=50, blank=False, null=False)
+    apellidos = models.CharField(max_length=50, blank=False, null=False)
     email = models.EmailField(null=True, blank=True)
     phone = models.CharField(max_length=10, null=True, blank=True)
-    rfc = models.CharField(max_length=13, null=False, blank=False)
+    direccion = models.CharField(max_length=100, blank=False, null=False)
+
+    #rfc = models.CharField(max_length=13, null=False, blank=False)
     status_delete = models.BooleanField(default=False)
 
     def __str__(self):
