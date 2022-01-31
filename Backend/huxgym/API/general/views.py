@@ -14,6 +14,7 @@ from datetime import datetime
 from random import randint
 import json
 
+from API.general.api import API
 from API.users.models import User, Log
 from API.users.serializers import UserSerializer
 from API.users.serializers import UserTokenSerializer
@@ -222,3 +223,23 @@ class ListStates(APIView):
         with open('API/general/fixtures/states.json') as file:
             data = json.load(file)
             return Response(data, status=status.HTTP_200_OK)
+
+class GetDataWithCurp(APIView):
+
+    def get(self, request):
+        curp = request.data.get('paternal_surname', None)
+        if curp is None:
+            return Response({ 'message': 'El campo curp es requerido' }, status=status.HTTP_400_BAD_REQUEST)
+        data, error = API().validate_curp(curp)
+        if(error):
+            return Response({ 'message': data }, status=status.HTTP_400_BAD_REQUEST)
+        response = { 
+            'curp': str(data['Curp']).upper(),
+            'names': str(data['Nombre']).lower(),
+            'paternal_surname': str(data['ApellidoPaterno']).lower(),
+            'mothers_maiden_name': str(data['ApellidoMaterno']).lower(),
+            'birthdate': str(data['FechaNacimiento']),
+            'entity_birth': str(data['NumEntidadReg']).lower(),
+            'sex': str(data['Sexo']).lower(),
+        }
+        return Response(response, status=status.HTTP_200_OK)
