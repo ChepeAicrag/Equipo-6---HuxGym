@@ -221,7 +221,7 @@ class TablaP extends Component {
     try{
       const price_sale = parseFloat(this.state.form.price_s);
       const price_puchase = parseFloat(this.state.form.price_c);
-      
+
       await this.setState((prevState) => ({
         errors: {
           ...prevState.errors,
@@ -810,7 +810,7 @@ class TablaP extends Component {
         <br />
         <div className="tablaNueva">
           {
-            this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna membresía encontrada</p>
+            this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ningún producto encontrado</p>
             : 
             <TableContainer component={Paper} className={classes.tableContainer}>
               <Table className={classes.table} aria-label="simple table">

@@ -365,7 +365,7 @@ class TablaC extends Component {
         <br/>
         <div className="tablaNueva">
         {
-            this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna membresía encontrada</p>
+            this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna categoria encontrada</p>
             : 
             <TableContainer component={Paper} className={classes.tableContainer}>
               <Table className={classes.table} aria-label="simple table">

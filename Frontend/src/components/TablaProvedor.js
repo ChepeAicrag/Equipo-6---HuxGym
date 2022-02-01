@@ -491,7 +491,7 @@ class TablaProvedor extends Component {
         <br />
         <div className="tablaNueva">
           {this.state.data.length <= 0 ? (
-            <p className="mt-4 sinClientes">Ninguna membresía encontrada</p>
+            <p className="mt-4 sinClientes">Ningún proveedor encontrado</p>
           ) : (
             <TableContainer
               component={Paper}
