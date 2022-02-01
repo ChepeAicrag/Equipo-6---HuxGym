@@ -373,6 +373,7 @@ class TablaProvedor extends Component {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title='Agregar nuevo proveedor'
           >
             {/* <i className="bx bxs-user">
               <box-icon
@@ -393,6 +394,7 @@ class TablaProvedor extends Component {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title='Buscar proveedor'
           />
           <button type="submit" className="add-on" onClick={() => {}}>
             <i className="bx bxs-user">
@@ -430,6 +432,7 @@ class TablaProvedor extends Component {
                           this.seleccionarUsuario(proveedores);
                           this.modalInsertar();
                         }}
+                        title='Editar proveedor'
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -441,6 +444,7 @@ class TablaProvedor extends Component {
                             this.seleccionarUsuario(proveedores);
                             this.setState({ modalEliminar: true });
                           }}
+                          title='Dar de baja'
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>

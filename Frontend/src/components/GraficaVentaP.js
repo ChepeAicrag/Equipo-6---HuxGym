@@ -63,8 +63,8 @@ class GraficaTotal extends Component {
   state = {
     data: [] /* Aqui se almacena toda la informacion axios */,
     form: {
-      first_date: obtnerDate(new Date()),
-      last_date: obtnerDate(new Date()),
+      first_date:new Date(),
+      last_date: new Date(),
       buyers: "",
       customers: "",
       message: "",
@@ -155,15 +155,14 @@ class GraficaTotal extends Component {
     buyers = this.state.data.buyers;
     const data = {
       labels: [
-        "Total de compras por clientes",
-        "Total de Clientes registrados",
+        "Compras realizadas por clientes",
+        "Clientes registrados",
       ],
       datasets: [
         {
-          label: "Clientes que compran productos",
-          backgroundColor: ["gray"],
+          label: "Total",
+          backgroundColor: "#26F989",
           bordercolor: "black",
-
           borderWidth: 1,
           height: "100%",
           with: "30%",
@@ -174,7 +173,33 @@ class GraficaTotal extends Component {
     const opciones = {
       /* maintainAspectsRatio: false, */
       indexAxis: "x",
-      responsive: true,
+      responsive: true
+      ,
+            plugins: {
+                title: {
+                  display: true,
+                  text: (ctx) => "ASISTENCIAS POR CATEGORÍA",
+                },
+                tooltip: {
+                  mode: "index",
+                },
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: "CATEGORÍA",
+                  },
+                },
+                y: {
+                  stacked: true,
+                  title: {
+                    display: true,
+                    text: "TOTAL",
+                  },
+                },
+              },
+      
     };
 
     return (
@@ -220,7 +245,7 @@ class GraficaTotal extends Component {
             </MuiPickersUtilsProvider>
           </ThemeProvider>
         </div>
-        <div className="GraficaWrapper mt-5">
+        <div className="GraficaWrapper">
           <div className="Grafica">
             <Bar data={data} options={opciones} />
           </div>

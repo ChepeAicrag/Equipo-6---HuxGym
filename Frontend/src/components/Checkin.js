@@ -102,19 +102,22 @@ class Checkin extends Component {
           variant="success"
           className="btn botonescheck"
           onClick={() => this.peticionPost()}
+          title='Realizar entrada'
         >
-          Realizar
+          Entrada
         </button>
+        <p className="palabra">Realiza tu hora de salida:</p>
         <p className="palabra">
-          Realiza tu hora de salida: La hora actual es:{" "}
+          La hora actual es:{" "}
           <label>{this.state.date.toLocaleTimeString()} </label>
         </p>
         <button
           variant="sucess"
           className="btn botonescheck"
           onClick={() => this.peticionCheckOut()}
+          title='Realizar salida'
         >
-          Realizar
+          Salida
         </button>{" "}
         <br/>
         <h3 className="lineadiv"></h3>

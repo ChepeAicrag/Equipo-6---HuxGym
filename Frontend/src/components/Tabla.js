@@ -264,7 +264,6 @@ handleChangeRowsPerPage = async(event) => {
   };
 
   async validarCurp(valor) {
-
     let p = "XVXX999999SXXCCC??";
     let digitos = " 0123456789";
     let lyn = " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
@@ -291,7 +290,7 @@ handleChangeRowsPerPage = async(event) => {
         c = "" + v.charAt(i);
         q = p.charAt(i);
         if (q === "?" && lyn.indexOf(c) < 1) {
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
               curp: 'La posición ' + (i + 1) + "debe ser una letra o dígito (0-9)",
@@ -313,7 +312,7 @@ handleChangeRowsPerPage = async(event) => {
         }
         if (q === "V" && vocales.indexOf(c) < 1) {
           /* console.log("i "+i) */
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser una vocal",
@@ -324,7 +323,7 @@ handleChangeRowsPerPage = async(event) => {
           if (exe === 0) e = e + 1;
         }
         if (q === "C" && consonantes.indexOf(c) < 1) {
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser una consonante",
@@ -347,7 +346,7 @@ handleChangeRowsPerPage = async(event) => {
           if (exe === 0) e = e + 1;
         }
         if (q === "S" && sexo.indexOf(c) < 1) {
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser H(ombre) o M(ujer)",
@@ -1072,7 +1071,7 @@ handleChangeRowsPerPage = async(event) => {
         <div className="my-custom-scrollbar2">
         
           <br />
-          <div className="opciones mb-4">
+          <div className="opciones mt-3 mb-4">
             <button
               className="btn botones"
               onClick={() => {
@@ -1094,6 +1093,7 @@ handleChangeRowsPerPage = async(event) => {
                 placeholder="Buscar"
                 onChange={this.buscador}
                 value={this.state.busqueda}
+                title="Buscar Cliente"
               />
               <button
                 type="submit"
@@ -1163,6 +1163,7 @@ handleChangeRowsPerPage = async(event) => {
                             this.seleccionarUsuario(row);
                             this.modalInsertar();
                           }}
+                          title="Editar Cliente"
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
@@ -1174,6 +1175,7 @@ handleChangeRowsPerPage = async(event) => {
                               this.seleccionarUsuario(row);
                               this.setState({ modalEliminar: true });
                             }}
+                            title="Dar de baja"
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </button>

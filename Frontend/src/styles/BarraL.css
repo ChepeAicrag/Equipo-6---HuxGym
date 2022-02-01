@@ -43,7 +43,8 @@ hr {
 
 .sidebar {
   display: flex;
-  background-color: #284B63;
+  /* background-color: #284B63; */
+  background-color: #144983;
   transition: all 0.5s ease;
   flex-direction: column;
   justify-content: flex-start;
@@ -112,7 +113,7 @@ hr {
 }
 
 .sidebar ul li {
-  background: #3b637c;
+  background: #356fad;
   border-radius: 5px; 
   color: #fff;
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);

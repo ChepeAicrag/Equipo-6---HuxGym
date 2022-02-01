@@ -44,3 +44,7 @@ svg:not(:root) {
 .botonTamHojas{
     width:200px;
 }
+
+.btntam{
+    width: 100%;
+}

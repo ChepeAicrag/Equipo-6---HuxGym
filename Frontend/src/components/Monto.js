@@ -258,7 +258,7 @@ class Monto extends Component {
         <h3 className="lineadiv">Caja inicial:</h3>
         {this.state.abierta ? (
           <>
-            <label htmlFor="cashInit">efectivo inicial:</label>
+            <label htmlFor="cashInit">Efectivo inicial:</label>
             
             <input
               
@@ -269,7 +269,7 @@ class Monto extends Component {
               min="0"
               pattern="^[0-9]+"
               maxLength="10"
-              
+              title='Registre su efectivo inicial'
               readOnly
               onChange={this.handleChangeCash}
               value={formCash != 0 ? formCash.efeInicial : 0}
@@ -289,6 +289,7 @@ class Monto extends Component {
               min="0"
               pattern="^[0-9]+"
               maxLength="10"
+              title='Registre su efectivo inicial'
               /* dir="rtl" */
               onChange={this.handleChangeCash}
               value={formCash != 0 ? formCash.efeInicial : 0}

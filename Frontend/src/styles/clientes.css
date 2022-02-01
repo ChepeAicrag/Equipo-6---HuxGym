@@ -227,6 +227,11 @@ flex-direction: row;
     width: 88%;
     height: auto;
   }
+  
+  .busquedacurp{
+    display: flex;
+    flex-direction: row;
+  }
 
 @media only screen and (max-width: 1004px) {
   .botones{

@@ -19,6 +19,7 @@
 .SelectorWrapperAsistencia{
     display: flex;
     justify-content: space-between;
+    
 }
 
 .GraficaWrapper{
@@ -44,5 +45,4 @@
 .MuiIconButton-label > svg:nth-child(1) > path:nth-child(1) {
     color: rgb(191, 196, 197) !important;
    }
-   
    
