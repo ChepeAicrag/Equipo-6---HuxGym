@@ -15,6 +15,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 const url = "https://www.api.huxgym.codes/user/";
+const urlCurp = "https://www.api.huxgym.codes/data_curp/";
 
 function obtenerMes(date) {
   let fecha = new Date(date);
@@ -108,7 +109,7 @@ class TablaE extends Component {
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
-      name: "",
+      name: null,
       folio: "",
       paternal_surname: "",
       mothers_maiden_name: "",
@@ -162,10 +163,7 @@ class TablaE extends Component {
       });
     }
   };
-  /* state = {
-    estados: [],
-  };
- */
+
   perticionState = async () => {
     axios
       .get("https://www.api.huxgym.codes/state/")
@@ -205,6 +203,45 @@ class TablaE extends Component {
     }
   };
 
+  peticionBuscarCurp = async () => {
+    
+    try {
+     /*  await this.setState({
+       
+        form: {
+          name: "ALTAGRACIA",
+          birthdate: this.crearFecha("1941-06-01"),
+          mothers_maiden_name:"GARCIA",
+          paternal_surname: "CRUZ",
+          entity_birth: "20",
+          gender: "M",
+          curp:"GACA410601MOCRRL08"
+        },
+      });   */
+      const res = await axios.get(urlCurp+this.state.form.curp);
+      console.log("buscando curp")
+      console.log(res)
+      await this.setState({
+        form: {
+          name: res.data.names,
+          birthdate: this.crearFecha(res.data.birthdate),
+          mothers_maiden_name: res.data.mothers_maiden_name,
+          paternal_surname: res.data.paternal_surname,
+          entity_birth: res.data.entity_birth,
+          gender: res.data.sex,
+          curp:this.state.form.curp
+        },
+      }); 
+    } catch (error) {
+     
+      try {
+        const msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+      } catch (error2) {
+        console.log(error2);
+      }
+    }
+  };
 
   validar = (form) => {
     if (isEmpty(form))
@@ -285,8 +322,7 @@ class TablaE extends Component {
   };
 
   peticionPost = async () => {
-    /* Son asincronas por que se ejeuctan en segundo plano */
-    /* Con esto enviamos los datos al servidor */
+   console.log("entre a p")
     try {
       const { form } = this.state;
       const validar = this.validar(form);
@@ -342,7 +378,8 @@ class TablaE extends Component {
         }
       }
     } catch (error) {
-      var msj = JSON.parse(error.request.response).message;
+      try{
+        var msj = JSON.parse(error.request.response).message;
       console.log(msj);
       if (isEmpty(msj)) {
         const res = JSON.parse(error.request.response);
@@ -365,6 +402,10 @@ class TablaE extends Component {
           button: "Aceptar",
           timer: "5000",
         });
+      }catch(error){
+
+      }
+      
     }
   };
 
@@ -1075,21 +1116,68 @@ changeEstado = (e) => {
 
           <ModalBody>
             <div className="form-group">
-              {this.state.tipoModal === "insertar" ? (
+            {this.state.tipoModal === "insertar" ? (
                 <>
-                  <label htmlFor="name">Nombre completo*:</label>
+                  <label htmlFor="name">CURP*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    maxlength="150"
+                    placeholder="CURP"
+                    onChange={this.handleChangeInputCURP}
+                    value={form ? form.curp : ""}
+                  />
+                  
+                  {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
+                  <button
+                    type="submit"
+                    className="btn btn-light mb-3"
+                    onClick={this.peticionBuscarCurp}
+                  >
+                    Buscar Datos
+                  </button>
+                  <br></br>
+                </>
+              ) : (
+                <>
+                  <label htmlFor="name">CURP*:</label>
+                  <input
+                    className="form-control"
+                    disabled
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    maxlength="150"
+                    placeholder="CURP"
+                    onChange={this.handleChangeInputCURP}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              )}
+              {form &&
+              <>
+              {this.state.tipoModal === "insertar" ? (
+                this.state.form.name &&
+                <>
+                 {/*  <label htmlFor="name">Nombre completo:</label> */}
+                 <label htmlFor="name">Nombre completo*:</label>
                   <input
                     className="form-control"
                     type="text"
                     name="name"
                     id="name"
+                    disabled
                     maxlength="150"
                     placeholder="Nombre del empleado"
                     onChange={this.handleChangeInput}
                     value={form ? form.name : ""}
                   />
+                 
                   <br />
                 </>
+                
               ) : (
                 <>
                   <label htmlFor="name">Nombre completo*:</label>
@@ -1108,7 +1196,9 @@ changeEstado = (e) => {
                 </>
               )}
               {this.state.tipoModal === "insertar" ? (
+                this.state.form.paternal_surname &&
                 <>
+                  {/* <label htmlFor="name">Apellido Paterno*:</label> */}
                   <label htmlFor="name">Apellido Paterno*:</label>
                   <input
                     className="form-control"
@@ -1116,10 +1206,12 @@ changeEstado = (e) => {
                     name="paternal_surname"
                     id="paternal_surname"
                     maxlength="150"
+                    disabled
                     placeholder="Apellido Paterno"
                     onChange={this.handleChangeInput}
                     value={form ? form.paternal_surname : ""}
                   />
+                  
                   <br />
                 </>
               ) : (
@@ -1140,19 +1232,21 @@ changeEstado = (e) => {
                 </>
               )}
               {this.state.tipoModal === "insertar" ? (
+                this.state.form.mothers_maiden_name &&
                 <>
-                  <label htmlFor="name">Apellido Materno*:</label>
+                <label htmlFor="name">Apellido Materno*:</label>
                   <input
                     className="form-control"
                     type="text"
                     name="mothers_maiden_name"
                     id="mothers_maiden_name"
                     maxlength="150"
+                    disabled
                     placeholder="Apellido Materno"
                     onChange={this.handleChangeInput}
                     value={form ? form.mothers_maiden_name : ""}
                   />
-                  <br />
+
                 </>
               ) : (
                 <>
@@ -1168,7 +1262,7 @@ changeEstado = (e) => {
                     onChange={this.handleChangeInput}
                     value={form ? form.mothers_maiden_name : ""}
                   />
-                  <br />
+                  
                 </>
               )}
 
@@ -1189,14 +1283,16 @@ changeEstado = (e) => {
 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 {this.state.tipoModal === "insertar" ? (
+                  this.state.form.birthdate &&
                   <>
-                    <label className="articulo mt-3">Fecha de Nacimiento</label>
+                  <label className="articulo mt-3">Fecha de Nacimiento</label>
                     <br />
                     <KeyboardDatePicker
                       className="fecha"
                       allowKeyboardControl={true}
                       id="birthdate"
                       format="yyyy-MM-dd"
+                      disabled
                       value={form ? form.birthdate : new Date()}
                       onChange={this.handleDateChange}
                       animateYearScrolling={true}
@@ -1221,14 +1317,16 @@ changeEstado = (e) => {
               </MuiPickersUtilsProvider>
               <br />
               {this.state.tipoModal === "insertar" ? (
+                this.state.form.entity_birth &&
                 <>
-                  <label htmlFor="entity_birth">Estado*:</label>
+                <label htmlFor="entity_birth">Estado*:</label>
                   <br />
                   <select
                     className="form-select"
                     aria-label="Default select example"
                     name="entity_birth"
                     id="entity_birth"
+                    disabled
                     onChange={this.changeEstado}
                     value={form ? form.entity_birth : "1"}
                   >
@@ -1263,9 +1361,10 @@ changeEstado = (e) => {
                 </>
               )}
               {this.state.tipoModal === "insertar" ? (
+                this.state.form.gender &&
                 <>
-                  <label className=" mt-3 " htmlFor="gender">Género*:</label>
-                  <br />
+                <label className=" mt-3 " htmlFor="gender">Género*:</label>
+                 
                   <div className="" >
                     <label class="btn botonesForm m-1">
                       <input
@@ -1273,8 +1372,12 @@ changeEstado = (e) => {
                         name="gender"
                         value="H"
                         autocomplete="off"
-                        onChange={this.handleChange}
-                        
+                        disabled
+                        //onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "H" ? "checked" : "") : "ff"
+                          
+                        }
                       />{" "}
                       H
                     </label>
@@ -1283,9 +1386,13 @@ changeEstado = (e) => {
                         type="radio"
                         name="gender"
                         value="M"
+                        disabled
                         autocomplete="on"
-                        onChange={this.handleChange}
-                        
+                        //onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "M" ? "checked" : "") : "ff"
+                          
+                        }
                       />{" "}
                       M
                     </label>
@@ -1331,53 +1438,28 @@ changeEstado = (e) => {
                   <br />
                 </>
               )}
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <label htmlFor="name">CURP*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    maxlength="150"
-                    placeholder="CURP"
-                    onChange={this.handleChangeInputCURP}
-                    value={form ? form.curp : ""}
-                  />
-                  {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
-                </>
-              ) : (
-                <>
-                  <label htmlFor="name">CURP*:</label>
-                  <input
-                    className="form-control"
-                    disabled
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    maxlength="150"
-                    placeholder="CURP"
-                    onChange={this.handleChangeInputCURP}
-                    value={form ? form.curp : ""}
-                  />
-                </>
-              )}
               
-              <label htmlFor="phone">Teléfono*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="phone"
-                id="phone"
-                size="10"
-                maxLength="10"
-                placeholder="Teléfono"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.phone : ""}
-              />
-              <br />
+              {this.state.form.gender &&
+               <>
+                <label htmlFor="phone">Teléfono*:</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  size="10"
+                  maxLength="10"
+                  placeholder="Teléfono"
+                  onChange={this.handleChangeInputNumber}
+                  value={form ? form.phone : ""}
+                />
+                <br />
+                </>
+              }
+              
 
               {this.state.tipoModal === "insertar" ? (
+                this.state.form.gender &&
                 <>
                   <label htmlFor="email">Email*:</label>
                   <input
@@ -1406,22 +1488,25 @@ changeEstado = (e) => {
                   />
                 </>
               )}
-
-              <br />
-              <label htmlFor="image">Imagen:</label>
-              <input
-                className="form-control"
-                type="file"
-                name="image"
-                ref="file"
-                id="image"
-                placeholder="Seleccione su imagen"
-                accept="image/png, image/jpeg, image/jpg, image/ico"
-                onChange={this.handleChangeInputImage}
-              />
-              
+              {this.state.form.gender &&
+               <>
+                <br />
+                <label htmlFor="image">Imagen:</label>
+                <input
+                  className="form-control"
+                  type="file"
+                  name="image"
+                  ref="file"
+                  id="image"
+                  placeholder="Seleccione su imagen"
+                  accept="image/png, image/jpeg, image/jpg, image/ico"
+                  onChange={this.handleChangeInputImage}
+                />
+              </>
+              }
 
               {this.state.tipoModal === "insertar" ? (
+                this.state.form.gender &&
                 <>
                   <label htmlFor="role">Rol*: </label>
                   <br />
@@ -1488,7 +1573,8 @@ changeEstado = (e) => {
                   </div>
                 </>
               )}
-
+              </>
+              }
               <br />
             </div>
           </ModalBody>

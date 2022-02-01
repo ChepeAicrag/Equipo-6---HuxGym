@@ -1071,7 +1071,7 @@ handleChangeRowsPerPage = async(event) => {
         <div className="my-custom-scrollbar2">
         
           <br />
-          <div className="opciones mt-3 mb-4">
+          <div className="opciones mt-2 mb-4">
             <button
               className="btn botones"
               onClick={() => {
