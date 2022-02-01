@@ -17,7 +17,7 @@ import "../styles/Crud.css";
 import "../styles/Ventas.css";
 import { formControlClasses } from "@mui/material";
 import { withStyles } from '@material-ui/core/styles';
-import { 
+import {
   Table,
   TableBody,
   TableCell,
@@ -38,48 +38,48 @@ const urlC = "https://www.api.huxgym.codes/customers/customers/";
 const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 const urlT = "https://www.api.huxgym.codes/reports/ticket/";
-const urlStock= "https://www.api.huxgym.codes/products/stockDeProducto/";
+const urlStock = "https://www.api.huxgym.codes/products/stockDeProducto/";
 const useStyles = (theme) => ({
   table: {
-    
-    height:'100%',
-    width:'100%'
+
+    height: '100%',
+    width: '100%'
   },
-  acciones:{
-    marginTop:"10px",
-    display:"flex",
-    flexDireccion:"column",
-    justifyContent:"center"
+  acciones: {
+    marginTop: "10px",
+    display: "flex",
+    flexDireccion: "column",
+    justifyContent: "center"
 
   },
   tableContainer: {
-      borderRadius: 15,
-      display:'flex',
-      flexDireccion:'center',
-      paddig: '10px 10px',
-      maxWidth: '100%',
-      height:'100%',
+    borderRadius: 15,
+    display: 'flex',
+    flexDireccion: 'center',
+    paddig: '10px 10px',
+    maxWidth: '100%',
+    height: '100%',
   },
   tableHeaderCell: {
-    
-      fontWeight: 'bold',
-      backgroundColor: '#144983',
-      color: theme.palette.getContrastText(theme.palette.primary.dark)
+
+    fontWeight: 'bold',
+    backgroundColor: '#144983',
+    color: theme.palette.getContrastText(theme.palette.primary.dark)
   },
   avatar: {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.getContrastText(theme.palette.primary.light),
-      marginRight:'50px'
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
+    marginRight: '50px'
   },
   name: {
-      fontWeight: 'bold',
-      color: 'black'
-      
+    fontWeight: 'bold',
+    color: 'black'
+
   },
-  paginacion:{
+  paginacion: {
     width: '50%',
     backgroundColor: '#e9f1f3',
-    
+
   },
   status: {
     fontWeight: 'bold',
@@ -89,17 +89,17 @@ const useStyles = (theme) => ({
     borderRadius: 0,
     padding: '3px 10px',
     display: 'inline-block'
-},
- 
+  },
+
 });
 
-function formatNumber(number){
+function formatNumber(number) {
   return new Intl.NumberFormat("ES-MX").format(number)
 }
 class TablaV extends Component {
   state = {
-    page:0,
-    rowsPerPage:5,
+    page: 0,
+    rowsPerPage: 5,
     busqueda: "",
     dataBuscar: [],
     dataP: [],
@@ -153,15 +153,15 @@ class TablaV extends Component {
   //PAginacion
   handleChangePage = (event, newPage) => {
     this.setState({
-        page:newPage
+      page: newPage
     });
   };
-  handleChangeRowsPerPage = async(event) => {
+  handleChangeRowsPerPage = async (event) => {
     console.log(event.target)
-      await this.setState({
-          page:0,
-          rowsPerPage:event.target.value
-      });
+    await this.setState({
+      page: 0,
+      rowsPerPage: event.target.value
+    });
   };
 
   handleChange = async (e) => {
@@ -460,10 +460,10 @@ class TablaV extends Component {
           });
           this.modalInsertar();
           this.limpiarTablaS();
-          setTimeout(function(){
-            window.open(urlT+res.data.id);
-        }, 3000);
-          
+          setTimeout(function () {
+            window.open(urlT + res.data.id);
+          }, 3000);
+
         }
       }
     } catch (error) {
@@ -484,12 +484,12 @@ class TablaV extends Component {
   };
 
 
-peticionTicket (id)  {
-    console.log(urlT+id);
-    console.log("id de venta es "+id);
+  peticionTicket(id) {
+    console.log(urlT + id);
+    console.log("id de venta es " + id);
     //window.location.href = urlT+id;
-    
-};
+
+  };
 
 
   peticionPut = async () => {
@@ -632,7 +632,7 @@ peticionTicket (id)  {
     });
   };
 
-seleccionarUsuario = async (venta) => {
+  seleccionarUsuario = async (venta) => {
     /* Para obtener los datos del usuario a eliminar */
     console.log(venta.sale_detail.length);
 
@@ -979,7 +979,7 @@ seleccionarUsuario = async (venta) => {
             title='Buscar Venta'
           />
 
-          <button type="submit" className="add-on" onClick={() => {}}>
+          <button type="submit" className="add-on" onClick={() => { }}>
             <box-icon name="search-alt-2" color="#fff"></box-icon>
           </button>
         </div>
@@ -987,89 +987,89 @@ seleccionarUsuario = async (venta) => {
         <br />
         <br />
         <div className="tablaNueva mt-4">
-        {
-            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ninguna venta encontrada</p>
-            :
-          <TableContainer component={Paper} className={classes.tableContainer}>  
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-              <TableCell className={classes.tableHeaderCell}>Folio de venta</TableCell>
-              <TableCell className={classes.tableHeaderCell}>Empleado que realizó la venta</TableCell>
-              <TableCell className={classes.tableHeaderCell}>Total de la venta</TableCell>
-              <TableCell className={classes.tableHeaderCell}>Efectivo</TableCell>
-              <TableCell className={classes.tableHeaderCell}>Cambio</TableCell>
-              <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
-              <TableCell className={classes.tableHeaderCell}>Cliente</TableCell>
-              <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-            {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
-              <TableRow key={row.folio}>
-                      <TableCell>{row.sale.folio}</TableCell>
-                      <TableCell>{row.sale.user.name}</TableCell>
-                      <TableCell>{"$ " + formatNumber(row.sale.total)}</TableCell>
-                      <TableCell>{"$ " + formatNumber(row.sale.cash)}</TableCell>
-                      <TableCell>{"$ " + formatNumber(row.sale.cash - row.sale.total)}</TableCell>
-                      <TableCell>{row.sale.date}</TableCell>
-                      <TableCell>{row.sale.customer.name}</TableCell>
+          {
+            this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna venta encontrada</p>
+              :
+              <TableContainer component={Paper} className={classes.tableContainer}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className={classes.tableHeaderCell}>Folio de venta</TableCell>
+                      <TableCell className={classes.tableHeaderCell}>Empleado que realizó la venta</TableCell>
+                      <TableCell className={classes.tableHeaderCell}>Total de la venta</TableCell>
+                      <TableCell className={classes.tableHeaderCell}>Efectivo</TableCell>
+                      <TableCell className={classes.tableHeaderCell}>Cambio</TableCell>
+                      <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
+                      <TableCell className={classes.tableHeaderCell}>Cliente</TableCell>
+                      <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+                      <TableRow key={row.folio}>
+                        <TableCell>{row.sale.folio}</TableCell>
+                        <TableCell>{row.sale.user.name}</TableCell>
+                        <TableCell>{"$ " + formatNumber(row.sale.total)}</TableCell>
+                        <TableCell>{"$ " + formatNumber(row.sale.cash)}</TableCell>
+                        <TableCell>{"$ " + formatNumber(row.sale.cash - row.sale.total)}</TableCell>
+                        <TableCell>{row.sale.date}</TableCell>
+                        <TableCell>{row.sale.customer.name}</TableCell>
 
-                      <TableCell className={classes.acciones}>
-                        <button
-                          className="btn btn-editar mr-1"
-                          onClick={() => {
-                            this.seleccionarUsuario(row);
-                            this.modalInsertar();
-                          }}
-                          title='Editar venta'
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                        {"  "}
-                        {localStorage.getItem("rol") == "Administrador" ? (
+                        <TableCell className={classes.acciones}>
                           <button
-                            className="btn btn-danger mr-1"
+                            className="btn btn-editar mr-1"
                             onClick={() => {
                               this.seleccionarUsuario(row);
-                              this.setState({ modalEliminar: true });
+                              this.modalInsertar();
                             }}
-                            title='Dar de baja'
+                            title='Editar venta'
                           >
-                            <FontAwesomeIcon icon={faTrashAlt} />
+                            <FontAwesomeIcon icon={faEdit} />
                           </button>
-                        ) : (
-                          <></>
-                        )}
+                          {"  "}
+                          {localStorage.getItem("rol") == "Administrador" ? (
+                            <button
+                              className="btn btn-danger mr-1"
+                              onClick={() => {
+                                this.seleccionarUsuario(row);
+                                this.setState({ modalEliminar: true });
+                              }}
+                              title='Dar de baja'
+                            >
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </button>
+                          ) : (
+                            <></>
+                          )}
 
-                        <a
-                          className="btn btn-info"
-                          href={urlT+row.sale.id} target="_blank"
-                          onClick={() => this.peticionTicket(row.sale.id)}
-                          title='Imprimir Ticket'
-                          
-                        >
-                          <FontAwesomeIcon icon={faClipboardCheck} />
-                        </a>
+                          <a
+                            className="btn btn-info"
+                            href={urlT + row.sale.id} target="_blank"
+                            onClick={() => this.peticionTicket(row.sale.id)}
+                            title='Imprimir Ticket'
+
+                          >
+                            <FontAwesomeIcon icon={faClipboardCheck} />
+                          </a>
                         </TableCell>
                       </TableRow>
                     ))}
-              </TableBody>
-              <TableFooter className={classes.paginacion}>
-              <TablePagination
-                  className={classes.paginacion}
-                  rowsPerPageOptions={[5, 10, 15]}
-                  //component="div"
-                  count={this.state.data.length}
-                  rowsPerPage={this.state.rowsPerPage}
-                  page={this.state.page}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              />
-              </TableFooter>
-          </Table>
-          </TableContainer>
-        }
+                  </TableBody>
+                  <TableFooter className={classes.paginacion}>
+                    <TablePagination
+                      className={classes.paginacion}
+                      rowsPerPageOptions={[5, 10, 15]}
+                      //component="div"
+                      count={this.state.data.length}
+                      rowsPerPage={this.state.rowsPerPage}
+                      page={this.state.page}
+                      onChangePage={this.handleChangePage}
+                      onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+          }
         </div>
         <Modal className="ModalVenta" isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
@@ -1122,7 +1122,7 @@ seleccionarUsuario = async (venta) => {
                         Seleccionar Membresía
                       </button>
                     )
-                    ) : (
+                  ) : (
                     <button
                       className="btn btn-success"
                       onClick={() => {
@@ -1198,7 +1198,7 @@ seleccionarUsuario = async (venta) => {
 
                                   {this.state.modalMembresia ? (
                                     <>
-                                      <td className="mt-2">{"$"+ProductoS.price}</td>
+                                      <td className="mt-2">{"$" + ProductoS.price}</td>
                                       <td>
                                         <Button
                                           className="btn btn-danger"
@@ -1211,14 +1211,14 @@ seleccionarUsuario = async (venta) => {
                                           }}
                                           title='Quitar membresía'
                                         >
-                                         <FontAwesomeIcon icon={faTrashAlt} />
+                                          <FontAwesomeIcon icon={faTrashAlt} />
                                         </Button>
                                       </td>
                                     </>
                                   ) : (
                                     <>
-                                    
-                                      <td className="mt-2">{"$"+ProductoS.price_s}</td>
+
+                                      <td className="mt-2">{"$" + ProductoS.price_s}</td>
                                       {this.state.tipoModal == "actualizar" ? (
                                         <>
                                           <td>
@@ -1233,18 +1233,18 @@ seleccionarUsuario = async (venta) => {
                                           </td>
                                           <td>
                                             <div classNames='signo'>
-                                            <p className="mr-3 mt-3" style={{ color: "000"}}>$</p>
-                                            <input
-                                              className="form-control"
-                                              type="Number"
-                                              min="0"
-                                              name="total"
-                                              id="total"
-                                              readOnly
-                                              value={ProductoS.total}
-                                            />
+                                              <p className="mr-3 mt-3" style={{ color: "000" }}>$</p>
+                                              <input
+                                                className="form-control"
+                                                type="Number"
+                                                min="0"
+                                                name="total"
+                                                id="total"
+                                                readOnly
+                                                value={ProductoS.total}
+                                              />
                                             </div>
-                                            
+
                                           </td>
                                         </>
                                       ) : (
@@ -1256,15 +1256,15 @@ seleccionarUsuario = async (venta) => {
                                               min="1"
                                               name="cantidad"
                                               id="cantidad"
-                                              style={{width:'70px'}}
+                                              style={{ width: '70px' }}
                                               onChange={async (e) => {
-                                                
+
                                                 var v = e.target.value;
                                                 if (v == "") {
                                                   v = 1;
                                                 }
-                                                let max=0;
-                                                
+                                                let max = 0;
+
                                                 await this.setState({
                                                   form2: {
                                                     ...this.state.form2,
@@ -1274,33 +1274,33 @@ seleccionarUsuario = async (venta) => {
                                                     precio: ProductoS.price_s,
                                                   },
                                                 });
-                                                await axios.get(urlStock+ProductoS.id)
-                                                    .then((response) => {
-                                                      max=response.data.amount;
-                                                    })
-                                                    .catch((error) => {
-                                                      console.log(error);
-                                                    });
-                                                    if(v>max){
-                                                      swal({
-                                                          text: "Alcanzo el limite de stock",
-                                                          icon: "error",
-                                                          button: "Aceptar",
-                                                          timer: "5000",
-                                                        });
-                                                        await this.setState({
-                                                        form2: {
-                                                          ...this.state.form2,
-                                                          cantidad:max,
-                                                          id: ProductoS.id,
-                                                          precio: ProductoS.price_s,
-                                                        },
-                                                      });
-                                                    }
+                                                await axios.get(urlStock + ProductoS.id)
+                                                  .then((response) => {
+                                                    max = response.data.amount;
+                                                  })
+                                                  .catch((error) => {
+                                                    console.log(error);
+                                                  });
+                                                if (v > max) {
+                                                  swal({
+                                                    text: "Alcanzo el limite de stock",
+                                                    icon: "error",
+                                                    button: "Aceptar",
+                                                    timer: "5000",
+                                                  });
+                                                  await this.setState({
+                                                    form2: {
+                                                      ...this.state.form2,
+                                                      cantidad: max,
+                                                      id: ProductoS.id,
+                                                      precio: ProductoS.price_s,
+                                                    },
+                                                  });
+                                                }
                                                 await this.arregloCantidad(
                                                   this.state.form2
                                                 );
-                                                
+
                                                 console.log(
                                                   this.state.cantidades
                                                 );
@@ -1310,39 +1310,39 @@ seleccionarUsuario = async (venta) => {
                                               value={
                                                 form2
                                                   ? this.devolverCantidad(
-                                                      ProductoS
-                                                    )
+                                                    ProductoS
+                                                  )
                                                   : this.devolverCantidad(
-                                                      ProductoS
-                                                    )
+                                                    ProductoS
+                                                  )
                                               }
                                             />
                                           </td>
                                           <td>
                                             <div className="signo">
-                                            <p className="mt-2" style={{ color: "000"}}>$</p>
-                                            <input
-                                              className="form-control"
-                                              type="Number"
-                                              min="0"
-                                              name="total"
-                                              id="total"
-                                              readOnly
-                                              /* onChange={} */
-                                              value={
-                                                this.devolverCantidad(
-                                                  ProductoS
-                                                ) * ProductoS.price_s
-                                              }
-                                            />
+                                              <p className="mt-2" style={{ color: "000" }}>$</p>
+                                              <input
+                                                className="form-control"
+                                                type="Number"
+                                                min="0"
+                                                name="total"
+                                                id="total"
+                                                readOnly
+                                                /* onChange={} */
+                                                value={
+                                                  this.devolverCantidad(
+                                                    ProductoS
+                                                  ) * ProductoS.price_s
+                                                }
+                                              />
                                             </div>
-                                            
+
                                           </td>
 
                                           <td>
                                             <Button
                                               className="btn btn-danger"
-                                              style={{background:'red'}}
+                                              style={{ background: 'red' }}
                                               onClick={() => {
                                                 this.eliminar(ProductoS);
                                                 this.eliminarCantidad(
@@ -1495,10 +1495,10 @@ seleccionarUsuario = async (venta) => {
               <h3>
                 <label>
                   {this.state.cambio >= 0
-                    ? "$ "+formatNumber(Number(this.state.cambio).toFixed(2))
-                    : "faltan $"+formatNumber(Number(this.state.cambio).toFixed(2)).replace("-","")}
+                    ? "$ " + formatNumber(Number(this.state.cambio).toFixed(2))
+                    : "faltan $" + formatNumber(Number(this.state.cambio).toFixed(2)).replace("-", "")}
                 </label>
-                
+
               </h3>
               <br />
 
@@ -1568,8 +1568,8 @@ seleccionarUsuario = async (venta) => {
                   } */
                 }}
 
-                /*  console.log(this.state.cantidades) */
-                /* () => this.peticionPost() */
+              /*  console.log(this.state.cantidades) */
+              /* () => this.peticionPost() */
               >
                 Guardar
               </button>
@@ -1677,214 +1677,245 @@ seleccionarUsuario = async (venta) => {
                       /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                       return (
                         <tr>
-                          <td>{clientes.id}</td>
-                          <td>{clientes.name}</td>
                           {this.state.modalMembresia ? (
-                            <td>{clientes.membershipActivate ? "Sí" : "No"}</td>
+                            <>
+                              {clientes.membershipActivate ? (
+                                <>
+                                  <td>{clientes.id}</td>
+                                  <td>{clientes.name}</td>
+                                  <td>
+                                    <button
+                                      className="btn editarHoja"
+                                      onClick={() => {
+                                        /* this.seleccionarCategoria(categorias); */
+                                        this.setState({
+                                          name_cliente: clientes.name,
+                                          cliente_id: clientes.id,
+                                          form: {
+                                            ...this.state.form,
+                                            cliente_id: clientes.id,
+                                          },
+                                        });
+                                        console.log(clientes.id);
+                                        this.total();
+                                        this.modalCliente();
+                                      }}
+                                    >
+                                      Seleccionar
+                                    </button>
+                                  </td>
+                                </>
+                              ) : (
+                                console.log("ta vacio")
+                              )}
+                            </>
                           ) : (
-                            console.log("producto")
-                          )}
-                          <td>
-                            <button
-                              className="btn editarHoja"
-                              onClick={() => {
-                                /* this.seleccionarCategoria(categorias); */
-                                this.setState({
-                                  name_cliente: clientes.name,
-                                  cliente_id: clientes.id,
-                                  form: {
-                                    ...this.state.form,
-                                    cliente_id: clientes.id,
-                                  },
-                                });
-                                console.log(clientes.id);
-                                this.total();
-                                this.modalCliente();
-                              }}
-                            >
-                              Seleccionar
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter className="Cancelar-Cliente">
-            <button className="btn btn-danger" onClick={this.modalCliente}>
-              Cancelar
-            </button>
-          </ModalFooter>
-        </Modal>
-        {/* Aqui comienza el modal de Productos */}
-        <Modal
-          className="ModalVProductos"
-          isOpen={this.state.modalSeleccionarProducto}
-        >
-          <ModalHeader style={{ display: "block" }}>
-            {this.state.modalMembresia ? (
-              <>Seleccione Membresia</>
-            ) : (
-              <>Seleccione Producto</>
-            )}
-            <span style={{ float: "right" }}></span>
-          </ModalHeader>
-          <ModalBody className="SProducto">
-            <div className="form-group">
-              <input
-                type="text"
-                className="textField"
-                name="busqueda"
-                id="busqueda"
-                placeholder="Buscar"
-                onChange={this.buscador}
-                value={this.state.busqueda}
-              />
-              <div className="table-responsiveP">
-                <table className="table table-striped table-bordered ">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Nombre</th>
-
-                      <th>Precio</th>
-                      {/* <th>Stock</th> */}
-
-                      <th>Acción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.modalMembresia ? (
-                      <>
-                        {this.state.dataM.map((membresias) => {
-                          /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                          return (
-                            <tr>
-                              <td>{membresias.id}</td>
-                              <td>{membresias.name}</td>
-                              <td>{"$"+membresias.price}</td>
-                              {/* <td>Nose xd </td> */}
+                            <>
+                              <td>{clientes.id}</td>
+                              <td>{clientes.name}</td>
                               <td>
                                 <button
-                                 className="btn editarHoja"
+                                  className="btn editarHoja"
                                   onClick={() => {
-                                    /* this.setState({
-                                name_producto: productos.name,
-                                form: {
-                                  ...this.state.form,
-                                  producto_id: productos.id,
-                                },
-                              }); */
-                                    if (this.buscar(membresias)) {
-                                      swal({
-                                        text: "Ya está seleccionada",
-                                        icon: "error",
-                                        button: "Aceptar",
-                                        timer: "5000",
-                                      });
-                                    } else {
-                                      this.state.dataS.push(membresias);
-                                      console.log(this.state.dataS);
-                                      this.state.form2.id = membresias.id;
-                                      console.log(membresias.price);
-                                      this.state.form2.precio =
-                                        membresias.price;
-
-                                      this.modalProducto();
-                                      this.nuevaCantidad(membresias);
-                                      this.total();
-                                      this.calcularCambio();
-                                      /* console.log(this.state.form2); */
-                                    }
-                                    /* console.log(this.state.cantidades); */
-
-                                    /* this.seleccionarUsuario(proveedores); */
-
-                                    /* console.log(this.state.dataS); */
+                                    /* this.seleccionarCategoria(categorias); */
+                                    this.setState({
+                                      name_cliente: clientes.name,
+                                      cliente_id: clientes.id,
+                                      form: {
+                                        ...this.state.form,
+                                        cliente_id: clientes.id,
+                                      },
+                                    });
+                                    console.log(clientes.id);
+                                    this.total();
+                                    this.modalCliente();
                                   }}
                                 >
                                   Seleccionar
                                 </button>
-                                {"  "}
                               </td>
-                            </tr>
-                          );
-                        })}
-                      </>
-                    ) : (
-                      <>
-                        {this.state.dataP
-                          .filter((p) => this.state.dataS.includes(p) !== true)
-                          .map((productos) => {
-                            /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                            return (
-                              <tr>
-                                <td>{productos.id}</td>
-                                <td>{productos.name}</td>
-                                <td>{"$"+productos.price_s}</td>
-                                {/* <td>Nose xd </td> */}
-                                <td>
-                                  <button
-                                    className="btn editarHoja"
-                                    onClick={() => {
-                                      /* this.setState({
-                                name_producto: productos.name,
-                                form: {
-                                  ...this.state.form,
-                                  producto_id: productos.id,
-                                },
-                              }); */
-                                      if (this.buscar(productos)) {
-                                        swal({
-                                          text: "Ya está seleccionado",
-                                          icon: "error",
-                                          button: "Aceptar",
-                                          timer: "5000",
-                                        });
-                                      } else {
-                                        this.state.dataS.push(productos);
-                                        this.state.form2.id = productos.id;
-                                        this.state.form2.precio =
-                                          productos.price_s;
-                                        this.modalProducto();
-                                        this.nuevaCantidad(productos);
-                                        this.total();
-                                        this.calcularCambio();
-                                        /* console.log(this.state.form2); */
-                                      }
-                                      /* console.log(this.state.cantidades); */
-
-                                      /* this.seleccionarUsuario(proveedores); */
-
-                                      /* console.log(this.state.dataS); */
-                                    }}
-                                  >
-                                    Seleccionar
-                                  </button>
-                                  {"  "}
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                            </>
+                          )}
+                       </tr>
+                  );
+                    })}
+                </tbody>
+              </table>
             </div>
-          </ModalBody>
-          <ModalFooter className="Cancelar-Categoria">
-            <button className="btn btn-danger" onClick={this.modalProducto}>
-              Cancelar
-            </button>
-          </ModalFooter>
-        </Modal>
-      </div>
+          </div>
+        </ModalBody>
+        <ModalFooter className="Cancelar-Cliente">
+          <button className="btn btn-danger" onClick={this.modalCliente}>
+            Cancelar
+          </button>
+        </ModalFooter>
+      </Modal>
+        {/* Aqui comienza el modal de Productos */ }
+    <Modal
+      className="ModalVProductos"
+      isOpen={this.state.modalSeleccionarProducto}
+    >
+      <ModalHeader style={{ display: "block" }}>
+        {this.state.modalMembresia ? (
+          <>Seleccione Membresia</>
+        ) : (
+          <>Seleccione Producto</>
+        )}
+        <span style={{ float: "right" }}></span>
+      </ModalHeader>
+      <ModalBody className="SProducto">
+        <div className="form-group">
+          <input
+            type="text"
+            className="textField"
+            name="busqueda"
+            id="busqueda"
+            placeholder="Buscar"
+            onChange={this.buscador}
+            value={this.state.busqueda}
+          />
+          <div className="table-responsiveP">
+            <table className="table table-striped table-bordered ">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Nombre</th>
+
+                  <th>Precio</th>
+                  {/* <th>Stock</th> */}
+
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.modalMembresia ? (
+                  <>
+                    {this.state.dataM.map((membresias) => {
+                      /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                      return (
+                        <tr>
+                          <td>{membresias.id}</td>
+                          <td>{membresias.name}</td>
+                          <td>{"$" + membresias.price}</td>
+                          {/* <td>Nose xd </td> */}
+                          <td>
+                            <button
+                              className="btn editarHoja"
+                              onClick={() => {
+                                /* this.setState({
+                            name_producto: productos.name,
+                            form: {
+                              ...this.state.form,
+                              producto_id: productos.id,
+                            },
+                          }); */
+                                if (this.buscar(membresias)) {
+                                  swal({
+                                    text: "Ya está seleccionada",
+                                    icon: "error",
+                                    button: "Aceptar",
+                                    timer: "5000",
+                                  });
+                                } else {
+                                  this.state.dataS.push(membresias);
+                                  console.log(this.state.dataS);
+                                  this.state.form2.id = membresias.id;
+                                  console.log(membresias.price);
+                                  this.state.form2.precio =
+                                    membresias.price;
+
+                                  this.modalProducto();
+                                  this.nuevaCantidad(membresias);
+                                  this.total();
+                                  this.calcularCambio();
+                                  /* console.log(this.state.form2); */
+                                }
+                                /* console.log(this.state.cantidades); */
+
+                                /* this.seleccionarUsuario(proveedores); */
+
+                                /* console.log(this.state.dataS); */
+                              }}
+                            >
+                              Seleccionar
+                            </button>
+                            {"  "}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
+                    {this.state.dataP
+                      .filter((p) => this.state.dataS.includes(p) !== true)
+                      .map((productos) => {
+                        /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                        return (
+                          <tr>
+                            <td>{productos.id}</td>
+                            <td>{productos.name}</td>
+                            <td>{"$" + productos.price_s}</td>
+                            {/* <td>Nose xd </td> */}
+                            <td>
+                              <button
+                                className="btn editarHoja"
+                                onClick={() => {
+                                  /* this.setState({
+                            name_producto: productos.name,
+                            form: {
+                              ...this.state.form,
+                              producto_id: productos.id,
+                            },
+                          }); */
+                                  if (this.buscar(productos)) {
+                                    swal({
+                                      text: "Ya está seleccionado",
+                                      icon: "error",
+                                      button: "Aceptar",
+                                      timer: "5000",
+                                    });
+                                  } else {
+                                    this.state.dataS.push(productos);
+                                    this.state.form2.id = productos.id;
+                                    this.state.form2.precio =
+                                      productos.price_s;
+                                    this.modalProducto();
+                                    this.nuevaCantidad(productos);
+                                    this.total();
+                                    this.calcularCambio();
+                                    /* console.log(this.state.form2); */
+                                  }
+                                  /* console.log(this.state.cantidades); */
+
+                                  /* this.seleccionarUsuario(proveedores); */
+
+                                  /* console.log(this.state.dataS); */
+                                }}
+                              >
+                                Seleccionar
+                              </button>
+                              {"  "}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ModalBody>
+      <ModalFooter className="Cancelar-Categoria">
+        <button className="btn btn-danger" onClick={this.modalProducto}>
+          Cancelar
+        </button>
+      </ModalFooter>
+    </Modal>
+      </div >
     );
   }
 }
 
-export default withStyles(useStyles, { withTheme: true }) (TablaV);
+export default withStyles(useStyles, { withTheme: true })(TablaV);
