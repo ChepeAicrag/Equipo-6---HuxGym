@@ -1031,7 +1031,7 @@ seleccionarUsuario = async (venta) => {
                         Seleccionar Membresía
                       </button>
                     )
-                  ) : (
+                    ) : (
                     <button
                       className="btn btn-success"
                       onClick={() => {
@@ -1535,7 +1535,11 @@ seleccionarUsuario = async (venta) => {
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
-                      <th>Membresía Activa</th>
+                      {this.state.modalMembresia ? (
+                        <th>Membresía Activa</th>
+                      ) : (
+                        console.log("columna")
+                      )}
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -1546,7 +1550,11 @@ seleccionarUsuario = async (venta) => {
                         <tr>
                           <td>{clientes.id}</td>
                           <td>{clientes.name}</td>
-                          <td>{clientes.membershipActivate ? "Sí" : "No"}</td>
+                          {this.state.modalMembresia ? (
+                            <td>{clientes.membershipActivate ? "Sí" : "No"}</td>
+                          ) : (
+                            console.log("producto")
+                          )}
                           <td>
                             <button
                               className="btn editarHoja"
