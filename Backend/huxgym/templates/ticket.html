@@ -64,8 +64,8 @@
           <tr>
             <th class="quantity"><small>CANT</small></th>
             <th class="description" colspan="2"><small>DESCRIPCIÓN</small></th>
-            <th class="price"><small>P.UNIT</small></th>
-            <th class="price"><small>SUBTOTAL</small></th>
+            <th class="price" colspan="2"><small>P.UNIT</small></th>
+            <th class="price" colspan="2"><small>SUBTOTAL</small></th>
           </tr>
         </thead>
         <tbody>
@@ -73,8 +73,8 @@
           <tr class="mgall">
             <td class="quantity">{{ item.amount }}</td>
             <td class="description" colspan="2">{{ item.product }}</td>
-            <td class="price">$ {{ item.price }}</td>
-            <td class="price">$ {{ item.total }}</td>
+            <td class="price" colspan="2">$ {{ item.price }}</td>
+            <td class="price" colspan="2">$ {{ item.total }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -84,7 +84,10 @@
           <b>EFECTIVO:</b> $ {{ sale.cash }} <br>
           <b>CAMBIO:</b> $ {{ sale.cambio }}
       </p>
-      <p class="centered">GRACIAS POR SU COMPRA! <br />CONSERVE SU TICKET</p>
+      <p class="centered">
+             ¡GRACIAS POR SU COMPRA! <br />
+             CONSERVE SU TICKET
+      <br /> NO SE ACEPTAN DEVOLUCIONES </p>
     </div>
   </body>
 </html>

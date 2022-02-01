@@ -13,7 +13,7 @@ class ProductReportSerializer(serializers.ModelSerializer):
        return {
             "id": instance.id,
             "name": instance.name,
-            "total": self.total,
+            "total": '{:,.2f}'.format(self.total),
             "category": {
                 "id": instance.category_id.id, 
                 "name": instance.category_id.name,                
@@ -32,9 +32,9 @@ class DetailsReportSerializer(serializers.ModelSerializer):
        return {
             "id": instance.id,
             "product": instance.product.name,
-            "price": instance.product.price_s,
+            "price": '{:,.2f}'.format(instance.product.price_s),
             "amount": instance.amount,
-            "total": instance.total
+            "total": '{:,.2f}'.format(instance.total),
        }
 
 class SaleReportSerializer(serializers.ModelSerializer):
@@ -50,9 +50,9 @@ class SaleReportSerializer(serializers.ModelSerializer):
             "customer": instance.customer.name,
             "date": instance.date,
             "observation": instance.observation,
-            "total": instance.total,
-            "cash": instance.cash,
-            "cambio": cambio    
+            "total": '{:,.2f}'.format(instance.total),
+            "cash": '{:,.2f}'.format(instance.cash),
+            "cambio": '{:,.2f}'.format(cambio)    
        }
 
 class DetailsMemReportSerializer(serializers.ModelSerializer):
@@ -63,7 +63,7 @@ class DetailsMemReportSerializer(serializers.ModelSerializer):
        return {
             "id": instance.id,
             "product": 'Membresía ' + instance.membership.name,
-            "price": instance.membership.price,
+            "price": '{:,.2f}'.format(instance.membership.price), 
             "amount": instance.amount,
-            "total": instance.total
+            "total": '{:,.2f}'.format(instance.total) 
        }
