@@ -16,7 +16,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { isEmpty } from "../helpers/methods";
-
+import { withStyles } from "@material-ui/core/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter,
+} from "@material-ui/core";
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons"; */
 const url = "https://www.api.huxgym.codes/products/products/";
@@ -25,8 +39,51 @@ const urlP = "https://www.api.huxgym.codes/products/provider/";
 const urlA = "https://www.api.huxgym.codes/products/anadirStock/";
 const urlE = "https://www.api.huxgym.codes/products/restarStock/";
 const urlStock = "https://www.api.huxgym.codes/products/stockDeProducto/";
+const useStyles = (theme) => ({
+  table: {
+    height: "100%",
+    width: "100%",
+  },
+  tableContainer: {
+    borderRadius: 15,
+    display: "flex",
+    flexDireccion: "center",
+    paddig: "10px 10px",
+    maxWidth: "100%",
+    height: "100%",
+  },
+  tableHeaderCell: {
+    fontWeight: "bold",
+    backgroundColor: "#144983",
+    color: theme.palette.getContrastText(theme.palette.primary.dark),
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
+    marginRight: "50px",
+  },
+  name: {
+    fontWeight: "bold",
+    color: "black",
+  },
+  paginacion: {
+    width: "50%",
+    backgroundColor: "#e9f1f3",
+  },
+  status: {
+    fontWeight: "bold",
+    fontSize: "5rem",
+    color: "black",
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: "3px 10px",
+    display: "inline-block",
+  },
+});
 class TablaP extends Component {
   state = {
+    page:0,
+    rowsPerPage: 3,
     busqueda: "",
     dataStock: [],
     dataP: [],
@@ -56,7 +113,19 @@ class TablaP extends Component {
       folio:""
     },
   };
-
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+  handleChangeRowsPerPage = async (event) => {
+    console.log(event.target);
+    await this.setState({
+      page: 0,
+      rowsPerPage: event.target.value,
+    });
+  };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     e.persist();
@@ -656,15 +725,15 @@ class TablaP extends Component {
 
   render() {
     const { form } = this.state;
-
+    const {classes} = this.props;
     return (
-      <div className="table-responsiveMain">
-        
+      <div className="my-custom-scrollbar2"> 
         <div className="Barra_opciones mt-3">
           <BotonProducts />
         </div>
         <br />
-        <div className="Busqueda">
+
+        <div className="opciones mt-3 mb-4">
           <button
             className="btn botones"
             onClick={() => {
@@ -679,17 +748,11 @@ class TablaP extends Component {
             }}
             title='Agregar nuevo producto'
           >
-            {/* <i className="bx bxs-user">
-              <box-icon
-                type="solid"
-                name="user"
-                color="#fff"
-                animation="tada"
-              ></box-icon>
-            </i> */}
+            
             <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nuevo Producto
           </button>
-          <div className="esp"></div>
+          
+          <div className="buscarBox">
           <input
             type="text"
             className="textField"
@@ -700,15 +763,128 @@ class TablaP extends Component {
             value={this.state.busqueda}
             title='Buscar producto'
           />
-          <button type="submit" className="btn add-on" onClick={() => {}}>
+          <button type="submit" className="btn botonesBusqueda add-on" onClick={() => {}}>
             <i className="bx bxs-user">
               <box-icon name="search-alt-2" color="#fff"></box-icon>
             </i>
           </button>
         </div>
-
+        </div>
         <br />
-        <div className="table-wrapper">
+        <div className="tablaNueva">
+          {
+            this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna membresía encontrada</p>
+            : 
+            <TableContainer component={Paper} className={classes.tableContainer}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Folio
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Nombre del producto
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Precio de venta
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Precio de compra
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Descripción
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Cantidad en stock
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Imagen
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Acciones
+                    </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                {this.state.data.slice( this.state.page * this.state.rowsPerPage,this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((productos) => (
+                  <TableRow key={productos.name}>
+                    <TableCell>{productos.folio}</TableCell>
+                    <TableCell>{productos.name}</TableCell>
+                    <TableCell>{"$ " +productos.price_s}</TableCell>
+                    <TableCell>{"$ " +productos.price_c}</TableCell>
+                    <TableCell>{productos.description}</TableCell>
+                    <TableCell>{productos.stock}</TableCell>
+                    <TableCell>{" "}
+                      <img
+                        src={`https://www.api.huxgym.codes/${productos.image}`}
+                        width="170"
+                        height="150"
+                        align="center"
+                      /></TableCell>
+                    <TableCell><button
+                        className="btn btn-editar"
+                        onClick={() => {
+                          this.seleccionarProducto(productos);
+                          this.modalInsertar();
+                        }}
+                        title='Editar Producto'
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      {"  "}
+                      {localStorage.getItem("rol") == "Administrador" ? (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            this.seleccionarProducto(productos);
+                            this.setState({ modalEliminar: true });
+                          }}
+                          title='Dar de baja'
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                      {"  "}
+                      {localStorage.getItem("rol") == "Administrador" ? (
+                        <button
+                          className="btn btn-success"
+                          onClick={() => {
+                            this.seleccionarProducto(productos);
+                            this.setState({ modalStock: true });
+                          }}
+                          title='Editar Stock'
+                        >
+                          <FontAwesomeIcon icon={faCalculator} />
+                        </button>
+                      ) : (
+                        <></>
+                      )}</TableCell>
+                  </TableRow>
+                  
+                ))}
+                </TableBody>
+                <TableFooter>
+                <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[3, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />      
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          }
+
+        </div>
+        {/* <div className="table-wrapper">
           <table className="tab-pane  table">
             <thead className="tablaHeader">
               <tr className="encabezado" >
@@ -724,7 +900,7 @@ class TablaP extends Component {
             </thead>
             <tbody className="cuerpoTabla base">
               {this.state.data.map((productos) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                Con esto recorremos todo nuestro arreglo data para rellenar filas
                 return (
                   <tr>
                     <td>{productos.folio}</td>
@@ -789,7 +965,8 @@ class TablaP extends Component {
               })}
             </tbody>
           </table>
-        </div>
+        </div> */}
+
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
@@ -1233,4 +1410,4 @@ class TablaP extends Component {
   }
 }
 
-export default TablaP;
+export default  withStyles(useStyles, { withTheme: true })(TablaP);

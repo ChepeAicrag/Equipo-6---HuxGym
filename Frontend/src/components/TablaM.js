@@ -89,7 +89,6 @@ class TablaM extends Component {
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     membresias: [],
-    dataBuscar: [],
 
     errors: {},
     form: {
@@ -459,6 +458,7 @@ class TablaM extends Component {
     return (
       <div className="my-custom-scrollbar2">
         <br />
+
         <div className="opciones mt-3 mb-4">
           <button
             className="btn botones"
@@ -497,7 +497,7 @@ class TablaM extends Component {
         <br />
         <div className="tablaNueva">
           {
-          this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ningun cliente encontrado</p>
+          this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna membresía encontrada</p>
             : 
 
             <TableContainer component={Paper} className={classes.tableContainer} >
