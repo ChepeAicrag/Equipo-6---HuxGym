@@ -1498,6 +1498,7 @@ seleccionarUsuario = async (venta) => {
                     ? "$ "+formatNumber(Number(this.state.cambio).toFixed(2))
                     : "faltan $"+formatNumber(Number(this.state.cambio).toFixed(2)).replace("-","")}
                 </label>
+                
               </h3>
               <br />
 
