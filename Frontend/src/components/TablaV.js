@@ -1365,10 +1365,9 @@ seleccionarUsuario = async (venta) => {
               <label htmlFor="image">Cambio:</label>
               <h3>
                 <label>
-                  ${" "}
-                  {formatNumber(this.state.cambio > 0
-                    ? Number(this.state.cambio).toFixed(2)
-                    : 0)}
+                  {this.state.cambio >= 0
+                    ? "$ "+formatNumber(Number(this.state.cambio).toFixed(2))
+                    : "faltan $"+formatNumber(Number(this.state.cambio).toFixed(2)).replace("-","")}
                 </label>
               </h3>
               <br />
