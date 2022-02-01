@@ -26,9 +26,10 @@ class TablaProvedor extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
       name: "",
+      apellidos:"",
       email: "",
       phone: "",
-      rfc: "",
+      direccion: "",
       folio:"",
     },
   };
@@ -81,21 +82,24 @@ class TablaProvedor extends Component {
       return { error: true, msj: "Rellene los campos" };
     }
     const name = form.name;
+    const apellidos = form.apellidos;
     const email = form.email;
     const phone = form.phone;
-    const rfc = form.rfc;
+    const direccion = form.direccion;
     let regex = new RegExp(
       "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
     );
-    if (!regex.test(rfc)) {
+    /* if (!regex.test(rfc)) {
       return {
         error: true,
         msj: "El campo RFC es incorrecto",
       };
-    }
+    } */
 
     if (isEmpty(name))
       return { error: true, msj: "El campo de nombre no puede estar vacío" };
+    if (isEmpty(name))
+      return { error: true, msj: "El campo de apellidos no puede estar vacío" };
     if (isEmpty(email))
       return {
         error: true,
@@ -105,8 +109,8 @@ class TablaProvedor extends Component {
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
     if (phone.length < 10)
       return { error: true, msj: "El campo de telefono debe tener 10 dígitos" };
-    if (isEmpty(rfc))
-      return { error: true, msj: "El campo de rfc no puede estar vacío" };
+    if (isEmpty(direccion))
+      return { error: true, msj: "El campo de dirección no puede estar vacío" };
     return { error: false };
   };
 
@@ -249,9 +253,10 @@ class TablaProvedor extends Component {
       form: {
         id: proveedores.id,
         name: proveedores.name,
+        apellidos:proveedores.apellidos,
         email: proveedores.email,
         phone: proveedores.phone,
-        rfc: proveedores.rfc,
+        direccion: proveedores.direccion,
         folio:proveedores.folio,
       },
     });
@@ -333,7 +338,7 @@ class TablaProvedor extends Component {
 
     let patt = new RegExp(/[A-Za-z0-9]+/g);
     let regex = new RegExp(
-      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
+      "[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ '\.\-\s\, ]+$"
     );
     /* let regex = new RegExp("^[0-9]+$"); */
 
@@ -349,7 +354,7 @@ class TablaProvedor extends Component {
         this.setState((prevState) => ({
           errors: {
             ...prevState.errors,
-            rfc: "RFC incorretca",
+            rfc: "Dirección incorrecta",
           },
         }));
       } else {
@@ -423,7 +428,7 @@ class TablaProvedor extends Component {
                 <th>Nombre del proveedor</th>
                 <th>Email</th>
                 <th>Teléfono</th>
-                <th>RFC</th>
+                <th>Dirección</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -436,7 +441,7 @@ class TablaProvedor extends Component {
                     <td>{proveedores.name}</td>
                     <td>{proveedores.email}</td>
                     <td>{proveedores.phone}</td>
-                    <td>{proveedores.rfc}</td>
+                    <td>{proveedores.direccion}</td>
                     <td>
                       <button
                         className="btn btn-editar"
@@ -507,6 +512,18 @@ class TablaProvedor extends Component {
                 value={form ? form.name : ""}
               />
               <br />
+              <label htmlFor="apellidos">Apellidos del proveedor*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="apellidos"
+                id="apellidos"
+                placeholder="Apellidos del proveedor"
+                maxLength="50"
+                onChange={this.handleChangeInput}
+                value={form ? form.apellidos : ""}
+              />
+              <br />
               <label htmlFor="email">Email*:</label>
               <input
                 className="form-control"
@@ -533,17 +550,17 @@ class TablaProvedor extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
-              <label htmlFor="rfc">RFC*:</label>
+              <label htmlFor="direccion">Dirección*:</label>
               <input
                 className="form-control"
                 type="text"
-                name="rfc"
-                id="rfc"
+                name="direccion"
+                id="direccion"
                 size="13"
-                placeholder="RFC"
-                maxLength="13"
+                placeholder="Dirección"
+                maxLength="100"
                 onChange={this.handleChangeInputRFC}
-                value={form ? form.rfc : ""}
+                value={form ? form.direccion : ""}
               />
               {this.state.errors.rfc && (
                 <p className="errores mt-2">{this.state.errors.rfc}</p>
