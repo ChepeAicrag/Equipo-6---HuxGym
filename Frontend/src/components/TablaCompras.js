@@ -82,6 +82,10 @@ const useStyles = (theme) => ({
 },
  
 });
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
+
 class TablaCompras extends Component {
   state = {
     page:0,
@@ -821,7 +825,7 @@ class TablaCompras extends Component {
                 <TableRow key={row.folio}>
                 <TableCell>{row.Purchase.folio}</TableCell>
                 <TableCell>{row.purchase_detail[0].product.provider.name}</TableCell>
-                <TableCell>{"$ " + row.Purchase.total}</TableCell>
+                <TableCell>{"$ " + formatNumber(row.Purchase.total)}</TableCell>
                 <TableCell>{row.Purchase.date.split("T")[0]}</TableCell>
 
                 <TableCell>

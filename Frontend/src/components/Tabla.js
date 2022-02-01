@@ -137,6 +137,17 @@ const useStyles = (theme) => ({
     backgroundColor: "#144983",
     color: theme.palette.getContrastText(theme.palette.primary.dark),
   },
+
+  tam:{
+    height:"150px",
+  },
+  acciones:{
+    display:"flex",
+    height:"150px",
+    flexDireccion:"column",
+    justifyContent:"center",
+    alignItems:"center"
+  },
   avatar: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.getContrastText(theme.palette.primary.light),
@@ -1209,7 +1220,7 @@ class Tabla extends Component {
                       )
                       .map((row) => (
                         <TableRow key={row.name}>
-                          <TableCell>
+                          <TableCell className={classes.tam}>
                             <Grid container>
                               <Grid item lg={3}>
                                 <Avatar
@@ -1242,7 +1253,7 @@ class Tabla extends Component {
                               ? "Activada"
                               : "No Activada"}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className={classes.acciones}>
                             <button
                               className="btn btn-editar"
                               onClick={() => {
@@ -1270,7 +1281,7 @@ class Tabla extends Component {
                             )}
                           </TableCell>
 
-                          <TableCell>
+                          <TableCell >
                             <BtnModalHoja
                               id_cliente={row.id}
                               nacimiento_cliente={row.birthdate}

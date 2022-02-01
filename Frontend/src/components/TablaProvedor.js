@@ -115,6 +115,20 @@ class TablaProvedor extends Component {
     console.log(this.state.form);
   };
 
+  manejadorCorreo = async () =>{
+    var expReg= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+    const email = this.state.form.email;
+    var esValido= expReg.test(email);
+    if(!esValido){
+      swal({
+        text: "Correo no valido",
+        icon: "info",
+        button: "Aceptar",
+        timer: "3000",
+      });
+    }
+  }
+
   peticionGet = async () => {
     try {
       const res = await axios.get(url, {
@@ -670,6 +684,7 @@ class TablaProvedor extends Component {
                 id="email"
                 placeholder="Email"
                 maxLength="200"
+                onBlur={this.manejadorCorreo}
                 onChange={this.handleChange}
                 value={form ? form.email : ""}
               />
