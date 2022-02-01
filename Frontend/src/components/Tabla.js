@@ -19,17 +19,13 @@ import ModalHojaClinica from "../components/ModalHojaClinica";
 import "../styles/Crud.css";
 import "../styles/clientes.css";
 import { isEmpty } from "../helpers/methods";
-import DataTable from "react-data-table-component";
-import { useTable, usePagination } from 'react-table';
-import TablaNueva from "./TablaNueva.js";
+
 //Agreagra DataTable
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'; 
-import TablaClienteN from "./TablaClienteN";
-import { makeStyles } from '@material-ui/core/styles';
+
 import { withStyles } from '@material-ui/core/styles';
 import { 
   Table,
@@ -45,7 +41,7 @@ import {
   TablePagination,
   TableFooter
 } from '@material-ui/core';
-import { margin } from "@mui/system";
+
 
 
 const url = "https://www.api.huxgym.codes/customers/customers/";
