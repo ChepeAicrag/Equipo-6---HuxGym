@@ -530,7 +530,7 @@ class TablaProvedor extends Component {
                     {proveedores.name}
                     </TableCell>
                     <TableCell>
-                      
+                    {proveedores.direccion}
                     </TableCell>
                     <TableCell>
                     {proveedores.email}
