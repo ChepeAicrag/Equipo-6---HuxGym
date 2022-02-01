@@ -148,6 +148,13 @@ const useStyles = (theme) => ({
     justifyContent:"center",
     alignItems:"center"
   },
+  hojas:{
+    display:"flex",
+    height:"100px",
+    flexDireccion:"row",
+    justifyContent:"center",
+    alignItems:"center"
+  },
   avatar: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.getContrastText(theme.palette.primary.light),
@@ -1281,7 +1288,7 @@ class Tabla extends Component {
                             )}
                           </TableCell>
 
-                          <TableCell >
+                          <TableCell>
                             <BtnModalHoja
                               id_cliente={row.id}
                               nacimiento_cliente={row.birthdate}
