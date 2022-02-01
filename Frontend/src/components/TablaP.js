@@ -216,26 +216,33 @@ class TablaP extends Component {
     }
   };
 
-  async restodecompra(form){
-    const price_s = form.price_s;
-    const price_c = form.price_c;
-    const price_sale = parseFloat(form.price_s);
-    const price_puchase = parseFloat(form.price_c);
-    await this.setState((prevState) => ({
-      errors: {
-        ...prevState.errors,
-        cambio: null,
-      },
-    }));
-    if (price_puchase > price_sale){
+  async restodecompra(value){
+    
+    try{
+      const price_sale = parseFloat(this.state.form.price_s);
+      const price_puchase = parseFloat(this.state.form.price_c);
+      
       await this.setState((prevState) => ({
         errors: {
           ...prevState.errors,
-          cambio:
-          "El precio de compra no puede ser mayor al de venta",
+          cambio: null,
         },
       }));
+
+      if (price_puchase > price_sale){
+        await this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            cambio:
+            "El precio de compra no puede ser mayor al de venta",
+          },
+        }));
+      }
+
+    }catch(error){
+      console.log(error)
     }
+    
   }
 
   validar = (form) => {
@@ -726,20 +733,21 @@ class TablaP extends Component {
         });
       }
   };
-  validateNumber = (event) => {
+
+  validateNumber = async (event) => {
     const name = event.target.name;
     const value = event.target.value;
     let regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
-    this.restodecompra(this.state.form);
+    
     if (regex.test(value)|| isEmpty(value)) {
       const setValue = value <= 10000 && value>=0 ? value : 0.0;
-      this.setState({
+      await this.setState({
         form: {
           ...this.state.form,
           [name]: setValue,
         },
       }); 
-
+      this.restodecompra(value);
     }
     else{
     event.target.value = ""
