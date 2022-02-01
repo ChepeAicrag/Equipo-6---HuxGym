@@ -10,6 +10,22 @@ import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { isEmpty } from "../helpers/methods";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@material-ui/core/TextField";
+import { withStyles } from '@material-ui/core/styles';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter
+} from '@material-ui/core';
+
 const url =
   "https://www.api.huxgym.codes/purchases/obtenerCompras/"; /* Aqui va la url principal */
 
@@ -19,8 +35,57 @@ const url_ec = "https://www.api.huxgym.codes/purchases/purchase/";
 const urlC = "https://www.api.huxgym.codes/products/provider/";
 const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
+
+
+const useStyles = (theme) => ({
+  table: {
+    
+    height:'100%',
+    width:'100%'
+  },
+  tableContainer: {
+      borderRadius: 15,
+      display:'flex',
+      flexDireccion:'center',
+      paddig: '10px 10px',
+      maxWidth: '100%',
+      height:'100%',
+  },
+  tableHeaderCell: {
+      fontWeight: 'bold',
+      backgroundColor: '#144983',
+      color: theme.palette.getContrastText(theme.palette.primary.dark)
+  },
+  avatar: {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.getContrastText(theme.palette.primary.light),
+      marginRight:'50px'
+  },
+  name: {
+      fontWeight: 'bold',
+      color: 'black'
+      
+  },
+  paginacion:{
+    width: '50%',
+    backgroundColor: '#e9f1f3',
+    
+  },
+  status: {
+    fontWeight: 'bold',
+    fontSize: '5rem',
+    color: 'black',
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: '3px 10px',
+    display: 'inline-block'
+},
+ 
+});
 class TablaCompras extends Component {
   state = {
+    page:0,
+    rowsPerPage:5,
     busqueda: "",
     dataP: [],
     dataC: [],
@@ -66,6 +131,20 @@ class TablaCompras extends Component {
     },
   };
 
+
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+        page:newPage
+    });
+};
+  handleChangeRowsPerPage = async(event) => {
+    console.log(event.target)
+      await this.setState({
+          page:0,
+          rowsPerPage:event.target.value
+      });
+  };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     e.persist();
@@ -669,8 +748,9 @@ class TablaCompras extends Component {
   render() {
     const { form } = this.state;
     const { form2 } = this.state;
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
 
         <div className="Busqueda">
@@ -721,33 +801,34 @@ class TablaCompras extends Component {
         <br />
         <br />
         <br />
-        <div className="table-wrapper">
-          <table className="tab-pane  table ">
-            <thead className="tablaHeader">
-              <tr className="encabezado">
-                <th>Folio de compra</th>
-                <th>Nombre del proveedor</th>
-                <th>Precio de la compra</th>
+        <div className="tablaNueva mt-4">
+        <TableContainer component={Paper} className={classes.tableContainer}>
+        <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+              <TableCell className={classes.tableHeaderCell}>Folio de compra</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Nombre del proveedor</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Precio de la compra</TableCell>
                 {/* <th>Precio de compra</th> */}
-                <th>Fecha de registro</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="cuerpoTabla base">
-              {this.state.data.map((compra) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                return (
-                  <tr>
-                    <td>{compra.Purchase.folio}</td>
-                    <td>{compra.purchase_detail[0].product.provider.name}</td>
-                    <td>{"$ " + compra.Purchase.total}</td>
-                    <td>{compra.Purchase.date.split("T")[0]}</td>
+              <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+                
+               
+                <TableRow key={row.folio}>
+                <TableCell>{row.Purchase.folio}</TableCell>
+                <TableCell>{row.purchase_detail[0].product.provider.name}</TableCell>
+                <TableCell>{"$ " + row.Purchase.total}</TableCell>
+                <TableCell>{row.Purchase.date.split("T")[0]}</TableCell>
 
-                    <td>
+                <TableCell>
                       <button
                         className="btn btn-editar"
                         onClick={() => {
-                          this.seleccionarUsuario(compra);
+                          this.seleccionarUsuario(row);
                           this.modalInsertar();
                         }}
                         title="Editar compra"
@@ -759,7 +840,7 @@ class TablaCompras extends Component {
                         <button
                           className="btn btn-danger"
                           onClick={() => {
-                            this.seleccionarUsuario(compra);
+                            this.seleccionarUsuario(row);
                             this.setState({ modalEliminar: true });
                           }}
                           title="Dar de baja"
@@ -769,12 +850,26 @@ class TablaCompras extends Component {
                       ) : (
                         <></>
                       )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+              <TableFooter className={classes.paginacion}>
+              <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[5, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />
+              </TableFooter>
+            </Table>
+          </TableContainer>
         </div>
         <Modal className="ModalVenta" isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
@@ -1337,4 +1432,4 @@ class TablaCompras extends Component {
   }
 }
 
-export default TablaCompras;
+export default withStyles(useStyles, { withTheme: true }) (TablaCompras);

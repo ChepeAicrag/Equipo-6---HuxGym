@@ -16,6 +16,21 @@ import { isEmpty } from "../helpers/methods";
 import "../styles/Crud.css";
 import "../styles/Ventas.css";
 import { formControlClasses } from "@mui/material";
+import { withStyles } from '@material-ui/core/styles';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter
+} from '@material-ui/core';
 
 const url =
   "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
@@ -24,9 +39,63 @@ const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 const urlT = "https://www.api.huxgym.codes/reports/ticket/";
 const urlStock= "https://www.api.huxgym.codes/products/stockDeProducto/";
+const useStyles = (theme) => ({
+  table: {
+    
+    height:'100%',
+    width:'100%'
+  },
+  acciones:{
+    marginTop:"10px",
+    display:"flex",
+    flexDireccion:"column",
+    justifyContent:"center"
 
+  },
+  tableContainer: {
+      borderRadius: 15,
+      display:'flex',
+      flexDireccion:'center',
+      paddig: '10px 10px',
+      maxWidth: '100%',
+      height:'100%',
+  },
+  tableHeaderCell: {
+    
+      fontWeight: 'bold',
+      backgroundColor: '#144983',
+      color: theme.palette.getContrastText(theme.palette.primary.dark)
+  },
+  avatar: {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.getContrastText(theme.palette.primary.light),
+      marginRight:'50px'
+  },
+  name: {
+      fontWeight: 'bold',
+      color: 'black'
+      
+  },
+  paginacion:{
+    width: '50%',
+    backgroundColor: '#e9f1f3',
+    
+  },
+  status: {
+    fontWeight: 'bold',
+    fontSize: '5rem',
+    color: 'black',
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: '3px 10px',
+    display: 'inline-block'
+},
+ 
+});
 class TablaV extends Component {
   state = {
+    page:0,
+    rowsPerPage:5,
     busqueda: "",
     dataBuscar: [],
     dataP: [],
@@ -75,6 +144,20 @@ class TablaV extends Component {
       is_products: true,
       observation: "",
     },
+  };
+
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+        page:newPage
+    });
+  };
+  handleChangeRowsPerPage = async(event) => {
+    console.log(event.target)
+      await this.setState({
+          page:0,
+          rowsPerPage:event.target.value
+      });
   };
 
   handleChange = async (e) => {
@@ -788,19 +871,6 @@ seleccionarUsuario = async (venta) => {
     }
   };
 
-  // limpiarTablaS = () => {
-  //   this.setState({
-  //     total: 0,
-  //     cambio: 0,
-  //     pago: 0,
-  //     name_cliente: "",
-  //     customer_id: "",
-  //     form3: { customer_id: "", products: [], cash: 0, observation: "" },
-  //   });
-  //   this.state.dataS = [];
-  //   this.state.cantidades = [];
-  // };
-
   validar = () => {
     if (
       this.state.name_cliente == "" &&
@@ -849,11 +919,12 @@ seleccionarUsuario = async (venta) => {
   render() {
     const { form } = this.state;
     const { form2 } = this.state;
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
 
-        <div className="Busqueda">
+        <div className="Busqueda mt-2">
           <button
             className="btn botones"
             onClick={() => {
@@ -911,40 +982,40 @@ seleccionarUsuario = async (venta) => {
 
         <br />
         <br />
-        <br />
-        <div className="table-wrapper">
-          <table className="tab-pane  table ">
-            <thead className="tablaHeader">
-              <tr>
-                <th>Folio de venta</th>
-                <th>Empleado que realizó la venta</th>
-                <th>Total de la venta</th>
-                <th>Efectivo</th>
-                <th>Cambio</th>
-                <th>Fecha de registro</th>
-                <th>Cliente</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="cuerpoTabla base">
-              {this.state.data ? (
-                this.state.data.map((ventas) => {
-                  /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                  return (
-                    <tr>
-                      <td>{ventas.sale.folio}</td>
-                      <td>{ventas.sale.user.name}</td>
-                      <td>{"$ " + ventas.sale.total}</td>
-                      <td>{"$ " + ventas.sale.cash}</td>
-                      <td>{"$ " + (ventas.sale.cash - ventas.sale.total)}</td>
-                      <td>{ventas.sale.date}</td>
-                      <td>{ventas.sale.customer.name}</td>
+        <div className="tablaNueva mt-4">
+        {
+            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ninguna venta encontrada</p>
+            :
+          <TableContainer component={Paper} className={classes.tableContainer}>  
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+              <TableCell className={classes.tableHeaderCell}>Folio de venta</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Empleado que realizó la venta</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Total de la venta</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Efectivo</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Cambio</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Cliente</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+            {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+              <TableRow key={row.folio}>
+                      <TableCell>{row.sale.folio}</TableCell>
+                      <TableCell>{row.sale.user.name}</TableCell>
+                      <TableCell>{"$ " + row.sale.total}</TableCell>
+                      <TableCell>{"$ " + row.sale.cash}</TableCell>
+                      <TableCell>{"$ " + (row.sale.cash - row.sale.total)}</TableCell>
+                      <TableCell>{row.sale.date}</TableCell>
+                      <TableCell>{row.sale.customer.name}</TableCell>
 
-                      <td>
+                      <TableCell className={classes.acciones}>
                         <button
-                          className="btn btn-editar"
+                          className="btn btn-editar mr-1"
                           onClick={() => {
-                            this.seleccionarUsuario(ventas);
+                            this.seleccionarUsuario(row);
                             this.modalInsertar();
                           }}
                           title='Editar venta'
@@ -954,9 +1025,9 @@ seleccionarUsuario = async (venta) => {
                         {"  "}
                         {localStorage.getItem("rol") == "Administrador" ? (
                           <button
-                            className="btn btn-danger"
+                            className="btn btn-danger mr-1"
                             onClick={() => {
-                              this.seleccionarUsuario(ventas);
+                              this.seleccionarUsuario(row);
                               this.setState({ modalEliminar: true });
                             }}
                             title='Dar de baja'
@@ -968,23 +1039,35 @@ seleccionarUsuario = async (venta) => {
                         )}
 
                         <a
-                          className="btn btn-info ml-1"
-                          href={urlT+ventas.sale.id} target="_blank"
-                          onClick={() => this.peticionTicket(ventas.sale.id)}
+                          className="btn btn-info"
+                          href={urlT+row.sale.id} target="_blank"
+                          onClick={() => this.peticionTicket(row.sale.id)}
                           title='Imprimir Ticket'
                           
                         >
                           <FontAwesomeIcon icon={faClipboardCheck} />
                         </a>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <p>No se encontro datos</p>
-              )}
-            </tbody>
-          </table>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+              </TableBody>
+              <TableFooter className={classes.paginacion}>
+              <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[5, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />
+              </TableFooter>
+          </Table>
+          </TableContainer>
+        }
         </div>
         <Modal className="ModalVenta" isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
@@ -1794,4 +1877,4 @@ seleccionarUsuario = async (venta) => {
   }
 }
 
-export default TablaV;
+export default withStyles(useStyles, { withTheme: true }) (TablaV);

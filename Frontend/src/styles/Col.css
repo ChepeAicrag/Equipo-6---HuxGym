@@ -41,7 +41,7 @@
     float: center;
     display: flex;
     overflow-x: auto;*/
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

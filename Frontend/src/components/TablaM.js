@@ -497,7 +497,7 @@ class TablaM extends Component {
         <br />
         <div className="tablaNueva">
           {
-          this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ningun cliente encontrado</p>
+          this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna membresía encontrada</p>
             : 
 
             <TableContainer component={Paper} className={classes.tableContainer} >

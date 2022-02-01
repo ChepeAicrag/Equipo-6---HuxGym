@@ -228,12 +228,12 @@ class Tabla extends Component {
         page:newPage
     });
 };
-handleChangeRowsPerPage = async(event) => {
-  console.log(event.target)
-    await this.setState({
-        page:0,
-        rowsPerPage:event.target.value
-    });
+  handleChangeRowsPerPage = async(event) => {
+    console.log(event.target)
+      await this.setState({
+          page:0,
+          rowsPerPage:event.target.value
+      });
   };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
@@ -1109,14 +1109,13 @@ handleChangeRowsPerPage = async(event) => {
           <br />
           <div className="tablaNueva">
           {
-            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ningun cliente encontrado</p>
+            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ningún cliente encontrado</p>
             :
           
           <TableContainer component={Paper} className={classes.tableContainer}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  
                   <TableCell className={classes.tableHeaderCell}>Nombre completo</TableCell>
                   <TableCell className={classes.tableHeaderCell}>Folio</TableCell>
                   <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
@@ -1132,7 +1131,7 @@ handleChangeRowsPerPage = async(event) => {
               <TableBody>
                 {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
                   <TableRow key={row.name}>
-                    <TableCell>
+                    <TableCell >
                         <Grid container>
                             <Grid item lg={3}>
                                 <Avatar alt={row.name} src={`https://www.api.huxgym.codes/${row.image}`} className={classes.avatar}/>
@@ -1142,7 +1141,7 @@ handleChangeRowsPerPage = async(event) => {
                                 <Typography color="textSecondary" variant="body2">{row.phone}</Typography>
                             </Grid>
                         </Grid>
-                      </TableCell>
+                    </TableCell>
                     <TableCell>
                         {row.folio}
                     </TableCell>

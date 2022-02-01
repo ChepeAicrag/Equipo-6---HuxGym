@@ -14,8 +14,71 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+
+import { withStyles } from '@material-ui/core/styles';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter
+} from '@material-ui/core';
+
 const url = "https://www.api.huxgym.codes/user/";
 const urlCurp = "https://www.api.huxgym.codes/data_curp/";
+
+const useStyles = (theme) => ({
+  table: {
+    
+    height:'100%',
+    width:'100%'
+  },
+  tableContainer: {
+      borderRadius: 15,
+      display:'flex',
+      flexDireccion:'center',
+      paddig: '10px 10px',
+      maxWidth: '100%',
+      height:'100%',
+  },
+  tableHeaderCell: {
+      fontWeight: 'bold',
+      backgroundColor: '#144983',
+      color: theme.palette.getContrastText(theme.palette.primary.dark)
+  },
+  avatar: {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.getContrastText(theme.palette.primary.light),
+      marginRight:'50px'
+  },
+  name: {
+      fontWeight: 'bold',
+      color: 'black'
+      
+  },
+  paginacion:{
+    width: '50%',
+    backgroundColor: '#e9f1f3',
+    
+  },
+  status: {
+    fontWeight: 'bold',
+    fontSize: '5rem',
+    color: 'black',
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: '3px 10px',
+    display: 'inline-block'
+},
+ 
+});
 
 function obtenerMes(date) {
   let fecha = new Date(date);
@@ -97,6 +160,8 @@ class TablaE extends Component {
   };
 
   state = {
+    page:0,
+    rowsPerPage:3,
     busqueda: "",
     dataBuscar:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
@@ -126,6 +191,22 @@ class TablaE extends Component {
     },
   };
 
+
+  //----------------PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+        page:newPage
+    });
+};
+  handleChangeRowsPerPage = async(event) => {
+    console.log(event.target)
+      await this.setState({
+          page:0,
+          rowsPerPage:event.target.value
+      });
+    };
+
+  //-----------------
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     e.persist();
@@ -992,10 +1073,11 @@ changeEstado = (e) => {
 
   render() {
     const { form } = this.state;
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
-        <div className="Busqueda">
+        <div className="Busqueda mt-3 mb-2">
           <button
             className="btn botones"
             onClick={() => {
@@ -1036,49 +1118,57 @@ changeEstado = (e) => {
         <br></br>
         <br></br>
         <br />
-        <div className="table-wrapper">
-          <table className="tab-pane  table">
-            <thead className="tablaHeader">
-              <tr className="encabezado">
-                <th>Curp</th>
-                <th>Nombre completo</th>
-                <th>Edad</th>
-                <th>Género</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Imagen</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="cuerpoTabla base">
-              {this.state.data &&
-                this.state.data.map((empleados) => {
+        <div className="tablaNueva mt-2">
+        {
+            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ningún Empleado encontrado</p>
+            :
+          <TableContainer component={Paper} className={classes.tableContainer}>
+          <Table className={classes.table} aria-label="simple table">
+          <TableHead> 
+            <TableRow>
+                
+                
+                <TableCell className={classes.tableHeaderCell}>Empleado</TableCell> 
+                <TableCell className={classes.tableHeaderCell}>Curp</TableCell>
+                <TableCell className={classes.tableHeaderCell}>Edad</TableCell>
+                <TableCell className={classes.tableHeaderCell}>Género</TableCell>
+                <TableCell className={classes.tableHeaderCell}>Email</TableCell>
+                
+                <TableCell className={classes.tableHeaderCell}>Rol</TableCell>
+                <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody> 
+            {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
                   /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                  return (
-                    <tr>
-                      <td>{empleados.curp}</td>
-                      <td>{empleados.name}</td>
-                      <td>{empleados.age}</td>
-                      <td>{empleados.gender}</td>
-                      <td>{empleados.phone}</td>
-                      <td>{empleados.email}</td>
-                      <td>
-                        {empleados.role === 2 ? "Encargado" : "Instructor"}
-                      </td>
-                      <td>
-                        <img
-                          src={`https://www.api.huxgym.codes/${empleados.image}`}
-                          width="170"
-                          height="150"
-                          align="center"
-                        />
-                      </td>
-                      <td>
+                  
+                  <TableRow key={row.name}>
+                  <TableCell>
+                        <Grid container>
+                            <Grid item lg={3}>
+                                <Avatar alt={row.name} src={`https://www.api.huxgym.codes/${row.image}`} className={classes.avatar}/>
+                            </Grid>
+                            <Grid item lg={10}>
+                                <Typography className={classes.name}>{row.name}</Typography>
+                                <Typography color="textSecondary" variant="body2">{row.phone}</Typography>
+                            </Grid>
+                        </Grid>
+                    </TableCell>
+                    <TableCell> {row.curp}</TableCell>
+                    
+                    <TableCell>{row.age}</TableCell>
+                    <TableCell>{row.gender}</TableCell>
+                    
+                    <TableCell>{row.email}</TableCell>
+                    <TableCell>
+                        {row.role === 2 ? "Encargado" : "Instructor"}
+                    </TableCell>
+                    
+                    <TableCell>
                         <button
                           className="btn btn-editar"
                           onClick={() => {
-                            this.seleccionarUsuario(empleados);
+                            this.seleccionarUsuario(row);
                             this.modalInsertar();
                           }}
                           title='Editar empleado'
@@ -1090,7 +1180,7 @@ changeEstado = (e) => {
                           <button
                             className="btn btn-danger"
                             onClick={() => {
-                              this.seleccionarUsuario(empleados);
+                              this.seleccionarUsuario(row);
                               this.setState({ modalEliminar: true });
                             }}
                             title='Dar de baja'
@@ -1100,12 +1190,27 @@ changeEstado = (e) => {
                         ) : (
                           <></>
                         )}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+              </TableBody>
+              <TableFooter className={classes.paginacion}>
+              <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[3, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        }
         </div>
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
@@ -1666,4 +1771,4 @@ changeEstado = (e) => {
   }
 }
 
-export default TablaE;
+export default withStyles(useStyles, { withTheme: true })(TablaE);
