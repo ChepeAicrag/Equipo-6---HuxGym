@@ -1686,7 +1686,7 @@ seleccionarUsuario = async (venta) => {
                           )}
                           <td>
                             <button
-                              className="btn editarHoja"
+                              className="btn btn-primary"
                               onClick={() => {
                                 /* this.seleccionarCategoria(categorias); */
                                 this.setState({
@@ -1769,7 +1769,7 @@ seleccionarUsuario = async (venta) => {
                               {/* <td>Nose xd </td> */}
                               <td>
                                 <button
-                                 className="btn editarHoja"
+                                 className="btn btn-primary"
                                   onClick={() => {
                                     /* this.setState({
                                 name_producto: productos.name,
@@ -1828,7 +1828,7 @@ seleccionarUsuario = async (venta) => {
                                 {/* <td>Nose xd </td> */}
                                 <td>
                                   <button
-                                    className="btn editarHoja"
+                                    className="btn btn-primary"
                                     onClick={() => {
                                       /* this.setState({
                                 name_producto: productos.name,

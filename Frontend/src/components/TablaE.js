@@ -318,6 +318,12 @@ class TablaE extends Component {
       try {
         const msj = JSON.parse(error.request.response).message;
         console.log(msj);
+        swal({
+          text: msj,
+          icon: "info",
+          button: "Aceptar",
+          timer: "3000",
+        });
       } catch (error2) {
         console.log(error2);
       }
