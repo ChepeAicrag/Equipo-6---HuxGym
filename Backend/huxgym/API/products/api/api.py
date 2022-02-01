@@ -423,11 +423,7 @@ def provider_detail_api_view(request,pk=None):
 
         elif request.method == 'PUT':
             proveedores = Provider.objects.all().filter(status_delete = False)
-            for i in proveedores:
-                for i in proveedores:
-                    if i.name.upper() == request.data['name'].upper():
-                        if i.apellidos.upper() == request.data['apellidos'].upper():
-                            return Response({'message' : 'Este proveedor ya existe'}, status=status.HTTP_400_BAD_REQUEST)
+
         
             provider_serializer = ProviderSerializer(provider,data = request.data)
             if provider_serializer.is_valid():
