@@ -35,43 +35,43 @@ function obtenerMes(date) {
   if (mounth < 10) {
     mounth = "0" + mounth;
   }
-  
+
   return mounth;
 }
 function entidades(abre) {
-  let res="--"
-  if(abre==="1") res ="AS";
-  if(abre==="2") res ="BC";
-  if(abre==="3") res ="BS";
-  if(abre==="4") res ="CC";
-  if(abre==="5") res ="CL";
-  if(abre==="6") res ="CM";
-  if(abre==="7") res ="CS";
-  if(abre==="8") res ="CH";
-  if(abre==="9") res ="DF";
-  if(abre==="10") res ="DG";
-  if(abre==="11") res ="GT";
-  if(abre==="12") res ="GR";
-  if(abre==="13") res ="HG";
-  if(abre==="14") res ="JC";
-  if(abre==="15") res ="MC";
-  if(abre==="16") res ="MN";
-  if(abre==="17") res ="MS";
-  if(abre==="18") res ="NT";
-  if(abre==="19") res ="NL";
-  if(abre==="20") res= "OC";
-  if(abre==="21") res ="PL";
-  if(abre==="22") res ="QQ";
-  if(abre==="23") res ="QR";
-  if(abre==="24") res ="SP";
-  if(abre==="25") res ="SL";
-  if(abre==="26") res ="SR";
-  if(abre==="27") res ="TC";
-  if(abre==="28") res ="TS";
-  if(abre==="29") res ="TL";
-  if(abre==="30") res ="VZ";
-  if(abre==="31") res ="YN";
-  if(abre==="32") res ="ZS";
+  let res = "--";
+  if (abre === "1") res = "AS";
+  if (abre === "2") res = "BC";
+  if (abre === "3") res = "BS";
+  if (abre === "4") res = "CC";
+  if (abre === "5") res = "CL";
+  if (abre === "6") res = "CM";
+  if (abre === "7") res = "CS";
+  if (abre === "8") res = "CH";
+  if (abre === "9") res = "DF";
+  if (abre === "10") res = "DG";
+  if (abre === "11") res = "GT";
+  if (abre === "12") res = "GR";
+  if (abre === "13") res = "HG";
+  if (abre === "14") res = "JC";
+  if (abre === "15") res = "MC";
+  if (abre === "16") res = "MN";
+  if (abre === "17") res = "MS";
+  if (abre === "18") res = "NT";
+  if (abre === "19") res = "NL";
+  if (abre === "20") res = "OC";
+  if (abre === "21") res = "PL";
+  if (abre === "22") res = "QQ";
+  if (abre === "23") res = "QR";
+  if (abre === "24") res = "SP";
+  if (abre === "25") res = "SL";
+  if (abre === "26") res = "SR";
+  if (abre === "27") res = "TC";
+  if (abre === "28") res = "TS";
+  if (abre === "29") res = "TL";
+  if (abre === "30") res = "VZ";
+  if (abre === "31") res = "YN";
+  if (abre === "32") res = "ZS";
 
   return res;
 }
@@ -82,7 +82,7 @@ function obtenerDia(date) {
   if (day < 10) {
     day = "0" + day;
   }
-  
+
   return day;
 }
 
@@ -110,9 +110,9 @@ class Tabla extends Component {
     busqueda: "",
     membresia: "",
     modalHojaclinica: false,
-    dataBuscar:[],
+    dataBuscar: [],
     ultimo: {},
-    errors:{curp:null},
+    errors: { curp: null },
     //membresiasList:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
@@ -153,7 +153,7 @@ class Tabla extends Component {
 
     console.log(this.state.form);
   };
-  
+
   perticionState = async () => {
     axios
       .get("https://www.api.huxgym.codes/state/")
@@ -166,288 +166,313 @@ class Tabla extends Component {
       });
   };
 
-  async validarCurp(valor){
-  
+  async validarCurp(valor) {
     let p = "XVXX999999SXXCCC??";
-    let digitos=" 0123456789";
-    let lyn= " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"; 
-    let letras= " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
-    let sexo=" HM";
-    let l = p.length;;
+    let digitos = " 0123456789";
+    let lyn = " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
+    let letras = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let sexo = " HM";
+    let l = p.length;
     let v = valor;
     let m = v.length;
     let c = "A";
     let exe = 0;
-    let e=0;
+    let e = 0;
     let q;
-    let consonantes=" BCDFGHJKLMNPQRSTUVWXYZ";
-    let vocales=" AEIOUX";
+    let consonantes = " BCDFGHJKLMNPQRSTUVWXYZ";
+    let vocales = " AEIOUX";
 
-    
-    await this.setState(prevState => ({
-            errors: {
-                ...prevState.errors,
-                curp: null,
-          } }));
-    
+    await this.setState((prevState) => ({
+      errors: {
+        ...prevState.errors,
+        curp: null,
+      },
+    }));
 
     if (v.charAt(0) !== "*") {
       for (let i = 0; i < m; i++) {
-        
         c = "" + v.charAt(i);
         q = p.charAt(i);
         if (q === "?" && lyn.indexOf(c) < 1) {
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
-                ...prevState.errors,
-                curp: 'La posición '+(i+1) + "debe ser una letra o dígito (0-9)",
-          }}));
+              ...prevState.errors,
+              curp:
+                "La posición " + (i + 1) + "debe ser una letra o dígito (0-9)",
+            },
+          }));
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "X" && letras.indexOf(c) < 1) {
-          console.log("i "+i)
-          await this.setState(prevState => ({
+          console.log("i " + i);
+          await this.setState((prevState) => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " + (i+1) +" debe ser una letra",
-          } }));
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser una letra",
+            },
+          }));
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "V" && vocales.indexOf(c) < 1) {
           /* console.log("i "+i) */
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " +(i + 1) +" debe ser una vocal",
-          }}))
-          
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser una vocal",
+            },
+          }));
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "C" && consonantes.indexOf(c) < 1) {
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " +(i + 1) +" debe ser una consonante",
-          }
-          }))
-          
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser una consonante",
+            },
+          }));
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "9" && digitos.indexOf(c) < 1) {
-          console.log("i "+i)
-          await this.setState(prevState => ({
+          console.log("i " + i);
+          await this.setState((prevState) => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " + (i + 1) + " debe ser un número (0-9)",
-          }
-          }))
-          
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser un número (0-9)",
+            },
+          }));
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "S" && sexo.indexOf(c) < 1) {
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " +(i + 1) +" debe ser H(ombre) o M(ujer)",
-          }
-          }))
-         
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser H(ombre) o M(ujer)",
+            },
+          }));
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
-  
-        
       }
     } else {
-      
-    }
-  
-
-    if (v.length==2) {
-      try{
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.paternal_surname)){
-          let contenido=this.state.form.paternal_surname.toString().substring(0,2).toUpperCase()
-          if(v!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "Lo correcto seria "+contenido,
-                 }
-               }))
-          }
-        }
-          //console.log()
-        }
-      }catch(error){}
-    }
-  
-    if (v.length==3) {
-      try{
-        let contenido=this.state.form.mothers_maiden_name.toString().substring(0,1).toUpperCase()
-        console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.mothers_maiden_name)){
-          
-          if(v.toString().substring(2,3)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "En la posicion 3 seria "+contenido,
-                 }
-               }))
-          }
-        }
-          //console.log()
-        }
-      }catch(error){}
-    }
-  
-    if (v.length===4) {
-      try{
-        let contenido=this.state.form.name.toString().substring(0,1).toUpperCase()
-        console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.name)){
-          
-          if(v.toString().substring(3,4)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "En la posicion 4 seria "+contenido,
-                 }
-               }))
-          }
-        }
-          //console.log()
-        }
-      }catch(error){}
-    }
-  
-    if (v.length===6) {
-      try{
-        let contenido=this.state.form.birthdate.getFullYear().toString().substring(1,3).toUpperCase()
-        console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.birthdate)){
-          
-          if(v.toString().substring(4,6)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "En la posicion 5 y 6 seria "+contenido,
-                 }
-               }))
-          }
-        }
-        }
-      }catch(error){}
-    }
-  
-    if (v.length===8) {
-      try{
-        let contenido=obtenerMes(this.state.form.birthdate).toString()
-        console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.birthdate)){
-          
-          if(v.toString().substring(6,8)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "En la posicion 7 y 8 seria "+contenido,
-                 }
-               }))
-          }
-        }
-        }
-      }catch(error){}
-    }
-  
-    if (v.length===10) {
-      try{
-        let contenido=obtenerDia(this.state.form.birthdate).toString()
-        console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.birthdate)){
-          
-          if(v.toString().substring(8,10)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "En la posicion 9 y 10 seria "+contenido,
-                 }
-               }))
-          }
-        }
-        }
-      }catch(error){}
-    }
-  
-    if (v.length===11) {
-      try{
-        let contenido=this.state.form.gender.toString()
-        console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.gender)){
-          
-          if(v.toString().substring(10,11)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "En la posicion 11 seria "+contenido,
-                 }
-               }))
-          }
-        }
-        }
-      }catch(error){}
-    }
-  //-----------------Estadossss----------------------------------------------------
-    if (v.length===13) {
-      try{
-        let contenido=entidades(this.state.form.entity_birth.toString())
-        console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.entity_birth)){
-          
-          if(v.toString().substring(11,13)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
-                  ...prevState.errors,
-                  curp: "En la posicion 12 y 13 tu entidad federativa es incorrecta debe ser " + contenido,
-                 }
-               }))
-          }
-        }
-        }
-      }catch(error){}
     }
 
+    if (v.length == 2) {
+      try {
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.paternal_surname)) {
+            let contenido = this.state.form.paternal_surname
+              .toString()
+              .substring(0, 2)
+              .toUpperCase();
+            if (v !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp: "Lo correcto seria " + contenido,
+                },
+              }));
+            }
+          }
+          //console.log()
+        }
+      } catch (error) {}
+    }
 
-    if (v.length>=1 && v.length<18) {
-      try{
+    if (v.length == 3) {
+      try {
+        let contenido = this.state.form.mothers_maiden_name
+          .toString()
+          .substring(0, 1)
+          .toUpperCase();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.mothers_maiden_name)) {
+            if (v.toString().substring(2, 3) !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 3 seria " + contenido,
+                },
+              }));
+            }
+          }
+          //console.log()
+        }
+      } catch (error) {}
+    }
+
+    if (v.length === 4) {
+      try {
+        let contenido = this.state.form.name
+          .toString()
+          .substring(0, 1)
+          .toUpperCase();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.name)) {
+            if (v.toString().substring(3, 4) !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 4 seria " + contenido,
+                },
+              }));
+            }
+          }
+          //console.log()
+        }
+      } catch (error) {}
+    }
+
+    if (v.length === 6) {
+      try {
+        let contenido = this.state.form.birthdate
+          .getFullYear()
+          .toString()
+          .substring(1, 3)
+          .toUpperCase();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.birthdate)) {
+            if (v.toString().substring(4, 6) !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 5 y 6 seria " + contenido,
+                },
+              }));
+            }
+          }
+        }
+      } catch (error) {}
+    }
+
+    if (v.length === 8) {
+      try {
+        let contenido = obtenerMes(this.state.form.birthdate).toString();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.birthdate)) {
+            if (v.toString().substring(6, 8) !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 7 y 8 seria " + contenido,
+                },
+              }));
+            }
+          }
+        }
+      } catch (error) {}
+    }
+
+    if (v.length === 10) {
+      try {
+        let contenido = obtenerDia(this.state.form.birthdate).toString();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.birthdate)) {
+            if (v.toString().substring(8, 10) !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 9 y 10 seria " + contenido,
+                },
+              }));
+            }
+          }
+        }
+      } catch (error) {}
+    }
+
+    if (v.length === 11) {
+      try {
+        let contenido = this.state.form.gender.toString();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.gender)) {
+            if (v.toString().substring(10, 11) !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp: "En la posicion 11 seria " + contenido,
+                },
+              }));
+            }
+          }
+        }
+      } catch (error) {}
+    }
+    //-----------------Estadossss----------------------------------------------------
+    if (v.length === 13) {
+      try {
+        let contenido = entidades(this.state.form.entity_birth.toString());
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
+          if (!isEmpty(this.state.form.entity_birth)) {
+            if (v.toString().substring(11, 13) !== contenido) {
+              await this.setState((prevState) => ({
+                errors: {
+                  ...prevState.errors,
+                  curp:
+                    "En la posicion 12 y 13 tu entidad federativa es incorrecta debe ser " +
+                    contenido,
+                },
+              }));
+            }
+          }
+        }
+      } catch (error) {}
+    }
+
+    if (v.length >= 1 && v.length < 18) {
+      try {
         /* console.log(this.state.errors.curp) */
-        if(!this.state.errors.curp){
-          await this.setState(prevState => ({
+        if (!this.state.errors.curp) {
+          await this.setState((prevState) => ({
             errors: {
-                ...prevState.errors,
-                curp: "Deben ser " + l + " posiciones",
-               }
-             }))
+              ...prevState.errors,
+              curp: "Deben ser " + l + " posiciones",
+            },
+          }));
         }
-      }catch(error){
-  
-      }
+      } catch (error) {}
       if (exe === 0) e = e + 1;
     }
     if (e < 1) {
-     
     }
   }
 
@@ -516,17 +541,17 @@ class Tabla extends Component {
         error: true,
         msj: "El campo de nombre no puede estar vacío",
       };
-      if (isEmpty(paternal_surname))
+    if (isEmpty(paternal_surname))
       return {
         error: true,
         msj: "El apellido paterno no puede estar vacío",
-    };
+      };
 
     if (isEmpty(maiden_name))
       return {
         error: true,
         msj: "El apellido materno no puede estar vacío",
-    };
+      };
     if (isEmpty(phone))
       return { error: true, msj: "El campo de teléfono no puede estar vacío" };
     if (phone.length < 10)
@@ -536,12 +561,12 @@ class Tabla extends Component {
     if (isEmpty(isStudiant))
       return { error: true, msj: "Debe seleccionar si es estudiante o no" };
 
-    if(this.state.errors.curp){
-        return {
-          error: true,
-          msj: "La curp esta incorrecta",
-        };
-    }  
+    if (this.state.errors.curp) {
+      return {
+        error: true,
+        msj: "La curp esta incorrecta",
+      };
+    }
 
     return { error: false };
   };
@@ -810,15 +835,18 @@ class Tabla extends Component {
     this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.phone.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.dateJoined.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
-         
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.phone.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.dateJoined
+            .toLowerCase()
+            .includes(this.state.busqueda.toLowerCase())
+        ) {
           return item;
         }
       });
-      
+
       this.setState({ data: search });
     } else {
       this.setState({ data: this.state.dataBuscar });
@@ -858,8 +886,8 @@ class Tabla extends Component {
 
   handleChangeCurp = (e) => {
     const { name, value } = e.target;
-    let value2=value.toUpperCase();
-    if(value2.length<19){
+    let value2 = value.toUpperCase();
+    if (value2.length < 19) {
       this.validarCurp(value2);
       this.setState({
         form: {
@@ -868,7 +896,7 @@ class Tabla extends Component {
         },
       });
     }
-    
+
     // let regex = new RegExp("^[a-zA-Z ]+$");
     /* let regex = new RegExp("[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$");
 
@@ -979,6 +1007,7 @@ class Tabla extends Component {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title="Registrar nuevo cliente"
           >
             <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo
             Cliente
@@ -993,6 +1022,7 @@ class Tabla extends Component {
               placeholder="Buscar"
               onChange={this.buscador}
               value={this.state.busqueda}
+              title="Buscar Cliente"
             />
             <button
               type="submit"
@@ -1018,7 +1048,7 @@ class Tabla extends Component {
                 <th>Género</th>
                 <th>Teléfono</th>
                 <th>Estudiante</th>
-                <th>Foto</th>
+                <th>Imagen</th>
                 <th>Estado de la membresía</th>
                 <th>Acciones</th>
                 <th>Hojas clínicas</th>
@@ -1057,6 +1087,7 @@ class Tabla extends Component {
                             this.seleccionarUsuario(clientes);
                             this.modalInsertar();
                           }}
+                          title="Editar Cliente"
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
@@ -1068,6 +1099,7 @@ class Tabla extends Component {
                               this.seleccionarUsuario(clientes);
                               this.setState({ modalEliminar: true });
                             }}
+                            title="Dar de baja"
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </button>
@@ -1110,6 +1142,46 @@ class Tabla extends Component {
 
           <ModalBody>
             <div className="form-group">
+              <label htmlFor="name">CURP*:</label>
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <div className="busquedacurp">
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="curp"
+                      id="curp"
+                      placeholder="CURP"
+                      onChange={this.handleChangeCurp}
+                      value={form ? form.curp : ""}
+                    />
+                    {this.state.errors && (
+                      <p className="errores mt-2">{this.state.errors.curp}</p>
+                    )}
+                    <button className="btn btn-dark"
+                      style={{width: "50px", height: "50px"}}
+                    >
+                      <i className="bx bxs-user">
+                        <box-icon name="search-alt-2" color="#fff"></box-icon>
+                      </i>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    disabled
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              )}
+
               <label htmlFor="name">Nombre completo*:</label>
               {this.state.tipoModal === "insertar" ? (
                 <>
@@ -1198,8 +1270,6 @@ class Tabla extends Component {
                 </>
               )}
 
-              
-
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <label className="articulo mt-3">Fecha de Nacimiento</label>
                 <br />
@@ -1272,7 +1342,7 @@ class Tabla extends Component {
               <label htmlFor="gender">Género*: </label>
               <br />
 
-              <div class="" >
+              <div class="">
                 {this.state.tipoModal === "insertar" ? (
                   <>
                     <label class="btn botonesForm m-1">
@@ -1282,7 +1352,6 @@ class Tabla extends Component {
                         value="H"
                         autocomplete="off"
                         onChange={this.handleChange}
-                        
                       />{" "}
                       H
                     </label>
@@ -1293,7 +1362,6 @@ class Tabla extends Component {
                         value="M"
                         autocomplete="on"
                         onChange={this.handleChange}
-                        
                       />{" "}
                       M
                     </label>
@@ -1306,13 +1374,10 @@ class Tabla extends Component {
                         name="gender"
                         value="H"
                         autocomplete="off"
-                        
                         //onChange={this.handleChange}
                         checked={
                           form ? (form.gender === "H" ? "checked" : "") : "ff"
-                          
                         }
-                        
                       />{" "}
                       H
                     </label>
@@ -1322,13 +1387,10 @@ class Tabla extends Component {
                         name="gender"
                         value="M"
                         autocomplete="on"
-                        
                         //onChange={this.handleChange}
                         checked={
                           form ? (form.gender === "M" ? "checked" : "") : "ff"
-                          
                         }
-                        
                       />{" "}
                       M
                     </label>
@@ -1336,34 +1398,7 @@ class Tabla extends Component {
                 )}
               </div>
               <br />
-              <label htmlFor="name">CURP*:</label>
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                   {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
-                </>
-              ) : (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    disabled
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                </>
-              )}
+
               <label htmlFor="phone">Teléfono*:</label>
               <input
                 className="form-control"
@@ -1380,24 +1415,23 @@ class Tabla extends Component {
               <br />
 
               <br />
-              <label htmlFor="image">Foto:</label>
+              <label htmlFor="image">Imagen:</label>
               <input
                 className="form-control"
                 type="file"
                 name="image"
                 ref="file"
                 id="image"
+                placeholder="Seleccione su imagen"
                 accept="image/png, image/jpeg, image/jpg, image/ico"
                 onChange={this.handleChangeInputImage}
               />
               <br />
 
-              
-
               <br />
               <label htmlFor="isStudiant">Estudiante*:</label>
               <br />
-              <div class="" >
+              <div class="">
                 <label class="btn botonesForm m-1">
                   <input
                     type="radio"
@@ -1406,10 +1440,8 @@ class Tabla extends Component {
                     autocomplete="on"
                     onChange={this.handleChange}
                     checked={
-                          form ? (form.isStudiant === "true" ? "checked" : "") : ""
-                          
-                        }
-                    
+                      form ? (form.isStudiant === "true" ? "checked" : "") : ""
+                    }
                   />{" "}
                   Sí
                 </label>
@@ -1421,9 +1453,8 @@ class Tabla extends Component {
                     autocomplete="off"
                     onChange={this.handleChange}
                     checked={
-                          form ? (form.isStudiant === "false" ? "checked" : "") : ""
-                          
-                        }
+                      form ? (form.isStudiant === "false" ? "checked" : "") : ""
+                    }
                   />{" "}
                   No
                 </label>

@@ -939,6 +939,7 @@ validatePeso = (event) => {
                                 this.peticionAtributosCuerpo();
                                 this.modalAgregar();
                               }}
+                              title='Editar Hoja Clínica'
                             >
                               <FontAwesomeIcon icon={faEdit} />
                             </button>

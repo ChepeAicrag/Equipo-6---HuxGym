@@ -382,6 +382,7 @@ class TablaM extends Component {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title='Agregar nueva membresía'
           >
             <i className="bx bxs-user">
               {/* <box-icon
@@ -403,6 +404,7 @@ class TablaM extends Component {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title='Buscar membresía'
           />
           <button type="submit" className="add-on" onClick={() => {}}>
             <i className="bx bxs-user">
@@ -442,6 +444,7 @@ class TablaM extends Component {
                           this.seleccionarUsuario(membresias);
                           this.modalInsertar();
                         }}
+                        title='Editar membresía'
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -453,6 +456,7 @@ class TablaM extends Component {
                             this.seleccionarUsuario(membresias);
                             this.setState({ modalEliminar: true });
                           }}
+                          title='Dar de baja'
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>

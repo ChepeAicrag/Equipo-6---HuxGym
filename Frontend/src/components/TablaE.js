@@ -962,6 +962,7 @@ changeEstado = (e) => {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title='Agregar nuevo empleado'
           >
             {/* <i className="bx bxs-user">
               <box-icon
@@ -981,6 +982,7 @@ changeEstado = (e) => {
             name="busqueda"
             id="busqueda"
             placeholder="Buscar"
+            title='Buscar empleado'
             onChange={this.buscador}
             value={this.state.busqueda}
           />
@@ -1004,7 +1006,7 @@ changeEstado = (e) => {
                 <th>Teléfono</th>
                 <th>Email</th>
                 <th>Rol</th>
-                <th>Foto</th>
+                <th>Imagen</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -1038,6 +1040,7 @@ changeEstado = (e) => {
                             this.seleccionarUsuario(empleados);
                             this.modalInsertar();
                           }}
+                          title='Editar empleado'
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
@@ -1049,6 +1052,7 @@ changeEstado = (e) => {
                               this.seleccionarUsuario(empleados);
                               this.setState({ modalEliminar: true });
                             }}
+                            title='Dar de baja'
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </button>
@@ -1404,14 +1408,14 @@ changeEstado = (e) => {
               )}
 
               <br />
-              <label htmlFor="image">Foto:</label>
+              <label htmlFor="image">Imagen:</label>
               <input
                 className="form-control"
                 type="file"
                 name="image"
                 ref="file"
                 id="image"
-                placeholder="Seleccione su foto"
+                placeholder="Seleccione su imagen"
                 accept="image/png, image/jpeg, image/jpg, image/ico"
                 onChange={this.handleChangeInputImage}
               />

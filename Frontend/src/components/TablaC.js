@@ -268,6 +268,7 @@ class TablaC extends Component {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title='Agrega nueva categoria'
           >
             {/* <i className="bx bxs-user">
               <box-icon
@@ -288,6 +289,7 @@ class TablaC extends Component {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title='Buscar categoría'
           />
           <button type="submit" className="add-on" onClick={() => {}}>
             <i className="bx bxs-user">
@@ -321,6 +323,7 @@ class TablaC extends Component {
                           this.seleccionarUsuario(categorias);
                           this.modalInsertar();
                         }}
+                        title='Editar Categoría'
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -332,6 +335,7 @@ class TablaC extends Component {
                             this.seleccionarUsuario(categorias);
                             this.setState({ modalEliminar: true });
                           }}
+                          title='Dar de baja'
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>

@@ -286,7 +286,9 @@ class Check_Client extends Component {
           
           <h3 className="lineadiv">Clientes</h3>
           <p className="palabra">Realizar hora de entrada y salida de clientes</p>
-          <button className="btn botonesdash" onClick={this.Modal}>
+          <button className="btn botonesdash" onClick={this.Modal}
+          title='Realizar registros de clientes'
+          >
             Abrir
           </button>
           <br/>
@@ -337,6 +339,7 @@ class Check_Client extends Component {
                             {this.state.dataCA.length<15 ?
                               <button
                                 className="btn btn-dark"
+                                title='Registrar entrada'
                                 onClick={() => {
                                   /* this.seleccionarCategoria(categorias); */
                                   this.state.form.customer_id = clientes.id;
@@ -350,6 +353,7 @@ class Check_Client extends Component {
                               <button
                                 className="btn botonesdash"
                                 disabled
+                                title='Capacidad máxima'
                               >
                                 <MeetingRoomOutlinedIcon></MeetingRoomOutlinedIcon>
                               </button>
@@ -405,6 +409,7 @@ class Check_Client extends Component {
                                   this.peticionPut();
                                   this.peticionGetCA();
                                 }}
+                                title='Registrar salida'
                               >
                                 <LogoutIcon></LogoutIcon>
                               </button>

@@ -864,6 +864,7 @@ seleccionarUsuario = async (venta) => {
               this.limpiarTablaS();
               this.modalInsertar();
             }}
+            title='Vender Membresía'
           >
             Vender Membresía
           </button>
@@ -881,6 +882,7 @@ seleccionarUsuario = async (venta) => {
               this.limpiarTablaS();
               this.modalInsertar();
             }}
+            title='Vender Producto'
           >
             Vender Producto
           </button>
@@ -895,6 +897,7 @@ seleccionarUsuario = async (venta) => {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title='Buscar Venta'
           />
 
           <button type="submit" className="add-on" onClick={() => {}}>
@@ -940,6 +943,7 @@ seleccionarUsuario = async (venta) => {
                             this.seleccionarUsuario(ventas);
                             this.modalInsertar();
                           }}
+                          title='Editar venta'
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
@@ -951,6 +955,7 @@ seleccionarUsuario = async (venta) => {
                               this.seleccionarUsuario(ventas);
                               this.setState({ modalEliminar: true });
                             }}
+                            title='Dar de baja'
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </button>
@@ -962,7 +967,7 @@ seleccionarUsuario = async (venta) => {
                           className="btn btn-info ml-1"
                           href={urlT+ventas.sale.id} target="_blank"
                           onClick={() => this.peticionTicket(ventas.sale.id)}
-                          
+                          title='Imprimir Ticket'
                           
                         >
                           <FontAwesomeIcon icon={faClipboardCheck} />
@@ -1076,7 +1081,7 @@ seleccionarUsuario = async (venta) => {
                                 )}
                                 <th>Nombre</th>
                                 <th>Precio</th>
-                                <th>Cantidad</th>
+                                <th>Cant</th>
                                 <th>Total</th>
                                 {this.state.tipoModal === "insertar" ? (
                                   <th>Accion</th>
@@ -1094,7 +1099,7 @@ seleccionarUsuario = async (venta) => {
                                 <tr>
                                   {this.state.tipoModal === "insertar" ? (
                                     <>
-                                      <td>{ProductoS.id}</td>
+                                      <td className="mt-2">{ProductoS.id}</td>
                                     </>
                                   ) : (
                                     <></>
@@ -1104,24 +1109,27 @@ seleccionarUsuario = async (venta) => {
 
                                   {this.state.modalMembresia ? (
                                     <>
-                                      <td>{ProductoS.price}</td>
+                                      <td className="mt-2">{"$"+ProductoS.price}</td>
                                       <td>
                                         <Button
-                                          className="btn-danger"
+                                          className="btn btn-danger"
+                                          style={{ background: "red", width: "50px" }}
                                           onClick={() => {
                                             this.eliminar(ProductoS);
                                             this.eliminarCantidad(ProductoS);
                                             this.total();
                                             this.calcularCambio();
                                           }}
+                                          title='Quitar membresía'
                                         >
-                                          Eliminar
+                                         <FontAwesomeIcon icon={faTrashAlt} />
                                         </Button>
                                       </td>
                                     </>
                                   ) : (
                                     <>
-                                      <td>{ProductoS.price_s}</td>
+                                    
+                                      <td className="mt-2">{"$"+ProductoS.price_s}</td>
                                       {this.state.tipoModal == "actualizar" ? (
                                         <>
                                           <td>
@@ -1135,6 +1143,8 @@ seleccionarUsuario = async (venta) => {
                                             />
                                           </td>
                                           <td>
+                                            <div classNames='signo'>
+                                            <p className="mr-3 mt-3" style={{ color: "000"}}>$</p>
                                             <input
                                               className="form-control"
                                               type="Number"
@@ -1144,6 +1154,8 @@ seleccionarUsuario = async (venta) => {
                                               readOnly
                                               value={ProductoS.total}
                                             />
+                                            </div>
+                                            
                                           </td>
                                         </>
                                       ) : (
@@ -1155,6 +1167,7 @@ seleccionarUsuario = async (venta) => {
                                               min="1"
                                               name="cantidad"
                                               id="cantidad"
+                                              style={{width:'70px'}}
                                               onChange={async (e) => {
                                                 var v = e.target.value;
                                                 if (v == "") {
@@ -1192,6 +1205,8 @@ seleccionarUsuario = async (venta) => {
                                             />
                                           </td>
                                           <td>
+                                            <div className="signo">
+                                            <p className="mt-2" style={{ color: "000"}}>$</p>
                                             <input
                                               className="form-control"
                                               type="Number"
@@ -1206,11 +1221,14 @@ seleccionarUsuario = async (venta) => {
                                                 ) * ProductoS.price_s
                                               }
                                             />
+                                            </div>
+                                            
                                           </td>
 
                                           <td>
                                             <Button
-                                              className="btn-danger"
+                                              className="btn btn-danger"
+                                              style={{background:'red'}}
                                               onClick={() => {
                                                 this.eliminar(ProductoS);
                                                 this.eliminarCantidad(
@@ -1220,7 +1238,7 @@ seleccionarUsuario = async (venta) => {
                                                 this.calcularCambio();
                                               }}
                                             >
-                                              Eliminar
+                                              <FontAwesomeIcon icon={faTrashAlt} />
                                             </Button>
                                           </td>
                                         </>
@@ -1625,7 +1643,7 @@ seleccionarUsuario = async (venta) => {
                             <tr>
                               <td>{membresias.id}</td>
                               <td>{membresias.name}</td>
-                              <td>{membresias.price}</td>
+                              <td>{"$"+membresias.price}</td>
                               {/* <td>Nose xd </td> */}
                               <td>
                                 <button
@@ -1684,7 +1702,7 @@ seleccionarUsuario = async (venta) => {
                               <tr>
                                 <td>{productos.id}</td>
                                 <td>{productos.name}</td>
-                                <td>{productos.price_s}</td>
+                                <td>{"$"+productos.price_s}</td>
                                 {/* <td>Nose xd </td> */}
                                 <td>
                                   <button

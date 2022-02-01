@@ -950,7 +950,7 @@ class BtnModalHoja extends Component {
     return (
       <div className="denada">
         <button
-          className="btn btn-outline-dark"
+          className="btn btn-outline-dark btntam"
           onClick={() => {
             this.setState({ customer_id: this.props.id_cliente });
             this.modalAgregar();

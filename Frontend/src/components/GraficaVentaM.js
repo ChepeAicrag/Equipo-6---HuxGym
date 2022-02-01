@@ -74,8 +74,8 @@ class GraficaTotal extends Component {
     nombres: [],
     valor: [],
     form: {
-      first_date: obtnerDate(new Date()),
-      last_date: obtnerDate(new Date()),
+      first_date: new Date(),
+      last_date: new Date(),
       order: "",
       buyers: "",
       customers: "",
@@ -171,7 +171,7 @@ class GraficaTotal extends Component {
       labels: this.state.nombres,
       datasets: [
         {
-          label: "Totales",
+          label: "Total",
           backgroundColor: "yellow",
           bordercolor: "black",
           borderWidth: 1,
@@ -184,7 +184,32 @@ class GraficaTotal extends Component {
     const opciones = {
       /* maintainAspectsRatio: false, */
       indexAxis: "x",
-      responsive: true,
+      responsive: true
+      ,
+      plugins: {
+        title: {
+          display: true,
+          text: (ctx) => "MEMBRESÍAS VENDIDAS",
+        },
+        tooltip: {
+          mode: "index",
+        },
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "TIPO DE MEMBRESÍA",
+          },
+        },
+        y: {
+          stacked: true,
+          title: {
+            display: true,
+            text: "CANTIDADES",
+          },
+        },
+      },
     };
     return (
       <>

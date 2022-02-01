@@ -677,6 +677,7 @@ class TablaP extends Component {
               });
               this.modalInsertar();
             }}
+            title='Agregar nuevo producto'
           >
             {/* <i className="bx bxs-user">
               <box-icon
@@ -697,6 +698,7 @@ class TablaP extends Component {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title='Buscar producto'
           />
           <button type="submit" className="btn add-on" onClick={() => {}}>
             <i className="bx bxs-user">
@@ -747,6 +749,7 @@ class TablaP extends Component {
                           this.seleccionarProducto(productos);
                           this.modalInsertar();
                         }}
+                        title='Editar Producto'
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -758,6 +761,7 @@ class TablaP extends Component {
                             this.seleccionarProducto(productos);
                             this.setState({ modalEliminar: true });
                           }}
+                          title='Dar de baja'
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>
@@ -772,6 +776,7 @@ class TablaP extends Component {
                             this.seleccionarProducto(productos);
                             this.setState({ modalStock: true });
                           }}
+                          title='Editar Stock'
                         >
                           <FontAwesomeIcon icon={faCalculator} />
                         </button>
