@@ -79,6 +79,9 @@ const columnas = [
   "Duración (Días)",
   "Acciones",
 ];
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class TablaM extends Component {
   state = {
     page: 0,
@@ -470,7 +473,7 @@ class TablaM extends Component {
             title="Agregar nueva membresía"
           >
             <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nueva
-            Membresia
+            Membresía
           </button>
           <div className="buscarBox">
             <input
@@ -530,7 +533,7 @@ class TablaM extends Component {
                         <TableCell>{row.folio}</TableCell>
                         <TableCell>{row.name}</TableCell>
                         <TableCell>{row.description}</TableCell>
-                        <TableCell>{"$" + row.price}</TableCell>
+                        <TableCell>{"$" + formatNumber(row.price)}</TableCell>
                         <TableCell>{row.day}</TableCell>
                         <TableCell>
                         <button
@@ -601,7 +604,7 @@ class TablaM extends Component {
                     <td>{membresias.folio}</td>
                     <td>{membresias.name}</td>
                     <td>{membresias.description}</td>
-                    <td>{"$ " + membresias.price}</td>
+                    <td>{"$ " + formatNumber(membresias.price)}</td>
                     <td>{membresias.day}</td>
                     <td>
                       <button
@@ -640,7 +643,7 @@ class TablaM extends Component {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            <p className="titulo">Membresia</p>
+            <p className="titulo">Membresía</p>
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 

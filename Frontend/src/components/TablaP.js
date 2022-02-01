@@ -80,6 +80,11 @@ const useStyles = (theme) => ({
     display: "inline-block",
   },
 });
+
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
+
 class TablaP extends Component {
   state = {
     page:0,
@@ -810,10 +815,10 @@ class TablaP extends Component {
                   <TableRow key={productos.name}>
                     <TableCell>{productos.folio}</TableCell>
                     <TableCell>{productos.name}</TableCell>
-                    <TableCell>{"$ " +productos.price_s}</TableCell>
-                    <TableCell>{"$ " +productos.price_c}</TableCell>
+                    <TableCell>{"$ " + formatNumber(productos.price_s)}</TableCell>
+                    <TableCell>{"$ " +formatNumber(productos.price_c)}</TableCell>
                     <TableCell>{productos.description}</TableCell>
-                    <TableCell>{productos.stock}</TableCell>
+                    <TableCell>{formatNumber(productos.stock)}</TableCell>
                     <TableCell>{" "}
                       <img
                         src={`https://www.api.huxgym.codes/${productos.image}`}
@@ -905,10 +910,10 @@ class TablaP extends Component {
                   <tr>
                     <td>{productos.folio}</td>
                     <td>{productos.name}</td>
-                    <td>{"$ " +productos.price_s}</td>
-                    <td>{"$ " +productos.price_c}</td>
+                    <td>{"$ " +formatNumber(productos.price_s)}</td>
+                    <td>{"$ " +formatNumber(productos.price_c)}</td>
                     <td>{productos.description}</td>
-                    <td>{productos.stock}</td>
+                    <td>{formatNumber(productos.stock)}</td>
                     <td>
                       {" "}
                       <img
@@ -1028,7 +1033,7 @@ class TablaP extends Component {
                               name="price_c"
                               onChange={this.validateNumber}
                               step="5"
-                              value={form ? form.price_c : "0.00"}
+                              value={form ? form.price_c : "0"}
                               type="number"
                               InputLabelProps={{
                                   shrink: true,

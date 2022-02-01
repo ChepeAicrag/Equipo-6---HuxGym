@@ -57,7 +57,7 @@ function conversionHoras(date) {
 
 function conversionHoras2(date) {
   let fecha = new Date(date);
-
+  //console.log(fecha);
   let hr = fecha.getHours();
   let min = fecha.getMinutes();
   let sec = fecha.getSeconds();
@@ -425,41 +425,93 @@ class BtnModalHoja extends Component {
   };
   handleHourhour_collation = (e) => {
     let value = conversionHoras2(e);
-    this.setState({
-      form: {
-        ...this.state.form,
-        hour_collation: value,
-      },
-    });
+    var inicio = parseInt(value.replace(/-|:|\s/g , ""));
+    var termino = parseInt(this.state.form.hour_breakfast.replace(/-|:|\s/g , ""));
+    console.log(inicio);
+    console.log(termino);
+    if(inicio>=termino){
+      this.setState({
+        form: {
+          ...this.state.form,
+          hour_collation: value,
+        },
+      });
+    }else{
+      swal({
+        text: "Hora equivocada",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    } 
   };
   handleHourhour_lunch = (e) => {
     let value = conversionHoras2(e);
-    this.setState({
-      form: {
-        ...this.state.form,
-        hour_lunch: value,
-      },
-    });
+    var inicio = parseInt(value.replace(/-|:|\s/g , ""));
+    var termino = parseInt(this.state.form.hour_collation.replace(/-|:|\s/g , ""));
+    console.log(inicio);
+    console.log(termino);
+    if(inicio>=termino){
+      this.setState({
+        form: {
+          ...this.state.form,
+          hour_lunch: value,
+        },
+      });
+    }else{
+      swal({
+        text: "Hora equivocada",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    } 
   };
 
   handleHourhour_snack = (e) => {
     let value = conversionHoras2(e);
-    this.setState({
-      form: {
-        ...this.state.form,
-        hour_snack: value,
-      },
-    });
+    var inicio = parseInt(value.replace(/-|:|\s/g , ""));
+    var termino = parseInt(this.state.form.hour_lunch.replace(/-|:|\s/g , ""));
+    console.log(inicio);
+    console.log(termino);
+    if(inicio>=termino){
+      this.setState({
+        form: {
+          ...this.state.form,
+          hour_snack: value,
+        },
+      });
+    }else{
+      swal({
+        text: "Hora equivocada",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    } 
   };
 
   handleHourhour_dinner = (e) => {
     let value = conversionHoras2(e);
-    this.setState({
-      form: {
-        ...this.state.form,
-        hour_dinner: value,
-      },
-    });
+    var inicio = parseInt(value.replace(/-|:|\s/g , ""));
+    var termino = parseInt(this.state.form.hour_snack.replace(/-|:|\s/g , ""));
+    console.log(inicio);
+    console.log(termino);
+    if(inicio>=termino){
+      this.setState({
+        form: {
+          ...this.state.form,
+          hour_dinner: value,
+        },
+      });
+    }else{
+      swal({
+        text: "Hora equivocada",
+        icon: "info",
+        button: "Aceptar",
+        timer: "5000",
+      });
+    } 
   };
 
   //comienza parte de insertar sintomas
@@ -961,7 +1013,7 @@ class BtnModalHoja extends Component {
         <Modal isOpen={this.state.modalAgregar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            REGISTRAR HOJA CLINICA SITUACION NUTRICIONAL
+            Registrar Hoja Clínica Situación Nutricional
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -1063,7 +1115,7 @@ class BtnModalHoja extends Component {
                     id="time-picker"
                     label=""
                     value={conversionHoras(form.hour_breakfast)}
-                    onChange={this.handleHourhour_breakfast}
+                    onChange={this.handleHourhour_breakfast} 
                     KeyboardButtonProps={{
                       "aria-label": "change time",
                     }}
@@ -1162,7 +1214,7 @@ class BtnModalHoja extends Component {
         <Modal isOpen={this.state.modalAgregar2}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
+            REGISTRAR HOJA CLÍNICA ESTRUCTURA CORPORAL
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 

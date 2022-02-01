@@ -92,6 +92,10 @@ const useStyles = (theme) => ({
 },
  
 });
+
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class TablaV extends Component {
   state = {
     page:0,
@@ -1005,9 +1009,9 @@ seleccionarUsuario = async (venta) => {
               <TableRow key={row.folio}>
                       <TableCell>{row.sale.folio}</TableCell>
                       <TableCell>{row.sale.user.name}</TableCell>
-                      <TableCell>{"$ " + row.sale.total}</TableCell>
-                      <TableCell>{"$ " + row.sale.cash}</TableCell>
-                      <TableCell>{"$ " + (row.sale.cash - row.sale.total)}</TableCell>
+                      <TableCell>{"$ " + formatNumber(row.sale.total)}</TableCell>
+                      <TableCell>{"$ " + formatNumber(row.sale.cash)}</TableCell>
+                      <TableCell>{"$ " + formatNumber(row.sale.cash - row.sale.total)}</TableCell>
                       <TableCell>{row.sale.date}</TableCell>
                       <TableCell>{row.sale.customer.name}</TableCell>
 
@@ -1071,7 +1075,7 @@ seleccionarUsuario = async (venta) => {
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader className="HeadVenta" style={{ display: "block" }}>
             {this.state.modalMembresia ? (
-              <h2>Realizar Venta de Membresia</h2>
+              <h2>Realizar Venta de Membresía</h2>
             ) : (
               <h2>Realizar Venta de Productos</h2>
             )}
@@ -1111,14 +1115,14 @@ seleccionarUsuario = async (venta) => {
                           this.modalProducto();
                         }}
                       >
-                        Seleccionar Membresia
+                        Seleccionar Membresía
                       </button>
                     ) : (
                       <button className="btn btn-success" disabled="true">
-                        Seleccionar Membresia
+                        Seleccionar Membresía
                       </button>
                     )
-                  ) : (
+                    ) : (
                     <button
                       className="btn btn-success"
                       onClick={() => {
@@ -1484,16 +1488,15 @@ seleccionarUsuario = async (venta) => {
 
               <label htmlFor="price_s">Total de venta:</label>
               <h3>
-                <label>$ {this.state.total > 0 ? this.state.total : 0}</label>
+                <label>$ {formatNumber(this.state.total > 0 ? this.state.total : 0)}</label>
               </h3>
               <br />
               <label htmlFor="image">Cambio:</label>
               <h3>
                 <label>
-                  ${" "}
-                  {this.state.cambio > 0
-                    ? Number(this.state.cambio).toFixed(2)
-                    : 0}
+                  {this.state.cambio >= 0
+                    ? "$ "+formatNumber(Number(this.state.cambio).toFixed(2))
+                    : "faltan $"+formatNumber(Number(this.state.cambio).toFixed(2)).replace("-","")}
                 </label>
               </h3>
               <br />
@@ -1660,8 +1663,12 @@ seleccionarUsuario = async (venta) => {
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
-                      {/* <th>Membresía Activa</th> */}
-                      <th>Acción</th>
+                      {this.state.modalMembresia ? (
+                        <th>Membresía Activa</th>
+                      ) : (
+                        console.log("columna")
+                      )}
+                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1671,7 +1678,11 @@ seleccionarUsuario = async (venta) => {
                         <tr>
                           <td>{clientes.id}</td>
                           <td>{clientes.name}</td>
-                          {/* <td>{clientes.membershipActivate ? "Sí" : "No"}</td> */}
+                          {this.state.modalMembresia ? (
+                            <td>{clientes.membershipActivate ? "Sí" : "No"}</td>
+                          ) : (
+                            console.log("producto")
+                          )}
                           <td>
                             <button
                               className="btn editarHoja"
