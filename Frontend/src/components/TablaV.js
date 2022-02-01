@@ -1060,9 +1060,7 @@ seleccionarUsuario = async (venta) => {
                   rowsPerPage={this.state.rowsPerPage}
                   page={this.state.page}
                   onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={
-                              this.handleChangeRowsPerPage
-                            }
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
               />
               </TableFooter>
           </Table>
