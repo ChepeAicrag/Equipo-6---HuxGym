@@ -46,6 +46,7 @@ import {
 
 const url = "https://www.api.huxgym.codes/customers/customers/";
 const urlMembresias = "https://www.api.huxgym.codes/memberships/memberships";
+const urlCurp = "https://www.api.huxgym.codes/data_curp/";
 /* const [selectedDate, setSelectedDate] = useState; */
 /* const handleDateChange = (date) => {
   setSelectedDate(date);
@@ -589,6 +590,46 @@ handleChangeRowsPerPage = async(event) => {
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
       }
     } catch (error) { }
+  };
+
+  peticionBuscarCurp = async () => {
+    
+    try {
+     /*  await this.setState({
+       
+        form: {
+          name: "ALTAGRACIA",
+          birthdate: this.crearFecha("1941-06-01"),
+          mothers_maiden_name:"GARCIA",
+          paternal_surname: "CRUZ",
+          entity_birth: "20",
+          gender: "M",
+          curp:"GACA410601MOCRRL08"
+        },
+      });   */
+      const res = await axios.get(urlCurp+this.state.form.curp);
+      console.log("buscando curp")
+      console.log(res)
+      await this.setState({
+        form: {
+          name: res.data.names,
+          birthdate: this.crearFecha(res.data.birthdate),
+          mothers_maiden_name: res.data.mothers_maiden_name,
+          paternal_surname: res.data.paternal_surname,
+          entity_birth: res.data.entity_birth,
+          gender: res.data.sex,
+          curp:this.state.form.curp
+        },
+      }); 
+    } catch (error) {
+     
+      try {
+        const msj = JSON.parse(error.request.response).message;
+        console.log(msj);
+      } catch (error2) {
+        console.log(error2);
+      }
+    }
   };
 
   validar = (form) => {
@@ -1234,9 +1275,43 @@ handleChangeRowsPerPage = async(event) => {
 
             <ModalBody>
               <div className="form-group">
+              <label htmlFor="name">CURP*:</label>
+                {this.state.tipoModal === "insertar" ? (
+                  <>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="curp"
+                      id="curp"
+                      placeholder="CURP"
+                      onChange={this.handleChangeCurp}
+                      value={form ? form.curp : ""}
+                    />
+                    {this.state.errors && <p className="errores mt-2">{this.state.errors.curp}</p>}
+                    <button
+                    type="submit"
+                    className="btn btn-light mb-3"
+                    onClick={this.peticionBuscarCurp}
+                  >
+                    Buscar Datos
+                  </button>
+                  <br></br>
+                  </>
+                ) : (
+                  <>
+                    
+                  </>
+                )}
+                {form &&
+                <>
+                
+                
+                </>
+                }
                 <label htmlFor="name">Nombre completo*:</label>
                 {this.state.tipoModal === "insertar" ? (
                   <>
+
                     <input
                       className="form-control"
                       type="text"
@@ -1406,7 +1481,10 @@ handleChangeRowsPerPage = async(event) => {
                           value="H"
                           autocomplete="off"
                           onChange={this.handleChange}
-
+                          checked={
+                            form ? (form.gender === "H" ? "checked" : "") : "ff"
+                            
+                          }
                         />{" "}
                         H
                       </label>
@@ -1417,7 +1495,10 @@ handleChangeRowsPerPage = async(event) => {
                           value="M"
                           autocomplete="on"
                           onChange={this.handleChange}
-
+                          checked={
+                            form ? (form.gender === "M" ? "checked" : "") : "ff"
+                            
+                          }
                         />{" "}
                         M
                       </label>
@@ -1434,7 +1515,7 @@ handleChangeRowsPerPage = async(event) => {
                           //onChange={this.handleChange}
                           checked={
                             form ? (form.gender === "H" ? "checked" : "") : "ff"
-
+                            
                           }
 
                         />{" "}
@@ -1450,7 +1531,7 @@ handleChangeRowsPerPage = async(event) => {
                           //onChange={this.handleChange}
                           checked={
                             form ? (form.gender === "M" ? "checked" : "") : "ff"
-
+                            
                           }
 
                         />{" "}
@@ -1460,34 +1541,7 @@ handleChangeRowsPerPage = async(event) => {
                   )}
                 </div>
                 <br />
-                <label htmlFor="name">CURP*:</label>
-                {this.state.tipoModal === "insertar" ? (
-                  <>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="curp"
-                      id="curp"
-                      placeholder="CURP"
-                      onChange={this.handleChangeCurp}
-                      value={form ? form.curp : ""}
-                    />
-                    {this.state.errors && <p className="errores mt-2">{this.state.errors.curp}</p>}
-                  </>
-                ) : (
-                  <>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="curp"
-                      id="curp"
-                      disabled
-                      placeholder="CURP"
-                      onChange={this.handleChangeCurp}
-                      value={form ? form.curp : ""}
-                    />
-                  </>
-                )}
+                
                 <label htmlFor="phone">Teléfono*:</label>
                 <input
                   className="form-control"
