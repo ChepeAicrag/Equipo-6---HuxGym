@@ -483,16 +483,105 @@ class TablaM extends Component {
               value={this.state.busqueda}
               title="Buscar membresía"
             />
-            <button type="submit" className="btn botonesBusqueda add-on" onClick={() => {}}>
+            <button
+              type="submit"
+              className="btn botonesBusqueda add-on"
+              onClick={() => {}}
+            >
               <i className="bx bxs-user">
                 <box-icon name="search-alt-2" color="#fff"></box-icon>
               </i>
             </button>
           </div>
         </div>
-
         <br />
-        <div className="table-wrapper">
+        <div className="tablaNueva">
+          {
+          this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ningun cliente encontrado</p>
+            : 
+
+            <TableContainer component={Paper} className={classes.tableContainer} >
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Folio
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Nombre del membresía
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Descripción
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Precio
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Duración (Días)
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Acciones
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.data.slice( this.state.page * this.state.rowsPerPage,this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+                      <TableRow key={row.name}>
+                        <TableCell>{row.folio}</TableCell>
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                        <TableCell>{"$" + row.price}</TableCell>
+                        <TableCell>{row.day}</TableCell>
+                        <TableCell>
+                        <button
+                        className="btn btn-editar"
+                        onClick={() => {
+                          this.seleccionarUsuario(row);
+                          this.modalInsertar();
+                        }}
+                        title="Editar membresía"
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      {"  "}
+                      {localStorage.getItem("rol") == "Administrador" ? (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            this.seleccionarUsuario(row);
+                            this.setState({ modalEliminar: true });
+                          }}
+                          title="Dar de baja"
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <TableFooter className={classes.paginacion}>
+                <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[3, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />       
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          }
+        </div>
+
+        {/* {<div className="table-wrapper">
           <table className="tab-pane  table ">
             <thead className="tablaHeader">
               <tr className="encabezado">
@@ -506,7 +595,7 @@ class TablaM extends Component {
             </thead>
             <tbody className="cuerpoTabla base">
               {this.state.data.map((membresias) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                Con esto recorremos todo nuestro arreglo data para rellenar filas
                 return (
                   <tr>
                     <td>{membresias.folio}</td>
@@ -546,7 +635,8 @@ class TablaM extends Component {
               })}
             </tbody>
           </table>
-        </div>
+        </div>} */}
+
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
@@ -756,4 +846,4 @@ class TablaM extends Component {
   }
 }
 
-export default TablaM;
+export default withStyles(useStyles, { withTheme: true })(TablaM);
