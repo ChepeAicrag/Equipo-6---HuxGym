@@ -82,6 +82,7 @@ const useStyles = (theme) => ({
 });
 
 function formatNumber(number){
+  console.log("error num"+number)
   return new Intl.NumberFormat("ES-MX").format(number)
 }
 
@@ -818,7 +819,7 @@ class TablaP extends Component {
                     <TableCell>{"$ " + formatNumber(productos.price_s)}</TableCell>
                     <TableCell>{"$ " +formatNumber(productos.price_c)}</TableCell>
                     <TableCell>{productos.description}</TableCell>
-                    <TableCell>{formatNumber(productos.stock)}</TableCell>
+                    <TableCell>{formatNumber(parseInt(productos.stock))}</TableCell>
                     <TableCell>{" "}
                       <img
                         src={`https://www.api.huxgym.codes/${productos.image}`}
