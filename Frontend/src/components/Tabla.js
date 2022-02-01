@@ -21,13 +21,13 @@ import "../styles/clientes.css";
 import { isEmpty } from "../helpers/methods";
 
 //Agreagra DataTable
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'jquery/dist/jquery.min.js';
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
+import "bootstrap/dist/css/bootstrap.min.css";
+import "jquery/dist/jquery.min.js";
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-dt/css/jquery.dataTables.min.css";
 
-import { withStyles } from '@material-ui/core/styles';
-import { 
+import { withStyles } from "@material-ui/core/styles";
+import {
   Table,
   TableBody,
   TableCell,
@@ -39,10 +39,8 @@ import {
   Grid,
   Typography,
   TablePagination,
-  TableFooter
-} from '@material-ui/core';
-
-
+  TableFooter,
+} from "@material-ui/core";
 
 const url = "https://www.api.huxgym.codes/customers/customers/";
 const urlMembresias = "https://www.api.huxgym.codes/memberships/memberships";
@@ -62,7 +60,7 @@ function obtenerMes(date) {
   return mounth;
 }
 function entidades(abre) {
-  let res = "--"
+  let res = "--";
   if (abre === "1") res = "AS";
   if (abre === "2") res = "BC";
   if (abre === "3") res = "BS";
@@ -123,63 +121,58 @@ function obtnerDate(date) {
 }
 const useStyles = (theme) => ({
   table: {
-    
-    height:'100%',
-    width:'100%'
+    height: "100%",
+    width: "100%",
   },
   tableContainer: {
-      borderRadius: 15,
-      display:'flex',
-      flexDireccion:'center',
-      paddig: '10px 10px',
-      maxWidth: '100%',
-      height:'100%',
+    borderRadius: 15,
+    display: "flex",
+    flexDireccion: "center",
+    paddig: "10px 10px",
+    maxWidth: "100%",
+    height: "100%",
   },
   tableHeaderCell: {
-      fontWeight: 'bold',
-      backgroundColor: '#144983',
-      color: theme.palette.getContrastText(theme.palette.primary.dark)
+    fontWeight: "bold",
+    backgroundColor: "#144983",
+    color: theme.palette.getContrastText(theme.palette.primary.dark),
   },
   avatar: {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.getContrastText(theme.palette.primary.light),
-      marginRight:'50px'
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
+    marginRight: "50px",
   },
   name: {
-      fontWeight: 'bold',
-      color: 'black'
-      
+    fontWeight: "bold",
+    color: "black",
   },
-  paginacion:{
-    width: '50%',
-    backgroundColor: '#e9f1f3',
-    
+  paginacion: {
+    width: "50%",
+    backgroundColor: "#e9f1f3",
   },
   status: {
-    fontWeight: 'bold',
-    fontSize: '5rem',
-    color: 'black',
+    fontWeight: "bold",
+    fontSize: "5rem",
+    color: "black",
     //backgroundColor: 'grey',
     borderRadius: 0,
-    padding: '3px 10px',
-    display: 'inline-block'
-},
- 
+    padding: "3px 10px",
+    display: "inline-block",
+  },
 });
 
-
 const columnas = [
-  'Folio',
-  'Nombre',
-  'Fecha de registro',
-  'Género',
-  'Telefono',
-  'Estudiante',
-  'Foto',
-  'Membresía',
-  'Acciones',
-  'Hojas',
-]
+  "Folio",
+  "Nombre",
+  "Fecha de registro",
+  "Género",
+  "Telefono",
+  "Estudiante",
+  "Foto",
+  "Membresía",
+  "Acciones",
+  "Hojas",
+];
 class Tabla extends Component {
   campos = {
     phone: "teléfono",
@@ -189,8 +182,8 @@ class Tabla extends Component {
   };
 
   state = {
-    page:0,
-    rowsPerPage:3,
+    page: 0,
+    rowsPerPage: 3,
     busqueda: "",
     membresia: "",
     modalHojaclinica: false,
@@ -222,19 +215,18 @@ class Tabla extends Component {
     },
   };
 
-
   //PAginacion
   handleChangePage = (event, newPage) => {
     this.setState({
-        page:newPage
+      page: newPage,
     });
-};
-  handleChangeRowsPerPage = async(event) => {
-    console.log(event.target)
-      await this.setState({
-          page:0,
-          rowsPerPage:event.target.value
-      });
+  };
+  handleChangeRowsPerPage = async (event) => {
+    console.log(event.target);
+    await this.setState({
+      page: 0,
+      rowsPerPage: event.target.value,
+    });
   };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
@@ -270,43 +262,43 @@ class Tabla extends Component {
     let lyn = " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
     let letras = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let sexo = " HM";
-    let l = p.length;;
+    let l = p.length;
     let v = valor;
     let m = v.length;
     let c = "A";
     let exe = 0;
     let e = 0;
     let q;
-    await this.setState(prevState => ({
+    await this.setState((prevState) => ({
       errors: {
         ...prevState.errors,
         curp: null,
-      }
+      },
     }));
     let consonantes = " BCDFGHJKLMNPQRSTUVWXYZ";
     let vocales = " AEIOUX";
     if (v.charAt(0) !== "*") {
       for (let i = 0; i < m; i++) {
-
         c = "" + v.charAt(i);
         q = p.charAt(i);
         if (q === "?" && lyn.indexOf(c) < 1) {
           await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
-              curp: 'La posición ' + (i + 1) + "debe ser una letra o dígito (0-9)",
-            }
+              curp:
+                "La posición " + (i + 1) + "debe ser una letra o dígito (0-9)",
+            },
           }));
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "X" && letras.indexOf(c) < 1) {
-          console.log("i " + i)
-          await this.setState(prevState => ({
+          console.log("i " + i);
+          await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser una letra",
-            }
+            },
           }));
           i = l + 1;
           if (exe === 0) e = e + 1;
@@ -317,8 +309,8 @@ class Tabla extends Component {
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser una vocal",
-            }
-          }))
+            },
+          }));
 
           i = l + 1;
           if (exe === 0) e = e + 1;
@@ -328,20 +320,20 @@ class Tabla extends Component {
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser una consonante",
-            }
-          }))
+            },
+          }));
 
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "9" && digitos.indexOf(c) < 1) {
-          console.log("i " + i)
-          await this.setState(prevState => ({
+          console.log("i " + i);
+          await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser un número (0-9)",
-            }
-          }))
+            },
+          }));
 
           i = l + 1;
           if (exe === 0) e = e + 1;
@@ -351,204 +343,225 @@ class Tabla extends Component {
             errors: {
               ...prevState.errors,
               curp: "La posición " + (i + 1) + " debe ser H(ombre) o M(ujer)",
-            }
-          }))
+            },
+          }));
 
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
-
-
       }
     } else {
-
     }
-
 
     if (v.length == 2) {
       try {
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.paternal_surname)) {
-            let contenido = this.state.form.paternal_surname.toString().substring(0, 2).toUpperCase()
+            let contenido = this.state.form.paternal_surname
+              .toString()
+              .substring(0, 2)
+              .toUpperCase();
             if (v !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
                   curp: "Lo correcto seria " + contenido,
-                }
-              }))
+                },
+              }));
             }
           }
           //console.log()
         }
-      } catch (error) { }
+      } catch (error) {}
     }
 
     if (v.length == 3) {
       try {
-        let contenido = this.state.form.mothers_maiden_name.toString().substring(0, 1).toUpperCase()
-        console.log(contenido)
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        let contenido = this.state.form.mothers_maiden_name
+          .toString()
+          .substring(0, 1)
+          .toUpperCase();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.mothers_maiden_name)) {
-
             if (v.toString().substring(2, 3) !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
                   curp: "En la posicion 3 seria " + contenido,
-                }
-              }))
+                },
+              }));
             }
           }
           //console.log()
         }
-      } catch (error) { }
+      } catch (error) {}
     }
 
     if (v.length === 4) {
       try {
-        let contenido = this.state.form.name.toString().substring(0, 1).toUpperCase()
-        console.log(contenido)
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        let contenido = this.state.form.name
+          .toString()
+          .substring(0, 1)
+          .toUpperCase();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.name)) {
-
             if (v.toString().substring(3, 4) !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
                   curp: "En la posicion 4 seria " + contenido,
-                }
-              }))
+                },
+              }));
             }
           }
           //console.log()
         }
-      } catch (error) { }
+      } catch (error) {}
     }
 
     if (v.length === 6) {
       try {
-        let contenido = this.state.form.birthdate.getFullYear().toString().substring(1, 3).toUpperCase()
-        console.log(contenido)
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        let contenido = this.state.form.birthdate
+          .getFullYear()
+          .toString()
+          .substring(1, 3)
+          .toUpperCase();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.birthdate)) {
-
             if (v.toString().substring(4, 6) !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
                   curp: "En la posicion 5 y 6 seria " + contenido,
-                }
-              }))
+                },
+              }));
             }
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     }
 
     if (v.length === 8) {
       try {
-        let contenido = obtenerMes(this.state.form.birthdate).toString()
-        console.log(contenido)
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        let contenido = obtenerMes(this.state.form.birthdate).toString();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.birthdate)) {
-
             if (v.toString().substring(6, 8) !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
                   curp: "En la posicion 7 y 8 seria " + contenido,
-                }
-              }))
+                },
+              }));
             }
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     }
 
     if (v.length === 10) {
       try {
-        let contenido = obtenerDia(this.state.form.birthdate).toString()
-        console.log(contenido)
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        let contenido = obtenerDia(this.state.form.birthdate).toString();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.birthdate)) {
-
             if (v.toString().substring(8, 10) !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
                   curp: "En la posicion 9 y 10 seria " + contenido,
-                }
-              }))
+                },
+              }));
             }
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     }
 
     if (v.length === 11) {
       try {
-        let contenido = this.state.form.gender.toString()
-        console.log(contenido)
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        let contenido = this.state.form.gender.toString();
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.gender)) {
-
             if (v.toString().substring(10, 11) !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
                   curp: "En la posicion 11 seria " + contenido,
-                }
-              }))
+                },
+              }));
             }
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     }
     //-----------------Estadossss----------------------------------------------------
     if (v.length === 13) {
       try {
-        let contenido = entidades(this.state.form.entity_birth.toString())
-        console.log(contenido)
-        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+        let contenido = entidades(this.state.form.entity_birth.toString());
+        console.log(contenido);
+        if (
+          (this.state.errors.curp == null) |
+          (this.state.errors.curp === "Deben ser 18 posiciones")
+        ) {
           if (!isEmpty(this.state.form.entity_birth)) {
-
             if (v.toString().substring(11, 13) !== contenido) {
-              await this.setState(prevState => ({
+              await this.setState((prevState) => ({
                 errors: {
                   ...prevState.errors,
-                  curp: "En la posicion 12 y 13 tu entidad federativa es incorrecta debe ser " + contenido,
-                }
-              }))
+                  curp:
+                    "En la posicion 12 y 13 tu entidad federativa es incorrecta debe ser " +
+                    contenido,
+                },
+              }));
             }
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     }
-
 
     if (v.length >= 1 && v.length < 18) {
       try {
         /* console.log(this.state.errors.curp) */
         if (!this.state.errors.curp) {
-          await this.setState(prevState => ({
+          await this.setState((prevState) => ({
             errors: {
               ...prevState.errors,
               curp: "Deben ser " + l + " posiciones",
-            }
-          }))
+            },
+          }));
         }
-      } catch (error) {
-
-      }
-
-
-
+      } catch (error) {}
 
       if (exe === 0) e = e + 1;
     }
     if (e < 1) {
-
     }
   }
 
@@ -589,13 +602,12 @@ class Tabla extends Component {
           membresiasList: res.data,
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   peticionBuscarCurp = async () => {
-    
     try {
-     /*  await this.setState({
+      /*  await this.setState({
        
         form: {
           name: "ALTAGRACIA",
@@ -607,9 +619,9 @@ class Tabla extends Component {
           curp:"GACA410601MOCRRL08"
         },
       });   */
-      const res = await axios.get(urlCurp+this.state.form.curp);
-      console.log("buscando curp")
-      console.log(res)
+      const res = await axios.get(urlCurp + this.state.form.curp);
+      console.log("buscando curp");
+      console.log(res);
       await this.setState({
         form: {
           name: res.data.names,
@@ -618,11 +630,10 @@ class Tabla extends Component {
           paternal_surname: res.data.paternal_surname,
           entity_birth: res.data.entity_birth,
           gender: res.data.sex,
-          curp:this.state.form.curp
+          curp: this.state.form.curp,
         },
-      }); 
+      });
     } catch (error) {
-     
       try {
         const msj = JSON.parse(error.request.response).message;
         console.log(msj);
@@ -898,7 +909,6 @@ class Tabla extends Component {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
     this.perticionState();
-    
   }
 
   Expulsado = () => {
@@ -952,11 +962,14 @@ class Tabla extends Component {
     this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
-          | item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase())
-          | item.phone.toLowerCase().includes(this.state.busqueda.toLowerCase())
-          | item.dateJoined.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
-
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.phone.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.dateJoined
+            .toLowerCase()
+            .includes(this.state.busqueda.toLowerCase())
+        ) {
           return item;
         }
       });
@@ -1103,7 +1116,7 @@ class Tabla extends Component {
       membresia: event.target.value,
     });
   };
-  
+
   render() {
     const { form } = this.state;
     const { classes } = this.props;
@@ -1120,8 +1133,8 @@ class Tabla extends Component {
                 this.modalInsertar();
               }}
             >
-              <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo
-              Cliente
+              <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>{" "}
+              Nuevo Cliente
             </button>
 
             <div className="buscarBox">
@@ -1138,7 +1151,7 @@ class Tabla extends Component {
               <button
                 type="submit"
                 className=" btn botonesBusqueda add-on"
-                onClick={() => { }}
+                onClick={() => {}}
               >
                 <i className="bx bxs-user">
                   <box-icon name="search-alt-2" color="#fff"></box-icon>
@@ -1146,117 +1159,149 @@ class Tabla extends Component {
               </button>
             </div>
           </div>
-         
+
           <br />
           <div className="tablaNueva">
-          {
-            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ningún cliente encontrado</p>
-            :
-          
-          <TableContainer component={Paper} className={classes.tableContainer}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell className={classes.tableHeaderCell}>Nombre completo</TableCell>
-                  <TableCell className={classes.tableHeaderCell}>Folio</TableCell>
-                  <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
-                  <TableCell className={classes.tableHeaderCell}>Género</TableCell>
-                  {/* <TableCell className={classes.tableHeaderCell}>Teléfono</TableCell> */}
-                  <TableCell className={classes.tableHeaderCell}>Estudiante</TableCell>
-                  {/* <TableCell className={classes.tableHeaderCell}>Foto</TableCell> */}
-                  <TableCell className={classes.tableHeaderCell}>Estado de la membresía</TableCell>
-                  <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
-                  <TableCell className={classes.tableHeaderCell}>Hojas clínicas</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell >
-                        <Grid container>
-                            <Grid item lg={3}>
-                                <Avatar alt={row.name} src={`https://www.api.huxgym.codes/${row.image}`} className={classes.avatar}/>
-                            </Grid>
-                            <Grid item lg={10}>
-                                <Typography className={classes.name}>{row.name}</Typography>
-                                <Typography color="textSecondary" variant="body2">{row.phone}</Typography>
-                            </Grid>
-                        </Grid>
-                    </TableCell>
-                    <TableCell>
-                        {row.folio}
-                    </TableCell>
-                   
-                    <TableCell>{row.dateJoined}</TableCell>
-                    <TableCell>{row.gender}</TableCell>
-                    <TableCell>
-                    {row.isStudiant ? "Si" : "No"}
+            {this.state.data.length <= 0 ? (
+              <p className="mt-4 sinClientes">Ningún cliente encontrado</p>
+            ) : (
+              <TableContainer
+                component={Paper}
+                className={classes.tableContainer}
+              >
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className={classes.tableHeaderCell}>
+                        Nombre completo
                       </TableCell>
-                   {/*  <TableCell>{row.isStudiant}</TableCell> */}
-                    <TableCell>{row.membershipActivate
-                          ? "Activada"
-                          : "No Activada"}</TableCell> 
-                    <TableCell><button
-                          className="btn btn-editar"
-                          onClick={() => {
-                            this.seleccionarUsuario(row);
-                            this.modalInsertar();
-                          }}
-                          title="Editar Cliente"
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                        {"  "}
-                        {localStorage.getItem("rol") == "Administrador" ? (
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => {
-                              this.seleccionarUsuario(row);
-                              this.setState({ modalEliminar: true });
-                            }}
-                            title="Dar de baja"
-                          >
-                            <FontAwesomeIcon icon={faTrashAlt} />
-                          </button>
-                        ) : (
-                          <></>
-                        )}</TableCell> 
+                      <TableCell className={classes.tableHeaderCell}>
+                        Folio
+                      </TableCell>
+                      <TableCell className={classes.tableHeaderCell}>
+                        Fecha de registro
+                      </TableCell>
+                      <TableCell className={classes.tableHeaderCell}>
+                        Género
+                      </TableCell>
+                      {/* <TableCell className={classes.tableHeaderCell}>Teléfono</TableCell> */}
+                      <TableCell className={classes.tableHeaderCell}>
+                        Estudiante
+                      </TableCell>
+                      {/* <TableCell className={classes.tableHeaderCell}>Foto</TableCell> */}
+                      <TableCell className={classes.tableHeaderCell}>
+                        Estado de la membresía
+                      </TableCell>
+                      <TableCell className={classes.tableHeaderCell}>
+                        Acciones
+                      </TableCell>
+                      <TableCell className={classes.tableHeaderCell}>
+                        Hojas clínicas
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.data
+                      .slice(
+                        this.state.page * this.state.rowsPerPage,
+                        this.state.page * this.state.rowsPerPage +
+                          this.state.rowsPerPage
+                      )
+                      .map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell>
+                            <Grid container>
+                              <Grid item lg={3}>
+                                <Avatar
+                                  alt={row.name}
+                                  src={`https://www.api.huxgym.codes/${row.image}`}
+                                  className={classes.avatar}
+                                />
+                              </Grid>
+                              <Grid item lg={10}>
+                                <Typography className={classes.name}>
+                                  {row.name}
+                                </Typography>
+                                <Typography
+                                  color="textSecondary"
+                                  variant="body2"
+                                >
+                                  {row.phone}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </TableCell>
+                          <TableCell>{row.folio}</TableCell>
 
-                    <TableCell>
-                    <BtnModalHoja
-                          id_cliente={row.id}
-                          nacimiento_cliente={row.birthdate}
-                        />{" "}
-                        <br />
-                        <ModalHojas
-                          id_cliente={row.id}
-                          name_cliente={row.name}
-                          nacimiento_cliente={row.birthdate}
-                        />{" "}
-                      </TableCell> 
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter className={classes.paginacion}>
-              <TablePagination
-                  className={classes.paginacion}
-                  rowsPerPageOptions={[3, 10, 15]}
-                  //component="div"
-                  count={this.state.data.length}
-                  rowsPerPage={this.state.rowsPerPage}
-                  page={this.state.page}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={
-                              this.handleChangeRowsPerPage
-                            }
-              />
-              </TableFooter>
-            </Table>
-          </TableContainer>
-             
-          }
-          </div> 
-          
+                          <TableCell>{row.dateJoined}</TableCell>
+                          <TableCell>{row.gender}</TableCell>
+                          <TableCell>{row.isStudiant ? "Si" : "No"}</TableCell>
+                          {/*  <TableCell>{row.isStudiant}</TableCell> */}
+                          <TableCell>
+                            {row.membershipActivate
+                              ? "Activada"
+                              : "No Activada"}
+                          </TableCell>
+                          <TableCell>
+                            <button
+                              className="btn btn-editar"
+                              onClick={() => {
+                                this.seleccionarUsuario(row);
+                                this.modalInsertar();
+                              }}
+                              title="Editar Cliente"
+                            >
+                              <FontAwesomeIcon icon={faEdit} />
+                            </button>
+                            {"  "}
+                            {localStorage.getItem("rol") == "Administrador" ? (
+                              <button
+                                className="btn btn-danger"
+                                onClick={() => {
+                                  this.seleccionarUsuario(row);
+                                  this.setState({ modalEliminar: true });
+                                }}
+                                title="Dar de baja"
+                              >
+                                <FontAwesomeIcon icon={faTrashAlt} />
+                              </button>
+                            ) : (
+                              <></>
+                            )}
+                          </TableCell>
+
+                          <TableCell>
+                            <BtnModalHoja
+                              id_cliente={row.id}
+                              nacimiento_cliente={row.birthdate}
+                            />{" "}
+                            <br />
+                            <ModalHojas
+                              id_cliente={row.id}
+                              name_cliente={row.name}
+                              nacimiento_cliente={row.birthdate}
+                            />{" "}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                  <TableFooter className={classes.paginacion}>
+                    <TablePagination
+                      className={classes.paginacion}
+                      rowsPerPageOptions={[3, 10, 15]}
+                      //component="div"
+                      count={this.state.data.length}
+                      rowsPerPage={this.state.rowsPerPage}
+                      page={this.state.page}
+                      onChangePage={this.handleChangePage}
+                      onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            )}
+          </div>
+
           {this.state.modalHojaclinica && (
             <ModalHojaClinica
               id_cliente={this.state.ultimo.id}
@@ -1272,22 +1317,23 @@ class Tabla extends Component {
               <span style={{ float: "right" }}></span>
             </ModalHeader>
 
-            <ModalBody>
-              <div className="form-group">
-              <label htmlFor="name">CURP*:</label>
-                {this.state.tipoModal === "insertar" ? (
-                  <>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="curp"
-                      id="curp"
-                      placeholder="CURP"
-                      onChange={this.handleChangeCurp}
-                      value={form ? form.curp : ""}
-                    />
-                    {this.state.errors && <p className="errores mt-2">{this.state.errors.curp}</p>}
-                    <button
+            <div className="form-group">
+              {this.state.tipoModal === "insertar" ? (
+                <>
+                  <label htmlFor="name">CURP*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    placeholder="CURP"
+                    onChange={this.handleChangeCurp}
+                    value={form ? form.curp : ""}
+                  />
+                  {this.state.errors && (
+                    <p className="errores mt-2">{this.state.errors.curp}</p>
+                  )}
+                  <button
                     type="submit"
                     className="btn btn-light mb-3"
                     onClick={this.peticionBuscarCurp}
@@ -1295,269 +1341,307 @@ class Tabla extends Component {
                     Buscar Datos
                   </button>
                   <br></br>
-                  </>
-                ) : (
-                  <>
-                    
-                  </>
-                )}
-                {form &&
-                <>
-                
-                
                 </>
-                }
-                <label htmlFor="name">Nombre completo*:</label>
-                {this.state.tipoModal === "insertar" ? (
-                  <>
+              ) : (
+                <>
+                  <label htmlFor="name">CURP*:</label>
+                  <input
+                    className="form-control"
+                    disabled
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    maxlength="150"
+                    placeholder="CURP"
+                    onChange={this.handleChangeInputCURP}
+                    value={form ? form.curp : ""}
+                  />
+                </>
+              )}
+              {form && 
+                <>
+                  {this.state.tipoModal === "insertar" ? (
+                    this.state.form.name && 
+                      <>
+                        <label htmlFor="name">Nombre completo*:</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="name"
+                          id="name"
+                          placeholder="Nombre del cliente"
+                          onChange={this.handleChangeInput}
+                          value={form ? form.name : ""}
+                        />
+                        <br />
+                      </>
+                    
+                  ) : (
+                    <>
+                      <label htmlFor="name">Nombre completo*:</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="name"
+                        id="name"
+                        disabled
+                        placeholder="Nombre del cliente"
+                        onChange={this.handleChangeInput}
+                        value={form ? form.name : ""}
+                      />
+                      <br />
+                    </>
+                  )}
+                 
+                  {this.state.tipoModal === "insertar" ? (
+                    this.state.paternal_surname && 
+                      <>
+                       <label htmlFor="name">Apellido Paterno*:</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="paternal_surname"
+                          id="paternal_surname"
+                          placeholder="Apellido Paterno"
+                          onChange={this.handleChangeInput}
+                          value={form ? form.paternal_surname : ""}
+                        />
+                        <br />
+                      </>
+                    
+                  ) : (
+                    <>
+                      <label htmlFor="name">Apellido Paterno*:</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="paternal_surname"
+                        id="paternal_surname"
+                        disabled
+                        placeholder="Apellido Paterno"
+                        onChange={this.handleChangeInput}
+                        value={form ? form.paternal_surname : ""}
+                      />
+                      <br />
+                    </>
+                  )}
 
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="name"
-                      id="name"
-                      placeholder="Nombre del cliente"
-                      onChange={this.handleChangeInput}
-                      value={form ? form.name : ""}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="name"
-                      id="name"
-                      disabled
-                      placeholder="Nombre del cliente"
-                      onChange={this.handleChangeInput}
-                      value={form ? form.name : ""}
-                    />
-                  </>
-                )}
-
-                <br />
-                <label htmlFor="name">Apellido Paterno*:</label>
-                {this.state.tipoModal === "insertar" ? (
-                  <>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="paternal_surname"
-                      id="paternal_surname"
-                      placeholder="Apellido Paterno"
-                      onChange={this.handleChangeInput}
-                      value={form ? form.paternal_surname : ""}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="paternal_surname"
-                      id="paternal_surname"
-                      disabled
-                      placeholder="Apellido Paterno"
-                      onChange={this.handleChangeInput}
-                      value={form ? form.paternal_surname : ""}
-                    />
-                  </>
-                )}
-
-                <br />
-                <br />
-                <label htmlFor="name">Apellido Materno*:</label>
-                {this.state.tipoModal === "insertar" ? (
-                  <>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="mothers_maiden_name"
-                      id="mothers_maiden_name"
-                      placeholder="Apellido Materno"
-                      onChange={this.handleChangeInput}
-                      value={form ? form.mothers_maiden_name : ""}
-                    />
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="mothers_maiden_name"
-                      id="mothers_maiden_name"
-                      placeholder="Apellido Materno"
-                      disabled
-                      onChange={this.handleChangeInput}
-                      value={form ? form.mothers_maiden_name : ""}
-                    />
-                  </>
-                )}
-
-
-
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <label className="articulo mt-3">Fecha de Nacimiento</label>
+                  {this.state.tipoModal === "insertar" ? (
+                    this.state.form.mothers_maiden_name &&
+                    <>
+                      <label htmlFor="name">Apellido Materno*:</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="mothers_maiden_name"
+                        id="mothers_maiden_name"
+                        placeholder="Apellido Materno"
+                        onChange={this.handleChangeInput}
+                        value={form ? form.mothers_maiden_name : ""}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <label htmlFor="name">Apellido Materno*:</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="mothers_maiden_name"
+                        id="mothers_maiden_name"
+                        placeholder="Apellido Materno"
+                        disabled
+                        onChange={this.handleChangeInput}
+                        value={form ? form.mothers_maiden_name : ""}
+                      />
+                    </>
+                  )}
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    {this.state.tipoModal === "insertar" ? (
+                      this.state.form.birthdate && 
+                        <>
+                          <label className="articulo mt-3">
+                            Fecha de Nacimiento
+                          </label>
+                          <br />
+                          <KeyboardDatePicker
+                            className="fecha"
+                            allowKeyboardControl={true}
+                            id="birthdate"
+                            format="yyyy-MM-dd"
+                            value={form ? form.birthdate : new Date()}
+                            onChange={this.handleDateChange}
+                            animateYearScrolling={true}
+                          />
+                        </>
+                      
+                    ) : (
+                      <>
+                        <label className="articulo mt-3">
+                          Fecha de Nacimiento
+                        </label>
+                        <br />
+                        <KeyboardDatePicker
+                          className="fecha"
+                          allowKeyboardControl={true}
+                          id="birthdate"
+                          format="yyyy-MM-dd"
+                          disabled
+                          value={form ? form.birthdate : new Date()}
+                          onChange={this.handleDateChange}
+                          animateYearScrolling={true}
+                        />
+                      </>
+                    )}
+                  </MuiPickersUtilsProvider>
                   <br />
                   {this.state.tipoModal === "insertar" ? (
-                    <>
-                      <KeyboardDatePicker
-                        className="fecha"
-                        allowKeyboardControl={true}
-                        id="birthdate"
-                        format="yyyy-MM-dd"
-                        value={form ? form.birthdate : new Date()}
-                        onChange={this.handleDateChange}
-                        animateYearScrolling={true}
-                      />
-                    </>
+                    this.state.form.entity_birth && (
+                      <>
+                        <label htmlFor="name">Estado*:</label>
+                        <br />
+                        <select
+                          name="entity_birth"
+                          id="entity_birth"
+                          className="form-select"
+                          onChange={this.changeEstado}
+                          value={form ? form.entity_birth : "1"}
+                          aria-label="Default select example"
+                        >
+                          {this.state.estados.map((elemento) => (
+                            <option key={elemento.num} value={elemento.num}>
+                              {elemento.name}
+                            </option>
+                          ))}
+                        </select>
+                      </>
+                    )
                   ) : (
                     <>
-                      <KeyboardDatePicker
-                        className="fecha"
-                        allowKeyboardControl={true}
-                        id="birthdate"
-                        format="yyyy-MM-dd"
+                      <label htmlFor="name">Estado*:</label>
+                      <br />
+                      <select
+                        name="entity_birth"
+                        id="entity_birth"
+                        className="form-select"
                         disabled
-                        value={form ? form.birthdate : new Date()}
-                        onChange={this.handleDateChange}
-                        animateYearScrolling={true}
+                        onChange={this.changeEstado}
+                        value={form ? form.entity_birth : "1"}
+                        aria-label="Default select example"
+                      >
+                        {this.state.estados.map((elemento) => (
+                          <option key={elemento.num} value={elemento.num}>
+                            {elemento.name}
+                          </option>
+                        ))}
+                      </select>
+                    </>
+                  )}
+
+                  <div class="">
+                    {this.state.tipoModal === "insertar" ? (
+                      this.state.form.gender && (
+                        <>
+                          <label htmlFor="gender">Género*: </label>
+                          <br />
+                          <label class="btn botonesForm m-1">
+                            <input
+                              type="radio"
+                              name="gender"
+                              value="H"
+                              autocomplete="off"
+                              onChange={this.handleChange}
+                              checked={
+                                form
+                                  ? form.gender === "H"
+                                    ? "checked"
+                                    : ""
+                                  : "ff"
+                              }
+                            />{" "}
+                            H
+                          </label>
+                          <label class="btn botonesForm m-1 ">
+                            <input
+                              type="radio"
+                              name="gender"
+                              value="M"
+                              autocomplete="on"
+                              onChange={this.handleChange}
+                              checked={
+                                form
+                                  ? form.gender === "M"
+                                    ? "checked"
+                                    : ""
+                                  : "ff"
+                              }
+                            />{" "}
+                            M
+                          </label>
+                        </>
+                      )
+                    ) : (
+                      <>
+                        <label htmlFor="gender">Género*: </label>
+                        <br />
+                        <label class="btn botonesForm m-1">
+                          <input
+                            type="radio"
+                            name="gender"
+                            value="H"
+                            autocomplete="off"
+                            //onChange={this.handleChange}
+                            checked={
+                              form
+                                ? form.gender === "H"
+                                  ? "checked"
+                                  : ""
+                                : "ff"
+                            }
+                          />{" "}
+                          H
+                        </label>
+                        <label class="btn botonesForm m-1 ">
+                          <input
+                            type="checkbox"
+                            name="gender"
+                            value="M"
+                            autocomplete="on"
+                            //onChange={this.handleChange}
+                            checked={
+                              form
+                                ? form.gender === "M"
+                                  ? "checked"
+                                  : ""
+                                : "ff"
+                            }
+                          />{" "}
+                          M
+                        </label>
+                      </>
+                    )}
+                  </div>
+                  <br />
+                  {this.state.form.gender && (
+                    <>
+                      <label htmlFor="phone">Teléfono*:</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="phone"
+                        id="phone"
+                        size="10"
+                        placeholder="Teléfono"
+                        maxLength="10"
+                        placeholder="Teléfono"
+                        onChange={this.handleChangeInputNumber}
+                        value={form ? form.phone : ""}
                       />
+                      <br />
                     </>
                   )}
-                </MuiPickersUtilsProvider>
-                <br />
-                <label htmlFor="name">Estado*:</label>
-                <br />
-                {this.state.tipoModal === "insertar" ? (
-                  <>
-                    <select
-                      name="entity_birth"
-                      id="entity_birth"
-                      className="form-select"
-                      onChange={this.changeEstado}
-                      value={form ? form.entity_birth : "1"}
-                      aria-label="Default select example"
-                    >
-                      {this.state.estados.map((elemento) => (
-                        <option key={elemento.num} value={elemento.num}>
-                          {elemento.name}
-                        </option>
-                      ))}
-                    </select>
-                  </>
-                ) : (
-                  <>
-                    <select
-                      name="entity_birth"
-                      id="entity_birth"
-                      className="form-select"
-                      disabled
-                      onChange={this.changeEstado}
-                      value={form ? form.entity_birth : "1"}
-                      aria-label="Default select example"
-                    >
-                      {this.state.estados.map((elemento) => (
-                        <option key={elemento.num} value={elemento.num}>
-                          {elemento.name}
-                        </option>
-                      ))}
-                    </select>
-                  </>
-                )}
-                <label htmlFor="gender">Género*: </label>
-                <br />
-
-                <div class="" >
-                  {this.state.tipoModal === "insertar" ? (
-                    <>
-                      <label class="btn botonesForm m-1">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="H"
-                          autocomplete="off"
-                          onChange={this.handleChange}
-                          checked={
-                            form ? (form.gender === "H" ? "checked" : "") : "ff"
-                            
-                          }
-                        />{" "}
-                        H
-                      </label>
-                      <label class="btn botonesForm m-1 ">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="M"
-                          autocomplete="on"
-                          onChange={this.handleChange}
-                          checked={
-                            form ? (form.gender === "M" ? "checked" : "") : "ff"
-                            
-                          }
-                        />{" "}
-                        M
-                      </label>
-                    </>
-                  ) : (
-                    <>
-                      <label class="btn botonesForm m-1">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="H"
-                          autocomplete="off"
-
-                          //onChange={this.handleChange}
-                          checked={
-                            form ? (form.gender === "H" ? "checked" : "") : "ff"
-                            
-                          }
-
-                        />{" "}
-                        H
-                      </label>
-                      <label class="btn botonesForm m-1 ">
-                        <input
-                          type="checkbox"
-                          name="gender"
-                          value="M"
-                          autocomplete="on"
-
-                          //onChange={this.handleChange}
-                          checked={
-                            form ? (form.gender === "M" ? "checked" : "") : "ff"
-                            
-                          }
-
-                        />{" "}
-                        M
-                      </label>
-                    </>
-                  )}
-                </div>
-                <br />
-                
-                <label htmlFor="phone">Teléfono*:</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  name="phone"
-                  id="phone"
-                  size="10"
-                  placeholder="Teléfono"
-                  maxLength="10"
-                  placeholder="Teléfono"
-                  onChange={this.handleChangeInputNumber}
-                  value={form ? form.phone : ""}
-                />
-                <br />
-
-                <br />
-                <label htmlFor="image">Foto:</label>
+                  {this.state.form.gender &&<>
+                    <br />
+                <label htmlFor="image">Imagen:</label>
                 <input
                   className="form-control"
                   type="file"
@@ -1567,12 +1651,12 @@ class Tabla extends Component {
                   accept="image/png, image/jpeg, image/jpg, image/ico"
                   onChange={this.handleChangeInputImage}
                 />
-                <br />
-
-
-
-                <br />
-                <label htmlFor="isStudiant">Estudiante*:</label>
+                  </>}
+                  <br />
+                 {this.state.form.gender &&
+                 <>
+                 
+                 <label htmlFor="isStudiant">Estudiante*:</label>
                 <br />
                 <div class="" >
                   <label class="btn botonesForm m-1">
@@ -1605,8 +1689,15 @@ class Tabla extends Component {
                     No
                   </label>
                 </div>
-              </div>
-            </ModalBody>
+                 </>
+                 } 
+                
+
+                </>
+              }
+              <br/>
+            </div>
+            
 
             <ModalFooter>
               {this.state.tipoModal === "insertar" ? (
@@ -1691,7 +1782,6 @@ class Tabla extends Component {
             </ModalFooter>
           </Modal>
         </div>
-        
       </>
     );
   }
