@@ -103,6 +103,7 @@ class TablaP extends Component {
     name_category: "",
     name_provider: "",
     stock_editar: 0,
+    errors: { cambio: null },
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
@@ -213,6 +214,28 @@ class TablaP extends Component {
       console.log(msj);
     }
   };
+
+  async restodecompra(form){
+    const price_s = form.price_s;
+    const price_c = form.price_c;
+    const price_sale = parseFloat(form.price_s);
+    const price_puchase = parseFloat(form.price_c);
+    await this.setState((prevState) => ({
+      errors: {
+        ...prevState.errors,
+        cambio: null,
+      },
+    }));
+    if (price_puchase > price_sale){
+      await this.setState((prevState) => ({
+        errors: {
+          ...prevState.errors,
+          cambio:
+          "El precio de compra no puede ser mayor al de venta",
+        },
+      }));
+    }
+  }
 
   validar = (form) => {
     if (form === null) {
@@ -706,7 +729,7 @@ class TablaP extends Component {
     const name = event.target.name;
     const value = event.target.value;
     let regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
-
+    this.restodecompra(this.state.form);
     if (regex.test(value)|| isEmpty(value)) {
       const setValue = value <= 10000 && value>=0 ? value : 0.0;
       this.setState({
@@ -1075,6 +1098,9 @@ class TablaP extends Component {
                               
                           />
               </div>
+              {this.state.errors && (
+                    <p className="errores mt-2">{this.state.errors.cambio}</p>
+                  )}
               {/* <input
                 className="form-control"
                 type="number"
