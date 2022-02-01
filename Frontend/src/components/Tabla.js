@@ -19,8 +19,34 @@ import ModalHojaClinica from "../components/ModalHojaClinica";
 import "../styles/Crud.css";
 import "../styles/clientes.css";
 import { isEmpty } from "../helpers/methods";
-import BtnMembresia from "./CambioMembresia";
-import ModalPrueba from "./modalPrueba";
+import DataTable from "react-data-table-component";
+import { useTable, usePagination } from 'react-table';
+import TablaNueva from "./TablaNueva.js";
+//Agreagra DataTable
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery/dist/jquery.min.js';
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+import $ from 'jquery'; 
+import TablaClienteN from "./TablaClienteN";
+import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter
+} from '@material-ui/core';
+import { margin } from "@mui/system";
+
 
 const url = "https://www.api.huxgym.codes/customers/customers/";
 const urlMembresias = "https://www.api.huxgym.codes/memberships/memberships";
@@ -35,43 +61,43 @@ function obtenerMes(date) {
   if (mounth < 10) {
     mounth = "0" + mounth;
   }
-  
+
   return mounth;
 }
 function entidades(abre) {
-  let res="--"
-  if(abre==="1") res ="AS";
-  if(abre==="2") res ="BC";
-  if(abre==="3") res ="BS";
-  if(abre==="4") res ="CC";
-  if(abre==="5") res ="CL";
-  if(abre==="6") res ="CM";
-  if(abre==="7") res ="CS";
-  if(abre==="8") res ="CH";
-  if(abre==="9") res ="DF";
-  if(abre==="10") res ="DG";
-  if(abre==="11") res ="GT";
-  if(abre==="12") res ="GR";
-  if(abre==="13") res ="HG";
-  if(abre==="14") res ="JC";
-  if(abre==="15") res ="MC";
-  if(abre==="16") res ="MN";
-  if(abre==="17") res ="MS";
-  if(abre==="18") res ="NT";
-  if(abre==="19") res ="NL";
-  if(abre==="20") res= "OC";
-  if(abre==="21") res ="PL";
-  if(abre==="22") res ="QQ";
-  if(abre==="23") res ="QR";
-  if(abre==="24") res ="SP";
-  if(abre==="25") res ="SL";
-  if(abre==="26") res ="SR";
-  if(abre==="27") res ="TC";
-  if(abre==="28") res ="TS";
-  if(abre==="29") res ="TL";
-  if(abre==="30") res ="VZ";
-  if(abre==="31") res ="YN";
-  if(abre==="32") res ="ZS";
+  let res = "--"
+  if (abre === "1") res = "AS";
+  if (abre === "2") res = "BC";
+  if (abre === "3") res = "BS";
+  if (abre === "4") res = "CC";
+  if (abre === "5") res = "CL";
+  if (abre === "6") res = "CM";
+  if (abre === "7") res = "CS";
+  if (abre === "8") res = "CH";
+  if (abre === "9") res = "DF";
+  if (abre === "10") res = "DG";
+  if (abre === "11") res = "GT";
+  if (abre === "12") res = "GR";
+  if (abre === "13") res = "HG";
+  if (abre === "14") res = "JC";
+  if (abre === "15") res = "MC";
+  if (abre === "16") res = "MN";
+  if (abre === "17") res = "MS";
+  if (abre === "18") res = "NT";
+  if (abre === "19") res = "NL";
+  if (abre === "20") res = "OC";
+  if (abre === "21") res = "PL";
+  if (abre === "22") res = "QQ";
+  if (abre === "23") res = "QR";
+  if (abre === "24") res = "SP";
+  if (abre === "25") res = "SL";
+  if (abre === "26") res = "SR";
+  if (abre === "27") res = "TC";
+  if (abre === "28") res = "TS";
+  if (abre === "29") res = "TL";
+  if (abre === "30") res = "VZ";
+  if (abre === "31") res = "YN";
+  if (abre === "32") res = "ZS";
 
   return res;
 }
@@ -82,7 +108,7 @@ function obtenerDia(date) {
   if (day < 10) {
     day = "0" + day;
   }
-  
+
   return day;
 }
 
@@ -98,6 +124,65 @@ function obtnerDate(date) {
   console.log(mounth + "aqui es");
   return year + "-" + mounth + "-" + day;
 }
+const useStyles = (theme) => ({
+  table: {
+    
+    height:'100%',
+    width:'100%'
+  },
+  tableContainer: {
+      borderRadius: 15,
+      display:'flex',
+      flexDireccion:'center',
+      paddig: '10px 10px',
+      maxWidth: '100%',
+      height:'100%',
+  },
+  tableHeaderCell: {
+      fontWeight: 'bold',
+      backgroundColor: '#144983',
+      color: theme.palette.getContrastText(theme.palette.primary.dark)
+  },
+  avatar: {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.getContrastText(theme.palette.primary.light),
+      marginRight:'50px'
+  },
+  name: {
+      fontWeight: 'bold',
+      color: 'black'
+      
+  },
+  paginacion:{
+    width: '50%',
+    backgroundColor: '#e9f1f3',
+    
+  },
+  status: {
+    fontWeight: 'bold',
+    fontSize: '5rem',
+    color: 'black',
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: '3px 10px',
+    display: 'inline-block'
+},
+ 
+});
+
+
+const columnas = [
+  'Folio',
+  'Nombre',
+  'Fecha de registro',
+  'Género',
+  'Telefono',
+  'Estudiante',
+  'Foto',
+  'Membresía',
+  'Acciones',
+  'Hojas',
+]
 class Tabla extends Component {
   campos = {
     phone: "teléfono",
@@ -107,12 +192,14 @@ class Tabla extends Component {
   };
 
   state = {
+    page:0,
+    rowsPerPage:3,
     busqueda: "",
     membresia: "",
     modalHojaclinica: false,
-    dataBuscar:[],
+    dataBuscar: [],
     ultimo: {},
-    errors:{curp:null},
+    errors: { curp: null },
     //membresiasList:[],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
@@ -138,6 +225,20 @@ class Tabla extends Component {
     },
   };
 
+
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+        page:newPage
+    });
+};
+handleChangeRowsPerPage = async(event) => {
+  console.log(event.target)
+    await this.setState({
+        page:0,
+        rowsPerPage:event.target.value
+    });
+  };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     console.log(this.state.form);
@@ -153,7 +254,7 @@ class Tabla extends Component {
 
     console.log(this.state.form);
   };
-  
+
   perticionState = async () => {
     axios
       .get("https://www.api.huxgym.codes/state/")
@@ -166,48 +267,51 @@ class Tabla extends Component {
       });
   };
 
-  async validarCurp(valor){
-  
+  async validarCurp(valor) {
+
     let p = "XVXX999999SXXCCC??";
-    let digitos=" 0123456789";
-    let lyn= " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"; 
-    let letras= " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
-    let sexo=" HM";
+    let digitos = " 0123456789";
+    let lyn = " ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
+    let letras = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let sexo = " HM";
     let l = p.length;;
     let v = valor;
     let m = v.length;
     let c = "A";
     let exe = 0;
-    let e=0;
+    let e = 0;
     let q;
     await this.setState(prevState => ({
-            errors: {
-                ...prevState.errors,
-                curp: null,
-          } }));
-    let consonantes=" BCDFGHJKLMNPQRSTUVWXYZ";
-    let vocales=" AEIOUX";
+      errors: {
+        ...prevState.errors,
+        curp: null,
+      }
+    }));
+    let consonantes = " BCDFGHJKLMNPQRSTUVWXYZ";
+    let vocales = " AEIOUX";
     if (v.charAt(0) !== "*") {
       for (let i = 0; i < m; i++) {
-        
+
         c = "" + v.charAt(i);
         q = p.charAt(i);
         if (q === "?" && lyn.indexOf(c) < 1) {
           await this.setState(prevState => ({
             errors: {
-                ...prevState.errors,
-                curp: 'La posición '+(i+1) + "debe ser una letra o dígito (0-9)",
-          }}));
+              ...prevState.errors,
+              curp: 'La posición ' + (i + 1) + "debe ser una letra o dígito (0-9)",
+            }
+          }));
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "X" && letras.indexOf(c) < 1) {
-          console.log("i "+i)
+          console.log("i " + i)
           await this.setState(prevState => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " + (i+1) +" debe ser una letra",
-          } }));
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser una letra",
+            }
+          }));
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
@@ -215,239 +319,240 @@ class Tabla extends Component {
           /* console.log("i "+i) */
           await this.setState(prevState => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " +(i + 1) +" debe ser una vocal",
-          }}))
-          
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser una vocal",
+            }
+          }))
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "C" && consonantes.indexOf(c) < 1) {
           await this.setState(prevState => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " +(i + 1) +" debe ser una consonante",
-          }
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser una consonante",
+            }
           }))
-          
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "9" && digitos.indexOf(c) < 1) {
-          console.log("i "+i)
+          console.log("i " + i)
           await this.setState(prevState => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " + (i + 1) + " debe ser un número (0-9)",
-          }
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser un número (0-9)",
+            }
           }))
-          
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
         if (q === "S" && sexo.indexOf(c) < 1) {
           await this.setState(prevState => ({
             errors: {
-                ...prevState.errors,
-                curp: "La posición " +(i + 1) +" debe ser H(ombre) o M(ujer)",
-          }
+              ...prevState.errors,
+              curp: "La posición " + (i + 1) + " debe ser H(ombre) o M(ujer)",
+            }
           }))
-         
+
           i = l + 1;
           if (exe === 0) e = e + 1;
         }
-  
-        
+
+
       }
     } else {
-      
-    }
-  
 
-    if (v.length==2) {
-      try{
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.paternal_surname)){
-          let contenido=this.state.form.paternal_surname.toString().substring(0,2).toUpperCase()
-          if(v!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+    }
+
+
+    if (v.length == 2) {
+      try {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.paternal_surname)) {
+            let contenido = this.state.form.paternal_surname.toString().substring(0, 2).toUpperCase()
+            if (v !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
-                  curp: "Lo correcto seria "+contenido,
-                 }
-               }))
+                  curp: "Lo correcto seria " + contenido,
+                }
+              }))
+            }
           }
-        }
           //console.log()
         }
-      }catch(error){}
+      } catch (error) { }
     }
-  
-    if (v.length==3) {
-      try{
-        let contenido=this.state.form.mothers_maiden_name.toString().substring(0,1).toUpperCase()
+
+    if (v.length == 3) {
+      try {
+        let contenido = this.state.form.mothers_maiden_name.toString().substring(0, 1).toUpperCase()
         console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.mothers_maiden_name)){
-          
-          if(v.toString().substring(2,3)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.mothers_maiden_name)) {
+
+            if (v.toString().substring(2, 3) !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
-                  curp: "En la posicion 3 seria "+contenido,
-                 }
-               }))
+                  curp: "En la posicion 3 seria " + contenido,
+                }
+              }))
+            }
           }
-        }
           //console.log()
         }
-      }catch(error){}
+      } catch (error) { }
     }
-  
-    if (v.length===4) {
-      try{
-        let contenido=this.state.form.name.toString().substring(0,1).toUpperCase()
+
+    if (v.length === 4) {
+      try {
+        let contenido = this.state.form.name.toString().substring(0, 1).toUpperCase()
         console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.name)){
-          
-          if(v.toString().substring(3,4)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.name)) {
+
+            if (v.toString().substring(3, 4) !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
-                  curp: "En la posicion 4 seria "+contenido,
-                 }
-               }))
+                  curp: "En la posicion 4 seria " + contenido,
+                }
+              }))
+            }
           }
-        }
           //console.log()
         }
-      }catch(error){}
+      } catch (error) { }
     }
-  
-    if (v.length===6) {
-      try{
-        let contenido=this.state.form.birthdate.getFullYear().toString().substring(1,3).toUpperCase()
+
+    if (v.length === 6) {
+      try {
+        let contenido = this.state.form.birthdate.getFullYear().toString().substring(1, 3).toUpperCase()
         console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.birthdate)){
-          
-          if(v.toString().substring(4,6)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.birthdate)) {
+
+            if (v.toString().substring(4, 6) !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
-                  curp: "En la posicion 5 y 6 seria "+contenido,
-                 }
-               }))
+                  curp: "En la posicion 5 y 6 seria " + contenido,
+                }
+              }))
+            }
           }
         }
-        }
-      }catch(error){}
+      } catch (error) { }
     }
-  
-    if (v.length===8) {
-      try{
-        let contenido=obtenerMes(this.state.form.birthdate).toString()
+
+    if (v.length === 8) {
+      try {
+        let contenido = obtenerMes(this.state.form.birthdate).toString()
         console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.birthdate)){
-          
-          if(v.toString().substring(6,8)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.birthdate)) {
+
+            if (v.toString().substring(6, 8) !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
-                  curp: "En la posicion 7 y 8 seria "+contenido,
-                 }
-               }))
+                  curp: "En la posicion 7 y 8 seria " + contenido,
+                }
+              }))
+            }
           }
         }
-        }
-      }catch(error){}
+      } catch (error) { }
     }
-  
-    if (v.length===10) {
-      try{
-        let contenido=obtenerDia(this.state.form.birthdate).toString()
+
+    if (v.length === 10) {
+      try {
+        let contenido = obtenerDia(this.state.form.birthdate).toString()
         console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.birthdate)){
-          
-          if(v.toString().substring(8,10)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.birthdate)) {
+
+            if (v.toString().substring(8, 10) !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
-                  curp: "En la posicion 9 y 10 seria "+contenido,
-                 }
-               }))
+                  curp: "En la posicion 9 y 10 seria " + contenido,
+                }
+              }))
+            }
           }
         }
-        }
-      }catch(error){}
+      } catch (error) { }
     }
-  
-    if (v.length===11) {
-      try{
-        let contenido=this.state.form.gender.toString()
+
+    if (v.length === 11) {
+      try {
+        let contenido = this.state.form.gender.toString()
         console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.gender)){
-          
-          if(v.toString().substring(10,11)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.gender)) {
+
+            if (v.toString().substring(10, 11) !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
-                  curp: "En la posicion 11 seria "+contenido,
-                 }
-               }))
+                  curp: "En la posicion 11 seria " + contenido,
+                }
+              }))
+            }
           }
         }
-        }
-      }catch(error){}
+      } catch (error) { }
     }
-  //-----------------Estadossss----------------------------------------------------
-    if (v.length===13) {
-      try{
-        let contenido=entidades(this.state.form.entity_birth.toString())
+    //-----------------Estadossss----------------------------------------------------
+    if (v.length === 13) {
+      try {
+        let contenido = entidades(this.state.form.entity_birth.toString())
         console.log(contenido)
-        if(this.state.errors.curp==null | this.state.errors.curp==="Deben ser 18 posiciones"){
-        if(!isEmpty(this.state.form.entity_birth)){
-          
-          if(v.toString().substring(11,13)!==contenido){
-            await this.setState(prevState => ({
-              errors: {
+        if (this.state.errors.curp == null | this.state.errors.curp === "Deben ser 18 posiciones") {
+          if (!isEmpty(this.state.form.entity_birth)) {
+
+            if (v.toString().substring(11, 13) !== contenido) {
+              await this.setState(prevState => ({
+                errors: {
                   ...prevState.errors,
                   curp: "En la posicion 12 y 13 tu entidad federativa es incorrecta debe ser " + contenido,
-                 }
-               }))
+                }
+              }))
+            }
           }
         }
-        }
-      }catch(error){}
+      } catch (error) { }
     }
 
 
-    if (v.length>=1 && v.length<18) {
-      try{
+    if (v.length >= 1 && v.length < 18) {
+      try {
         /* console.log(this.state.errors.curp) */
-        if(!this.state.errors.curp){
+        if (!this.state.errors.curp) {
           await this.setState(prevState => ({
             errors: {
-                ...prevState.errors,
-                curp: "Deben ser " + l + " posiciones",
-               }
-             }))
+              ...prevState.errors,
+              curp: "Deben ser " + l + " posiciones",
+            }
+          }))
         }
-      }catch(error){
-  
+      } catch (error) {
+
       }
-      
-  
-      
-     
+
+
+
+
       if (exe === 0) e = e + 1;
     }
     if (e < 1) {
-     
+
     }
   }
 
@@ -488,7 +593,7 @@ class Tabla extends Component {
           membresiasList: res.data,
         }); /* Almacenamos la data obtenida de response en la variable data(esta puede tener el nombre que queramos ponerle) */
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   validar = (form) => {
@@ -516,17 +621,17 @@ class Tabla extends Component {
         error: true,
         msj: "El campo de nombre no puede estar vacío",
       };
-      if (isEmpty(paternal_surname))
+    if (isEmpty(paternal_surname))
       return {
         error: true,
         msj: "El apellido paterno no puede estar vacío",
-    };
+      };
 
     if (isEmpty(maiden_name))
       return {
         error: true,
         msj: "El apellido materno no puede estar vacío",
-    };
+      };
     if (isEmpty(phone))
       return { error: true, msj: "El campo de teléfono no puede estar vacío" };
     if (phone.length < 10)
@@ -536,12 +641,12 @@ class Tabla extends Component {
     if (isEmpty(isStudiant))
       return { error: true, msj: "Debe seleccionar si es estudiante o no" };
 
-    if(this.state.errors.curp){
-        return {
-          error: true,
-          msj: "La curp esta incorrecta",
-        };
-    }  
+    if (this.state.errors.curp) {
+      return {
+        error: true,
+        msj: "La curp esta incorrecta",
+      };
+    }
 
     return { error: false };
   };
@@ -757,6 +862,7 @@ class Tabla extends Component {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     this.peticionGet();
     this.perticionState();
+    
   }
 
   Expulsado = () => {
@@ -811,14 +917,14 @@ class Tabla extends Component {
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
         if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.phone.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.dateJoined.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
-         
+          | item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase())
+          | item.phone.toLowerCase().includes(this.state.busqueda.toLowerCase())
+          | item.dateJoined.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
+
           return item;
         }
       });
-      
+
       this.setState({ data: search });
     } else {
       this.setState({ data: this.state.dataBuscar });
@@ -858,7 +964,7 @@ class Tabla extends Component {
 
   handleChangeCurp = (e) => {
     const { name, value } = e.target;
-    let value2=value.toUpperCase();
+    let value2 = value.toUpperCase();
     this.validarCurp(value2);
     this.setState({
       form: {
@@ -961,97 +1067,104 @@ class Tabla extends Component {
       membresia: event.target.value,
     });
   };
-
+  
   render() {
     const { form } = this.state;
-
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
-        <br />
-        <div className="opciones">
-          <button
-            className="btn botones"
-            onClick={() => {
-              /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
-              this.setState({ form: null, tipoModal: "insertar" });
-              this.modalInsertar();
-            }}
-          >
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo
-            Cliente
-          </button>
-
-          <div className="buscarBox">
-            <input
-              type="text"
-              className="textField"
-              name="busqueda"
-              id="busqueda"
-              placeholder="Buscar"
-              onChange={this.buscador}
-              value={this.state.busqueda}
-            />
+      <>
+        <div className="my-custom-scrollbar2">
+        
+          <br />
+          <div className="opciones mb-4">
             <button
-              type="submit"
-              className=" btn botonesBusqueda add-on"
-              onClick={() => {}}
+              className="btn botones"
+              onClick={() => {
+                /* Cuando se presione el boton insertar se limpia el objeto form y se cambia el estado de la variable modalInsertar */
+                this.setState({ form: null, tipoModal: "insertar" });
+                this.modalInsertar();
+              }}
             >
-              <i className="bx bxs-user">
-                <box-icon name="search-alt-2" color="#fff"></box-icon>
-              </i>
+              <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nuevo
+              Cliente
             </button>
-          </div>
-        </div>
-        <br></br>
-        <br></br>
-        <br />
-        <div className="table-wrapper">
-          <table className=" tab-pane table ">
-            <thead className="tablaHeader">
-              <tr className="encabezado">
-                <th>Folio</th>
-                <th>Nombre completo</th>
-                <th>Fecha de registro</th>
-                <th>Género</th>
-                <th>Teléfono</th>
-                <th>Estudiante</th>
-                <th>Foto</th>
-                <th>Estado de la membresía</th>
-                <th>Acciones</th>
-                <th>Hojas clínicas</th>
-              </tr>
-            </thead>
-            <tbody className="cuerpoTabla base">
-              {this.state.data &&
-                this.state.data.map((clientes) => {
-                  return (
-                    <tr className="cuerpoT">
-                      <td>{clientes.folio}</td>
-                      <td>{clientes.name}</td>
-                      <td>{clientes.dateJoined}</td>
-                      <td>{clientes.gender}</td>
-                      <td>{clientes.phone}</td>
-                      <td>{clientes.isStudiant ? "Si" : "No"}</td>
-                      <td>
-                        <img
-                          src={`https://www.api.huxgym.codes/${clientes.image}`}
-                          width="180"
-                          height="150"
-                          align="center"
-                        />
-                      </td>
-                      <td>
-                        {/* <BtnMembresia></BtnMembresia> */}
-                        {clientes.membershipActivate
-                          ? "Activada"
-                          : "No Activada"}
-                      </td>
 
-                      <td className="">
-                        <button
+            <div className="buscarBox">
+              <input
+                type="text"
+                className="textField"
+                name="busqueda"
+                id="busqueda"
+                placeholder="Buscar"
+                onChange={this.buscador}
+                value={this.state.busqueda}
+              />
+              <button
+                type="submit"
+                className=" btn botonesBusqueda add-on"
+                onClick={() => { }}
+              >
+                <i className="bx bxs-user">
+                  <box-icon name="search-alt-2" color="#fff"></box-icon>
+                </i>
+              </button>
+            </div>
+          </div>
+         
+          <br />
+          <div className="tablaNueva">
+          {
+            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ningun cliente encontrado</p>
+            :
+          
+          <TableContainer component={Paper} className={classes.tableContainer}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  
+                  <TableCell className={classes.tableHeaderCell}>Nombre completo</TableCell>
+                  <TableCell className={classes.tableHeaderCell}>Folio</TableCell>
+                  <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
+                  <TableCell className={classes.tableHeaderCell}>Género</TableCell>
+                  {/* <TableCell className={classes.tableHeaderCell}>Teléfono</TableCell> */}
+                  <TableCell className={classes.tableHeaderCell}>Estudiante</TableCell>
+                  {/* <TableCell className={classes.tableHeaderCell}>Foto</TableCell> */}
+                  <TableCell className={classes.tableHeaderCell}>Estado de la membresía</TableCell>
+                  <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
+                  <TableCell className={classes.tableHeaderCell}>Hojas clínicas</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+                  <TableRow key={row.name}>
+                    <TableCell>
+                        <Grid container>
+                            <Grid item lg={3}>
+                                <Avatar alt={row.name} src={`https://www.api.huxgym.codes/${row.image}`} className={classes.avatar}/>
+                            </Grid>
+                            <Grid item lg={10}>
+                                <Typography className={classes.name}>{row.name}</Typography>
+                                <Typography color="textSecondary" variant="body2">{row.phone}</Typography>
+                            </Grid>
+                        </Grid>
+                      </TableCell>
+                    <TableCell>
+                        {row.folio}
+                    </TableCell>
+                   
+                    <TableCell>{row.dateJoined}</TableCell>
+                    <TableCell>{row.gender}</TableCell>
+                    <TableCell>
+                    {row.isStudiant ? "Si" : "No"}
+                      </TableCell>
+                   {/*  <TableCell>{row.isStudiant}</TableCell> */}
+                    <TableCell>{row.membershipActivate
+                          ? "Activada"
+                          : "No Activada"}</TableCell> 
+                    <TableCell><button
                           className="btn btn-editar"
                           onClick={() => {
-                            this.seleccionarUsuario(clientes);
+                            this.seleccionarUsuario(row);
                             this.modalInsertar();
                           }}
                         >
@@ -1060,9 +1173,9 @@ class Tabla extends Component {
                         {"  "}
                         {localStorage.getItem("rol") == "Administrador" ? (
                           <button
-                            className="btn btn-danger mt-2"
+                            className="btn btn-danger"
                             onClick={() => {
-                              this.seleccionarUsuario(clientes);
+                              this.seleccionarUsuario(row);
                               this.setState({ modalEliminar: true });
                             }}
                           >
@@ -1070,449 +1183,468 @@ class Tabla extends Component {
                           </button>
                         ) : (
                           <></>
-                        )}
-                      </td>
-                      <td>
-                        <BtnModalHoja
-                          id_cliente={clientes.id}
-                          nacimiento_cliente={clientes.birthdate}
+                        )}</TableCell> 
+
+                    <TableCell>
+                    <BtnModalHoja
+                          id_cliente={row.id}
+                          nacimiento_cliente={row.birthdate}
                         />{" "}
                         <br />
                         <ModalHojas
-                          id_cliente={clientes.id}
-                          name_cliente={clientes.name}
-                          nacimiento_cliente={clientes.birthdate}
+                          id_cliente={row.id}
+                          name_cliente={row.name}
+                          nacimiento_cliente={row.birthdate}
                         />{" "}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        {this.state.modalHojaclinica && (
-          <ModalHojaClinica
-            id_cliente={this.state.ultimo.id}
-            nacimiento_cliente={this.state.ultimo.birthdate}
-            activo={this.state.modalHojaclinica}
-          ></ModalHojaClinica>
-        )}
+                      </TableCell> 
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter className={classes.paginacion}>
+              <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[3, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />
+              </TableFooter>
+            </Table>
+          </TableContainer>
+             
+          }
+          </div> 
+          
+          {this.state.modalHojaclinica && (
+            <ModalHojaClinica
+              id_cliente={this.state.ultimo.id}
+              nacimiento_cliente={this.state.ultimo.birthdate}
+              activo={this.state.modalHojaclinica}
+            ></ModalHojaClinica>
+          )}
 
-        <Modal isOpen={this.state.modalInsertar}>
-          {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
-          <ModalHeader style={{ display: "block" }}>
-            Cliente
-            <span style={{ float: "right" }}></span>
-          </ModalHeader>
+          <Modal isOpen={this.state.modalInsertar}>
+            {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
+            <ModalHeader style={{ display: "block" }}>
+              Cliente
+              <span style={{ float: "right" }}></span>
+            </ModalHeader>
 
-          <ModalBody>
-            <div className="form-group">
-              <label htmlFor="name">Nombre completo*:</label>
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="Nombre del cliente"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.name : ""}
-                  />
-                </>
-              ) : (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
-                    disabled
-                    placeholder="Nombre del cliente"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.name : ""}
-                  />
-                </>
-              )}
+            <ModalBody>
+              <div className="form-group">
+                <label htmlFor="name">Nombre completo*:</label>
+                {this.state.tipoModal === "insertar" ? (
+                  <>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="name"
+                      id="name"
+                      placeholder="Nombre del cliente"
+                      onChange={this.handleChangeInput}
+                      value={form ? form.name : ""}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="name"
+                      id="name"
+                      disabled
+                      placeholder="Nombre del cliente"
+                      onChange={this.handleChangeInput}
+                      value={form ? form.name : ""}
+                    />
+                  </>
+                )}
 
-              <br />
-              <label htmlFor="name">Apellido Paterno*:</label>
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="paternal_surname"
-                    id="paternal_surname"
-                    placeholder="Apellido Paterno"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.paternal_surname : ""}
-                  />
-                </>
-              ) : (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="paternal_surname"
-                    id="paternal_surname"
-                    disabled
-                    placeholder="Apellido Paterno"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.paternal_surname : ""}
-                  />
-                </>
-              )}
+                <br />
+                <label htmlFor="name">Apellido Paterno*:</label>
+                {this.state.tipoModal === "insertar" ? (
+                  <>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="paternal_surname"
+                      id="paternal_surname"
+                      placeholder="Apellido Paterno"
+                      onChange={this.handleChangeInput}
+                      value={form ? form.paternal_surname : ""}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="paternal_surname"
+                      id="paternal_surname"
+                      disabled
+                      placeholder="Apellido Paterno"
+                      onChange={this.handleChangeInput}
+                      value={form ? form.paternal_surname : ""}
+                    />
+                  </>
+                )}
 
-              <br />
-              <br />
-              <label htmlFor="name">Apellido Materno*:</label>
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="mothers_maiden_name"
-                    id="mothers_maiden_name"
-                    placeholder="Apellido Materno"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.mothers_maiden_name : ""}
-                  />
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="mothers_maiden_name"
-                    id="mothers_maiden_name"
-                    placeholder="Apellido Materno"
-                    disabled
-                    onChange={this.handleChangeInput}
-                    value={form ? form.mothers_maiden_name : ""}
-                  />
-                </>
-              )}
+                <br />
+                <br />
+                <label htmlFor="name">Apellido Materno*:</label>
+                {this.state.tipoModal === "insertar" ? (
+                  <>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="mothers_maiden_name"
+                      id="mothers_maiden_name"
+                      placeholder="Apellido Materno"
+                      onChange={this.handleChangeInput}
+                      value={form ? form.mothers_maiden_name : ""}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="mothers_maiden_name"
+                      id="mothers_maiden_name"
+                      placeholder="Apellido Materno"
+                      disabled
+                      onChange={this.handleChangeInput}
+                      value={form ? form.mothers_maiden_name : ""}
+                    />
+                  </>
+                )}
 
-              
 
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <label className="articulo mt-3">Fecha de Nacimiento</label>
+
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <label className="articulo mt-3">Fecha de Nacimiento</label>
+                  <br />
+                  {this.state.tipoModal === "insertar" ? (
+                    <>
+                      <KeyboardDatePicker
+                        className="fecha"
+                        allowKeyboardControl={true}
+                        id="birthdate"
+                        format="yyyy-MM-dd"
+                        value={form ? form.birthdate : new Date()}
+                        onChange={this.handleDateChange}
+                        animateYearScrolling={true}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <KeyboardDatePicker
+                        className="fecha"
+                        allowKeyboardControl={true}
+                        id="birthdate"
+                        format="yyyy-MM-dd"
+                        disabled
+                        value={form ? form.birthdate : new Date()}
+                        onChange={this.handleDateChange}
+                        animateYearScrolling={true}
+                      />
+                    </>
+                  )}
+                </MuiPickersUtilsProvider>
+                <br />
+                <label htmlFor="name">Estado*:</label>
                 <br />
                 {this.state.tipoModal === "insertar" ? (
                   <>
-                    <KeyboardDatePicker
-                      className="fecha"
-                      allowKeyboardControl={true}
-                      id="birthdate"
-                      format="yyyy-MM-dd"
-                      value={form ? form.birthdate : new Date()}
-                      onChange={this.handleDateChange}
-                      animateYearScrolling={true}
-                    />
+                    <select
+                      name="entity_birth"
+                      id="entity_birth"
+                      className="form-select"
+                      onChange={this.changeEstado}
+                      value={form ? form.entity_birth : "1"}
+                      aria-label="Default select example"
+                    >
+                      {this.state.estados.map((elemento) => (
+                        <option key={elemento.num} value={elemento.num}>
+                          {elemento.name}
+                        </option>
+                      ))}
+                    </select>
                   </>
                 ) : (
                   <>
-                    <KeyboardDatePicker
-                      className="fecha"
-                      allowKeyboardControl={true}
-                      id="birthdate"
-                      format="yyyy-MM-dd"
+                    <select
+                      name="entity_birth"
+                      id="entity_birth"
+                      className="form-select"
                       disabled
-                      value={form ? form.birthdate : new Date()}
-                      onChange={this.handleDateChange}
-                      animateYearScrolling={true}
-                    />
+                      onChange={this.changeEstado}
+                      value={form ? form.entity_birth : "1"}
+                      aria-label="Default select example"
+                    >
+                      {this.state.estados.map((elemento) => (
+                        <option key={elemento.num} value={elemento.num}>
+                          {elemento.name}
+                        </option>
+                      ))}
+                    </select>
                   </>
                 )}
-              </MuiPickersUtilsProvider>
-              <br />
-              <label htmlFor="name">Estado*:</label>
-              <br />
-              {this.state.tipoModal === "insertar" ? (
-                <>
-                  <select
-                    name="entity_birth"
-                    id="entity_birth"
-                    className="form-select"
-                    onChange={this.changeEstado}
-                    value={form ? form.entity_birth : "1"}
-                    aria-label="Default select example"
-                  >
-                    {this.state.estados.map((elemento) => (
-                      <option key={elemento.num} value={elemento.num}>
-                        {elemento.name}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              ) : (
-                <>
-                  <select
-                    name="entity_birth"
-                    id="entity_birth"
-                    className="form-select"
-                    disabled
-                    onChange={this.changeEstado}
-                    value={form ? form.entity_birth : "1"}
-                    aria-label="Default select example"
-                  >
-                    {this.state.estados.map((elemento) => (
-                      <option key={elemento.num} value={elemento.num}>
-                        {elemento.name}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              )}
-              <label htmlFor="gender">Género*: </label>
-              <br />
+                <label htmlFor="gender">Género*: </label>
+                <br />
 
-              <div class="" >
+                <div class="" >
+                  {this.state.tipoModal === "insertar" ? (
+                    <>
+                      <label class="btn botonesForm m-1">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="H"
+                          autocomplete="off"
+                          onChange={this.handleChange}
+
+                        />{" "}
+                        H
+                      </label>
+                      <label class="btn botonesForm m-1 ">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="M"
+                          autocomplete="on"
+                          onChange={this.handleChange}
+
+                        />{" "}
+                        M
+                      </label>
+                    </>
+                  ) : (
+                    <>
+                      <label class="btn botonesForm m-1">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="H"
+                          autocomplete="off"
+
+                          //onChange={this.handleChange}
+                          checked={
+                            form ? (form.gender === "H" ? "checked" : "") : "ff"
+
+                          }
+
+                        />{" "}
+                        H
+                      </label>
+                      <label class="btn botonesForm m-1 ">
+                        <input
+                          type="checkbox"
+                          name="gender"
+                          value="M"
+                          autocomplete="on"
+
+                          //onChange={this.handleChange}
+                          checked={
+                            form ? (form.gender === "M" ? "checked" : "") : "ff"
+
+                          }
+
+                        />{" "}
+                        M
+                      </label>
+                    </>
+                  )}
+                </div>
+                <br />
+                <label htmlFor="name">CURP*:</label>
                 {this.state.tipoModal === "insertar" ? (
                   <>
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="H"
-                        autocomplete="off"
-                        onChange={this.handleChange}
-                        
-                      />{" "}
-                      H
-                    </label>
-                    <label class="btn botonesForm m-1 ">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="M"
-                        autocomplete="on"
-                        onChange={this.handleChange}
-                        
-                      />{" "}
-                      M
-                    </label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="curp"
+                      id="curp"
+                      placeholder="CURP"
+                      onChange={this.handleChangeCurp}
+                      value={form ? form.curp : ""}
+                    />
+                    {this.state.errors && <p className="errores mt-2">{this.state.errors.curp}</p>}
                   </>
                 ) : (
                   <>
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="H"
-                        autocomplete="off"
-                        
-                        //onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "H" ? "checked" : "") : "ff"
-                          
-                        }
-                        
-                      />{" "}
-                      H
-                    </label>
-                    <label class="btn botonesForm m-1 ">
-                      <input
-                        type="checkbox"
-                        name="gender"
-                        value="M"
-                        autocomplete="on"
-                        
-                        //onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "M" ? "checked" : "") : "ff"
-                          
-                        }
-                        
-                      />{" "}
-                      M
-                    </label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="curp"
+                      id="curp"
+                      disabled
+                      placeholder="CURP"
+                      onChange={this.handleChangeCurp}
+                      value={form ? form.curp : ""}
+                    />
                   </>
                 )}
+                <label htmlFor="phone">Teléfono*:</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  size="10"
+                  placeholder="Teléfono"
+                  maxLength="10"
+                  placeholder="Teléfono"
+                  onChange={this.handleChangeInputNumber}
+                  value={form ? form.phone : ""}
+                />
+                <br />
+
+                <br />
+                <label htmlFor="image">Foto:</label>
+                <input
+                  className="form-control"
+                  type="file"
+                  name="image"
+                  ref="file"
+                  id="image"
+                  accept="image/png, image/jpeg, image/jpg, image/ico"
+                  onChange={this.handleChangeInputImage}
+                />
+                <br />
+
+
+
+                <br />
+                <label htmlFor="isStudiant">Estudiante*:</label>
+                <br />
+                <div class="" >
+                  <label class="btn botonesForm m-1">
+                    <input
+                      type="radio"
+                      name="isStudiant"
+                      value={true}
+                      autocomplete="on"
+                      onChange={this.handleChange}
+                      checked={
+                        form ? (form.isStudiant === "true" ? "checked" : "") : ""
+
+                      }
+
+                    />{" "}
+                    Sí
+                  </label>
+                  <label class="btn botonesForm m-1">
+                    <input
+                      type="radio"
+                      name="isStudiant"
+                      value={false}
+                      autocomplete="off"
+                      onChange={this.handleChange}
+                      checked={
+                        form ? (form.isStudiant === "false" ? "checked" : "") : ""
+
+                      }
+                    />{" "}
+                    No
+                  </label>
+                </div>
               </div>
-              <br />
-              <label htmlFor="name">CURP*:</label>
+            </ModalBody>
+
+            <ModalFooter>
               {this.state.tipoModal === "insertar" ? (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                   {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
-                </>
+                <button
+                  className="btn btn-success"
+                  onClick={() => this.peticionPost()}
+                >
+                  Agregar
+                </button>
               ) : (
-                <>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    disabled
-                    placeholder="CURP"
-                    onChange={this.handleChangeCurp}
-                    value={form ? form.curp : ""}
-                  />
-                </>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => this.peticionPut()}
+                >
+                  Actualizar
+                </button>
               )}
-              <label htmlFor="phone">Teléfono*:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="phone"
-                id="phone"
-                size="10"
-                placeholder="Teléfono"
-                maxLength="10"
-                placeholder="Teléfono"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.phone : ""}
-              />
-              <br />
 
-              <br />
-              <label htmlFor="image">Foto:</label>
-              <input
-                className="form-control"
-                type="file"
-                name="image"
-                ref="file"
-                id="image"
-                accept="image/png, image/jpeg, image/jpg, image/ico"
-                onChange={this.handleChangeInputImage}
-              />
-              <br />
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  this.modalInsertar();
+                }}
+              >
+                Cancelar
+              </button>
+            </ModalFooter>
+          </Modal>
 
-              
-
-              <br />
-              <label htmlFor="isStudiant">Estudiante*:</label>
-              <br />
-              <div class="" >
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="isStudiant"
-                    value={true}
-                    autocomplete="on"
-                    onChange={this.handleChange}
-                    checked={
-                          form ? (form.isStudiant === "true" ? "checked" : "") : ""
-                          
-                        }
-                    
-                  />{" "}
-                  Sí
-                </label>
-                <label class="btn botonesForm m-1">
-                  <input
-                    type="radio"
-                    name="isStudiant"
-                    value={false}
-                    autocomplete="off"
-                    onChange={this.handleChange}
-                    checked={
-                          form ? (form.isStudiant === "false" ? "checked" : "") : ""
-                          
-                        }
-                  />{" "}
-                  No
-                </label>
+          <Modal isOpen={this.state.modalEliminar}>
+            <ModalBody>
+              <div className="form-group">
+                <label htmlFor="name">Nombre completo</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="name"
+                  id="name"
+                  readOnly
+                  onChange={this.handleChangeInput}
+                  value={form ? form.name : ""}
+                />
+                <br />
+                <label htmlFor="telefono">Teléfono</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  readOnly
+                  onChange={this.handleChangeInputNumber}
+                  value={form ? form.phone : ""}
+                />
+                <br />
+                <label htmlFor="genero">Género</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="gender"
+                  id="gender"
+                  readOnly
+                  onChange={this.handleChange}
+                  value={form ? form.gender : ""}
+                />
+                <br />
+                ¿Seguro de eliminar este cliente?
               </div>
-            </div>
-          </ModalBody>
-
-          <ModalFooter>
-            {this.state.tipoModal === "insertar" ? (
+            </ModalBody>
+            <ModalFooter>
               <button
                 className="btn btn-success"
-                onClick={() => this.peticionPost()}
+                onClick={() => this.peticionDelete()}
               >
-                Agregar
+                Sí
               </button>
-            ) : (
               <button
-                className="btn btn-primary"
-                onClick={() => this.peticionPut()}
+                className="btn btn-danger"
+                onClick={() => this.setState({ modalEliminar: false })}
               >
-                Actualizar
+                No
               </button>
-            )}
-
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                this.modalInsertar();
-              }}
-            >
-              Cancelar
-            </button>
-          </ModalFooter>
-        </Modal>
-
-        <Modal isOpen={this.state.modalEliminar}>
-          <ModalBody>
-            <div className="form-group">
-              <label htmlFor="name">Nombre completo</label>
-              <input
-                className="form-control"
-                type="text"
-                name="name"
-                id="name"
-                readOnly
-                onChange={this.handleChangeInput}
-                value={form ? form.name : ""}
-              />
-              <br />
-              <label htmlFor="telefono">Teléfono</label>
-              <input
-                className="form-control"
-                type="text"
-                name="phone"
-                id="phone"
-                readOnly
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.phone : ""}
-              />
-              <br />
-              <label htmlFor="genero">Género</label>
-              <input
-                className="form-control"
-                type="text"
-                name="gender"
-                id="gender"
-                readOnly
-                onChange={this.handleChange}
-                value={form ? form.gender : ""}
-              />
-              <br />
-              ¿Seguro de eliminar este cliente?
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <button
-              className="btn btn-success"
-              onClick={() => this.peticionDelete()}
-            >
-              Sí
-            </button>
-            <button
-              className="btn btn-danger"
-              onClick={() => this.setState({ modalEliminar: false })}
-            >
-              No
-            </button>
-          </ModalFooter>
-        </Modal>
-      </div>
+            </ModalFooter>
+          </Modal>
+        </div>
+        
+      </>
     );
   }
 }
 
-export default Tabla;
+export default withStyles(useStyles, { withTheme: true })(Tabla);

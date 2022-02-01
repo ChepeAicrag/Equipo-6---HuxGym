@@ -40,3 +40,7 @@ svg:not(:root) {
 .errores{
     color: rgb(255, 65, 65);
 }
+
+.botonTamHojas{
+    width:200px;
+}

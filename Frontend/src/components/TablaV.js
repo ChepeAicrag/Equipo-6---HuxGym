@@ -15,6 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
 import "../styles/Crud.css";
 import "../styles/Ventas.css";
+import { formControlClasses } from "@mui/material";
 
 const url =
   "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
@@ -22,6 +23,7 @@ const urlC = "https://www.api.huxgym.codes/customers/customers/";
 const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
 const urlT = "https://www.api.huxgym.codes/reports/ticket/";
+const urlStock= "https://www.api.huxgym.codes/products/stockDeProducto/";
 
 class TablaV extends Component {
   state = {
@@ -371,8 +373,10 @@ class TablaV extends Component {
           });
           this.modalInsertar();
           this.limpiarTablaS();
+          setTimeout(function(){
+            window.open(urlT+res.data.id);
+        }, 3000);
           
-          window.open(urlT+res.data.id);
         }
       }
     } catch (error) {
@@ -1059,7 +1063,7 @@ seleccionarUsuario = async (venta) => {
                                 <th>Precio</th>
 
                                 {this.state.tipoModal === "insertar" ? (
-                                  <th>Accion</th>
+                                  <th>Acción</th>
                                 ) : (
                                   <></>
                                 )}
@@ -1079,7 +1083,7 @@ seleccionarUsuario = async (venta) => {
                                 <th>Cantidad</th>
                                 <th>Total</th>
                                 {this.state.tipoModal === "insertar" ? (
-                                  <th>Accion</th>
+                                  <th>Acción</th>
                                 ) : (
                                   <></>
                                 )}
@@ -1156,10 +1160,13 @@ seleccionarUsuario = async (venta) => {
                                               name="cantidad"
                                               id="cantidad"
                                               onChange={async (e) => {
+                                                
                                                 var v = e.target.value;
                                                 if (v == "") {
                                                   v = 1;
                                                 }
+                                                let max=0;
+                                                
                                                 await this.setState({
                                                   form2: {
                                                     ...this.state.form2,
@@ -1169,11 +1176,33 @@ seleccionarUsuario = async (venta) => {
                                                     precio: ProductoS.price_s,
                                                   },
                                                 });
+                                                await axios.get(urlStock+ProductoS.id)
+                                                    .then((response) => {
+                                                      max=response.data.amount;
+                                                    })
+                                                    .catch((error) => {
+                                                      console.log(error);
+                                                    });
+                                                    if(v>max){
+                                                      swal({
+                                                          text: "Alcanzo el limite de stock",
+                                                          icon: "error",
+                                                          button: "Aceptar",
+                                                          timer: "5000",
+                                                        });
+                                                        await this.setState({
+                                                        form2: {
+                                                          ...this.state.form2,
+                                                          cantidad:max,
+                                                          id: ProductoS.id,
+                                                          precio: ProductoS.price_s,
+                                                        },
+                                                      });
+                                                    }
                                                 await this.arregloCantidad(
                                                   this.state.form2
                                                 );
-                                                /* console.log(this.state.form2);
-                                console.log(this.devolverCantidad(ProductoS)); */
+                                                
                                                 console.log(
                                                   this.state.cantidades
                                                 );
@@ -1532,8 +1561,8 @@ seleccionarUsuario = async (venta) => {
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
-                      <th>Membresía Activa</th>
-                      <th>Acciones</th>
+                      {/* <th>Membresía Activa</th> */}
+                      <th>Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1543,7 +1572,7 @@ seleccionarUsuario = async (venta) => {
                         <tr>
                           <td>{clientes.id}</td>
                           <td>{clientes.name}</td>
-                          <td>{clientes.membershipActivate ? "Sí" : "No"}</td>
+                          {/* <td>{clientes.membershipActivate ? "Sí" : "No"}</td> */}
                           <td>
                             <button
                               className="btn editarHoja"
@@ -1613,7 +1642,7 @@ seleccionarUsuario = async (venta) => {
                       <th>Precio</th>
                       {/* <th>Stock</th> */}
 
-                      <th>Acciones</th>
+                      <th>Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1629,7 +1658,7 @@ seleccionarUsuario = async (venta) => {
                               {/* <td>Nose xd </td> */}
                               <td>
                                 <button
-                                  className="btn btn-primary"
+                                 className="btn editarHoja"
                                   onClick={() => {
                                     /* this.setState({
                                 name_producto: productos.name,
@@ -1688,7 +1717,7 @@ seleccionarUsuario = async (venta) => {
                                 {/* <td>Nose xd </td> */}
                                 <td>
                                   <button
-                                    className="btn btn-primary"
+                                    className="btn editarHoja"
                                     onClick={() => {
                                       /* this.setState({
                                 name_producto: productos.name,
