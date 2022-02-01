@@ -1496,7 +1496,11 @@ seleccionarUsuario = async (venta) => {
                   {this.state.cambio > 0
                     ? Number(this.state.cambio).toFixed(2)
                     : 0}
+                   {this.state.cambio < -1 ? Number(this.state.cambio).toFixed(2) : <p className="errores mt-2">{"No le alcanza, le falta $"+ ((-1)*(this.state.cambio))}</p> } 
                 </label>
+                {this.state.errors && (
+                    <p className="errores mt-2">{this.state.errors.curp}</p>
+                  )}
               </h3>
               <br />
 
