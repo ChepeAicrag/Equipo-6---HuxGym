@@ -29,6 +29,15 @@ class VerEditarPerfil extends Component {
   constructor(props) {
     super(props);
   }
+
+  campos = {
+    name: "nombre",
+    age: "edad",
+    gender: "genero",
+    image: "imagen",
+    phone: "télefono",
+    image: "imagen",
+  };
   state = {
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
@@ -189,11 +198,7 @@ class VerEditarPerfil extends Component {
 
     if (isEmpty(name))
       return { error: true, msj: "El campo de nombre no puede estar vacío" };
-    if (isEmpty(age))
-      return { error: true, msj: "El campo de edad no puede estar vacío" };
-    const edad = parseInt(age)
-    if(edad < 18)
-      return { error: true, msj: "La edad debe ser mayor a 18 años" }; 
+   
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
     if (isEmpty(gender))
@@ -217,11 +222,23 @@ class VerEditarPerfil extends Component {
         console.log(this.state.form.image);
         if (typeof this.state.form.image !== "string")
           formData.append("image", form.image);
-        formData.append("name", form.name);
-        formData.append("gender", form.gender);
-        formData.append("phone", form.phone);
-        formData.append("age", form.age);
-        const res = await axios.put(
+          formData.append("name", form.name);
+          formData.append("gender", form.gender);
+          formData.append("phone", form.phone);
+          formData.append("curp", this.state.form.curp.toUpperCase());
+          formData.append(
+            "paternal_surname",
+            this.state.form.paternal_surname.toUpperCase()
+          );
+          formData.append(
+            "mothers_maiden_name",
+            this.state.form.mothers_maiden_name.toUpperCase()
+          );
+          formData.append("entity_birth", this.state.form.entity_birth);
+          formData.append("gender", form.gender);
+          formData.append("email", form.email);
+          formData.append("phone", form.phone);
+          const res = await axios.put(
           url + localStorage.getItem("id") + "/",
           formData,
           {
@@ -406,71 +423,50 @@ class VerEditarPerfil extends Component {
           </ModalHeader>
 
           <ModalBody>
+          <ModalBody>
             <div className="form-group">
-            {this.state.tipoModal === "ver" ? (
-                <>
-                  <label htmlFor="name">CURP*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    maxlength="150"
-                    placeholder="CURP"
-                    onChange={this.handleChangeInputCURP}
-                    value={form ? form.curp : ""}
-                  />
-                  
-                  {this.state.errors && <p  className="errores mt-2">{this.state.errors.curp}</p>}
-                  <button
-                    type="submit"
-                    className="btn btn-light mb-3"
-                    onClick={this.peticionBuscarCurp}
-                  >
-                    Buscar Datos
-                  </button>
-                  <br></br>
-                </>
-              ) : (
-                <>
-                  <label htmlFor="name">CURP*:</label>
-                  <input
-                    className="form-control"
-                    disabled
-                    type="text"
-                    name="curp"
-                    id="curp"
-                    maxlength="150"
-                    placeholder="CURP"
-                    onChange={this.handleChangeInputCURP}
-                    value={form ? form.curp : ""}
-                  />
-                </>
-              )}
-              {form &&
-              <>
               {this.state.tipoModal === "ver" ? (
-                this.state.form.name &&
                 <>
-                 {/*  <label htmlFor="name">Nombre completo:</label> */}
-                 <label htmlFor="name">Nombre completo*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
-                    disabled
-                    maxlength="150"
-                    placeholder="Nombre del empleado"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.name : ""}
-                  />
-                 
+                  <label htmlFor="foto">Foto</label>
+                  <div className="form-control foto" align="center">
+                    <img
+                      src={`https://www.api.huxgym.codes/${localStorage.getItem(
+                        "image"
+                      )}`}
+                      width="200"
+                      height="200"
+                      align="center"
+                    />
+                  </div>
                   <br />
+                  <label className="campo" htmlFor="name">Nombre Completo:</label>
+                  <p className="dato">{form.name}</p>
+                  <label className="campo" htmlFor="name">Apellidos:</label>
+                  <p className="dato">{form.paternal_surname+" "+form.mothers_maiden_name}</p>
+                 
+                  <label className="campo" htmlFor="age">Curp:</label>
+                  <h6 className="dato">{" "+form.curp}</h6>
+                  <label className="campo" htmlFor="gender">Genero: </label>
+                  <br />
+                  <h6 className="dato">{form.gender}</h6>
+                  <label className="campo" htmlFor="phone">Telefono:</label>
+                  <h6 className="dato">{form.phone}</h6>
+                 
                 </>
-                
               ) : (
                 <>
+                <label htmlFor="name">CURP*:</label>
+                  <input
+                    className="form-control"
+                    disabled
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    maxlength="150"
+                    placeholder="CURP"
+                    onChange={this.handleChangeInputCURP}
+                    value={form ? form.curp : ""}
+                  />
                   <label htmlFor="name">Nombre completo*:</label>
                   <input
                     className="form-control"
@@ -484,29 +480,6 @@ class VerEditarPerfil extends Component {
                     value={form ? form.name : ""}
                   />
                   <br />
-                </>
-              )}
-              {this.state.tipoModal === "ver" ? (
-                this.state.form.paternal_surname &&
-                <>
-                  {/* <label htmlFor="name">Apellido Paterno*:</label> */}
-                  <label htmlFor="name">Apellido Paterno*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="paternal_surname"
-                    id="paternal_surname"
-                    maxlength="150"
-                    disabled
-                    placeholder="Apellido Paterno"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.paternal_surname : ""}
-                  />
-                  
-                  <br />
-                </>
-              ) : (
-                <>
                   <label htmlFor="name">Apellido Paterno*:</label>
                   <input
                     className="form-control"
@@ -520,27 +493,6 @@ class VerEditarPerfil extends Component {
                     value={form ? form.paternal_surname : ""}
                   />
                   <br />
-                </>
-              )}
-              {this.state.tipoModal === "ver" ? (
-                this.state.form.mothers_maiden_name &&
-                <>
-                <label htmlFor="name">Apellido Materno*:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="mothers_maiden_name"
-                    id="mothers_maiden_name"
-                    maxlength="150"
-                    disabled
-                    placeholder="Apellido Materno"
-                    onChange={this.handleChangeInput}
-                    value={form ? form.mothers_maiden_name : ""}
-                  />
-
-                </>
-              ) : (
-                <>
                   <label htmlFor="name">Apellido Materno*:</label>
                   <input
                     className="form-control"
@@ -553,31 +505,9 @@ class VerEditarPerfil extends Component {
                     onChange={this.handleChangeInput}
                     value={form ? form.mothers_maiden_name : ""}
                   />
-                  
-                </>
-              )}
-
-              {/* <br />
-              <label htmlFor="age">Edad*:</label>
-              
-              <input
-                className="form-control"
-                type="number"
-                name="age"
-                id="age"
-                min="18"
-                max="99"
-                placeholder="Edad en años"
-                onChange={this.handleChangeInputNumber}
-                value={form ? form.age : ""}
-              /> */}
-
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                {this.state.tipoModal === "ver" ? (
-                  this.state.form.birthdate &&
-                  <>
                   <label className="articulo mt-3">Fecha de Nacimiento</label>
                     <br />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="fecha"
                       allowKeyboardControl={true}
@@ -588,29 +518,10 @@ class VerEditarPerfil extends Component {
                       onChange={this.handleDateChange}
                       animateYearScrolling={true}
                     />
-                  </>
-                ) : (
-                  <>
-                    <label className="articulo mt-3">Fecha de Nacimiento</label>
+                    </MuiPickersUtilsProvider>
                     <br />
-                    <KeyboardDatePicker
-                      className="fecha"
-                      allowKeyboardControl={true}
-                      id="birthdate"
-                      format="yyyy-MM-dd"
-                      disabled
-                      value={form ? form.birthdate : new Date()}
-                      onChange={this.handleDateChange}
-                      animateYearScrolling={true}
-                    />
-                  </>
-                )}
-              </MuiPickersUtilsProvider>
-              <br />
-              {this.state.tipoModal === "ver" ? (
-                this.state.form.entity_birth &&
-                <>
-                <label htmlFor="entity_birth">Estado*:</label>
+                    <br />
+                    <label htmlFor="entity_birth">Estado*:</label>
                   <br />
                   <select
                     className="form-select"
@@ -627,71 +538,7 @@ class VerEditarPerfil extends Component {
                       </option>
                     ))}
                   </select>
-                  <br />
-                </>
-              ) : (
-                <>
-                  <label htmlFor="entity_birth">Estado*:</label>
-                  <br />
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    name="entity_birth"
-                    id="entity_birth"
-                    disabled
-                    onChange={this.changeEstado}
-                    value={form ? form.entity_birth : "1"}
-                  >
-                    {this.state.estados.map((elemento) => (
-                      <option key={elemento.num} value={elemento.num}>
-                        {elemento.name}
-                      </option>
-                    ))}
-                  </select>
-                  <br />
-                </>
-              )}
-              {this.state.tipoModal === "ver" ? (
-                this.state.form.gender &&
-                <>
-                <label className=" mt-3 " htmlFor="gender">Género*:</label>
-                 
-                  <div className="" >
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="H"
-                        autocomplete="off"
-                        disabled
-                        //onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "H" ? "checked" : "") : "ff"
-                          
-                        }
-                      />{" "}
-                      H
-                    </label>
-                    <label class="btn botonesForm m-1 ">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="M"
-                        disabled
-                        autocomplete="on"
-                        //onChange={this.handleChange}
-                        checked={
-                          form ? (form.gender === "M" ? "checked" : "") : "ff"
-                          
-                        }
-                      />{" "}
-                      M
-                    </label>
-                  </div>
-                  <br />
-                </>
-              ) : (
-                <>
+                  
                   <label className=" mt-3 " htmlFor="gender">Género*:</label>
                   <br />
                   <div className="" >
@@ -727,11 +574,7 @@ class VerEditarPerfil extends Component {
                     </label>
                   </div>
                   <br />
-                </>
-              )}
-              
-              {this.state.form.gender &&
-               <>
+                  <>
                 <label htmlFor="phone">Teléfono*:</label>
                 <input
                   className="form-control"
@@ -745,14 +588,7 @@ class VerEditarPerfil extends Component {
                   value={form ? form.phone : ""}
                 />
                 <br />
-                </>
-              }
-              
-
-              {this.state.tipoModal === "ver" ? (
-                this.state.form.gender &&
-                <>
-                  <label htmlFor="email">Email*:</label>
+                <label htmlFor="email">Email*:</label>
                   <input
                     className="form-control"
                     type="text"
@@ -764,71 +600,7 @@ class VerEditarPerfil extends Component {
                     onBlur={this.manejadorCorreo}
                     value={form ? form.email : ""}
                   />
-                </>
-              ) : (
-                <>
-                  <label htmlFor="email">Email:</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="email"
-                    id="email"
-                    disabled
-                    onChange={this.handleChange}
-                    value={form ? form.email : ""}
-                  />
-                </>
-              )}
-              {this.state.form.gender &&
-               <>
-                <br />
-                <label htmlFor="image">Imagen:</label>
-                <input
-                  className="form-control"
-                  type="file"
-                  name="image"
-                  ref="file"
-                  id="image"
-                  placeholder="Seleccione su imagen"
-                  accept="image/png, image/jpeg, image/jpg, image/ico"
-                  onChange={this.handleChangeInputImage}
-                />
-              </>
-              }
-
-              {this.state.tipoModal === "ver" ? (
-                this.state.form.gender &&
-                <>
-                  <label htmlFor="role">Rol*: </label>
-                  <br />
-                  <div class="" >
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="role"
-                        value="2"
-                        autocomplete="off"
-                        onChange={this.handleChange}
-                        
-                      />{" "}
-                      Encargado
-                    </label>
-                    <label class="btn botonesForm m-1">
-                      <input
-                        type="radio"
-                        name="role"
-                        value="3"
-                        autocomplete="on"
-                        onChange={this.handleChange}
-                        
-                      />{" "}
-                      Instructor
-                    </label>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <label htmlFor="role">Rol*: </label>
+                <label htmlFor="role">Rol*: </label>
                   <br />
                   <div class="" >
                     <label class="btn botonesForm m-1">
@@ -863,11 +635,11 @@ class VerEditarPerfil extends Component {
                     </label>
                   </div>
                 </>
+                </>
               )}
-              </>
-              }
-              <br />
             </div>
+</ModalBody>
+            
           </ModalBody>
 
           <ModalFooter>
