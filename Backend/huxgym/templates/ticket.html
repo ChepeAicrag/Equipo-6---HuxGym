@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Imprimir ticket de venta</title>
+  </head>
+  <style>
+    * {
+      font-size: 12px;
+      font-family: "Times New Roman";
+    }
+
+    .centered {
+      text-align: center;
+      align-content: center;
+    }
+
+    .ticket {
+      width: 155px;
+      max-width: 155px;
+    }
+
+    img {
+      max-width: inherit;
+      width: inherit;
+    }
+
+    .mgall{
+        margin-right: 5px !important;
+        margin-left: 5px !important;;
+    }
+
+    @media print {
+      .hidden-print,
+      .hidden-print * {
+        display: none !important;
+      }
+    }
+
+    @page{
+        size: 80mm 5in;
+        padding: 3px !important;
+    }
+  </style>
+  <body>
+    <div class="ticket">
+      <p>**************************************************</p>
+      <p class="centered">
+        HUXGYM HUATULCO <br />TICKET DE VENTA <br />
+      </p>
+      <p>
+        <small>
+          ALEJANDRO PARRA NEVILLE <br>
+        BLVD. CHAHUE 102, R, 70980 CRUCECITA <br>
+        CRUCECITA, SANTA MARÍA HUATULCO, OAXACA.
+        </small>
+      </p>
+      <p class="centered">
+        FECHA: {{ sale.date }} <br>
+        CAJERO: {{ sale.user }} <br>
+        CLIENTE: {{ sale.customer }}
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th class="quantity"><small>CANT</small></th>
+            <th class="description" colspan="2"><small>DESCRIPCIÓN</small></th>
+            <th class="price" colspan="2"><small>P.UNIT</small></th>
+            <th class="price" colspan="2"><small>SUBTOTAL</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in details %}
+          <tr class="mgall">
+            <td class="quantity">{{ item.amount }}</td>
+            <td class="description" colspan="2">{{ item.product }}</td>
+            <td class="price" colspan="2">$ {{ item.price }}</td>
+            <td class="price" colspan="2">$ {{ item.total }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p>
+          <b>TOTAL A PAGAR:</b> $ {{ sale.total }} <br>
+          <b>EFECTIVO:</b> $ {{ sale.cash }} <br>
+          <b>CAMBIO:</b> $ {{ sale.cambio }}
+      </p>
+      <p class="centered">
+             ¡GRACIAS POR SU COMPRA! <br />
+             CONSERVE SU TICKET
+      <br /> NO SE ACEPTAN DEVOLUCIONES </p>
+    </div>
+  </body>
+</html>

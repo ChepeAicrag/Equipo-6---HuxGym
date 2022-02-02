@@ -390,12 +390,14 @@ def provider_api_view(request):
         proveedores = Provider.objects.all().filter(status_delete = False)
         for i in proveedores:
             if i.name.upper() == request.data['name'].upper():
-                return Response({'message' : 'Este proveedor ya existe'}, status=status.HTTP_400_BAD_REQUEST)
-            if i.rfc.upper() == request.data['rfc'].upper():
-                return Response({'message' : 'El RFC de este proveedor ya existe'}, status=status.HTTP_400_BAD_REQUEST)
+                if i.apellidos.upper() == request.data['apellidos'].upper():
+                    return Response({'message' : 'Este proveedor ya existe'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            #if i.rfc.upper() == request.data['rfc'].upper():
+             #   return Response({'message' : 'El RFC de este proveedor ya existe'}, status=status.HTTP_400_BAD_REQUEST)
         
-        if len(request.data['rfc']) != 13:
-                return Response({'message' : 'El RFC está incompleto'}, status=status.HTTP_400_BAD_REQUEST)
+        #if len(request.data['rfc']) != 13:
+         #       return Response({'message' : 'El RFC está incompleto'}, status=status.HTTP_400_BAD_REQUEST)
         
 
         data = request.data.copy()
@@ -421,11 +423,7 @@ def provider_detail_api_view(request,pk=None):
 
         elif request.method == 'PUT':
             proveedores = Provider.objects.all().filter(status_delete = False)
-            for i in proveedores:
-                if i.name.upper() == request.data['name'].upper() and provider.id != pk:
-                    return Response({'message' : 'Este proveedor ya existe'}, status=status.HTTP_400_BAD_REQUEST)
-                if i.rfc.upper() == request.data['rfc'].upper() and provider.id != pk:
-                    return Response({'message' : 'El rfc de este proveedor ya existe'}, status=status.HTTP_400_BAD_REQUEST)
+
         
             provider_serializer = ProviderSerializer(provider,data = request.data)
             if provider_serializer.is_valid():

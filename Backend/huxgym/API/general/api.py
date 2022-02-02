@@ -14,4 +14,4 @@ class API:
 
     def validate_curp(self, curp):
         response = requests.request("GET", self.url + curp, headers=self.headers)
-        return (response.json()['datos'], False) if response.status_code == 200 else ("No se pudo obtener el curp", True)
+        return (response.json()['datos'], False) if response.status_code == 200 else ("No se pudo obtener la curp", True)
