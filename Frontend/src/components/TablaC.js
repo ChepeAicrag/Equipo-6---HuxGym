@@ -11,11 +11,67 @@ import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons"; */
 import { isEmpty } from "../helpers/methods";
 import BotonProducts from "../components/BotonProducts";
-
+import { withStyles } from "@material-ui/core/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter,
+} from "@material-ui/core";
 const url = "https://www.api.huxgym.codes/products/category/";
-
+const useStyles = (theme) => ({
+  table: {
+    height: "100%",
+    width: "100%",
+  },
+  tableContainer: {
+    borderRadius: 15,
+    display: "flex",
+    flexDireccion: "center",
+    paddig: "10px 10px",
+    maxWidth: "100%",
+    height: "100%",
+  },
+  tableHeaderCell: {
+    fontWeight: "bold",
+    backgroundColor: "#144983",
+    color: theme.palette.getContrastText(theme.palette.primary.dark),
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
+    marginRight: "50px",
+  },
+  name: {
+    fontWeight: "bold",
+    color: "black",
+  },
+  paginacion: {
+    width: "50%",
+    backgroundColor: "#e9f1f3",
+  },
+  status: {
+    fontWeight: "bold",
+    fontSize: "5rem",
+    color: "black",
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: "3px 10px",
+    display: "inline-block",
+  },
+});
 class TablaC extends Component {
   state = {
+    page:0,
+    rowsPerPage:3,
     busqueda: "",
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
@@ -29,7 +85,19 @@ class TablaC extends Component {
       folio:"",
     },
   };
-
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+  handleChangeRowsPerPage = async (event) => {
+    console.log(event.target);
+    await this.setState({
+      page: 0,
+      rowsPerPage: event.target.value,
+    });
+  };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     e.persist();
@@ -253,14 +321,16 @@ class TablaC extends Component {
 
   render() {
     const { form } = this.state;
+    const {classes} = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
         <div className="Barra_opciones">
           <BotonProducts />
         </div>
         <br />
-        <div className="Busqueda">
+        
+        <div className="opciones mt-3 mb-4">
           <button
             className="btn botones"
             onClick={() => {
@@ -268,18 +338,13 @@ class TablaC extends Component {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title='Agrega nueva categoria'
           >
-            {/* <i className="bx bxs-user">
-              <box-icon
-                type="solid"
-                name="user"
-                color="#fff"
-                animation="tada"
-              ></box-icon>
-            </i> */}
+            
             <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nueva Categoría
           </button>
-          <div className="esp"></div>
+
+          <div className="buscarBox">
           <input
             type="text"
             className="textField"
@@ -288,15 +353,93 @@ class TablaC extends Component {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title='Buscar categoría'
           />
-          <button type="submit" className="add-on" onClick={() => {}}>
+          <button type="submit" className="btn botonesBusqueda add-on" onClick={() => {}}>
             <i className="bx bxs-user">
               <box-icon name="search-alt-2" color="#fff"></box-icon>
             </i>
           </button>
         </div>
-        <br></br>
-        <div className="table-wrapper">
+        </div>
+        <br/>
+        <div className="tablaNueva">
+        {
+            this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna categoria encontrada</p>
+            : 
+            <TableContainer component={Paper} className={classes.tableContainer}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Folio
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Nombre de la categoría
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Descripción
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Acciones
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                {this.state.data.slice( this.state.page * this.state.rowsPerPage,this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((categorias) => (
+                <TableRow key={categorias.name}>
+                  <TableCell>{categorias.folio}</TableCell>
+                  <TableCell>{categorias.name}</TableCell>
+                  <TableCell>{categorias.description}</TableCell>
+                  <TableCell><button
+                        className="btn btn-editar"
+                        onClick={() => {
+                          this.seleccionarUsuario(categorias);
+                          this.modalInsertar();
+                        }}
+                        title='Editar Categoría'
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      {"  "}
+                      {localStorage.getItem("rol") === "Administrador" ? (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            this.seleccionarUsuario(categorias);
+                            this.setState({ modalEliminar: true });
+                          }}
+                          title='Dar de baja'
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </button>
+                      ) : (
+                        <></>
+                      )}</TableCell>
+                </TableRow>
+                ))}
+                </TableBody>
+                <TableFooter>
+                <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[3, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />      
+                </TableFooter>
+              </Table>
+            </TableContainer>
+        }
+
+        </div>
+
+        {/* <div className="table-wrapper">
           <table className="tab-pane  table">
             <thead className="tablaHeader">
               <tr className="encabezado">
@@ -308,7 +451,7 @@ class TablaC extends Component {
             </thead>
             <tbody className="cuerpoTabla base">
               {this.state.data.map((categorias) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                Con esto recorremos todo nuestro arreglo data para rellenar filas
                 return (
                   <tr>
                     <td>{categorias.folio}</td>
@@ -321,6 +464,7 @@ class TablaC extends Component {
                           this.seleccionarUsuario(categorias);
                           this.modalInsertar();
                         }}
+                        title='Editar Categoría'
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -332,6 +476,7 @@ class TablaC extends Component {
                             this.seleccionarUsuario(categorias);
                             this.setState({ modalEliminar: true });
                           }}
+                          title='Dar de baja'
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>
@@ -344,7 +489,9 @@ class TablaC extends Component {
               })}
             </tbody>
           </table>
-        </div>
+        </div> */}
+
+
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
@@ -477,4 +624,4 @@ class TablaC extends Component {
   }
 }
 
-export default TablaC;
+export default withStyles(useStyles, { withTheme: true }) (TablaC);

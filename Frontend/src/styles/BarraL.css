@@ -43,8 +43,8 @@ hr {
 
 .sidebar {
   display: flex;
-  background-color: #284B63;
-  
+  /* background-color: #284B63; */
+  background-color: #144983;
   transition: all 0.5s ease;
   flex-direction: column;
   justify-content: flex-start;
@@ -53,12 +53,12 @@ hr {
   
 }
 
-.sidebar.active2 {
+.active2 {
   width:100%;
   border-radius: 5px; 
 }
 
-.sidebar .logo_content .logo {
+.logo_content .logo {
   color: #fff;
   display: flex;
   height: 90px;
@@ -71,7 +71,7 @@ hr {
   size: 52px;
 }
 
-.sidebar.active2 .logo_content .logo {
+.sidebar .active2 .logo_content .logo {
   opacity: 1;
   pointer-events: none;
   border-radius: 5px; 
@@ -101,7 +101,7 @@ hr {
   line-height: 50px;
   transform: translateX(-50%);
 }
-.sidebar.active2 #btn {
+.sidebar .active2 #btn {
   left: 90%;
   border-radius: 5px; 
 }
@@ -113,7 +113,7 @@ hr {
 }
 
 .sidebar ul li {
-  background: #3b637c;
+  background: #356fad;
   border-radius: 5px; 
   color: #fff;
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
@@ -124,7 +124,7 @@ hr {
   height: 45px;
   width: 100%;
   
-  margin: 25px 1px;
+  margin: 15px 1px;
   list-style: none;
   line-height: 50px;
 }
@@ -200,7 +200,6 @@ ul li a .iconito {
 /* .barra_superior.active {
   width: calc(100% - 240px);
 }
-
 .barra_superior .correo {
   color: #fff;
   float: right;
@@ -220,13 +219,11 @@ ul li a .iconito {
   padding: 0px 20px;
   pointer-events: none;
 }
-
 .barra_superior .perfil .info_perfil {
   font-size: 15px;
   font-weight: 400;
   margin-left: 50px;
 }
-
  */
 @media only screen and (max-width: 1074px) {
   .links_names {

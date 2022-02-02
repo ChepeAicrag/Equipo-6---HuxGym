@@ -13,16 +13,85 @@ import { isEmpty } from "../helpers/methods";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
+import { withStyles } from "@material-ui/core/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter,
+} from "@material-ui/core";
 const url = "https://www.api.huxgym.codes/memberships/memberships/";
 
+const useStyles = (theme) => ({
+  table: {
+    height: "100%",
+    width: "100%",
+  },
+  tableContainer: {
+    borderRadius: 15,
+    display: "flex",
+    flexDireccion: "center",
+    paddig: "10px 10px",
+    maxWidth: "100%",
+    height: "100%",
+  },
+  tableHeaderCell: {
+    fontWeight: "bold",
+    backgroundColor: "#144983",
+    color: theme.palette.getContrastText(theme.palette.primary.dark),
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
+    marginRight: "50px",
+  },
+  name: {
+    fontWeight: "bold",
+    color: "black",
+  },
+  paginacion: {
+    width: "50%",
+    backgroundColor: "#e9f1f3",
+  },
+  status: {
+    fontWeight: "bold",
+    fontSize: "5rem",
+    color: "black",
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: "3px 10px",
+    display: "inline-block",
+  },
+});
+const columnas = [
+  "Folio",
+  "Nombre de la membresía",
+  "Descripción",
+  "Precio",
+  "Duración (Días)",
+  "Acciones",
+];
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class TablaM extends Component {
   state = {
+    page: 0,
+    rowsPerPage: 3,
     busqueda: "",
+    dataBuscar: [],
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     membresias: [],
-    dataBuscar:[],
 
     errors: {},
     form: {
@@ -36,7 +105,19 @@ class TablaM extends Component {
       folio: "",
     },
   };
-
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+  handleChangeRowsPerPage = async (event) => {
+    console.log(event.target);
+    await this.setState({
+      page: 0,
+      rowsPerPage: event.target.value,
+    });
+  };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     e.persist();
@@ -265,24 +346,29 @@ class TablaM extends Component {
     this.filtrarElementos();
   };
 
-  
-
   filtrarElementos = () => {
     this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.name.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.description.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.price.toString().toLowerCase().includes(this.state.busqueda.toLowerCase())
-            | item.day.toString().toLowerCase().includes(this.state.busqueda.toLowerCase())
-            
-           ) {
-         
+        if (
+          item.name.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.description
+            .toLowerCase()
+            .includes(this.state.busqueda.toLowerCase()) |
+          item.folio.toLowerCase().includes(this.state.busqueda.toLowerCase()) |
+          item.price
+            .toString()
+            .toLowerCase()
+            .includes(this.state.busqueda.toLowerCase()) |
+          item.day
+            .toString()
+            .toLowerCase()
+            .includes(this.state.busqueda.toLowerCase())
+        ) {
           return item;
         }
       });
-      
+
       this.setState({ data: search });
     } else {
       this.setState({ data: this.state.dataBuscar });
@@ -371,10 +457,12 @@ class TablaM extends Component {
 
   render() {
     const { form } = this.state;
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
-        <div className="Busqueda">
+
+        <div className="opciones mt-3 mb-4">
           <button
             className="btn botones"
             onClick={() => {
@@ -382,38 +470,121 @@ class TablaM extends Component {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title="Agregar nueva membresía"
           >
-            <i className="bx bxs-user">
-              {/* <box-icon
-                type="solid"
-                name="user"
-                color="#fff"
-                animation="tada"
-              ></box-icon> */}
-            </i>
             <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon> Nueva
-            Membresia
+            Membresía
           </button>
-          <div className="esp"></div>
-          <input
-            type="text"
-            className="textField"
-            name="busqueda"
-            id="busqueda"
-            placeholder="Buscar"
-            onChange={this.buscador}
-            value={this.state.busqueda}
-          />
-          <button type="submit" className="add-on" onClick={() => {}}>
-            <i className="bx bxs-user">
-              <box-icon name="search-alt-2" color="#fff"></box-icon>
-            </i>
-          </button>
+          <div className="buscarBox">
+            <input
+              type="text"
+              className="textField"
+              name="busqueda"
+              id="busqueda"
+              placeholder="Buscar"
+              onChange={this.buscador}
+              value={this.state.busqueda}
+              title="Buscar membresía"
+            />
+            <button
+              type="submit"
+              className="btn botonesBusqueda add-on"
+              onClick={() => {}}
+            >
+              <i className="bx bxs-user">
+                <box-icon name="search-alt-2" color="#fff"></box-icon>
+              </i>
+            </button>
+          </div>
         </div>
         <br />
-        <br />
-        <br />
-        <div className="table-wrapper">
+        <div className="tablaNueva">
+          {
+          this.state.data.length <= 0 ? <p className="mt-4 sinClientes">Ninguna membresía encontrada</p>
+            : 
+
+            <TableContainer component={Paper} className={classes.tableContainer} >
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Folio
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Nombre del membresía
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Descripción
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Precio
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Duración (Días)
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Acciones
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.data.slice( this.state.page * this.state.rowsPerPage,this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+                      <TableRow key={row.name}>
+                        <TableCell>{row.folio}</TableCell>
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                        <TableCell>{"$" + formatNumber(row.price)}</TableCell>
+                        <TableCell>{row.day}</TableCell>
+                        <TableCell>
+                        <button
+                        className="btn btn-editar"
+                        onClick={() => {
+                          this.seleccionarUsuario(row);
+                          this.modalInsertar();
+                        }}
+                        title="Editar membresía"
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      {"  "}
+                      {localStorage.getItem("rol") == "Administrador" ? (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            this.seleccionarUsuario(row);
+                            this.setState({ modalEliminar: true });
+                          }}
+                          title="Dar de baja"
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <TableFooter className={classes.paginacion}>
+                <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[3, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />       
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          }
+        </div>
+
+        {/* {<div className="table-wrapper">
           <table className="tab-pane  table ">
             <thead className="tablaHeader">
               <tr className="encabezado">
@@ -427,13 +598,13 @@ class TablaM extends Component {
             </thead>
             <tbody className="cuerpoTabla base">
               {this.state.data.map((membresias) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
+                Con esto recorremos todo nuestro arreglo data para rellenar filas
                 return (
                   <tr>
                     <td>{membresias.folio}</td>
                     <td>{membresias.name}</td>
                     <td>{membresias.description}</td>
-                    <td>{"$ " + membresias.price}</td>
+                    <td>{"$ " + formatNumber(membresias.price)}</td>
                     <td>{membresias.day}</td>
                     <td>
                       <button
@@ -442,6 +613,7 @@ class TablaM extends Component {
                           this.seleccionarUsuario(membresias);
                           this.modalInsertar();
                         }}
+                        title="Editar membresía"
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -453,6 +625,7 @@ class TablaM extends Component {
                             this.seleccionarUsuario(membresias);
                             this.setState({ modalEliminar: true });
                           }}
+                          title="Dar de baja"
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>
@@ -465,11 +638,12 @@ class TablaM extends Component {
               })}
             </tbody>
           </table>
-        </div>
+        </div>} */}
+
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
-            <p className="titulo">Membresia</p>
+            <p className="titulo">Membresía</p>
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -675,4 +849,4 @@ class TablaM extends Component {
   }
 }
 
-export default TablaM;
+export default withStyles(useStyles, { withTheme: true })(TablaM);

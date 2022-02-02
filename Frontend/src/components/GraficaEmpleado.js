@@ -133,8 +133,8 @@ class GraficaTotal extends Component{
         const data={
             labels: this.state.etiquetas,
             datasets:[{
-                label:"Totales",
-                backgroundColor: ['purple','brown','blue','rose','yellow'],
+                label:"Total",
+                backgroundColor: '#e312a1',
                 bordercolor: 'black',
                 borderWidth: 1,
                 height:'100%',
@@ -144,8 +144,32 @@ class GraficaTotal extends Component{
         };
         const opciones={
             /* maintainAspectsRatio: false, */
-            indexAxis:'y',
-            responsive: true
+            indexAxis:'x',
+            responsive: true, 
+            plugins: {
+                title: {
+                  display: true,
+                  text: (ctx) => "VENTAS POR EMPLEADOS",
+                },
+                tooltip: {
+                  mode: "index",
+                },
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: "EMPLEADO",
+                  },
+                },
+                y: {
+                  stacked: true,
+                  title: {
+                    display: true,
+                    text: "CANTIDADES",
+                  },
+                },
+              },
         }
         return(
             <><div className="table-responsive-main">

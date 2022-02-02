@@ -5,29 +5,62 @@ import axios from "axios";
 import swal from "sweetalert";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { isEmpty } from "../helpers/methods";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 const url = "https://www.api.huxgym.codes/user/";
+function obtnerDate(date) {
+  let fecha = new Date(date);
+  console.log(fecha);
+  let year = fecha.getFullYear();
+  let mounth = fecha.getUTCMonth() + 1;
+  let day = fecha.getDate();
+  if (mounth < 10) {
+    mounth = "0" + mounth;
+  }
+  console.log(mounth + "aqui es");
+  return year + "-" + mounth + "-" + day;
+}
 class VerEditarPerfil extends Component {
   constructor(props) {
     super(props);
   }
+
+  campos = {
+    name: "nombre",
+    age: "edad",
+    gender: "genero",
+    image: "imagen",
+    phone: "télefono",
+    image: "imagen",
+  };
   state = {
     data: [] /* Aqui se almacena toda la informacion axios */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalEliminar: false,
     empleados: [],
+    estados: [],
     tipo: "",
     form: {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
-      name: "",
-      age: "",
+      name: null,
+      folio: "",
+      paternal_surname: "",
+      mothers_maiden_name: "",
+      birthdate: obtnerDate(new Date()),
+      entity_birth: "",
+      curp: "",
       gender: "",
       image: "",
       phone: "",
       email: "",
-      //password: "",
-      rol: "",
+      rol: 2,
+      role: "",
     },
   };
 
@@ -90,6 +123,27 @@ class VerEditarPerfil extends Component {
     }
   };
 
+  perticionState = async () => {
+    axios
+      .get("https://www.api.huxgym.codes/state/")
+      .then((response) => {
+        console.log(response);
+        this.setState({ estados: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  crearFecha = (data) => {
+    let dia = data.split("-")[2];
+    let mes = data.split("-")[1] - 1;
+    let anio = data.split("-")[0];
+    let fecha = new Date(anio, mes, dia, 0, 0, 0);
+    console.log("Fechaaa " + dia + "-" + mes + "-" + anio);
+    return fecha;
+  };
+
   peticionPost = async () => {
     /* Son asincronas por que se ejeuctan en segundo plano */
     /* Con esto enviamos los datos al servidor */
@@ -144,11 +198,7 @@ class VerEditarPerfil extends Component {
 
     if (isEmpty(name))
       return { error: true, msj: "El campo de nombre no puede estar vacío" };
-    if (isEmpty(age))
-      return { error: true, msj: "El campo de edad no puede estar vacío" };
-    const edad = parseInt(age)
-    if(edad < 18)
-      return { error: true, msj: "La edad debe ser mayor a 18 años" }; 
+   
     if (isEmpty(phone))
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
     if (isEmpty(gender))
@@ -172,11 +222,23 @@ class VerEditarPerfil extends Component {
         console.log(this.state.form.image);
         if (typeof this.state.form.image !== "string")
           formData.append("image", form.image);
-        formData.append("name", form.name);
-        formData.append("gender", form.gender);
-        formData.append("phone", form.phone);
-        formData.append("age", form.age);
-        const res = await axios.put(
+          formData.append("name", form.name);
+          formData.append("gender", form.gender);
+          formData.append("phone", form.phone);
+          formData.append("curp", this.state.form.curp.toUpperCase());
+          formData.append(
+            "paternal_surname",
+            this.state.form.paternal_surname.toUpperCase()
+          );
+          formData.append(
+            "mothers_maiden_name",
+            this.state.form.mothers_maiden_name.toUpperCase()
+          );
+          formData.append("entity_birth", this.state.form.entity_birth);
+          formData.append("gender", form.gender);
+          formData.append("email", form.email);
+          formData.append("phone", form.phone);
+          const res = await axios.put(
           url + localStorage.getItem("id") + "/",
           formData,
           {
@@ -218,6 +280,7 @@ class VerEditarPerfil extends Component {
   async componentDidMount() {
     /* Este metodo se ejecuta inmediatamente despues del renderizado */
     await this.peticionGet();
+    this.perticionState();
   }
 
   modalInsertar = () => {
@@ -251,7 +314,12 @@ class VerEditarPerfil extends Component {
       form: {
         id: empleados.id,
         name: empleados.name,
-        age: empleados.age,
+        folio: empleados.folio,
+        birthdate: this.crearFecha(empleados.birthdate),
+        mothers_maiden_name: empleados.mothers_maiden_name,
+        paternal_surname: empleados.paternal_surname,
+        curp: empleados.curp,
+        entity_birth: empleados.entity_birth,
         gender: empleados.gender,
         image: empleados.image,
         phone: empleados.phone,
@@ -355,6 +423,7 @@ class VerEditarPerfil extends Component {
           </ModalHeader>
 
           <ModalBody>
+          <ModalBody>
             <div className="form-group">
               {this.state.tipoModal === "ver" ? (
                 <>
@@ -372,121 +441,205 @@ class VerEditarPerfil extends Component {
                   <br />
                   <label className="campo" htmlFor="name">Nombre Completo:</label>
                   <p className="dato">{form.name}</p>
+                  <label className="campo" htmlFor="name">Apellidos:</label>
+                  <p className="dato">{form.paternal_surname+" "+form.mothers_maiden_name}</p>
                  
-                  <label className="campo" htmlFor="age">Edad:</label>
-                  <h6 className="dato">{" "+form.age}</h6>
-                  
+                  <label className="campo" htmlFor="age">Curp:</label>
+                  <h6 className="dato">{" "+form.curp}</h6>
                   <label className="campo" htmlFor="gender">Genero: </label>
                   <br />
                   <h6 className="dato">{form.gender}</h6>
-                  
-
                   <label className="campo" htmlFor="phone">Telefono:</label>
                   <h6 className="dato">{form.phone}</h6>
                  
                 </>
               ) : (
                 <>
-                  <label htmlFor="name">Nombre Completo:</label>
+                <label htmlFor="name">CURP*:</label>
                   <input
                     className="form-control"
-                    maxLength="50"
+                    disabled
+                    type="text"
+                    name="curp"
+                    id="curp"
+                    maxlength="150"
+                    placeholder="CURP"
+                    onChange={this.handleChangeInputCURP}
+                    value={form ? form.curp : ""}
+                  />
+                  <label htmlFor="name">Nombre completo*:</label>
+                  <input
+                    className="form-control"
                     type="text"
                     name="name"
                     id="name"
+                    disabled
+                    maxlength="150"
+                    placeholder="Nombre del empleado"
                     onChange={this.handleChangeInput}
-                    value={form.name}
+                    value={form ? form.name : ""}
                   />
                   <br />
-                  <label htmlFor="age">Edad</label>
+                  <label htmlFor="name">Apellido Paterno*:</label>
                   <input
                     className="form-control"
                     type="text"
-                    name="age"
-                    id="age"
-                    maxlength="2"
-                    onChange={this.handleChangeInputNumber}
-                    value={form.age}
+                    name="paternal_surname"
+                    id="paternal_surname"
+                    maxlength="150"
+                    disabled
+                    placeholder="Apellido Paterno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.paternal_surname : ""}
                   />
                   <br />
-                  <label htmlFor="phone">Telefono</label>
+                  <label htmlFor="name">Apellido Materno*:</label>
                   <input
                     className="form-control"
                     type="text"
-                    name="phone"
-                    id="phone"
-                    size="10"
-                    maxLength="10"
-                    onChange={this.handleChangeInputNumber}
-                    value={form.phone}
+                    name="mothers_maiden_name"
+                    id="mothers_maiden_name"
+                    maxlength="150"
+                    disabled
+                    placeholder="Apellido Materno"
+                    onChange={this.handleChangeInput}
+                    value={form ? form.mothers_maiden_name : ""}
                   />
+                  <label className="articulo mt-3">Fecha de Nacimiento</label>
+                    <br />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      className="fecha"
+                      allowKeyboardControl={true}
+                      id="birthdate"
+                      format="yyyy-MM-dd"
+                      disabled
+                      value={form ? form.birthdate : new Date()}
+                      onChange={this.handleDateChange}
+                      animateYearScrolling={true}
+                    />
+                    </MuiPickersUtilsProvider>
+                    <br />
+                    <br />
+                    <label htmlFor="entity_birth">Estado*:</label>
                   <br />
-                  <label htmlFor="gender">Genero </label>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    name="entity_birth"
+                    id="entity_birth"
+                    disabled
+                    onChange={this.changeEstado}
+                    value={form ? form.entity_birth : "1"}
+                  >
+                    {this.state.estados.map((elemento) => (
+                      <option key={elemento.num} value={elemento.num}>
+                        {elemento.name}
+                      </option>
+                    ))}
+                  </select>
+                  
+                  <label className=" mt-3 " htmlFor="gender">Género*:</label>
                   <br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <div className="" >
+                    <label class="btn botonesForm m-1">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="H"
+                        autocomplete="off"
+                        disabled
+                        //onChange={this.handleChange}
+                        checked={
+                          form ? (form.gender === "H" ? "checked" : "") : "ff"
+                          
+                        }
+                      />{" "}
+                      H
+                    </label>
                     <label class="btn botonesForm m-1 ">
                       <input
                         type="radio"
                         name="gender"
                         value="M"
-                        autocomplete="off"
-                        onChange={this.handleChange}
+                        disabled
+                        autocomplete="on"
+                        //onChange={this.handleChange}
                         checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.gender === undefined
-                            ? true
-                            : form.gender === "M"
-                            ? true
-                            : false
+                          form ? (form.gender === "M" ? "checked" : "") : "ff"
+                          
                         }
                       />{" "}
                       M
                     </label>
-                    <label class="btn botonesForm m-1  ">
+                  </div>
+                  <br />
+                  <>
+                <label htmlFor="phone">Teléfono*:</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  size="10"
+                  maxLength="10"
+                  placeholder="Teléfono"
+                  onChange={this.handleChangeInputNumber}
+                  value={form ? form.phone : ""}
+                />
+                <br />
+                <label htmlFor="email">Email*:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="email"
+                    id="email"
+                    maxlength="200"
+                    placeholder="Email"
+                    onChange={this.handleChange}
+                    onBlur={this.manejadorCorreo}
+                    value={form ? form.email : ""}
+                  />
+                <label htmlFor="role">Rol*: </label>
+                  <br />
+                  <div class="" >
+                    <label class="btn botonesForm m-1">
                       <input
                         type="radio"
-                        name="gender"
-                        value="F"
+                        name="role"
+                        value="2"
+                        disabled
+                        autocomplete="off"
+                        onChange={this.handleChange}
+                        checked={
+                          form ? (form.role === 2 ? "checked" : "") : "ff"
+                          
+                        }
+                      />{" "}
+                      Encargado
+                    </label>
+                    <label class="btn botonesForm m-1 ">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="3"
+                        disabled
                         autocomplete="on"
                         onChange={this.handleChange}
                         checked={
-                          (this.state.tipoModal === "insertar" &&
-                            form == null) ||
-                          form.gender === undefined
-                            ? false
-                            : form.gender === "F"
-                            ? true
-                            : false
+                          form ? (form.role === 3 ? "checked" : "") : "ff"
+                          
                         }
                       />{" "}
-                      F
+                      Instructor
                     </label>
-                  </div>{" "}
-                  <br />
-                  <label htmlFor="foto">Foto</label>
-                  <input
-                    className="form-control"
-                    type="file"
-                    name="image"
-                    ref="file"
-                    id="image"
-                    onChange={
-                      this.handleChangeInputImage
-                      // (e) => {
-                      // this.setState({
-                      //   form: {
-                      //     ...this.state.form,
-                      //     image: e.target.files[0],
-                      //   },
-                      // });
-                      // }
-                    }
-                    //value={form ? form.image : ""}
-                  />
+                  </div>
+                </>
                 </>
               )}
             </div>
+</ModalBody>
+            
           </ModalBody>
 
           <ModalFooter>

@@ -1,4 +1,3 @@
-
 /* ---------------Tabla------------ */
  /* .centro{
   display: flex;
@@ -9,7 +8,6 @@
   width: 100%;
   height: 100%;
 }
-
 .table{
 width: 100%;
 border: 2px solid black;
@@ -18,7 +16,6 @@ background-color: black;
 box-shadow: 2px 15px 30px rgba(31, 30, 30, 0.863);
 color : white;
 }
-
 .table2{
 width: 80%;
 border: 2px solid black;
@@ -26,17 +23,14 @@ border-collapse: collapse;
 background-color: black;
 color : white;
 }
-
 .campo{
   font-family: 'Playfair Display', serif;
   color : white;
 }
-
 .campo2{
 font-family: 'Playfair Display', serif;
 color : rgb(0, 0, 0);
 }
-
 .renglon{
   display: flex;
   align-items: center;
@@ -45,7 +39,6 @@ color : rgb(0, 0, 0);
   height: 15%;
   flex-direction: row;
 }
-
 .renglon4{
 display: flex;
 align-items: center;
@@ -54,7 +47,6 @@ width: 25%;
 height: 15%;
 flex-direction: row;
 }
-
 .nombre{
   background: #DA0037;
   box-shadow: 0px 30px 70px rgba(24, 24, 24, 0.568);
@@ -67,42 +59,30 @@ flex-direction: row;
   height: 15%;
   flex-direction: row;
 }
-
 .my-custom-scrollbar3 {
   position: relative;
   height: auto;
   overflow: auto;
 }
-
 .table-wrapper-scroll-y3 {
  
   width: 90%;
 }
-
 #exTab1 .tab-content {
   color : white;
-
   padding : 5px 15px;
 }
-
 #exTab2 h3 {
   color : white;
   background-color: #428bca;
   padding : 5px 15px;
 }
-
-
-
 #exTab1 .nav-pills > li > a {
   border-radius: 0;
 }
-
-
-
 #exTab3 .nav-pills > li > a {
   border-radius: 4px 4px 0 0 ;
 }
-
 #exTab3 .tab-content {
   color : white;
   background-color: #428bca;
@@ -220,6 +200,11 @@ flex-direction: row;
     border-radius: 5px;
   }
 
+  .sinClientes{
+    font-size: 20px;
+    text-align: center;
+
+  }
   .botones:hover{
     /* background: #080808; */
     text-align: center;
@@ -237,6 +222,16 @@ flex-direction: row;
     border-radius: 15px;
   }
 
+  .tablaNueva {
+
+    width: 88%;
+    height: auto;
+  }
+  
+  .busquedacurp{
+    display: flex;
+    flex-direction: row;
+  }
 
 @media only screen and (max-width: 1004px) {
   .botones{
@@ -302,4 +297,3 @@ flex-direction: row;
   }
   
 }
-  

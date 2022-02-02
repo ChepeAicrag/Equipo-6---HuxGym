@@ -10,12 +10,68 @@ import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import BotonProducts from "../components/BotonProducts";
 
 import { isEmpty } from "../helpers/methods";
-
+import { withStyles } from "@material-ui/core/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter,
+} from "@material-ui/core";
 const url = "https://www.api.huxgym.codes/products/provider/";
-
+const useStyles = (theme) => ({
+  table: {
+    height: "100%",
+    width: "100%",
+  },
+  tableContainer: {
+    borderRadius: 15,
+    display: "flex",
+    flexDireccion: "center",
+    paddig: "10px 10px",
+    maxWidth: "100%",
+    height: "100%",
+  },
+  tableHeaderCell: {
+    fontWeight: "bold",
+    backgroundColor: "#144983",
+    color: theme.palette.getContrastText(theme.palette.primary.dark),
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
+    marginRight: "50px",
+  },
+  name: {
+    fontWeight: "bold",
+    color: "black",
+  },
+  paginacion: {
+    width: "50%",
+    backgroundColor: "#e9f1f3",
+  },
+  status: {
+    fontWeight: "bold",
+    fontSize: "5rem",
+    color: "black",
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: "3px 10px",
+    display: "inline-block",
+  },
+});
 class TablaProvedor extends Component {
   campos = { name: "nombre", phone: "telefono" };
   state = {
+    page: 0,
+    rowsPerPage: 3,
     busqueda: "",
     errors: {},
     data: [] /* Aqui se almacena toda la informacion axios */,
@@ -26,13 +82,26 @@ class TablaProvedor extends Component {
       /* Aqui guardaremos los datos que el usuario introduce en el formulario */
       id: "",
       name: "",
+      apellidos:"",
       email: "",
       phone: "",
-      rfc: "",
+      direccion: "",
       folio:"",
     },
   };
-
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+  handleChangeRowsPerPage = async (event) => {
+    console.log(event.target);
+    await this.setState({
+      page: 0,
+      rowsPerPage: event.target.value,
+    });
+  };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     e.persist();
@@ -46,6 +115,20 @@ class TablaProvedor extends Component {
     });
     console.log(this.state.form);
   };
+
+  manejadorCorreo = async () =>{
+    var expReg= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+    const email = this.state.form.email;
+    var esValido= expReg.test(email);
+    if(!esValido){
+      swal({
+        text: "Correo no valido",
+        icon: "info",
+        button: "Aceptar",
+        timer: "3000",
+      });
+    }
+  }
 
   peticionGet = async () => {
     try {
@@ -67,21 +150,24 @@ class TablaProvedor extends Component {
       return { error: true, msj: "Rellene los campos" };
     }
     const name = form.name;
+    const apellidos = form.apellidos;
     const email = form.email;
     const phone = form.phone;
-    const rfc = form.rfc;
+    const direccion = form.direccion;
     let regex = new RegExp(
       "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
     );
-    if (!regex.test(rfc)) {
+    /* if (!regex.test(rfc)) {
       return {
         error: true,
         msj: "El campo RFC es incorrecto",
       };
-    }
+    } */
 
     if (isEmpty(name))
       return { error: true, msj: "El campo de nombre no puede estar vacío" };
+    if (isEmpty(name))
+      return { error: true, msj: "El campo de apellidos no puede estar vacío" };
     if (isEmpty(email))
       return {
         error: true,
@@ -91,8 +177,8 @@ class TablaProvedor extends Component {
       return { error: true, msj: "El campo de telefono no puede estar vacío" };
     if (phone.length < 10)
       return { error: true, msj: "El campo de telefono debe tener 10 dígitos" };
-    if (isEmpty(rfc))
-      return { error: true, msj: "El campo de rfc no puede estar vacío" };
+    if (isEmpty(direccion))
+      return { error: true, msj: "El campo de dirección no puede estar vacío" };
     return { error: false };
   };
 
@@ -235,9 +321,10 @@ class TablaProvedor extends Component {
       form: {
         id: proveedores.id,
         name: proveedores.name,
+        apellidos:proveedores.apellidos,
         email: proveedores.email,
         phone: proveedores.phone,
-        rfc: proveedores.rfc,
+        direccion: proveedores.direccion,
         folio:proveedores.folio,
       },
     });
@@ -319,7 +406,7 @@ class TablaProvedor extends Component {
 
     let patt = new RegExp(/[A-Za-z0-9]+/g);
     let regex = new RegExp(
-      "^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$"
+      "[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ '\.\-\s\, ]+$"
     );
     /* let regex = new RegExp("^[0-9]+$"); */
 
@@ -335,7 +422,7 @@ class TablaProvedor extends Component {
         this.setState((prevState) => ({
           errors: {
             ...prevState.errors,
-            rfc: "RFC incorretca",
+            rfc: "Dirección incorrecta",
           },
         }));
       } else {
@@ -358,14 +445,15 @@ class TablaProvedor extends Component {
 
   render() {
     const { form } = this.state;
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
         <div className="Barra_opciones">
           <BotonProducts />
         </div>
         <br />
-        <div className="Busqueda">
+        <div className="opciones mt-3 mb-4">
           <button
             className="btn botones"
             onClick={() => {
@@ -373,63 +461,91 @@ class TablaProvedor extends Component {
               this.setState({ form: null, tipoModal: "insertar" });
               this.modalInsertar();
             }}
+            title="Agregar nuevo proveedor"
           >
-            {/* <i className="bx bxs-user">
-              <box-icon
-                type="solid"
-                name="user"
-                color="#fff"
-                animation="tada"
-              ></box-icon>
-            </i> */}
-            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nuevo Proveedor
+            <AddCircleOutlineIcon fontSize="large"></AddCircleOutlineIcon>Nuevo
+            Proveedor
           </button>
-          <div className="esp"></div>
-          <input
-            type="text"
-            className="textField"
-            name="busqueda"
-            id="busqueda"
-            placeholder="Buscar"
-            onChange={this.buscador}
-            value={this.state.busqueda}
-          />
-          <button type="submit" className="add-on" onClick={() => {}}>
-            <i className="bx bxs-user">
-              <box-icon name="search-alt-2" color="#fff"></box-icon>
-            </i>
-          </button>
+          <div className="buscarBox">
+            <input
+              type="text"
+              className="textField"
+              name="busqueda"
+              id="busqueda"
+              placeholder="Buscar"
+              onChange={this.buscador}
+              value={this.state.busqueda}
+              title="Buscar proveedor"
+            />
+            <button
+              type="submit"
+              className="btn botonesBusqueda add-on"
+              onClick={() => {}}
+            >
+              <i className="bx bxs-user">
+                <box-icon name="search-alt-2" color="#fff"></box-icon>
+              </i>
+            </button>
+          </div>
         </div>
-        <br></br>
-        <div className="table-wrapper">
-          <table className="tab-pane table">
-            <thead className="tablaHeader">
-              <tr className="encabezado">
-                <th>Folio</th>
-                <th>Nombre del proveedor</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>RFC</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="cuerpoTabla base">
-              {this.state.data.map((proveedores) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                return (
-                  <tr>
-                    <td>{proveedores.folio}</td>
-                    <td>{proveedores.name}</td>
-                    <td>{proveedores.email}</td>
-                    <td>{proveedores.phone}</td>
-                    <td>{proveedores.rfc}</td>
-                    <td>
-                      <button
+        <br />
+        <div className="tablaNueva">
+          {this.state.data.length <= 0 ? (
+            <p className="mt-4 sinClientes">Ningún proveedor encontrado</p>
+          ) : (
+            <TableContainer
+              component={Paper}
+              className={classes.tableContainer}
+            >
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Folio
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      Nombre del Proveedor
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Dirección
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Email
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Télefono
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                    Acciones
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                {this.state.data.slice( this.state.page * this.state.rowsPerPage,this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((proveedores) => (
+                  <TableRow key={proveedores.name}>
+                    <TableCell>
+                    {proveedores.folio}
+                    </TableCell>
+                    <TableCell>
+                    {proveedores.name}
+                    </TableCell>
+                    <TableCell>
+                    {proveedores.direccion}
+                    </TableCell>
+                    <TableCell>
+                    {proveedores.email}
+                    </TableCell>
+                    <TableCell>
+                    {proveedores.phone}
+                    </TableCell>
+                    <TableCell>
+                    <button
                         className="btn btn-editar"
                         onClick={() => {
                           this.seleccionarUsuario(proveedores);
                           this.modalInsertar();
                         }}
+                        title='Editar proveedor'
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -441,6 +557,77 @@ class TablaProvedor extends Component {
                             this.seleccionarUsuario(proveedores);
                             this.setState({ modalEliminar: true });
                           }}
+                          title='Dar de baja'
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+                </TableBody>
+                <TableFooter>
+                <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[3, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />      
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          )}
+        </div>
+        {/* <div className="table-wrapper">
+          <table className="tab-pane table">
+            <thead className="tablaHeader">
+              <tr className="encabezado">
+                <th>Folio</th>
+                <th>Nombre del proveedor</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="cuerpoTabla base">
+              {this.state.data.map((proveedores) => {
+                Con esto recorremos todo nuestro arreglo data para rellenar filas
+                return (
+                  <tr>
+                    <td>{proveedores.folio}</td>
+                    <td>{proveedores.name}</td>
+                    <td>{proveedores.email}</td>
+                    <td>{proveedores.phone}</td>
+                    <td>{proveedores.direccion}</td>
+                    <td>
+                      <button
+                        className="btn btn-editar"
+                        onClick={() => {
+                          this.seleccionarUsuario(proveedores);
+                          this.modalInsertar();
+                        }}
+                        title='Editar proveedor'
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      {"  "}
+                      {localStorage.getItem("rol") == "Administrador" ? (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            this.seleccionarUsuario(proveedores);
+                            this.setState({ modalEliminar: true });
+                          }}
+                          title='Dar de baja'
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>
@@ -453,7 +640,8 @@ class TablaProvedor extends Component {
               })}
             </tbody>
           </table>
-        </div>
+        </div> */}
+
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader style={{ display: "block" }}>
@@ -463,7 +651,7 @@ class TablaProvedor extends Component {
 
           <ModalBody>
             <div className="form-group">
-             {/*  {this.state.tipoModal == "insertar" ? (
+              {/*  {this.state.tipoModal == "insertar" ? (
                 <></>
               ) : (
                 <>
@@ -493,6 +681,18 @@ class TablaProvedor extends Component {
                 value={form ? form.name : ""}
               />
               <br />
+              <label htmlFor="apellidos">Apellidos del proveedor*:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="apellidos"
+                id="apellidos"
+                placeholder="Apellidos del proveedor"
+                maxLength="50"
+                onChange={this.handleChangeInput}
+                value={form ? form.apellidos : ""}
+              />
+              <br />
               <label htmlFor="email">Email*:</label>
               <input
                 className="form-control"
@@ -501,6 +701,7 @@ class TablaProvedor extends Component {
                 id="email"
                 placeholder="Email"
                 maxLength="200"
+                onBlur={this.manejadorCorreo}
                 onChange={this.handleChange}
                 value={form ? form.email : ""}
               />
@@ -518,17 +719,17 @@ class TablaProvedor extends Component {
                 value={form ? form.phone : ""}
               />
               <br />
-              <label htmlFor="rfc">RFC*:</label>
+              <label htmlFor="direccion">Dirección*:</label>
               <input
                 className="form-control"
                 type="text"
-                name="rfc"
-                id="rfc"
+                name="direccion"
+                id="direccion"
                 size="13"
-                placeholder="RFC"
-                maxLength="13"
+                placeholder="Dirección"
+                maxLength="100"
                 onChange={this.handleChangeInputRFC}
-                value={form ? form.rfc : ""}
+                value={form ? form.direccion : ""}
               />
               {this.state.errors.rfc && (
                 <p className="errores mt-2">{this.state.errors.rfc}</p>
@@ -613,4 +814,4 @@ class TablaProvedor extends Component {
   }
 }
 
-export default TablaProvedor;
+export default withStyles(useStyles, { withTheme: true })(TablaProvedor);

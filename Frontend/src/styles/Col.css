@@ -18,7 +18,7 @@
   }
   
   .modal-content {
-    background: #353535;
+    background: #144983;
     color: #fff;
     border-radius: 15px;
     text-align: center;
@@ -27,8 +27,8 @@
   }
 
   .modal-title{
-    font-family: 'Dongle', sans-serif;
-    font-size: 30px;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
   }
 
   .input {
@@ -41,7 +41,7 @@
     float: center;
     display: flex;
     overflow-x: auto;*/
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

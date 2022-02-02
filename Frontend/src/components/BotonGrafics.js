@@ -8,7 +8,7 @@ export default function BotonGrafics(){
             <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
                 <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/Grafics" activeClass="btn contenedor active">
-                        Compra Productos 
+                        Productos Comprados 
                     </NavLink>
                 </li>
                 <li class="nav-item espaciado">
@@ -18,17 +18,17 @@ export default function BotonGrafics(){
                 </li>
                 <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/GraficsVentasP" activeClass="btn contenedor active">
-                        Venta de productos
+                        Clientes
                     </NavLink> 
                 </li>
                 <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/GraficsVentasM" activeClass="btn contenedor active">
-                        Venta de membresias
+                        Membresías
                     </NavLink> 
                 </li>
                 <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/GraficsCompras" activeClass="btn contenedor active">
-                        Compras
+                        Productos vendidos
                     </NavLink> 
                 </li>
                 {/* <li class="nav-item espaciado">
@@ -38,7 +38,7 @@ export default function BotonGrafics(){
                 </li> */}
                 <li class="nav-item espaciado">
                     <NavLink className="letra nav-link btn contenedor2" to="/GraficsEmpleado" activeClass="btn contenedor active">
-                        Empleado
+                        Ventas por Empleados
                     </NavLink> 
                 </li>
             </ul>

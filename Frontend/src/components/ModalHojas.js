@@ -902,7 +902,7 @@ validatePeso = (event) => {
         <Modal isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader className="HeadCheck" style={{ display: "block" }}>
-            Historial de hojas clinicas
+            Historial de hojas clínicas
             <span style={{ float: "right" }}></span>
           </ModalHeader>
 
@@ -939,6 +939,7 @@ validatePeso = (event) => {
                                 this.peticionAtributosCuerpo();
                                 this.modalAgregar();
                               }}
+                              title='Editar Hoja Clínica'
                             >
                               <FontAwesomeIcon icon={faEdit} />
                             </button>
@@ -1255,7 +1256,7 @@ validatePeso = (event) => {
               <Modal isOpen={this.state.modalAgregar2}>
                 {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
                 <ModalHeader style={{ display: "block" }}>
-                  REGISTRAR HOJA CLINICA ESTRUCTURA CORPORAL
+                  REGISTRAR HOJA CLÍNICA ESTRUCTURA CORPORAL
                   <span style={{ float: "right" }}></span>
                 </ModalHeader>
 

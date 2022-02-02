@@ -905,8 +905,9 @@ class TablaVV extends Component {
                       return (
                         <tr>
                           {this.state.tipoModal === "insertar" ? (
-                            <>
-                              <td>{ProductoS.id}</td>
+                            <>{/*  */}
+                              {/* Aqui no es */}
+                              <td>{"$"+ProductoS.id}</td>
                             </>
                           ) : (
                             <></>

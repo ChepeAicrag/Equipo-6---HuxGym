@@ -1,22 +1,105 @@
-import React, { Component } from "react";
+import React, { Component, Link } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrashAlt,
+  faClipboardCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import { isEmpty } from "../helpers/methods";
 import "../styles/Crud.css";
 import "../styles/Ventas.css";
+import { formControlClasses } from "@mui/material";
+import { withStyles } from '@material-ui/core/styles';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter
+} from '@material-ui/core';
 
-const url = "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
+const url =
+  "https://www.api.huxgym.codes/sales/"; /* Aqui va la url principal */
 const urlC = "https://www.api.huxgym.codes/customers/customers/";
 const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
+const urlT = "https://www.api.huxgym.codes/reports/ticket/";
+const urlStock= "https://www.api.huxgym.codes/products/stockDeProducto/";
+const useStyles = (theme) => ({
+  table: {
+    
+    height:'100%',
+    width:'100%'
+  },
+  acciones:{
+    marginTop:"10px",
+    display:"flex",
+    flexDireccion:"column",
+    justifyContent:"center"
+
+  },
+  tableContainer: {
+      borderRadius: 15,
+      display:'flex',
+      flexDireccion:'center',
+      paddig: '10px 10px',
+      maxWidth: '100%',
+      height:'100%',
+  },
+  tableHeaderCell: {
+    
+      fontWeight: 'bold',
+      backgroundColor: '#144983',
+      color: theme.palette.getContrastText(theme.palette.primary.dark)
+  },
+  avatar: {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.getContrastText(theme.palette.primary.light),
+      marginRight:'50px'
+  },
+  name: {
+      fontWeight: 'bold',
+      color: 'black'
+      
+  },
+  paginacion:{
+    width: '50%',
+    backgroundColor: '#e9f1f3',
+    
+  },
+  status: {
+    fontWeight: 'bold',
+    fontSize: '5rem',
+    color: 'black',
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: '3px 10px',
+    display: 'inline-block'
+},
+ 
+});
+
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class TablaV extends Component {
   state = {
+    page:0,
+    rowsPerPage:5,
     busqueda: "",
     dataBuscar: [],
     dataP: [],
@@ -65,6 +148,20 @@ class TablaV extends Component {
       is_products: true,
       observation: "",
     },
+  };
+
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+        page:newPage
+    });
+  };
+  handleChangeRowsPerPage = async(event) => {
+    console.log(event.target)
+      await this.setState({
+          page:0,
+          rowsPerPage:event.target.value
+      });
   };
 
   handleChange = async (e) => {
@@ -363,6 +460,10 @@ class TablaV extends Component {
           });
           this.modalInsertar();
           this.limpiarTablaS();
+          setTimeout(function(){
+            window.open(urlT+res.data.id);
+        }, 3000);
+          
         }
       }
     } catch (error) {
@@ -381,6 +482,15 @@ class TablaV extends Component {
       });
     }
   };
+
+
+peticionTicket (id)  {
+    console.log(urlT+id);
+    console.log("id de venta es "+id);
+    //window.location.href = urlT+id;
+    
+};
+
 
   peticionPut = async () => {
     /* con put enviamos informacion al endpoint para modificar*/
@@ -522,7 +632,7 @@ class TablaV extends Component {
     });
   };
 
-  seleccionarUsuario = (venta) => {
+seleccionarUsuario = async (venta) => {
     /* Para obtener los datos del usuario a eliminar */
     console.log(venta.sale_detail.length);
 
@@ -538,7 +648,7 @@ class TablaV extends Component {
             total: o.total,
           });
         });
-        this.setState({
+        await this.setState({
           ...this.state.form,
           tipoModal: "actualizar",
           dataS: info,
@@ -570,7 +680,7 @@ class TablaV extends Component {
           });
         });
         console.log("No we");
-        this.setState({
+        await this.setState({
           ...this.state.form,
           tipoModal: "actualizar",
           dataS: info,
@@ -602,7 +712,7 @@ class TablaV extends Component {
           total: x.total,
         });
       });
-      this.setState({
+      await this.setState({
         ...this.state.form,
         tipoModal: "actualizar",
         dataS: info,
@@ -765,19 +875,6 @@ class TablaV extends Component {
     }
   };
 
-  // limpiarTablaS = () => {
-  //   this.setState({
-  //     total: 0,
-  //     cambio: 0,
-  //     pago: 0,
-  //     name_cliente: "",
-  //     customer_id: "",
-  //     form3: { customer_id: "", products: [], cash: 0, observation: "" },
-  //   });
-  //   this.state.dataS = [];
-  //   this.state.cantidades = [];
-  // };
-
   validar = () => {
     if (
       this.state.name_cliente == "" &&
@@ -826,11 +923,12 @@ class TablaV extends Component {
   render() {
     const { form } = this.state;
     const { form2 } = this.state;
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
 
-        <div className="Busqueda">
+        <div className="Busqueda mt-2">
           <button
             className="btn botones"
             onClick={() => {
@@ -845,6 +943,7 @@ class TablaV extends Component {
               this.limpiarTablaS();
               this.modalInsertar();
             }}
+            title='Vender Membresía'
           >
             Vender Membresía
           </button>
@@ -862,6 +961,7 @@ class TablaV extends Component {
               this.limpiarTablaS();
               this.modalInsertar();
             }}
+            title='Vender Producto'
           >
             Vender Producto
           </button>
@@ -876,6 +976,7 @@ class TablaV extends Component {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title='Buscar Venta'
           />
 
           <button type="submit" className="add-on" onClick={() => {}}>
@@ -885,74 +986,96 @@ class TablaV extends Component {
 
         <br />
         <br />
-        <br />
-        <div className="table-wrapper">
-          <table className="tab-pane  table ">
-            <thead className="tablaHeader">
-              <tr>
-                <th>Folio de venta</th>
-                <th>Empleado que realizó la venta</th>
-                <th>Total de la venta</th>
-                <th>Efectivo</th>
-                <th>Cambio</th>
-                <th>Fecha de registro</th>
-                <th>Cliente</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="cuerpoTabla base">
-              {this.state.data ? (
-                this.state.data.map((ventas) => {
-                  /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                  return (
-                    <tr>
-                      <td>{ventas.sale.folio}</td>
-                      <td>{ventas.sale.user.name}</td>
-                      <td>{"$ " + ventas.sale.total}</td>
-                      <td>{"$ " + ventas.sale.cash}</td>
-                      <td>{"$ " + (ventas.sale.cash - ventas.sale.total)}</td>
-                      <td>{ventas.sale.date}</td>
-                      <td>{ventas.sale.customer.name}</td>
+        <div className="tablaNueva mt-4">
+        {
+            this.state.data.length<=0 ? <p className="mt-4 sinClientes">Ninguna venta encontrada</p>
+            :
+          <TableContainer component={Paper} className={classes.tableContainer}>  
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+              <TableCell className={classes.tableHeaderCell}>Folio de venta</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Empleado que realizó la venta</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Total de la venta</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Efectivo</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Cambio</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Cliente</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+            {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+              <TableRow key={row.folio}>
+                      <TableCell>{row.sale.folio}</TableCell>
+                      <TableCell>{row.sale.user.name}</TableCell>
+                      <TableCell>{"$ " + formatNumber(row.sale.total)}</TableCell>
+                      <TableCell>{"$ " + formatNumber(row.sale.cash)}</TableCell>
+                      <TableCell>{"$ " + formatNumber(row.sale.cash - row.sale.total)}</TableCell>
+                      <TableCell>{row.sale.date}</TableCell>
+                      <TableCell>{row.sale.customer.name}</TableCell>
 
-                      <td>
+                      <TableCell className={classes.acciones}>
                         <button
-                          className="btn btn-editar"
+                          className="btn btn-editar mr-1"
                           onClick={() => {
-                            this.seleccionarUsuario(ventas);
+                            this.seleccionarUsuario(row);
                             this.modalInsertar();
                           }}
+                          title='Editar venta'
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
                         {"  "}
                         {localStorage.getItem("rol") == "Administrador" ? (
                           <button
-                            className="btn btn-danger"
+                            className="btn btn-danger mr-1"
                             onClick={() => {
-                              this.seleccionarUsuario(ventas);
+                              this.seleccionarUsuario(row);
                               this.setState({ modalEliminar: true });
                             }}
+                            title='Dar de baja'
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </button>
                         ) : (
                           <></>
                         )}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <p>No se encontro datos</p>
-              )}
-            </tbody>
-          </table>
+
+                        <a
+                          className="btn btn-info"
+                          href={urlT+row.sale.id} target="_blank"
+                          onClick={() => this.peticionTicket(row.sale.id)}
+                          title='Imprimir Ticket'
+                          
+                        >
+                          <FontAwesomeIcon icon={faClipboardCheck} />
+                        </a>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+              </TableBody>
+              <TableFooter className={classes.paginacion}>
+              <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[5, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              />
+              </TableFooter>
+          </Table>
+          </TableContainer>
+        }
         </div>
         <Modal className="ModalVenta" isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
           <ModalHeader className="HeadVenta" style={{ display: "block" }}>
             {this.state.modalMembresia ? (
-              <h2>Realizar Venta de Membresia</h2>
+              <h2>Realizar Venta de Membresía</h2>
             ) : (
               <h2>Realizar Venta de Productos</h2>
             )}
@@ -992,14 +1115,14 @@ class TablaV extends Component {
                           this.modalProducto();
                         }}
                       >
-                        Seleccionar Membresia
+                        Seleccionar Membresía
                       </button>
                     ) : (
                       <button className="btn btn-success" disabled="true">
-                        Seleccionar Membresia
+                        Seleccionar Membresía
                       </button>
                     )
-                  ) : (
+                    ) : (
                     <button
                       className="btn btn-success"
                       onClick={() => {
@@ -1030,7 +1153,7 @@ class TablaV extends Component {
                                 <th>Precio</th>
 
                                 {this.state.tipoModal === "insertar" ? (
-                                  <th>Accion</th>
+                                  <th>Acción</th>
                                 ) : (
                                   <></>
                                 )}
@@ -1047,10 +1170,10 @@ class TablaV extends Component {
                                 )}
                                 <th>Nombre</th>
                                 <th>Precio</th>
-                                <th>Cantidad</th>
+                                <th>Cant</th>
                                 <th>Total</th>
                                 {this.state.tipoModal === "insertar" ? (
-                                  <th>Accion</th>
+                                  <th>Acción</th>
                                 ) : (
                                   <></>
                                 )}
@@ -1065,7 +1188,7 @@ class TablaV extends Component {
                                 <tr>
                                   {this.state.tipoModal === "insertar" ? (
                                     <>
-                                      <td>{ProductoS.id}</td>
+                                      <td className="mt-2">{ProductoS.id}</td>
                                     </>
                                   ) : (
                                     <></>
@@ -1075,24 +1198,27 @@ class TablaV extends Component {
 
                                   {this.state.modalMembresia ? (
                                     <>
-                                      <td>{ProductoS.price}</td>
+                                      <td className="mt-2">{"$"+ProductoS.price}</td>
                                       <td>
                                         <Button
-                                          className="btn-danger"
+                                          className="btn btn-danger"
+                                          style={{ background: "red", width: "50px" }}
                                           onClick={() => {
                                             this.eliminar(ProductoS);
                                             this.eliminarCantidad(ProductoS);
                                             this.total();
                                             this.calcularCambio();
                                           }}
+                                          title='Quitar membresía'
                                         >
-                                          Eliminar
+                                         <FontAwesomeIcon icon={faTrashAlt} />
                                         </Button>
                                       </td>
                                     </>
                                   ) : (
                                     <>
-                                      <td>{ProductoS.price_s}</td>
+                                    
+                                      <td className="mt-2">{"$"+ProductoS.price_s}</td>
                                       {this.state.tipoModal == "actualizar" ? (
                                         <>
                                           <td>
@@ -1106,6 +1232,8 @@ class TablaV extends Component {
                                             />
                                           </td>
                                           <td>
+                                            <div classNames='signo'>
+                                            <p className="mr-3 mt-3" style={{ color: "000"}}>$</p>
                                             <input
                                               className="form-control"
                                               type="Number"
@@ -1115,6 +1243,8 @@ class TablaV extends Component {
                                               readOnly
                                               value={ProductoS.total}
                                             />
+                                            </div>
+                                            
                                           </td>
                                         </>
                                       ) : (
@@ -1126,11 +1256,15 @@ class TablaV extends Component {
                                               min="1"
                                               name="cantidad"
                                               id="cantidad"
+                                              style={{width:'70px'}}
                                               onChange={async (e) => {
+                                                
                                                 var v = e.target.value;
                                                 if (v == "") {
                                                   v = 1;
                                                 }
+                                                let max=0;
+                                                
                                                 await this.setState({
                                                   form2: {
                                                     ...this.state.form2,
@@ -1140,11 +1274,33 @@ class TablaV extends Component {
                                                     precio: ProductoS.price_s,
                                                   },
                                                 });
+                                                await axios.get(urlStock+ProductoS.id)
+                                                    .then((response) => {
+                                                      max=response.data.amount;
+                                                    })
+                                                    .catch((error) => {
+                                                      console.log(error);
+                                                    });
+                                                    if(v>max){
+                                                      swal({
+                                                          text: "Alcanzo el limite de stock",
+                                                          icon: "error",
+                                                          button: "Aceptar",
+                                                          timer: "5000",
+                                                        });
+                                                        await this.setState({
+                                                        form2: {
+                                                          ...this.state.form2,
+                                                          cantidad:max,
+                                                          id: ProductoS.id,
+                                                          precio: ProductoS.price_s,
+                                                        },
+                                                      });
+                                                    }
                                                 await this.arregloCantidad(
                                                   this.state.form2
                                                 );
-                                                /* console.log(this.state.form2);
-                                console.log(this.devolverCantidad(ProductoS)); */
+                                                
                                                 console.log(
                                                   this.state.cantidades
                                                 );
@@ -1163,6 +1319,8 @@ class TablaV extends Component {
                                             />
                                           </td>
                                           <td>
+                                            <div className="signo">
+                                            <p className="mt-2" style={{ color: "000"}}>$</p>
                                             <input
                                               className="form-control"
                                               type="Number"
@@ -1177,11 +1335,14 @@ class TablaV extends Component {
                                                 ) * ProductoS.price_s
                                               }
                                             />
+                                            </div>
+                                            
                                           </td>
 
                                           <td>
                                             <Button
-                                              className="btn-danger"
+                                              className="btn btn-danger"
+                                              style={{background:'red'}}
                                               onClick={() => {
                                                 this.eliminar(ProductoS);
                                                 this.eliminarCantidad(
@@ -1191,7 +1352,7 @@ class TablaV extends Component {
                                                 this.calcularCambio();
                                               }}
                                             >
-                                              Eliminar
+                                              <FontAwesomeIcon icon={faTrashAlt} />
                                             </Button>
                                           </td>
                                         </>
@@ -1327,17 +1488,17 @@ class TablaV extends Component {
 
               <label htmlFor="price_s">Total de venta:</label>
               <h3>
-                <label>$ {this.state.total > 0 ? this.state.total : 0}</label>
+                <label>$ {formatNumber(this.state.total > 0 ? this.state.total : 0)}</label>
               </h3>
               <br />
               <label htmlFor="image">Cambio:</label>
               <h3>
                 <label>
-                  ${" "}
-                  {this.state.cambio > 0
-                    ? Number(this.state.cambio).toFixed(2)
-                    : 0}
+                  {this.state.cambio >= 0
+                    ? "$ "+formatNumber(Number(this.state.cambio).toFixed(2))
+                    : "faltan $"+formatNumber(Number(this.state.cambio).toFixed(2)).replace("-","")}
                 </label>
+                
               </h3>
               <br />
 
@@ -1486,6 +1647,7 @@ class TablaV extends Component {
             Seleccione Cliente
             <span style={{ float: "right" }}></span>
           </ModalHeader>
+          
           <ModalBody className="SCliente">
             <div className="form-group">
               <input
@@ -1503,8 +1665,8 @@ class TablaV extends Component {
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
-                      <th>Membresía Activa</th>
-                      <th>Acciones</th>
+                      
+                      <th>Accion</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1512,38 +1674,74 @@ class TablaV extends Component {
                       /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                       return (
                         <tr>
-                          <td>{clientes.id}</td>
-                          <td>{clientes.name}</td>
-                          <td>{clientes.membershipActivate ? "Sí" : "No"}</td>
-                          <td>
-                            <button
-                              className="btn editarHoja"
-                              onClick={() => {
-                                /* this.seleccionarCategoria(categorias); */
-                                this.setState({
-                                  name_cliente: clientes.name,
-                                  cliente_id: clientes.id,
-                                  form: {
-                                    ...this.state.form,
-                                    cliente_id: clientes.id,
-                                  },
-                                });
-                                console.log(clientes.id);
-                                this.total();
-                                this.modalCliente();
-                              }}
-                            >
-                              Seleccionar
-                            </button>
-                          </td>
-                        </tr>
-                      );
+                          {this.state.modalMembresia ? (
+                            <>
+                              {clientes.membershipActivate ? (
+                                <>
+                                  <td>{clientes.id}</td>
+                                  <td>{clientes.name}</td>
+                                  <td>
+                                    <button
+                                      className="btn btn-primary"
+                                      onClick={() => {
+                                        /* this.seleccionarCategoria(categorias); */
+                                        this.setState({
+                                          name_cliente: clientes.name,
+                                          cliente_id: clientes.id,
+                                          form: {
+                                            ...this.state.form,
+                                            cliente_id: clientes.id,
+                                          },
+                                        });
+                                        console.log(clientes.id);
+                                        this.total();
+                                        this.modalCliente();
+                                      }}
+                                    >
+                                      Seleccionar
+                                    </button>
+                                  </td>
+                                </>
+                              ) : (
+                                console.log("ta vacio")
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              <td>{clientes.id}</td>
+                              <td>{clientes.name}</td>
+                              <td>
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    /* this.seleccionarCategoria(categorias); */
+                                    this.setState({
+                                      name_cliente: clientes.name,
+                                      cliente_id: clientes.id,
+                                      form: {
+                                        ...this.state.form,
+                                        cliente_id: clientes.id,
+                                      },
+                                    });
+                                    console.log(clientes.id);
+                                    this.total();
+                                    this.modalCliente();
+                                  }}
+                                >
+                                  Seleccionar
+                                </button>
+                              </td>
+                            </>
+                          )}
+                       </tr>
+                  );
                     })}
-                  </tbody>
-                </table>
-              </div>
+                </tbody>
+              </table>
             </div>
-          </ModalBody>
+          </div>
+        </ModalBody>
+
           <ModalFooter className="Cancelar-Cliente">
             <button className="btn btn-danger" onClick={this.modalCliente}>
               Cancelar
@@ -1563,6 +1761,7 @@ class TablaV extends Component {
             )}
             <span style={{ float: "right" }}></span>
           </ModalHeader>
+
           <ModalBody className="SProducto">
             <div className="form-group">
               <input
@@ -1584,7 +1783,7 @@ class TablaV extends Component {
                       <th>Precio</th>
                       {/* <th>Stock</th> */}
 
-                      <th>Acciones</th>
+                      <th>Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1596,11 +1795,11 @@ class TablaV extends Component {
                             <tr>
                               <td>{membresias.id}</td>
                               <td>{membresias.name}</td>
-                              <td>{membresias.price}</td>
+                              <td>{"$"+membresias.price}</td>
                               {/* <td>Nose xd </td> */}
                               <td>
                                 <button
-                                  className="btn btn-primary"
+                                 className="btn btn-primary"
                                   onClick={() => {
                                     /* this.setState({
                                 name_producto: productos.name,
@@ -1655,7 +1854,7 @@ class TablaV extends Component {
                               <tr>
                                 <td>{productos.id}</td>
                                 <td>{productos.name}</td>
-                                <td>{productos.price_s}</td>
+                                <td>{"$"+productos.price_s}</td>
                                 {/* <td>Nose xd </td> */}
                                 <td>
                                   <button
@@ -1707,6 +1906,7 @@ class TablaV extends Component {
               </div>
             </div>
           </ModalBody>
+
           <ModalFooter className="Cancelar-Categoria">
             <button className="btn btn-danger" onClick={this.modalProducto}>
               Cancelar
@@ -1718,4 +1918,4 @@ class TablaV extends Component {
   }
 }
 
-export default TablaV;
+export default withStyles(useStyles, { withTheme: true }) (TablaV);

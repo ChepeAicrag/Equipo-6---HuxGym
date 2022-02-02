@@ -8,8 +8,24 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { isEmpty } from "../helpers/methods";
-import InputAdornment from '@mui/material/InputAdornment';
+import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@material-ui/core/TextField";
+import { withStyles } from '@material-ui/core/styles';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  TablePagination,
+  TableFooter
+} from '@material-ui/core';
+
 const url =
   "https://www.api.huxgym.codes/purchases/obtenerCompras/"; /* Aqui va la url principal */
 
@@ -19,14 +35,67 @@ const url_ec = "https://www.api.huxgym.codes/purchases/purchase/";
 const urlC = "https://www.api.huxgym.codes/products/provider/";
 const urlP = "https://www.api.huxgym.codes/products/products/";
 const urlM = "https://www.api.huxgym.codes/memberships/memberships/";
+
+
+const useStyles = (theme) => ({
+  table: {
+    
+    height:'100%',
+    width:'100%'
+  },
+  tableContainer: {
+      borderRadius: 15,
+      display:'flex',
+      flexDireccion:'center',
+      paddig: '10px 10px',
+      maxWidth: '100%',
+      height:'100%',
+  },
+  tableHeaderCell: {
+      fontWeight: 'bold',
+      backgroundColor: '#144983',
+      color: theme.palette.getContrastText(theme.palette.primary.dark)
+  },
+  avatar: {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.getContrastText(theme.palette.primary.light),
+      marginRight:'50px'
+  },
+  name: {
+      fontWeight: 'bold',
+      color: 'black'
+      
+  },
+  paginacion:{
+    width: '50%',
+    backgroundColor: '#e9f1f3',
+    
+  },
+  status: {
+    fontWeight: 'bold',
+    fontSize: '5rem',
+    color: 'black',
+    //backgroundColor: 'grey',
+    borderRadius: 0,
+    padding: '3px 10px',
+    display: 'inline-block'
+},
+ 
+});
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
+
 class TablaCompras extends Component {
   state = {
+    page:0,
+    rowsPerPage:5,
     busqueda: "",
     dataP: [],
     dataC: [],
     dataS: [],
     dataM: [],
-    dataBuscar:[],
+    dataBuscar: [],
     data: [] /* Aqui se almacena toda la informacion axios de ventas */,
     modalInsertar: false /* Esta es el estado para abrir y cerrar la ventana modal */,
     modalMembresia: false,
@@ -66,6 +135,20 @@ class TablaCompras extends Component {
     },
   };
 
+
+  //PAginacion
+  handleChangePage = (event, newPage) => {
+    this.setState({
+        page:newPage
+    });
+};
+  handleChangeRowsPerPage = async(event) => {
+    console.log(event.target)
+      await this.setState({
+          page:0,
+          rowsPerPage:event.target.value
+      });
+  };
   handleChange = async (e) => {
     /* handleChange se ejecuta cada vez que una tecla es presionada */
     e.persist();
@@ -377,19 +460,21 @@ class TablaCompras extends Component {
     /* con put enviamos informacion al endpoint para modificar*/
     try {
       delete this.state.form.image;
-      if(isEmpty(this.state.form.observation)){
+      if (isEmpty(this.state.form.observation)) {
         swal({
           text: "Se requiere la observación",
           icon: "info",
           button: "Aceptar",
           timer: "5000",
         });
-      }else{
+      } else {
         const res = await axios.put(
           url_ec + this.state.form.id,
           this.state.form,
           {
-            headers: { Authorization: "Token " + localStorage.getItem("token") },
+            headers: {
+              Authorization: "Token " + localStorage.getItem("token"),
+            },
           }
         );
         if (res.status === 200 || res.status === 201) {
@@ -558,12 +643,15 @@ class TablaCompras extends Component {
     this.setState({ data: this.state.dataBuscar });
     if (this.state.busqueda != "") {
       var search = this.state.data.filter((item) => {
-        if (item.purchase_detail[0].product.provider.name.toLowerCase().includes(this.state.busqueda.toLowerCase())) {
-         
+        if (
+          item.purchase_detail[0].product.provider.name
+            .toLowerCase()
+            .includes(this.state.busqueda.toLowerCase())
+        ) {
           return item;
         }
       });
-      
+
       this.setState({ data: search });
     } else {
       this.setState({ data: this.state.dataBuscar });
@@ -606,7 +694,7 @@ class TablaCompras extends Component {
         },
       });
     } else {
-      e.target.value = ""
+      e.target.value = "";
       swal({
         text: "Solo se permiten letras y acentos",
         icon: "info",
@@ -615,7 +703,6 @@ class TablaCompras extends Component {
       });
     }
   };
-
 
   validar = () => {
     if (
@@ -665,8 +752,9 @@ class TablaCompras extends Component {
   render() {
     const { form } = this.state;
     const { form2 } = this.state;
+    const { classes } = this.props;
     return (
-      <div className="table-responsiveMain">
+      <div className="my-custom-scrollbar2">
         <br />
 
         <div className="Busqueda">
@@ -684,6 +772,7 @@ class TablaCompras extends Component {
               this.limpiarTablaS();
               this.modalInsertar();
             }}
+            title="Realizar compra"
           >
             {/* <i className="bx bxs-user">
               <box-icon
@@ -704,6 +793,7 @@ class TablaCompras extends Component {
             placeholder="Buscar"
             onChange={this.buscador}
             value={this.state.busqueda}
+            title="Buscar compra"
           />
           <button type="submit" className="add-on" onClick={() => {}}>
             <i className="bx bxs-user">
@@ -715,35 +805,37 @@ class TablaCompras extends Component {
         <br />
         <br />
         <br />
-        <div className="table-wrapper">
-          <table className="tab-pane  table ">
-            <thead  className="tablaHeader">
-              <tr className="encabezado">
-                <th>Folio de compra</th>
-                <th>Nombre del proveedor</th>
-                <th>Precio de la compra</th>
+        <div className="tablaNueva mt-4">
+        <TableContainer component={Paper} className={classes.tableContainer}>
+        <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+              <TableCell className={classes.tableHeaderCell}>Folio de compra</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Nombre del proveedor</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Precio de la compra</TableCell>
                 {/* <th>Precio de compra</th> */}
-                <th>Fecha de registro</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="cuerpoTabla base">
-              {this.state.data.map((compra) => {
-                /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
-                return (
-                  <tr>
-                    <td>{compra.Purchase.folio}</td>
-                    <td>{compra.purchase_detail[0].product.provider.name}</td>
-                    <td>{"$ " +compra.Purchase.total}</td>
-                    <td>{compra.Purchase.date.split("T")[0]}</td>
+              <TableCell className={classes.tableHeaderCell}>Fecha de registro</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Acciones</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              {this.state.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
+                
+               
+                <TableRow key={row.folio}>
+                <TableCell>{row.Purchase.folio}</TableCell>
+                <TableCell>{row.purchase_detail[0].product.provider.name}</TableCell>
+                <TableCell>{"$ " + formatNumber(row.Purchase.total)}</TableCell>
+                <TableCell>{row.Purchase.date.split("T")[0]}</TableCell>
 
-                    <td>
+                <TableCell>
                       <button
                         className="btn btn-editar"
                         onClick={() => {
-                          this.seleccionarUsuario(compra);
+                          this.seleccionarUsuario(row);
                           this.modalInsertar();
                         }}
+                        title="Editar compra"
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
@@ -752,21 +844,36 @@ class TablaCompras extends Component {
                         <button
                           className="btn btn-danger"
                           onClick={() => {
-                            this.seleccionarUsuario(compra);
+                            this.seleccionarUsuario(row);
                             this.setState({ modalEliminar: true });
                           }}
+                          title="Dar de baja"
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                         </button>
                       ) : (
                         <></>
                       )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+              <TableFooter className={classes.paginacion}>
+              <TablePagination
+                  className={classes.paginacion}
+                  rowsPerPageOptions={[5, 10, 15]}
+                  //component="div"
+                  count={this.state.data.length}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={
+                              this.handleChangeRowsPerPage
+                            }
+              />
+              </TableFooter>
+            </Table>
+          </TableContainer>
         </div>
         <Modal className="ModalVenta" isOpen={this.state.modalInsertar}>
           {/* Al metodo isOpen se le pasa el valor de modalInsertar */}
@@ -807,158 +914,179 @@ class TablaCompras extends Component {
 
                   {this.state.proveedor_id != "" ? (
                     <>
-                    <button
-                      className="btn btn-success"
-                      onClick={() => {
-                        this.peticionGetP();
-                        this.peticionGetM();
-                        this.modalProducto();
-                      }}
-                    >
-                      Seleccionar Productos
-                    </button>
+                      <button
+                        className="btn btn-success"
+                        onClick={() => {
+                          this.peticionGetP();
+                          this.peticionGetM();
+                          this.modalProducto();
+                        }}
+                      >
+                        Seleccionar Productos
+                      </button>
 
-                    <div className="form-groupT">
-              <div className="table-wrapper">
-                <table className="tab-pane  table ">
-                  <thead className="tablaHeader">
-                    <tr>
-                      {this.state.tipoModal == "insertar" ? <th>Id</th> : <></>}
+                      <div className="form-groupT">
+                        <div className="table-wrapper">
+                          <table className="tab-pane  table ">
+                            <thead className="tablaHeader">
+                              <tr>
+                                {this.state.tipoModal == "insertar" ? (
+                                  <th>Id</th>
+                                ) : (
+                                  <></>
+                                )}
 
-                      <th>Nombre</th>
-                      <th>Precio</th>
-                      <th>Cantidad</th>
-                      <th>Total</th>
-                      {this.state.tipoModal == "insertar" ? (
-                        <>
-                          <th>Accion</th>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </tr>
-                  </thead>
-                  <tbody className="cuerpoTabla base">
-                    {this.state.dataS.map((ProductoS) => {
-                      return (
-                        <tr>
-                          {this.state.tipoModal == "insertar" ? (
-                            <td>{ProductoS.id}</td>
-                          ) : (
-                            <></>
-                          )}
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Cant.</th>
+                                <th>Total</th>
+                                {this.state.tipoModal == "insertar" ? (
+                                  <>
+                                    <th>Accion</th>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                              </tr>
+                            </thead>
+                            <tbody className="cuerpoTabla base">
+                              {this.state.dataS.map((ProductoS) => {
+                                return (
+                                  <tr>
+                                    {this.state.tipoModal == "insertar" ? (
+                                      <td>{ProductoS.id}</td>
+                                    ) : (
+                                      <></>
+                                    )}
 
-                          <td>{ProductoS.name}</td>
-                          <td>{ProductoS.price_c}</td>
-                          {this.state.tipoModal == "insertar" ? (
-                            <>
-                              <td>
-                                <input
-                                  className="form-control"
-                                  type="Number"
-                                  min="1"
-                                  name="cantidad"
-                                  id="cantidad"
-                                  /* readOnly */
-                                  onChange={async (e) => {
-                                    var v = e.target.value;
-                                    if (v == "") {
-                                      v = 1;
-                                    }
-                                    await this.setState({
-                                      form2: {
-                                        ...this.state.form2,
-                                        cantidad: v,
-                                        id: ProductoS.id,
-                                        precio: ProductoS.price_c,
-                                      },
-                                    });
-                                    await this.arregloCantidad(
-                                      this.state.form2
-                                    );
-                                    /* console.log(this.state.form2);
+                                    <td >{ProductoS.name}</td>
+                                    <td >
+                                        {"$"+ProductoS.price_c}
+                                    </td>
+                                    {this.state.tipoModal == "insertar" ? (
+                                      <>
+                                        <td>
+                                          <input
+                                            className="form-control"
+                                            type="Number"
+                                            min="1"
+                                            name="cantidad"
+                                            style={{ width: "70px" }}
+                                            id="cantidad"
+                                            /* readOnly */
+                                            onChange={async (e) => {
+                                              var v = e.target.value;
+                                              if (v == "") {
+                                                v = 1;
+                                              }
+                                              await this.setState({
+                                                form2: {
+                                                  ...this.state.form2,
+                                                  cantidad: v,
+                                                  id: ProductoS.id,
+                                                  precio: ProductoS.price_c,
+                                                },
+                                              });
+                                              await this.arregloCantidad(
+                                                this.state.form2
+                                              );
+                                              /* console.log(this.state.form2);
                                 console.log(this.devolverCantidad(ProductoS)); */
-                                    console.log(this.state.cantidades);
-                                    this.total();
-                                    this.calcularCambio();
-                                  }}
-                                  value={
-                                    form2
-                                      ? this.devolverCantidad(ProductoS)
-                                      : this.devolverCantidad(ProductoS)
-                                  }
-                                />
-                              </td>
-                              <td>
-                                <input
-                                  className="form-control"
-                                  type="Number"
-                                  min="0"
-                                  name="total"
-                                  id="total"
-                                  readOnly
-                                  /* onChange={} */
-                                  value={
-                                    this.devolverCantidad(ProductoS) *
-                                    ProductoS.price_c
-                                  }
-                                />
-                              </td>
-                            </>
-                          ) : (
-                            <>
-                              <td>
-                                <input
-                                  className="form-control"
-                                  type="Number"
-                                  min="1"
-                                  name="cantidad"
-                                  id="cantidad"
-                                  readOnly
-                                  value={ProductoS.cantidad}
-                                />
-                              </td>
-                              <td>
-                                <input
-                                  className="form-control"
-                                  type="Number"
-                                  min="0"
-                                  name="total"
-                                  id="total"
-                                  readOnly
-                                  /* onChange={} */
-                                  value={ProductoS.total}
-                                />
-                              </td>
-                            </>
-                          )}
+                                              console.log(
+                                                this.state.cantidades
+                                              );
+                                              this.total();
+                                              this.calcularCambio();
+                                            }}
+                                            value={
+                                              form2
+                                                ? this.devolverCantidad(
+                                                    ProductoS
+                                                  )
+                                                : this.devolverCantidad(
+                                                    ProductoS
+                                                  )
+                                            }
+                                          />
+                                        </td>
+                                        <td>
+                                          <div className="signo">
+                                          <p className="mr-1 mt-2" style={{ color: "000"}}>$</p>
+                                          <input
+                                            className="form-control"
+                                            type="Number"
+                                            min="0"
+                                            name="total"
+                                            id="total"
+                                            readOnly
+                                            /* onChange={} */
+                                            value={
+                                              this.devolverCantidad(ProductoS) *
+                                              ProductoS.price_c
+                                            }
+                                          />
+                                          </div>
+                                        </td>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <td>
+                                          <input
+                                            className="form-control"
+                                            type="Number"
+                                            style={{ width: "70px" }}
+                                            min="1"
+                                            name="cantidad"
+                                            id="cantidad"
+                                            readOnly
+                                            value={ProductoS.cantidad}
+                                          />
+                                        </td>
 
-                          {this.state.tipoModal == "insertar" ? (
-                            <>
-                              <td>
-                                <Button
-                                  className="btn-danger"
-                                  onClick={() => {
-                                    this.eliminar(ProductoS);
-                                    this.eliminarCantidad(ProductoS);
-                                    this.total();
-                                    this.calcularCambio();
-                                  }}
-                                >
-                                  Eliminar
-                                </Button>
-                              </td>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                                        <td>
+                                          <input
+                                            className="form-control"
+                                            type="Number"
+                                            min="0"
+                                            name="total"
+                                            id="total"
+                                            readOnly
+                                            /* onChange={} */
+                                            value={ProductoS.total}
+                                          />
+                                        </td>
+                                      </>
+                                    )}
+
+                                    {this.state.tipoModal == "insertar" ? (
+                                      <>
+                                        <td>
+                                          <Button
+                                            className="btn btn-danger"
+                                            style={{ background: "red" }}
+                                            onClick={() => {
+                                              this.eliminar(ProductoS);
+                                              this.eliminarCantidad(ProductoS);
+                                              this.total();
+                                              this.calcularCambio();
+                                            }}
+                                          >
+                                            <FontAwesomeIcon
+                                              icon={faTrashAlt}
+                                            />
+                                          </Button>
+                                        </td>
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </>
                   ) : (
                     <button className="btn btn-success" disabled="true">
@@ -968,7 +1096,7 @@ class TablaCompras extends Component {
                 </>
               ) : (
                 <>
-                 {/*  <label htmlFor="id">Id</label>
+                  {/*  <label htmlFor="id">Id</label>
                   <input
                     className="form-control"
                     type="text"
@@ -991,7 +1119,6 @@ class TablaCompras extends Component {
                     value={form ? this.state.name_proveedor : ""}
                   /> */}
                   <h5>{form ? this.state.name_proveedor : ""}</h5>
-                 
                 </>
               )}
 
@@ -1008,28 +1135,27 @@ class TablaCompras extends Component {
                 value={form ? form.observation : ""}
               />
               <br />
-              
+
               <br />
               <label htmlFor="price_s">Total de compra:</label>
-              <br/>
-              <div  className="signo">
-                    <h4 className="mr-2" style={{ color: "white"}}>$</h4>
-                  <TextField
-                    type="Number"
-                    name="price_s"
-                    id="pprice_s"
-                    readOnly
-                    onChange={this.total}
-                    value={form2 ? this.state.total : 0}
-                    variant="outlined"
-                       
-                  />
+              <br />
+              <div className="signo">
+                <h4 className="mr-2" style={{ color: "white" }}>
+                  $
+                </h4>
+                <TextField
+                  type="Number"
+                  name="price_s"
+                  id="pprice_s"
+                  readOnly
+                  onChange={this.total}
+                  value={form2 ? this.state.total : 0}
+                  variant="outlined"
+                />
               </div>
               <br />
               <br />
             </div>
-           
-            
           </ModalBody>
 
           <ModalFooter className="FooterVenta">
@@ -1248,9 +1374,9 @@ class TablaCompras extends Component {
                         /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                         return (
                           <tr>
-                            <td>{productos.id}</td>
-                            <td>{productos.name}</td>
-                            <td>{parseFloat(productos.price_c)}</td>
+                            <td className="mt-2">{productos.id}</td>
+                            <td className="mt-2">{productos.name}</td>
+                            <td className="mt-2">{"$"+parseFloat(productos.price_c)}</td>
                             {/* <td>Nose xd </td> */}
                             <td>
                               <button
@@ -1310,4 +1436,4 @@ class TablaCompras extends Component {
   }
 }
 
-export default TablaCompras;
+export default withStyles(useStyles, { withTheme: true }) (TablaCompras);

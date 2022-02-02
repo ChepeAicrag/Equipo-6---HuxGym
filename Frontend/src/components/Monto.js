@@ -19,6 +19,9 @@ const url_close = "https://www.api.huxgym.codes/user/cash-register/close/";
 const urlVentas = "https://www.api.huxgym.codes/sales/";
 const url_caja = "https://www.api.huxgym.codes/user/cash-register/";
 
+function formatNumber(number){
+  return new Intl.NumberFormat("ES-MX").format(number)
+}
 class Monto extends Component {
   state = {
     cashInit: "",
@@ -258,7 +261,7 @@ class Monto extends Component {
         <h3 className="lineadiv">Caja inicial:</h3>
         {this.state.abierta ? (
           <>
-            <label htmlFor="cashInit">efectivo inicial:</label>
+            <label htmlFor="cashInit">Efectivo inicial:</label>
             
             <input
               
@@ -269,7 +272,7 @@ class Monto extends Component {
               min="0"
               pattern="^[0-9]+"
               maxLength="10"
-              
+              title='Registre su efectivo inicial'
               readOnly
               onChange={this.handleChangeCash}
               value={formCash != 0 ? formCash.efeInicial : 0}
@@ -289,6 +292,7 @@ class Monto extends Component {
               min="0"
               pattern="^[0-9]+"
               maxLength="10"
+              title='Registre su efectivo inicial'
               /* dir="rtl" */
               onChange={this.handleChangeCash}
               value={formCash != 0 ? formCash.efeInicial : 0}
@@ -319,23 +323,23 @@ class Monto extends Component {
         )}
         <label htmlFor="nombre">Efectivo de ventas:</label>
         <h5>
-          {"$ " + (formCash ? formCash.efeVentas : 0)}
+          {"$ " + formatNumber(formCash ? formCash.efeVentas : 0)}
         </h5>
         <label htmlfor="nombre">Gastos de compras:</label>
         <h5>
-         {"$ " + (formCash ? formCash.gasCompras : 0)}
+         {"$ " + formatNumber(formCash ? formCash.gasCompras : 0)}
         </h5>
         <label htmlfor="nombre">Efectivo total ingresado:</label>
         <h5>
-          {"$ " +(formCash ? formCash.efeIngresado : 0)}
+          {"$ " + formatNumber(formCash ? formCash.efeIngresado : 0)}
         </h5>
         <label htmlfor="nombre">Cambio dado:</label>
         <h5>
-          {"$ " +(formCash ? formCash.cambio : 0)}
+          {"$ " + formatNumber(formCash ? formCash.cambio : 0)}
         </h5>
         <label htmlfor="nombre">Efectivo final:</label>
         <h5>
-          {"$ " +(formCash ? formCash.efeFinal : 0)}
+          {"$ " + formatNumber(formCash ? formCash.efeFinal : 0)}
         </h5>
         <h3 className="lineadiv"></h3>
         <div className="botonesA">
