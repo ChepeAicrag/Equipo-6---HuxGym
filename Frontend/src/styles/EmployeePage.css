@@ -1,0 +1,22 @@
+.Principal {
+  /*   margin-right: 30px; */
+  float: center;
+  /* display: flex; */
+
+  /* width: 30%; */
+  padding: 0px 0px 0px 0px;
+}
+
+.Principal .Tabla {
+  /* float: left; */
+
+  padding: 100px 0px 0px 290px;
+}
+
+.Principal .Barra {
+  display: flex;
+}
+
+.Principal .Head {
+  padding: 0px 0px 0px 280px;
+}

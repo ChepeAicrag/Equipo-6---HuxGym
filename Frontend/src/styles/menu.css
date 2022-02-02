@@ -1,0 +1,33 @@
+
+.dropdown-menu {
+    background-color: #144983;
+}
+
+
+.btn-deplegable{
+    width: 100%;
+    color: aliceblue;
+    font-size: 12px;
+}
+
+.btn-cerrar{
+    width: 100%;
+    background-color: crimson;
+    color: aliceblue;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.btn-deplegable:hover{
+    background-color: white !important;
+    color: black !important;
+}
+
+.btn-cerrar:hover{
+    background-color: white !important;
+    color: black !important;
+}
+
+@media only screen and (max-width: 696px) {
+    
+}

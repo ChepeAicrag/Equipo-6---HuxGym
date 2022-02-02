@@ -1,0 +1,130 @@
+.principalBoxDash {
+  display: flex;
+  width: 100%;
+  height: 90%;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.principalDashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  height: 100%;
+}
+.principalBoxDash > div:nth-child(1) {
+  height: 100%;
+  width: 15%;
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+}
+
+.barraLateral {
+  width: 15%;
+  height: 100%;
+}
+.checkinand {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
+  /* justify-content: space-around; */
+  flex-wrap: nowrap;
+}
+.graficasandcheck {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
+  /* justify-content: space-around; */
+}
+.agrupacion {
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top:5%;
+}
+.graficas {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+}
+.caja {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  margin-top:5%;
+  margin-bottom:5%;
+}
+.chec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* .check{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.lateralB {
+  height: 100%;
+  width: 30%;
+}
+
+.contenido {
+  width: calc(100% - 200px);
+  height: 100%;
+}
+
+.Principal {
+  width: 100%;
+  height: 100%;
+}
+
+.Tabla {
+  width: 100%;
+  height: 95%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Barra {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.Cabecera {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.my-custom-scrollbar2 {
+  position: relative;
+  height:auto;
+  width: 100%;
+  overflow: auto;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* .Principal .Head {
+  padding: 0px 0px 0px 280px;
+} */

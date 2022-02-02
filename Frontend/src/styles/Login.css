@@ -1,0 +1,26 @@
+body{
+  background-color: rgb(32,32,42);
+}
+
+.containerPrincipal {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  transform: translateY(-50%, -50%);
+  border: 1px solid blue;
+  padding: 40px;
+  background: black;
+}
+
+.containerSecundario {
+  text-align: center;
+  background: black;
+}
+
+.correo {
+  background: black;
+}
+
+.fadeInsecond{
+  background-color: black;
+}

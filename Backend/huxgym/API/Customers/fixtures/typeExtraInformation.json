@@ -1,0 +1,74 @@
+[
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 1,
+        "fields": {
+            "name": "Sintomas",
+            "description": " ",
+	    "folio": "SI01"
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 2,
+        "fields": {
+            "name": "Alergias",
+            "description": " ",
+	    "folio": "AL01"
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 3,
+        "fields": {
+            "name": "Cirugias",
+            "description": " ",
+	    "folio": "CR01"
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 4,
+        "fields": {
+            "name": "Fracturas",
+            "description": " ",
+	    "folio": "FR01"
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 5,
+        "fields": {
+            "name": "Lesiones",
+            "description": " ",
+	    "folio": "LE01"
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 6,
+        "fields": {
+            "name": "Medicamentos",
+            "description": " ",
+	    "folio": "ME01"
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 7,
+        "fields": {
+            "name": "Suplementos",
+            "description": " ",
+	    "folio": "SUP01"
+        }
+    },
+    {
+        "model": "customers.typeExtraInformation",
+        "pk": 8,
+        "fields": {
+            "name": "Hábitos",
+            "description": " ",
+	    "folio": "HAB01"
+        }
+    }
+]

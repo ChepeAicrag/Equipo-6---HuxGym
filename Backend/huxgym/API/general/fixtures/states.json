@@ -1,0 +1,162 @@
+[
+    {
+        "name": "Aguascalientes",
+        "value": "AS",
+        "num": "1"
+    },
+    {
+        "name": "Baja California",
+        "value": "BC",
+        "num": "2"
+    },
+    {
+        "name": "Baja California Sur",
+        "value": "BS",
+        "num": "3"
+    },
+    {
+        "name": "Campeche",
+        "value": "CC",
+        "num": "4"
+    },
+    {
+        "name": "Coahuila",
+        "value": "CL",
+        "num": "5"
+    },
+    {
+        "name": "Colima",
+        "value": "CM",
+        "num": "6"
+    },
+    {
+        "name": "Chiapas",
+        "value": "CS",
+        "num": "7"
+    },
+    {
+        "name": "Chihuahua",
+        "value": "CH",
+        "num": "8"
+    },
+    {
+        "name": "Ciudad de México",
+        "value": "DF",
+        "num": "9"
+    },
+    {
+        "name": "Durango",
+        "value": "DG",
+        "num": "10"
+    },
+    {
+        "name": "Guanajuato",
+        "value": "GT",
+        "num": "11"
+    },
+    {
+        "name": "Guerrero",
+        "value": "GR",
+        "num": "12"
+    },
+    {
+        "name": "Hidalgo",
+        "value": "HG",
+        "num": "13"
+    },
+    {
+        "name": "Jalisco",
+        "value": "JC",
+        "num": "14"
+    },
+    {
+        "name": "México",
+        "value": "MC",
+        "num": "15"
+    },
+    {
+        "name": "Michoacán",
+        "value": "MN",
+        "num": "16"
+    },
+    {
+        "name": "Morelos",
+        "value": "MS",
+        "num": "17"
+    },
+    {
+        "name": "Nayarit",
+        "value": "NT",
+        "num": "18"
+    },
+    {
+        "name": "Nuevo León",
+        "value": "NL",
+        "num": "19"
+    },
+    {
+        "name": "Oaxaca",
+        "value": "OC",
+        "num": "20"
+    },
+    {
+        "name": "Puebla",
+        "value": "PL",
+        "num": "21"
+    },
+    {
+        "name": "Querétaro",
+        "value": "QQ",
+        "num": "22"
+    },
+    {
+        "name": "Quintana Roo",
+        "value": "QR",
+        "num": "23"
+    },
+    {
+        "name": "San Luis Potosí",
+        "value": "SP",
+        "num": "24"
+    },
+    {
+        "name": "Sinaloa",
+        "value": "SL",
+        "num": "25"
+    },
+    {
+        "name": "Sonora",
+        "value": "SR",
+        "num": "26"
+    },
+    {
+        "name": "Tabasco",
+        "value": "TC",
+        "num": "27"
+    },
+    {
+        "name": "Tamaulipas",
+        "value": "TS",
+        "num": "28"
+    },
+    {
+        "name": "Tlaxcala",
+        "value": "TL",
+        "num": "29"
+    },
+    {
+        "name": "Veracruz",
+        "value": "VZ",
+        "num": "30"
+    },
+    {
+        "name": "Yucatán",
+        "value": "YN",
+        "num": "31"
+    },
+    {
+        "name": "Zacatecas",
+        "value": "ZS",
+        "num": "32"
+    }
+]
