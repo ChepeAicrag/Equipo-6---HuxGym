@@ -1562,6 +1562,7 @@ seleccionarUsuario = async (venta) => {
             Seleccione Cliente
             <span style={{ float: "right" }}></span>
           </ModalHeader>
+          
           <ModalBody className="SCliente">
             <div className="form-group">
               <input
@@ -1579,8 +1580,8 @@ seleccionarUsuario = async (venta) => {
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
-                      {/* <th>Membresía Activa</th> */}
-                      <th>Acción</th>
+                      
+                      <th>Accion</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1588,38 +1589,74 @@ seleccionarUsuario = async (venta) => {
                       /* Con esto recorremos todo nuestro arreglo data para rellenar filas */
                       return (
                         <tr>
-                          <td>{clientes.id}</td>
-                          <td>{clientes.name}</td>
-                          {/* <td>{clientes.membershipActivate ? "Sí" : "No"}</td> */}
-                          <td>
-                            <button
-                              className="btn editarHoja"
-                              onClick={() => {
-                                /* this.seleccionarCategoria(categorias); */
-                                this.setState({
-                                  name_cliente: clientes.name,
-                                  cliente_id: clientes.id,
-                                  form: {
-                                    ...this.state.form,
-                                    cliente_id: clientes.id,
-                                  },
-                                });
-                                console.log(clientes.id);
-                                this.total();
-                                this.modalCliente();
-                              }}
-                            >
-                              Seleccionar
-                            </button>
-                          </td>
-                        </tr>
-                      );
+                          {this.state.modalMembresia ? (
+                            <>
+                              {clientes.membershipActivate ? (
+                                <>
+                                  <td>{clientes.id}</td>
+                                  <td>{clientes.name}</td>
+                                  <td>
+                                    <button
+                                      className="btn editarHoja"
+                                      onClick={() => {
+                                        /* this.seleccionarCategoria(categorias); */
+                                        this.setState({
+                                          name_cliente: clientes.name,
+                                          cliente_id: clientes.id,
+                                          form: {
+                                            ...this.state.form,
+                                            cliente_id: clientes.id,
+                                          },
+                                        });
+                                        console.log(clientes.id);
+                                        this.total();
+                                        this.modalCliente();
+                                      }}
+                                    >
+                                      Seleccionar
+                                    </button>
+                                  </td>
+                                </>
+                              ) : (
+                                console.log("ta vacio")
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              <td>{clientes.id}</td>
+                              <td>{clientes.name}</td>
+                              <td>
+                                <button
+                                  className="btn editarHoja"
+                                  onClick={() => {
+                                    /* this.seleccionarCategoria(categorias); */
+                                    this.setState({
+                                      name_cliente: clientes.name,
+                                      cliente_id: clientes.id,
+                                      form: {
+                                        ...this.state.form,
+                                        cliente_id: clientes.id,
+                                      },
+                                    });
+                                    console.log(clientes.id);
+                                    this.total();
+                                    this.modalCliente();
+                                  }}
+                                >
+                                  Seleccionar
+                                </button>
+                              </td>
+                            </>
+                          )}
+                       </tr>
+                  );
                     })}
-                  </tbody>
-                </table>
-              </div>
+                </tbody>
+              </table>
             </div>
-          </ModalBody>
+          </div>
+        </ModalBody>
+
           <ModalFooter className="Cancelar-Cliente">
             <button className="btn btn-danger" onClick={this.modalCliente}>
               Cancelar
@@ -1639,6 +1676,7 @@ seleccionarUsuario = async (venta) => {
             )}
             <span style={{ float: "right" }}></span>
           </ModalHeader>
+
           <ModalBody className="SProducto">
             <div className="form-group">
               <input
@@ -1783,6 +1821,7 @@ seleccionarUsuario = async (venta) => {
               </div>
             </div>
           </ModalBody>
+
           <ModalFooter className="Cancelar-Categoria">
             <button className="btn btn-danger" onClick={this.modalProducto}>
               Cancelar
